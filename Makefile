@@ -20,6 +20,6 @@ clean:
 publish: clean
 	python3 -m build
 	python3 -m twine check dist/*
-	python3 -m twine upload -r testpypi dist/*
+	python3 -m twine upload dist/*
 
 .PHONY: venv test clean

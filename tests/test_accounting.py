@@ -86,3 +86,19 @@ def test_invoice(odoo_consumer: Consumer):
         expected_invoice = consumer.accounting.Invoice.get(invoice.id)
 
         assert invoice == expected_invoice
+
+
+def test_journal_entries(odoo_consumer: Consumer):
+    consumer = odoo_consumer
+
+    entries = consumer.accounting.JournalEntry.all(
+        {
+            "unposted_allowed": "false",
+            "date_from": "2023-03-01",
+            "date_to": "2023-06-01",
+            "journal_id": "7",
+        },
+        limit=2,
+    )
+
+    assert entries

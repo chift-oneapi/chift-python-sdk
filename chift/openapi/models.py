@@ -1,6 +1,6 @@
 import datetime
 from enum import Enum
-from typing import List, Optional, Union
+from typing import List, Optional
 
 from pydantic import BaseModel, Extra
 
@@ -39,6 +39,7 @@ from .openapi import (
     SyncItem,
     WebhookInstanceGetItem,
     WebhookItem,
+    JournalEntryMultiAnalyticPlan,
 )
 
 # UNPUBLISHED MODELS
@@ -97,11 +98,6 @@ class FlowTriggerTimer(BaseModel):
     cronschedule: str = "*/5 * * * *"
 
 
-class FlowExecution(BaseModel):
-    type: ExecutionType
-    data: Union[Optional[FlowExecutionChain], Optional[FlowExecutionCode]]
-
-
 class FlowTrigger(BaseModel):
     type: TriggerType
     data: Optional[FlowTriggerTimer]
@@ -112,19 +108,6 @@ class FlowConfig(BaseModel):
     doorkeyFields: Optional[List[dict]]
     customFields: Optional[List[dict]]
     datastores: Optional[List[Datastore]] = []
-
-
-class FlowItem(BaseModel):
-    name: str
-    description: Optional[str]
-    trigger: Optional[FlowTrigger] = None
-    execution: Optional[FlowExecution] = None
-    config: Optional[FlowConfig] = FlowConfig()
-    values: Optional[dict] = None
-
-
-class ReadFlowItem(FlowItem):
-    id: str
 
 
 # consumers
@@ -293,6 +276,10 @@ class Client(ClientItemOut):
 
 
 class InvoiceAccounting(InvoiceItemOutMonoAnalyticPlan):
+    pass
+
+
+class JournalEntry(JournalEntryMultiAnalyticPlan):
     pass
 
 

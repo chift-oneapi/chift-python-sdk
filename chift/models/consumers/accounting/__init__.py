@@ -8,6 +8,7 @@ from chift.openapi.models import InvoiceAccounting as InvoiceAccountingModel
 from chift.openapi.models import MiscellaneousOperation as MiscellaneousOperationModel
 from chift.openapi.models import Supplier as SupplierModel
 from chift.openapi.models import TaxAccounting as TaxAccountingModel
+from chift.openapi.models import JournalEntry as JournalEntryModel
 
 
 class AccountingRouter:
@@ -19,6 +20,7 @@ class AccountingRouter:
         self.Client = Client(consumer_id, connection_id)
         self.Supplier = Supplier(consumer_id, connection_id)
         self.Invoice = Invoice(consumer_id, connection_id)
+        self.JournalEntry = JournalEntry(consumer_id, connection_id)
 
 
 class AnalyticPlan(PaginationMixin[AnalyticPlanModel]):
@@ -85,3 +87,12 @@ class Invoice(
     def all(self, invoice_type, limit=None, client=None):
         self.extra_path = f"type/{invoice_type}"
         return super().all(limit=limit, client=client)
+
+
+class JournalEntry(
+    PaginationMixin[JournalEntryModel],
+    CreateMixin[JournalEntryModel],
+):
+    chift_vertical: ClassVar = "accounting"
+    chift_model: ClassVar = "journal/entries"
+    model = JournalEntryModel

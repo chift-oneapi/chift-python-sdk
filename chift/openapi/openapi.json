@@ -123,25 +123,11 @@
                             }
                         }
                     },
-                    "400": {
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "message": "The specified consumerid is not valid",
-                                    "status": "error"
-                                },
-                                "schema": {
-                                    "$ref": "#/components/schemas/ChiftError"
-                                }
-                            }
-                        },
-                        "description": "Bad Request"
-                    },
                     "404": {
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "message": "The specified consumer could not be found for this account",
+                                    "message": "The consumer does not exist",
                                     "status": "error"
                                 },
                                 "schema": {
@@ -203,25 +189,11 @@
                             }
                         }
                     },
-                    "400": {
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "message": "The specified name is not valid",
-                                    "status": "error"
-                                },
-                                "schema": {
-                                    "$ref": "#/components/schemas/ChiftError"
-                                }
-                            }
-                        },
-                        "description": "Bad Request"
-                    },
                     "404": {
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "message": "The specified consumer could not be found for this account",
+                                    "message": "The consumer does not exist",
                                     "status": "error"
                                 },
                                 "schema": {
@@ -266,25 +238,11 @@
                     "204": {
                         "description": "Successful Response"
                     },
-                    "400": {
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "message": "The specified consumerid is not valid",
-                                    "status": "error"
-                                },
-                                "schema": {
-                                    "$ref": "#/components/schemas/ChiftError"
-                                }
-                            }
-                        },
-                        "description": "Bad Request"
-                    },
                     "404": {
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "message": "The specified consumer could not be found for this account",
+                                    "message": "The consumer does not exist",
                                     "status": "error"
                                 },
                                 "schema": {
@@ -1129,25 +1087,11 @@
                             }
                         }
                     },
-                    "400": {
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "message": "The specified syncid is not valid",
-                                    "status": "error"
-                                },
-                                "schema": {
-                                    "$ref": "#/components/schemas/ChiftError"
-                                }
-                            }
-                        },
-                        "description": "Bad Request"
-                    },
                     "404": {
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "message": "The specified sync could not be found for this account",
+                                    "message": "The flow does not exist",
                                     "status": "error"
                                 },
                                 "schema": {
@@ -1156,6 +1100,20 @@
                             }
                         },
                         "description": "Not Found"
+                    },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "{integrationid} is not part of the selected integrations of the sync",
+                                    "status": "error"
+                                },
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChiftError"
+                                }
+                            }
+                        },
+                        "description": "Bad Request"
                     },
                     "422": {
                         "description": "Validation Error",
@@ -1211,25 +1169,11 @@
                             }
                         }
                     },
-                    "400": {
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "message": "The specified consumerid is not valid",
-                                    "status": "error"
-                                },
-                                "schema": {
-                                    "$ref": "#/components/schemas/ChiftError"
-                                }
-                            }
-                        },
-                        "description": "Bad Request"
-                    },
                     "404": {
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "message": "The specified consumer could not be found for this account",
+                                    "message": "The sync does not exist",
                                     "status": "error"
                                 },
                                 "schema": {
@@ -1343,25 +1287,11 @@
                             }
                         }
                     },
-                    "400": {
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "message": "The specified consumerid is not valid",
-                                    "status": "error"
-                                },
-                                "schema": {
-                                    "$ref": "#/components/schemas/ChiftError"
-                                }
-                            }
-                        },
-                        "description": "Bad Request"
-                    },
                     "404": {
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "message": "The specified datastore could not be found for this account",
+                                    "message": "The datastore does not exist",
                                     "status": "error"
                                 },
                                 "schema": {
@@ -1441,25 +1371,11 @@
                             }
                         }
                     },
-                    "400": {
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "message": "The specified consumerid is not valid",
-                                    "status": "error"
-                                },
-                                "schema": {
-                                    "$ref": "#/components/schemas/ChiftError"
-                                }
-                            }
-                        },
-                        "description": "Bad Request"
-                    },
                     "404": {
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "message": "The specified datastore could not be found for this account",
+                                    "message": "The datastore does not exist",
                                     "status": "error"
                                 },
                                 "schema": {
@@ -1470,14 +1386,18 @@
                         "description": "Not Found"
                     },
                     "422": {
-                        "description": "Validation Error",
                         "content": {
                             "application/json": {
+                                "example": {
+                                    "message": "The input does not match the definition of the datastore",
+                                    "status": "error"
+                                },
                                 "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                    "$ref": "#/components/schemas/ChiftError"
                                 }
                             }
-                        }
+                        },
+                        "description": "Unprocessable Entity"
                     }
                 }
             }
@@ -14686,6 +14606,37 @@
                     }
                 }
             },
+            "ReadFlowConsumerItem": {
+                "title": "ReadFlowConsumerItem",
+                "required": [
+                    "name",
+                    "id",
+                    "config",
+                    "values"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string"
+                    },
+                    "config": {
+                        "$ref": "#/components/schemas/FlowConfig"
+                    },
+                    "values": {
+                        "title": "Values",
+                        "type": "object"
+                    }
+                }
+            },
             "ReadFlowItem": {
                 "title": "ReadFlowItem",
                 "required": [
@@ -14702,8 +14653,9 @@
                         "title": "Description",
                         "type": "string"
                     },
-                    "trigger": {
-                        "$ref": "#/components/schemas/FlowTrigger"
+                    "id": {
+                        "title": "Id",
+                        "type": "string"
                     },
                     "execution": {
                         "$ref": "#/components/schemas/FlowExecution"
@@ -14719,13 +14671,8 @@
                             "datastores": []
                         }
                     },
-                    "values": {
-                        "title": "Values",
-                        "type": "object"
-                    },
-                    "id": {
-                        "title": "Id",
-                        "type": "string"
+                    "trigger": {
+                        "$ref": "#/components/schemas/FlowTrigger"
                     }
                 }
             },
@@ -15182,7 +15129,7 @@
                         "title": "Enabled Flows",
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/ReadFlowItem"
+                            "$ref": "#/components/schemas/ReadFlowConsumerItem"
                         },
                         "description": "List of flows that the consumer has enabled"
                     }
