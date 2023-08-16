@@ -26,6 +26,6 @@ class Data(
         self.extra_path = f"{datastore_id}/data"
         return super().create(data, map_model=False, client=client)
 
-    def update(self, datastore_id, data, client=None):
-        self.extra_path = f"{datastore_id}/data"
-        return super().update(data, map_model=False, client=client)
+    def update(self, datastore_id, datastoredata_id, data, client=None):
+        self.extra_path = f"{datastore_id}/data/{datastoredata_id}"
+        return super().update(None, data, map_model=False, client=client)
