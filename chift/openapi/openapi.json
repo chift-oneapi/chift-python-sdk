@@ -300,6 +300,20 @@
                             }
                         }
                     },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "The consumer does not exist",
+                                    "status": "error"
+                                },
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChiftError"
+                                }
+                            }
+                        },
+                        "description": "Not Found"
+                    },
                     "422": {
                         "description": "Validation Error",
                         "content": {
@@ -355,7 +369,7 @@
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "message": "There is already an active connection for the {API} API. Only one can be created for one consumer for each API.",
+                                    "message": "There is already an active connection for the integrationid {integrationid}. Only one can be created for each consumer for each integrationid.",
                                     "status": "error"
                                 },
                                 "schema": {
@@ -364,6 +378,20 @@
                             }
                         },
                         "description": "Bad Request"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "The consumer does not exist",
+                                    "status": "error"
+                                },
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChiftError"
+                                }
+                            }
+                        },
+                        "description": "Not Found"
                     },
                     "422": {
                         "description": "Validation Error",
@@ -1046,6 +1074,157 @@
                 }
             }
         },
+        "/syncs/{syncid}/flows/{flowid}/event": {
+            "post": {
+                "tags": [
+                    "Syncs"
+                ],
+                "summary": "Send a custom event for a specific flow",
+                "description": "Route that can be used to send a specific event for a flow",
+                "operationId": "syncs_send_custom_event",
+                "parameters": [
+                    {
+                        "name": "syncid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "title": "Syncid",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "flowid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "title": "Flowid",
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PostSyncFlowEvent"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TriggerResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "The flow does not exist",
+                                    "status": "error"
+                                },
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChiftError"
+                                }
+                            }
+                        },
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/syncs/{syncid}/flows/{flowid}/executions/{executionid}": {
+            "get": {
+                "tags": [
+                    "Syncs"
+                ],
+                "summary": "Get execution start/end timestamp",
+                "description": "Get execution start/end timestamp",
+                "operationId": "syncs_get_execution",
+                "parameters": [
+                    {
+                        "name": "syncid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "title": "Syncid",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "flowid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "title": "Flowid",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "executionid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "title": "Executionid",
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChainExecutionItem"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "The execution does not exist",
+                                    "status": "error"
+                                },
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChiftError"
+                                }
+                            }
+                        },
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/consumers/{consumerid}/syncs": {
             "post": {
                 "tags": [
@@ -1248,8 +1427,8 @@
                     "Consumers"
                 ],
                 "summary": "Get execution data for a specific consumer and a specific datastore",
-                "description": "Returns execution data related to a consumer and a datastore",
-                "operationId": "datastores_get_consumer,datastoredata",
+                "description": "Returns execution data related to a consumer and a datastore. Queryparams can be used to filter the restuls by datastore column or by executionid",
+                "operationId": "datastores_get_consumer_and_datastoredata",
                 "parameters": [
                     {
                         "name": "consumerid",
@@ -1270,6 +1449,15 @@
                             "type": "string",
                             "format": "uuid"
                         }
+                    },
+                    {
+                        "name": "executionid",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Executionid",
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -1278,7 +1466,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "title": "Response Datastores Get Consumer,Datastoredata",
+                                    "title": "Response Datastores Get Consumer And Datastoredata",
                                     "type": "array",
                                     "items": {
                                         "$ref": "#/components/schemas/DataItemOut"
@@ -1376,6 +1564,98 @@
                             "application/json": {
                                 "example": {
                                     "message": "The datastore does not exist",
+                                    "status": "error"
+                                },
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChiftError"
+                                }
+                            }
+                        },
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "The input does not match the definition of the datastore",
+                                    "status": "error"
+                                },
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChiftError"
+                                }
+                            }
+                        },
+                        "description": "Unprocessable Entity"
+                    }
+                }
+            }
+        },
+        "/consumers/{consumerid}/datastore/{datastoreid}/data/{datastoredataid}": {
+            "patch": {
+                "tags": [
+                    "Consumers"
+                ],
+                "summary": "Update execution data for a specific consumer and a specific datastore",
+                "description": "Update and returns execution data related to a consumer and a datastore",
+                "operationId": "datastores_update_consumer_datastoredata",
+                "parameters": [
+                    {
+                        "name": "consumerid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "title": "Consumerid",
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "datastoreid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "title": "Datastoreid",
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "datastoredataid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "title": "Datastoredataid",
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DataItem"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DataItemOut"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "The datastoredata does not exist",
                                     "status": "error"
                                 },
                                 "schema": {
@@ -9148,6 +9428,35 @@
                     }
                 }
             },
+            "ChainExecutionItem": {
+                "title": "ChainExecutionItem",
+                "required": [
+                    "id",
+                    "start",
+                    "status"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "string"
+                    },
+                    "start": {
+                        "title": "Start",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "end": {
+                        "title": "End",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "status": {
+                        "title": "Status",
+                        "type": "string"
+                    }
+                }
+            },
             "ChiftError": {
                 "title": "ChiftError",
                 "required": [
@@ -10025,6 +10334,7 @@
                 "title": "DataItemOut",
                 "required": [
                     "data",
+                    "id",
                     "created_on"
                 ],
                 "type": "object",
@@ -10032,6 +10342,10 @@
                     "data": {
                         "title": "Data",
                         "type": "object"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string"
                     },
                     "created_on": {
                         "title": "Created On",
@@ -10043,6 +10357,7 @@
             "DataStoreItem": {
                 "title": "DataStoreItem",
                 "required": [
+                    "id",
                     "name",
                     "definition"
                 ],
@@ -10122,7 +10437,7 @@
                 "title": "ExecutionType",
                 "enum": [
                     "code",
-                    "chain"
+                    "module"
                 ],
                 "type": "string",
                 "description": "An enumeration."
@@ -10218,9 +10533,38 @@
                         "title": "Datastores",
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/DataStoreItem"
+                            "$ref": "#/components/schemas/FlowDataStoreItem"
                         },
                         "default": []
+                    }
+                }
+            },
+            "FlowDataStoreItem": {
+                "title": "FlowDataStoreItem",
+                "required": [
+                    "name",
+                    "definition"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "string"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "status": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/backbone__backbone-api__app__routers__datastores__Status"
+                            }
+                        ],
+                        "default": "active"
+                    },
+                    "definition": {
+                        "$ref": "#/components/schemas/DatastoreDef"
                     }
                 }
             },
@@ -10284,18 +10628,33 @@
                         "$ref": "#/components/schemas/TriggerType"
                     },
                     "data": {
-                        "$ref": "#/components/schemas/FlowTriggerTimer"
+                        "title": "Data",
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/FlowTriggerTimer"
+                            },
+                            {
+                                "$ref": "#/components/schemas/FlowTriggerEvent"
+                            }
+                        ]
                     }
                 }
             },
+            "FlowTriggerEvent": {
+                "title": "FlowTriggerEvent",
+                "type": "object",
+                "properties": {}
+            },
             "FlowTriggerTimer": {
                 "title": "FlowTriggerTimer",
+                "required": [
+                    "cronschedule"
+                ],
                 "type": "object",
                 "properties": {
                     "cronschedule": {
                         "title": "Cronschedule",
-                        "type": "string",
-                        "default": "*/5 * * * *"
+                        "type": "string"
                     }
                 }
             },
@@ -14401,6 +14760,24 @@
                     }
                 }
             },
+            "PostSyncFlowEvent": {
+                "title": "PostSyncFlowEvent",
+                "type": "object",
+                "properties": {
+                    "consumers": {
+                        "title": "Consumers",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "object"
+                    }
+                }
+            },
             "ProductItemOut": {
                 "title": "ProductItemOut",
                 "required": [
@@ -15264,6 +15641,28 @@
                 ],
                 "type": "string",
                 "description": "An enumeration."
+            },
+            "TriggerResponse": {
+                "title": "TriggerResponse",
+                "required": [
+                    "status",
+                    "message"
+                ],
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "title": "Status",
+                        "type": "string"
+                    },
+                    "message": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "object"
+                    }
+                }
             },
             "TriggerType": {
                 "title": "TriggerType",

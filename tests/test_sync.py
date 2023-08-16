@@ -135,13 +135,13 @@ def _get_flow_data(
         },
     }
 
-    if trigger_type == "time":
+    if trigger_type == "timer":
         data["trigger"]["data"]["cronschedule"] = "0/30 * * * *"
 
     if execution_type == "code":
         data["execution"]["data"]["code"] = "console.log('This is fucking awesome!')"
 
-    if execution_type == "chain":
+    if execution_type == "module":
         data["execution"]["data"]["name"] = "Invoice to invoice"
 
     return data
@@ -169,7 +169,8 @@ def test_flow_update(chift):
     data = _get_flow_data(datastore_name=datastore_name)
     flow_created = chift.Flow.create(sync.syncid, data)
 
-    assert flow_created.id in [flow.id for flow in chift.Sync.get(sync.syncid).flows]
+    assert flow_created.id in [
+        flow.id for flow in chift.Sync.get(sync.syncid).flows]
 
     # update flow
     data["description"] = "test updated"
@@ -205,20 +206,20 @@ def test_flow_execution_code(chift):
     sync: Sync = syncs[0]
 
     # create flow
-    flow_created = chift.Flow.create(sync.syncid, _get_flow_data(execution_type="code"))
+    flow_created = chift.Flow.create(
+        sync.syncid, _get_flow_data(execution_type="code"))
 
-    # test trigger flow of type cde (AWS lambda) should not raise
+    # test trigger flow of type code (AWS lambda) should not raise
     chift.Flow.trigger(sync.syncid, flow_created.id, {})
 
 
 def test_flow_execution_chain(chift):
     syncs = chift.Sync.all()
-
     sync: Sync = syncs[0]
 
     # create flow
     flow_created = chift.Flow.create(
-        sync.syncid, _get_flow_data(execution_type="chain")
+        sync.syncid, _get_flow_data(execution_type="module")
     )
 
     # test trigger flow of type chain should not raise
@@ -231,7 +232,8 @@ def test_flow_trigger_timer(chift):
     sync: Sync = syncs[0]
 
     # create flow with timer should not raise
-    flow_created = chift.Flow.create(sync.syncid, _get_flow_data(trigger_type="timer"))
+    flow_created = chift.Flow.create(
+        sync.syncid, _get_flow_data(trigger_type="timer"))
 
     assert flow_created
 
@@ -241,15 +243,19 @@ def test_create_flow(chift, sync):
     data = _get_flow_data(
         flow_name="Migration de factures",
         datastore_name=datastore_name,
-        execution_type="chain",
+        execution_type="module",
     )
     flow_created = chift.Flow.create(sync.syncid, data)
 
-    assert flow_created.id in [flow.id for flow in chift.Sync.get(sync.syncid).flows]
+    assert flow_created.id in [
+        flow.id for flow in chift.Sync.get(sync.syncid).flows]
 
 
 def test_trigger_flows(chift, sync):
-    for flow in sync.flows[:2]:  # test only two
+
+    assert sync.flows
+
+    for flow in sync.flows:
         res = chift.Flow.trigger(
             sync.syncid,
             flow.id,
@@ -260,9 +266,14 @@ def test_trigger_flows(chift, sync):
         )
         assert status.get("status")
 
+        break  # one is engough
+
 
 def test_trigger_flows_for_consumer(chift, sync):
-    for flow in sync.flows[:2]:  # test only two
+
+    assert sync.flows
+
+    for flow in sync.flows:
         chift.Flow.trigger(
             sync.syncid,
             flow.id,
@@ -272,3 +283,28 @@ def test_trigger_flows_for_consumer(chift, sync):
         consumer = chift.Consumer.get(sync.consumers[0])
         info = consumer.sync.Sync.get(sync.syncid)
         assert info
+
+        break  # one is engough
+
+def test_datastore(chift, sync):
+    consumer = chift.Consumer.get(sync.consumers[0])
+    datastore = sync.flows[0].config.datastores[0]
+
+
+    # test create
+    value = {}
+
+    for column in datastore.definition.columns:
+        value[column.name] = '1'
+
+    data = consumer.datastore.Data.create(datastore.id, [{'data': value}])[0]
+
+    # test update
+    updated_value = {}
+    for column in data.data.keys():
+        updated_value[column] = '2'
+
+    updated_data = consumer.datastore.Data.update(datastore.id, data.id, {'data': updated_value})
+
+    for column, value in updated_data.data.items():
+        assert value == '2'
