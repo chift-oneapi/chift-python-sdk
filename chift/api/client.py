@@ -173,6 +173,9 @@ class ChiftClient:
     def post(self, *args, **kwargs):
         return self.make_request("POST", *args, **kwargs)
 
+    def patch(self, *args, **kwargs):
+        return self.make_request("PATCH", *args, **kwargs)
+
     def delete(self, *args, **kwargs):
         return self.make_request("DELETE", *args, **kwargs)
 
@@ -237,3 +240,17 @@ class ChiftClient:
         )
 
         return self.post(url_path, data=data)
+
+    def update_one(self, chift_vertical, chift_model, chift_id, data, extra_path=None):
+        url_path = self.path_builder(
+            [
+                "consumers" if self.consumer_id else None,
+                self.consumer_id,
+                chift_vertical,
+                chift_model,
+                chift_id,
+                extra_path,
+            ]
+        )
+
+        return self.patch(url_path, data=data)

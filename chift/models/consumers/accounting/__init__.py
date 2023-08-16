@@ -1,6 +1,6 @@
 from typing import ClassVar
 
-from chift.api.mixins import CreateMixin, PaginationMixin, ReadMixin
+from chift.api.mixins import CreateMixin, PaginationMixin, ReadMixin, UpdateMixin
 from chift.openapi.models import Account as AccountModel
 from chift.openapi.models import AnalyticPlan as AnalyticPlanModel
 from chift.openapi.models import Client as ClientModel
@@ -59,6 +59,7 @@ class Supplier(
     ReadMixin[SupplierModel],
     PaginationMixin[SupplierModel],
     CreateMixin[SupplierModel],
+    UpdateMixin[SupplierModel],
 ):
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "suppliers"
@@ -69,6 +70,7 @@ class Client(
     ReadMixin[ClientModel],
     PaginationMixin[ClientModel],
     CreateMixin[ClientModel],
+    UpdateMixin[ClientModel],
 ):
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "clients"

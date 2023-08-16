@@ -62,6 +62,23 @@ def test_client(odoo_consumer: Consumer):
         assert client == expected_client
 
 
+def test_update_client(odoo_consumer: Consumer):
+    consumer = odoo_consumer
+
+    clients = consumer.accounting.Client.all(limit=2)
+
+    assert clients
+
+    for client in clients:
+        current_website = client.website
+
+        updated_client = consumer.accounting.Client.update(client.id, {'website': 'https://test.com'})
+        assert updated_client.website == 'https://test.com'
+
+        consumer.accounting.Client.update(client.id, {'website': current_website}) # revert
+        break # one is enough
+
+
 def test_supplier(odoo_consumer: Consumer):
     consumer = odoo_consumer
 
