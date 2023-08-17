@@ -52,6 +52,7 @@ def sync_consumer(chift):
 def sync(chift):
     return chift.Sync.get("0c294e89-068a-4629-9d9c-424f2a930f39")
 
+
 @pytest.fixture
 def regate_consumer(chift):
     # get consumer with a regate connection

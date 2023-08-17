@@ -45,27 +45,22 @@ def test_create_update_contact(regate_consumer: Consumer):
             "address_line_2": "test",
             "postal_code": "test",
             "country_code": "AF",
-            "country": {
-                "id": 4,
-                "iso_alpha2": "AF",
-                "name": "Afghanistan"
-            }
+            "country": {"id": 4, "iso_alpha2": "AF", "name": "Afghanistan"},
         },
-        "bank_accounts": [{"id": "4c108f34-1b95-45cf-a94b-b869675dc962"}]
+        "bank_accounts": [{"id": "4c108f34-1b95-45cf-a94b-b869675dc962"}],
     }
 
     contact = consumer.custom.Custom.create("regate", "contacts", data)
 
     assert contact
 
-    data = {
-        "legal_fixed_compensation": "12345"
-    }
+    data = {"legal_fixed_compensation": "12345"}
 
-    contact = consumer.custom.Custom.update("regate", "contacts", contact['customer']['id'], data)
+    contact = consumer.custom.Custom.update(
+        "regate", "contacts", contact["customer"]["id"], data
+    )
 
-    assert contact['customer']['legal_fixed_compensation'] == "12345"
-
+    assert contact["customer"]["legal_fixed_compensation"] == "12345"
 
 
 def test_create_product(regate_consumer: Consumer):
@@ -77,7 +72,7 @@ def test_create_product(regate_consumer: Consumer):
         "price_cents": 1000,
         "description": "A toothbrush is an oral hygiene tool used to clean the teeth, gums, and tongue. It consists of a head of tightly clustered bristles, atop of which toothpaste can be applied, mounted on a handle which facilitates the cleaning of hard-to-reach areas of the mouth.",
         "name": str(uuid.uuid5),
-        "price_currency": 100
+        "price_currency": 100,
     }
 
     product = consumer.custom.Custom.create("regate", "products", data)
@@ -100,10 +95,10 @@ def test_create_invoice(regate_consumer: Consumer):
                 "quantity": 1,
                 "unit_price_cents": 100,
                 "sales_vat_account_id": "afe5673b-d379-4b6b-a2d5-187533497f78",
-                "product_id": "5871ff29-5797-435a-8492-ce7cefbb1f5c"
+                "product_id": "5871ff29-5797-435a-8492-ce7cefbb1f5c",
             }
         ],
-        "paid_amount_cents": 100
+        "paid_amount_cents": 100,
     }
 
     invoice = consumer.custom.Custom.create("regate", "invoices", data)

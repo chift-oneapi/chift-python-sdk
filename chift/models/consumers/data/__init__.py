@@ -24,7 +24,10 @@ class Data(
 
     def create(self, datastore_id, data, client=None) -> list[DataModel]:
         self.extra_path = f"{datastore_id}/data"
-        return [DataModel(**item) for item in super().create(data, map_model=False, client=client)]
+        return [
+            DataModel(**item)
+            for item in super().create(data, map_model=False, client=client)
+        ]
 
     def update(self, datastore_id, datastoredata_id, data, client=None) -> DataModel:
         self.extra_path = f"{datastore_id}/data/{datastoredata_id}"

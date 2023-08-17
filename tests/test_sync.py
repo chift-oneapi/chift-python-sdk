@@ -169,8 +169,7 @@ def test_flow_update(chift):
     data = _get_flow_data(datastore_name=datastore_name)
     flow_created = chift.Flow.create(sync.syncid, data)
 
-    assert flow_created.id in [
-        flow.id for flow in chift.Sync.get(sync.syncid).flows]
+    assert flow_created.id in [flow.id for flow in chift.Sync.get(sync.syncid).flows]
 
     # update flow
     data["description"] = "test updated"
@@ -206,8 +205,7 @@ def test_flow_execution_code(chift):
     sync: Sync = syncs[0]
 
     # create flow
-    flow_created = chift.Flow.create(
-        sync.syncid, _get_flow_data(execution_type="code"))
+    flow_created = chift.Flow.create(sync.syncid, _get_flow_data(execution_type="code"))
 
     # test trigger flow of type code (AWS lambda) should not raise
     chift.Flow.trigger(sync.syncid, flow_created.id, {})
@@ -232,8 +230,7 @@ def test_flow_trigger_timer(chift):
     sync: Sync = syncs[0]
 
     # create flow with timer should not raise
-    flow_created = chift.Flow.create(
-        sync.syncid, _get_flow_data(trigger_type="timer"))
+    flow_created = chift.Flow.create(sync.syncid, _get_flow_data(trigger_type="timer"))
 
     assert flow_created
 
@@ -247,12 +244,10 @@ def test_create_flow(chift, sync):
     )
     flow_created = chift.Flow.create(sync.syncid, data)
 
-    assert flow_created.id in [
-        flow.id for flow in chift.Sync.get(sync.syncid).flows]
+    assert flow_created.id in [flow.id for flow in chift.Sync.get(sync.syncid).flows]
 
 
 def test_trigger_flows(chift, sync):
-
     assert sync.flows
 
     for flow in sync.flows:
@@ -270,7 +265,6 @@ def test_trigger_flows(chift, sync):
 
 
 def test_trigger_flows_for_consumer(chift, sync):
-
     assert sync.flows
 
     for flow in sync.flows:
@@ -286,25 +280,27 @@ def test_trigger_flows_for_consumer(chift, sync):
 
         break  # one is engough
 
+
 def test_datastore(chift, sync):
     consumer = chift.Consumer.get(sync.consumers[0])
     datastore = sync.flows[0].config.datastores[0]
-
 
     # test create
     value = {}
 
     for column in datastore.definition.columns:
-        value[column.name] = '1'
+        value[column.name] = "1"
 
-    data = consumer.datastore.Data.create(datastore.id, [{'data': value}])[0]
+    data = consumer.datastore.Data.create(datastore.id, [{"data": value}])[0]
 
     # test update
     updated_value = {}
     for column in data.data.keys():
-        updated_value[column] = '2'
+        updated_value[column] = "2"
 
-    updated_data = consumer.datastore.Data.update(datastore.id, data.id, {'data': updated_value})
+    updated_data = consumer.datastore.Data.update(
+        datastore.id, data.id, {"data": updated_value}
+    )
 
     for column, value in updated_data.data.items():
-        assert value == '2'
+        assert value == "2"

@@ -72,11 +72,15 @@ def test_update_client(odoo_consumer: Consumer):
     for client in clients:
         current_website = client.website
 
-        updated_client = consumer.accounting.Client.update(client.id, {'website': 'https://test.com'})
-        assert updated_client.website == 'https://test.com'
+        updated_client = consumer.accounting.Client.update(
+            client.id, {"website": "https://test.com"}
+        )
+        assert updated_client.website == "https://test.com"
 
-        consumer.accounting.Client.update(client.id, {'website': current_website}) # revert
-        break # one is enough
+        consumer.accounting.Client.update(
+            client.id, {"website": current_website}
+        )  # revert
+        break  # one is enough
 
 
 def test_supplier(odoo_consumer: Consumer):
