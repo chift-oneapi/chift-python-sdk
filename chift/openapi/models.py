@@ -203,7 +203,7 @@ class DataIn(DataItem):
 
 
 class Data(DataItemOut):
-    pass
+    id: str | None = None
 
 
 # webhook
