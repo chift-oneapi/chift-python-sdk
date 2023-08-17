@@ -1,6 +1,9 @@
 # Changelog
 
 
+## 0.1.6 - 2023-08-17
+* Custom: support for custom endpoint added
+
 ## 0.1.5 - 2023-08-17
 * models: bugfiwes (optional id)
 

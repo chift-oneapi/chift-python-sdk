@@ -78,7 +78,7 @@ class UpdateMixin(BaseMixin, Generic[T]):
 
 
 class PaginationMixin(BaseMixin, Generic[T]):
-    def all(self, params=None, client=None, limit=None) -> list[T]:
+    def all(self, params=None, client=None,  map_model=True, limit=None) -> list[T]:
         if not client:
             client = ChiftClient()
         client.consumer_id = self.consumer_id
@@ -91,6 +91,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
 
         all_items = []
         page = 1
+
         while True:
             json_data = client.get_all(
                 self.chift_vertical,
@@ -99,11 +100,11 @@ class PaginationMixin(BaseMixin, Generic[T]):
                 extra_path=self.extra_path,
             )
             all_items.extend(
-                [self.model(**item) for item in json_data.get("items", [])]
+                [self.model(**item) if map_model else item for item in json_data.get("items", [])]
             )
             page += 1
 
-            if limit and len(all_items) > limit:
+            if limit and len(all_items) >= limit:
                 break
 
             if len(all_items) >= json_data.get("total", 0) or not json_data.get(

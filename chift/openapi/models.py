@@ -172,6 +172,14 @@ class Consumer(ConsumerItem, extra=Extra.allow):
 
         return CommerceRouter(self.consumerid, self.connectionid)
 
+    @property
+    def custom(self):
+        from chift.models.consumers.custom import (
+            CustomRouter,
+        )  # avoid circular import
+
+        return CustomRouter(self.consumerid, self.connectionid)
+
 
 # syncs
 
@@ -203,7 +211,7 @@ class DataIn(DataItem):
 
 
 class Data(DataItemOut):
-    id: str | None = None
+    id: Optional[str]  = None
 
 
 # webhook
