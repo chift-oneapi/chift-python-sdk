@@ -40,6 +40,7 @@ from .openapi import (
     WebhookInstanceGetItem,
     WebhookItem,
     JournalEntryMultiAnalyticPlan,
+    VariantItem,
 )
 
 # UNPUBLISHED MODELS
@@ -339,4 +340,8 @@ class CommerceLocation(CommerceLocationItemOut):
 
 
 class CommerceOrder(OrderItemOut):
+    pass
+
+
+class CommerceVariant(VariantItem):
     pass

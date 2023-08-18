@@ -1,11 +1,14 @@
 # Changelog
 
 
+## 0.1.7 - 2023-08-18
+* Ecommerce: add variants
+
 ## 0.1.6 - 2023-08-17
 * Custom: support for custom endpoint added
 
 ## 0.1.5 - 2023-08-17
-* models: bugfiwes (optional id)
+* models: bugfixes (optional id)
 
 ## 0.1.4 - 2023-08-16
 * models: update (datastore)

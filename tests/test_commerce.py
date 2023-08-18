@@ -24,6 +24,12 @@ def test_product(woocommerce_consumer: Consumer):
         expected_product = consumer.commerce.Product.get(product.id)
         assert product.id == expected_product.id
 
+        # test_variant
+        for variant_expected in product.variants:
+            variant = consumer.commerce.Variant.get(variant_expected.id)
+            assert variant.id == variant_expected.id
+            assert variant.available_quantity == variant_expected.available_quantity
+
 
 def test_location(woocommerce_consumer: Consumer):
     consumer = woocommerce_consumer
