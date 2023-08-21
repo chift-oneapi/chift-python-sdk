@@ -22,6 +22,7 @@ from .openapi import (
     IntegrationItem,
     InvoiceItemOut,
     InvoiceItemOutMonoAnalyticPlan,
+    JournalEntryMultiAnalyticPlan,
     MiscellaneousOperationOut,
     ModelsInvoicingVatCode,
     OpportunityItem,
@@ -37,10 +38,9 @@ from .openapi import (
     SupplierItemOut,
     SyncConsumerItem,
     SyncItem,
+    VariantItem,
     WebhookInstanceGetItem,
     WebhookItem,
-    JournalEntryMultiAnalyticPlan,
-    VariantItem,
 )
 
 # UNPUBLISHED MODELS
@@ -175,9 +175,7 @@ class Consumer(ConsumerItem, extra=Extra.allow):
 
     @property
     def custom(self):
-        from chift.models.consumers.custom import (
-            CustomRouter,
-        )  # avoid circular import
+        from chift.models.consumers.custom import CustomRouter  # avoid circular import
 
         return CustomRouter(self.consumerid, self.connectionid)
 

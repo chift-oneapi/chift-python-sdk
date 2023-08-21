@@ -1,7 +1,8 @@
+import os
+
 import pytest
 
 import chift as package
-import os
 
 
 @pytest.fixture
