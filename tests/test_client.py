@@ -7,7 +7,7 @@ def test_client_consumer_id(chift):
         client_id=chift.client_id,
         client_secret=chift.client_secret,
         account_id=chift.account_id,
-        url_base="http://localhost:8000",
+        url_base=chift.url_base,
     )
 
     consumers = chift.Consumer.all(client=chift_client)

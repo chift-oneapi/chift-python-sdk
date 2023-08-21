@@ -7,8 +7,8 @@ from chift.api.exceptions import ChiftException
 from chift.openapi.models import Consumer
 
 
-def test_contact(evoliz_consumer: Consumer):
-    consumer = evoliz_consumer
+def test_contact(invoicing_consumer: Consumer):
+    consumer = invoicing_consumer
 
     # create contact
     name = str(uuid.uuid1())
@@ -44,8 +44,8 @@ def test_contact(evoliz_consumer: Consumer):
     assert expected_contact == actual_contact, "get() failed"
 
 
-def test_invoice(evoliz_consumer: Consumer):
-    consumer = evoliz_consumer
+def test_invoice(invoicing_consumer: Consumer):
+    consumer = invoicing_consumer
 
     # find contact required in invoice
     contact = consumer.invoicing.Contact.all(
@@ -98,8 +98,8 @@ def test_invoice(evoliz_consumer: Consumer):
     assert expected_invoice == actual_invoice, "get() failed"
 
 
-def test_product(evoliz_consumer: Consumer):
-    consumer = evoliz_consumer
+def test_product(invoicing_consumer: Consumer):
+    consumer = invoicing_consumer
 
     # create product
     data = {
@@ -129,8 +129,8 @@ def test_product(evoliz_consumer: Consumer):
     assert expected_product == actual_product, "get() failed"
 
 
-def test_tax(evoliz_consumer: Consumer):
-    consumer = evoliz_consumer
+def test_tax(invoicing_consumer: Consumer):
+    consumer = invoicing_consumer
 
     taxes = consumer.invoicing.Tax.all()
 
@@ -141,8 +141,8 @@ def test_tax(evoliz_consumer: Consumer):
     assert expected_tax == actual_tax, "get() failed"
 
 
-def test_opportunity(evoliz_consumer: Consumer):
-    consumer = evoliz_consumer
+def test_opportunity(invoicing_consumer: Consumer):
+    consumer = invoicing_consumer
 
     with pytest.raises(ChiftException) as e:
         consumer.invoicing.Opportunity.all()

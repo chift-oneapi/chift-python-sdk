@@ -1,8 +1,8 @@
 from chift.openapi.models import Consumer
 
 
-def test_contact(woocommerce_consumer: Consumer):
-    consumer = woocommerce_consumer
+def test_contact(ecommerce_consumer: Consumer):
+    consumer = ecommerce_consumer
 
     contacts = consumer.commerce.Customer.all(limit=2)
 
@@ -13,8 +13,8 @@ def test_contact(woocommerce_consumer: Consumer):
         assert contact == expected_contact
 
 
-def test_product(woocommerce_consumer: Consumer):
-    consumer = woocommerce_consumer
+def test_product(ecommerce_consumer: Consumer):
+    consumer = ecommerce_consumer
 
     products = consumer.commerce.Product.all(limit=2)
 
@@ -31,16 +31,16 @@ def test_product(woocommerce_consumer: Consumer):
             assert variant.available_quantity == variant_expected.available_quantity
 
 
-def test_location(woocommerce_consumer: Consumer):
-    consumer = woocommerce_consumer
+def test_location(ecommerce_consumer: Consumer):
+    consumer = ecommerce_consumer
 
     locations = consumer.commerce.Location.all(limit=2)
 
     assert locations
 
 
-def test_order(woocommerce_consumer: Consumer):
-    consumer = woocommerce_consumer
+def test_order(ecommerce_consumer: Consumer):
+    consumer = ecommerce_consumer
     # TODO: test create()
 
     orders = consumer.commerce.Order.all(limit=2)

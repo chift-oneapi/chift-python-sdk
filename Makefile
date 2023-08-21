@@ -9,10 +9,17 @@ $(VENV_NAME)/bin/activate: setup.py
 	@touch $(VENV_NAME)/bin/activate
 
 test: venv
-	@${VENV_NAME}/bin/python -m pytest
+	@${VENV_NAME}/bin/python -m pytest --cov
 
 fmt: venv
 	@${VENV_NAME}/bin/python -m black ./
+
+fmtcheck: venv
+	@${VENV_NAME}/bin/python -m black ./ --check
+
+coveralls: venv
+	${VENV_NAME}/bin/python -m pip install -U coveralls
+	${VENV_NAME}/bin/coveralls
 
 clean:
 	@rm -rf $(VENV_NAME) build/ dist/

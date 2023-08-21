@@ -1,5 +1,10 @@
 # Chift Python Library
 
+[![pypi](https://img.shields.io/pypi/v/chift.svg)](https://pypi.python.org/pypi/chift)
+[![Build Status](https://github.com/chift-oneapi/chift-python-sdk/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/chift-oneapi/chift-python-sdk/actions?query=branch:main)
+[![Coverage Status](https://coveralls.io/repos/github/chift-oneapi/chift-python-sdk/badge.svg?branch=main)](https://coveralls.io/github/chift-oneapi/chift-python-sdk?branch=master)
+
+
 The Chift Python library provides convenient access to the Chift API from
 applications written in the Python language.
 

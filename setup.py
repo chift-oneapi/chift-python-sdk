@@ -24,6 +24,6 @@ setup(
         "requests >= 2.20",
     ],
     python_requires=">=3.9",
-    extras_require={"dev": ["pytest", "black"]},
+    extras_require={"dev": ["pytest-cov", "black", "coverage==6.5.0"]},
     include_package_data=True,
 )

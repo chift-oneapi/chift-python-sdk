@@ -6,8 +6,8 @@ from chift.api.exceptions import ChiftException
 from chift.openapi.models import Consumer
 
 
-def test_contact(zelty_consumer: Consumer):
-    consumer = zelty_consumer
+def test_contact(pos_consumer: Consumer):
+    consumer = pos_consumer
 
     # create contact
     data = {
@@ -25,8 +25,8 @@ def test_contact(zelty_consumer: Consumer):
     assert expected_contact == actual_contact, "get() failed"
 
 
-def test_contact_all(zelty_consumer: Consumer):
-    consumer = zelty_consumer
+def test_contact_all(pos_consumer: Consumer):
+    consumer = pos_consumer
     contacts = consumer.pos.Customer.all(limit=2)
 
     assert contacts
@@ -35,8 +35,8 @@ def test_contact_all(zelty_consumer: Consumer):
         assert contact.first_name
 
 
-def test_payment_methods_all(zelty_consumer: Consumer):
-    consumer = zelty_consumer
+def test_payment_methods_all(pos_consumer: Consumer):
+    consumer = pos_consumer
     payments = consumer.pos.PaymentMethod.all(limit=2)
 
     assert payments
@@ -45,8 +45,8 @@ def test_payment_methods_all(zelty_consumer: Consumer):
         assert payment.name
 
 
-def test_sales_all(zelty_consumer: Consumer):
-    consumer = zelty_consumer
+def test_sales_all(pos_consumer: Consumer):
+    consumer = pos_consumer
     sales = consumer.pos.Sale.all(
         params={"date_from": "2023-01-08", "date_to": "2023-01-01"}, limit=2
     )
@@ -55,8 +55,8 @@ def test_sales_all(zelty_consumer: Consumer):
         assert sale.total
 
 
-def test_payment(zelty_consumer: Consumer):
-    consumer = zelty_consumer
+def test_payment(pos_consumer: Consumer):
+    consumer = pos_consumer
 
     with pytest.raises(ChiftException) as e:
         consumer.pos.Payment.all(
@@ -66,8 +66,8 @@ def test_payment(zelty_consumer: Consumer):
     assert e.value.message == "API Resource does not exist"
 
 
-def test_location(zelty_consumer: Consumer):
-    consumer = zelty_consumer
+def test_location(pos_consumer: Consumer):
+    consumer = pos_consumer
 
     locations = consumer.pos.Location.all(limit=2)
 
@@ -77,8 +77,8 @@ def test_location(zelty_consumer: Consumer):
         assert location.id
 
 
-def test_order(zelty_consumer: Consumer):
-    consumer = zelty_consumer
+def test_order(pos_consumer: Consumer):
+    consumer = pos_consumer
 
     orders = consumer.pos.Order.all(
         {"date_from": "2023-01-08", "date_to": "2023-01-01"}
@@ -88,8 +88,8 @@ def test_order(zelty_consumer: Consumer):
         assert order == consumer.pos.Order.get(order.id)
 
 
-def test_closure(zelty_consumer: Consumer):
-    consumer = zelty_consumer
+def test_closure(pos_consumer: Consumer):
+    consumer = pos_consumer
 
     closure = consumer.pos.Closure.get("2023-01-01")
 
