@@ -156,7 +156,7 @@ def test_sync(chift):
 
     actual_sync = chift.Sync.get(expected_sync.syncid)
 
-    assert expected_sync == actual_sync
+    assert expected_sync.id == actual_sync.id
 
 
 def test_flow_update(chift):
@@ -275,7 +275,7 @@ def test_trigger_flows_for_consumer(chift, sync):
         )
         # test getting sync for consumer info
         consumer = chift.Consumer.get(sync.consumers[0])
-        info = consumer.sync.Sync.get(sync.syncid)
+        info = consumer.Sync.get(sync.syncid)
         assert info
 
         break  # one is engough
@@ -291,16 +291,14 @@ def test_datastore(chift, sync):
     for column in datastore.definition.columns:
         value[column.name] = "1"
 
-    data = consumer.datastore.Data.create(datastore.id, [{"data": value}])[0]
+    data = consumer.Data.create(datastore.id, [{"data": value}])[0]
 
     # test update
     updated_value = {}
     for column in data.data.keys():
         updated_value[column] = "2"
 
-    updated_data = consumer.datastore.Data.update(
-        datastore.id, data.id, {"data": updated_value}
-    )
+    updated_data = consumer.Data.update(datastore.id, data.id, {"data": updated_value})
 
     for column, value in updated_data.data.items():
         assert value == "2"

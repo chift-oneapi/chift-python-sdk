@@ -4,12 +4,7 @@ from chift.api.mixins import CreateMixin, ListMixin
 from chift.openapi.models import Log as LogModel
 
 
-class LogRouter:
-    def __init__(self, consumer_id, connection_id):
-        self.Logs = Logs(consumer_id, connection_id)
-
-
-class Logs(ListMixin[LogModel], CreateMixin[LogModel]):
+class Log(ListMixin[LogModel], CreateMixin[LogModel]):
     chift_vertical: ClassVar = "logs"
     chift_model: ClassVar = ""
     model = LogModel

@@ -9,7 +9,7 @@ def test_log(invoicing_consumer: Consumer):
 
     # will raise if no connectionid is set
     with pytest.raises(ChiftException) as e:
-        consumer.log.Logs.create(
+        consumer.Log.create(
             [
                 {
                     "logid": "1",

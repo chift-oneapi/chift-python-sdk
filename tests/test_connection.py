@@ -8,7 +8,7 @@ def test_find_one_evoliz_connection(chift):
     consumers = chift.Consumer.all()
 
     for consumer in consumers:
-        connections = consumer.connection.Connection.all()
+        connections = consumer.Connection.all()
 
         for connection in connections:
             if connection.integration == "Evoliz":
@@ -27,7 +27,7 @@ def test_multi_connections(two_connections_consumer: Consumer):
 
     assert e.value.message == "The connection is not correctly configured"
 
-    connections = consumer.connection.Connection.all()
+    connections = consumer.Connection.all()
     active_connection = list(
         filter(lambda conn: conn.status.value == "active", connections)
     )

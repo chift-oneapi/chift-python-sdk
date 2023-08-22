@@ -5,10 +5,10 @@ from chift.openapi.models import Account as AccountModel
 from chift.openapi.models import AnalyticPlan as AnalyticPlanModel
 from chift.openapi.models import Client as ClientModel
 from chift.openapi.models import InvoiceAccounting as InvoiceAccountingModel
+from chift.openapi.models import JournalEntry as JournalEntryModel
 from chift.openapi.models import MiscellaneousOperation as MiscellaneousOperationModel
 from chift.openapi.models import Supplier as SupplierModel
 from chift.openapi.models import TaxAccounting as TaxAccountingModel
-from chift.openapi.models import JournalEntry as JournalEntryModel
 
 
 class AccountingRouter:

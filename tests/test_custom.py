@@ -1,6 +1,6 @@
-from chift.openapi.models import Consumer
-
 import uuid
+
+from chift.openapi.models import Consumer
 
 
 def test_get_products(custom_regate_consumer: Consumer):

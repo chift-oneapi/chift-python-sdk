@@ -22,6 +22,7 @@ from .openapi import (
     IntegrationItem,
     InvoiceItemOut,
     InvoiceItemOutMonoAnalyticPlan,
+    JournalEntryMultiAnalyticPlan,
     MiscellaneousOperationOut,
     ModelsInvoicingVatCode,
     OpportunityItem,
@@ -37,10 +38,9 @@ from .openapi import (
     SupplierItemOut,
     SyncConsumerItem,
     SyncItem,
+    VariantItem,
     WebhookInstanceGetItem,
     WebhookItem,
-    JournalEntryMultiAnalyticPlan,
-    VariantItem,
 )
 
 # UNPUBLISHED MODELS
@@ -134,32 +134,6 @@ class Consumer(ConsumerItem, extra=Extra.allow):
         return AccountingRouter(self.consumerid, self.connectionid)
 
     @property
-    def connection(self):
-        from chift.models.consumers.connection import (
-            ConnectionRouter,
-        )  # avoid circular import
-
-        return ConnectionRouter(self.consumerid, self.connectionid)
-
-    @property
-    def datastore(self):
-        from chift.models.consumers.data import DataRouter  # avoid circular import
-
-        return DataRouter(self.consumerid, self.connectionid)
-
-    @property
-    def sync(self):
-        from chift.models.consumers.sync import SyncRouter  # avoid circular import
-
-        return SyncRouter(self.consumerid, self.connectionid)
-
-    @property
-    def log(self):
-        from chift.models.consumers.log import LogRouter  # avoid circular import
-
-        return LogRouter(self.consumerid, self.connectionid)
-
-    @property
     def pos(self):
         from chift.models.consumers.pos import PosRouter  # avoid circular import
 
@@ -175,11 +149,35 @@ class Consumer(ConsumerItem, extra=Extra.allow):
 
     @property
     def custom(self):
-        from chift.models.consumers.custom import (
-            CustomRouter,
-        )  # avoid circular import
+        from chift.models.consumers.custom import CustomRouter  # avoid circular import
 
         return CustomRouter(self.consumerid, self.connectionid)
+
+    @property
+    def Connection(self):
+        from chift.models.consumers.connection import (
+            Connection,
+        )  # avoid circular import
+
+        return Connection(self.consumerid, self.connectionid)
+
+    @property
+    def Data(self):
+        from chift.models.consumers.data import Data  # avoid circular import
+
+        return Data(self.consumerid, self.connectionid)
+
+    @property
+    def Sync(self):
+        from chift.models.consumers.sync import Sync  # avoid circular import
+
+        return Sync(self.consumerid, self.connectionid)
+
+    @property
+    def Log(self):
+        from chift.models.consumers.log import Log  # avoid circular import
+
+        return Log(self.consumerid, self.connectionid)
 
 
 # syncs

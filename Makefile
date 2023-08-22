@@ -12,6 +12,8 @@ test: venv
 	@${VENV_NAME}/bin/python -m pytest --cov
 
 fmt: venv
+	@${VENV_NAME}/bin/python -m isort .
+	@${VENV_NAME}/bin/python -m autoflake --remove-all-unused-imports --ignore-init-module-imports -r --in-place .
 	@${VENV_NAME}/bin/python -m black ./
 
 fmtcheck: venv

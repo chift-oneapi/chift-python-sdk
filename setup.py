@@ -1,5 +1,6 @@
+from os.path import abspath, dirname, join
+
 from setuptools import find_packages, setup
-from os.path import dirname, abspath, join
 
 NAME = "chift"
 
@@ -24,6 +25,8 @@ setup(
         "requests >= 2.20",
     ],
     python_requires=">=3.9",
-    extras_require={"dev": ["pytest-cov", "black", "coverage==6.5.0"]},
+    extras_require={
+        "dev": ["pytest-cov", "black", "isort", "autoflake", "coverage==6.5.0"]
+    },
     include_package_data=True,
 )

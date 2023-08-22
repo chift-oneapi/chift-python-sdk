@@ -4,11 +4,6 @@ from chift.api.mixins import CreateMixin, ListMixin, UpdateMixin
 from chift.openapi.models import Data as DataModel
 
 
-class DataRouter:
-    def __init__(self, consumer_id, connection_id):
-        self.Data = Data(consumer_id, connection_id)
-
-
 class Data(
     ListMixin[DataModel],
     CreateMixin[DataModel],
