@@ -33,4 +33,4 @@ contact = consumer.invoicing.Contact.create(data)
 
 invoices = consumer.invoicing.Invoice.all({"invoice_type": "customer_invoice"})
 
-connections = consumer.connection.Connection.all()
+connections = consumer.Connection.all()

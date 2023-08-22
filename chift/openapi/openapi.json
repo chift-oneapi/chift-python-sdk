@@ -8805,8 +8805,25 @@
                         "title": "Active",
                         "type": "boolean",
                         "default": true
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/AccountItemType"
                     }
                 }
+            },
+            "AccountItemType": {
+                "title": "AccountItemType",
+                "enum": [
+                    "bank",
+                    "cash",
+                    "other_financial",
+                    "accounts_receivable",
+                    "accounts_payable",
+                    "vat",
+                    "other"
+                ],
+                "type": "string",
+                "description": "An enumeration."
             },
             "AddressItem": {
                 "title": "AddressItem",
@@ -11014,7 +11031,7 @@
                     "currency_exchange_rate": {
                         "title": "Currency Exchange Rate",
                         "type": "number",
-                        "description": "Indicates the exchange rate at the date of the invoice. Must be filled in when creating the invoice in another currency from the default currency of the accounti",
+                        "description": "Indicates the exchange rate at the date of the invoice. Must be filled in when creating the invoice in another currency from the default currency of the accounting system.",
                         "default": 1
                     },
                     "invoice_correction": {
@@ -11123,7 +11140,7 @@
                     "currency_exchange_rate": {
                         "title": "Currency Exchange Rate",
                         "type": "number",
-                        "description": "Indicates the exchange rate at the date of the invoice. Must be filled in when creating the invoice in another currency from the default currency of the accounti",
+                        "description": "Indicates the exchange rate at the date of the invoice. Must be filled in when creating the invoice in another currency from the default currency of the accounting system.",
                         "default": 1
                     },
                     "invoice_correction": {
@@ -12549,6 +12566,12 @@
                         "type": "string",
                         "description": "Indicates the currency of the operation (e.g. EUR)."
                     },
+                    "currency_exchange_rate": {
+                        "title": "Currency Exchange Rate",
+                        "type": "number",
+                        "description": "Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.",
+                        "default": 1
+                    },
                     "lines": {
                         "title": "Lines",
                         "type": "array",
@@ -12647,6 +12670,12 @@
                         "title": "Currency",
                         "type": "string",
                         "description": "Indicates the currency of the operation (e.g. EUR)."
+                    },
+                    "currency_exchange_rate": {
+                        "title": "Currency Exchange Rate",
+                        "type": "number",
+                        "description": "Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.",
+                        "default": 1
                     },
                     "lines": {
                         "title": "Lines",
@@ -14770,7 +14799,8 @@
                         "items": {
                             "type": "string",
                             "format": "uuid"
-                        }
+                        },
+                        "default": []
                     },
                     "data": {
                         "title": "Data",

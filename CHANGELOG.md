@@ -1,5 +1,7 @@
 # Changelog
 
+## 0.1.8 - 2023-08-22
+* Sync,Data,Connection,Log direcly accessible from consumer
 
 ## 0.1.7 - 2023-08-18
 * Ecommerce: add variants
