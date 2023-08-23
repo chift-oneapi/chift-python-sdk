@@ -1,3 +1,5 @@
+import os
+
 import pytest
 
 import chift as package
@@ -5,10 +7,10 @@ import chift as package
 
 @pytest.fixture
 def chift():
-    package.client_secret = "FBVxDtiOjb91H9j4XPh4"
-    package.client_id = "Iy3H8C34WKSvN2J"
-    package.account_id = "187cc583-9bea-4fc7-ba87-a2febe3eae46"
-    package.url_base = "https://public-api-test.chift.site"
+    package.client_secret = os.environ["CHIFT_TESTING_CLIENTSECRET"]
+    package.client_id = os.environ["CHIFT_TESTING_CLIENTID"]
+    package.account_id = os.environ["CHIFT_TESTING_ACCOUNTID"]
+    package.url_base = os.environ["CHIFT_BACKBONE_API"]
     return package
 
 
