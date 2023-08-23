@@ -156,7 +156,7 @@ def test_sync(chift):
 
     actual_sync = chift.Sync.get(expected_sync.syncid)
 
-    assert expected_sync.id == actual_sync.id
+    assert expected_sync.name == actual_sync.name
 
 
 def test_flow_update(chift):

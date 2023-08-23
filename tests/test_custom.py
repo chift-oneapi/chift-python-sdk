@@ -55,12 +55,9 @@ def test_create_update_contact(custom_regate_consumer: Consumer):
     assert contact
 
     data = {"legal_fixed_compensation": "12345"}
+    contact = consumer.custom.Custom.update("regate", "contacts", contact["id"], data)
 
-    contact = consumer.custom.Custom.update(
-        "regate", "contacts", contact["customer"]["id"], data
-    )
-
-    assert contact["customer"]["legal_fixed_compensation"] == "12345"
+    assert contact["legal_fixed_compensation"] == "12345"
 
 
 def test_create_product(custom_regate_consumer: Consumer):

@@ -7,8 +7,8 @@ from pydantic import BaseModel, Extra
 from .openapi import (
     AccountItem,
     AnalyticAccountItemOut,
-    BackboneBackboneApiAppRoutersAccountingVatCode,
-    BackboneBackboneApiAppRoutersCommerceProductItem,
+    AppRoutersAccountingVatCode,
+    AppRoutersCommerceProductItem,
     ClientItemOut,
     ClosureItem,
     CommerceCustomerItem,
@@ -262,7 +262,7 @@ class AnalyticPlan(AnalyticAccountItemOut):
     pass
 
 
-class TaxAccounting(BackboneBackboneApiAppRoutersAccountingVatCode):
+class TaxAccounting(AppRoutersAccountingVatCode):
     pass
 
 
@@ -329,7 +329,7 @@ class CommerceCustomer(CommerceCustomerItem):
     pass
 
 
-class CommerceProduct(BackboneBackboneApiAppRoutersCommerceProductItem):
+class CommerceProduct(AppRoutersCommerceProductItem):
     pass
 
 
