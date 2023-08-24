@@ -65,10 +65,10 @@ def test_create_product(custom_regate_consumer: Consumer):
 
     data = {
         "sales_vat_account_id": "ee37ef01-725b-4bd6-a096-06d8093f2c82",
-        "reference": str(uuid.uuid5),
+        "reference": str(uuid.uuid4()),
         "price_cents": 1000,
         "description": "A toothbrush is an oral hygiene tool used to clean the teeth, gums, and tongue. It consists of a head of tightly clustered bristles, atop of which toothpaste can be applied, mounted on a handle which facilitates the cleaning of hard-to-reach areas of the mouth.",
-        "name": str(uuid.uuid5),
+        "name": str(uuid.uuid4()),
         "price_currency": 100,
     }
 
