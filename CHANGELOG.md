@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.9 - 2023-08-29
+* Payment: add new vertical
+
 ## 0.1.8 - 2023-08-22
 * Sync,Data,Connection,Log direcly accessible from consumer
 

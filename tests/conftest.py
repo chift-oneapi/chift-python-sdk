@@ -36,6 +36,11 @@ def ecommerce_consumer(chift):
 
 
 @pytest.fixture
+def payment_consumer(chift):
+    return chift.Consumer.get("0740d8ad-1920-48c6-8909-c0ea8f8be19e")
+
+
+@pytest.fixture
 def custom_regate_consumer(chift):
     return chift.Consumer.get("0740d8ad-1920-48c6-8909-c0ea8f8be19e")
 
