@@ -38,6 +38,7 @@ from .openapi import (
     SupplierItemOut,
     SyncConsumerItem,
     SyncItem,
+    TransactionItemOut,
     VariantItem,
     WebhookInstanceGetItem,
     WebhookItem,
@@ -146,6 +147,14 @@ class Consumer(ConsumerItem, extra=Extra.allow):
         )  # avoid circular import
 
         return CommerceRouter(self.consumerid, self.connectionid)
+
+    @property
+    def payment(self):
+        from chift.models.consumers.payment import (
+            PaymentRouter,
+        )  # avoid circular import
+
+        return PaymentRouter(self.consumerid, self.connectionid)
 
     @property
     def custom(self):
@@ -342,4 +351,11 @@ class CommerceOrder(OrderItemOut):
 
 
 class CommerceVariant(VariantItem):
+    pass
+
+
+# payment
+
+
+class PaymentTransaction(TransactionItemOut):
     pass

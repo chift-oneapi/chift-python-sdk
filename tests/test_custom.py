@@ -80,6 +80,9 @@ def test_create_product(custom_regate_consumer: Consumer):
 def test_create_invoice(custom_regate_consumer: Consumer):
     consumer = custom_regate_consumer
 
+    products = consumer.custom.Custom.all("regate", "products", limit=2)
+    product_id = products[0].get("id")
+
     data = {
         "currency": "EUR",
         "payment_method": "bank_transfer",
@@ -92,7 +95,7 @@ def test_create_invoice(custom_regate_consumer: Consumer):
                 "quantity": 1,
                 "unit_price_cents": 100,
                 "sales_vat_account_id": "afe5673b-d379-4b6b-a2d5-187533497f78",
-                "product_id": "5871ff29-5797-435a-8492-ce7cefbb1f5c",
+                "product_id": product_id,
             }
         ],
         "paid_amount_cents": 100,

@@ -80,14 +80,18 @@
                         "description": "Bad Request"
                     },
                     "422": {
-                        "description": "Validation Error",
                         "content": {
                             "application/json": {
+                                "example": {
+                                    "message": "The specified redirect url is not valid",
+                                    "status": "error"
+                                },
                                 "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                    "$ref": "#/components/schemas/ChiftError"
                                 }
                             }
-                        }
+                        },
+                        "description": "Unprocessable Entity"
                     }
                 }
             }
@@ -204,14 +208,18 @@
                         "description": "Not Found"
                     },
                     "422": {
-                        "description": "Validation Error",
                         "content": {
                             "application/json": {
+                                "example": {
+                                    "message": "The specified redirect url is not valid",
+                                    "status": "error"
+                                },
                                 "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                    "$ref": "#/components/schemas/ChiftError"
                                 }
                             }
-                        }
+                        },
+                        "description": "Unprocessable Entity"
                     }
                 }
             },
@@ -5191,6 +5199,87 @@
                 }
             }
         },
+        "/consumers/{consumer_id}/accounting/employees": {
+            "get": {
+                "tags": [
+                    "Accounting"
+                ],
+                "summary": "Get employees",
+                "description": "Returns a list of the employees linked to the company",
+                "operationId": "accounting_get_employees",
+                "parameters": [
+                    {
+                        "name": "consumer_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "title": "Consumer Id",
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Page",
+                            "default": 1,
+                            "minimum": 1,
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Size",
+                            "default": 50,
+                            "minimum": 1,
+                            "maximum": 100,
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Page_EmployeeItem_"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Error while trying to perform your request",
+                                    "status": "error"
+                                },
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChiftError"
+                                }
+                            }
+                        },
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/consumers/{consumer_id}/pos/orders": {
             "get": {
                 "tags": [
@@ -8682,6 +8771,133 @@
                 }
             }
         },
+        "/consumers/{consumer_id}/payment/transactions": {
+            "get": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Retrieve all Transactions",
+                "description": "Returns a list of transactions. Optionally transaction type and dates can be defined to retrieve transactions of a certain type from a certain date to another date",
+                "operationId": "payment_get_transaction",
+                "parameters": [
+                    {
+                        "name": "consumer_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "title": "Consumer Id",
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "accounting_category",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "description": "Filter based on the type of the transaction.",
+                            "default": "all",
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/TransactionAccountingCategory"
+                                }
+                            ]
+                        },
+                        "description": "Filter based on the type of the transaction."
+                    },
+                    {
+                        "name": "starting_from",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Starting From",
+                            "description": "Get all transactions more recent than this one excluded",
+                            "type": "string"
+                        },
+                        "description": "Get all transactions more recent than this one excluded"
+                    },
+                    {
+                        "name": "date_from",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Date From",
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "date_to",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Date To",
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Page",
+                            "default": 1,
+                            "minimum": 1,
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Size",
+                            "default": 50,
+                            "minimum": 1,
+                            "maximum": 100,
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Page_TransactionItemOut_"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "You must provide an transaction type.",
+                                    "status": "error"
+                                },
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChiftError"
+                                }
+                            }
+                        },
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/token": {
             "post": {
                 "tags": [
@@ -8819,6 +9035,8 @@
                     "other_financial",
                     "receivable",
                     "payable",
+                    "income",
+                    "expense",
                     "vat",
                     "other"
                 ],
@@ -9234,7 +9452,8 @@
                     "Invoicing",
                     "Communication",
                     "Banking",
-                    "Custom"
+                    "Custom",
+                    "Payment"
                 ],
                 "description": "An enumeration."
             },
@@ -10447,6 +10666,61 @@
                         "title": "Search Column",
                         "type": "string",
                         "description": "Column name that will be indexed and used in search if any."
+                    }
+                }
+            },
+            "EmployeeItem": {
+                "title": "EmployeeItem",
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "string"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "first_name": {
+                        "title": "First Name",
+                        "type": "string"
+                    },
+                    "last_name": {
+                        "title": "Last Name",
+                        "type": "string"
+                    },
+                    "function": {
+                        "title": "Function",
+                        "type": "string"
+                    },
+                    "phone": {
+                        "title": "Phone",
+                        "type": "string"
+                    },
+                    "mobile": {
+                        "title": "Mobile",
+                        "type": "string"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "type": "string"
+                    },
+                    "active": {
+                        "title": "Active",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "reference": {
+                        "title": "Reference",
+                        "type": "string"
+                    },
+                    "account_number": {
+                        "title": "Account Number",
+                        "type": "string"
                     }
                 }
             },
@@ -13924,6 +14198,40 @@
                     }
                 }
             },
+            "Page_EmployeeItem_": {
+                "title": "Page[EmployeeItem]",
+                "required": [
+                    "items",
+                    "total",
+                    "page",
+                    "size"
+                ],
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "title": "Items",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/EmployeeItem"
+                        }
+                    },
+                    "total": {
+                        "title": "Total",
+                        "minimum": 0.0,
+                        "type": "integer"
+                    },
+                    "page": {
+                        "title": "Page",
+                        "minimum": 1.0,
+                        "type": "integer"
+                    },
+                    "size": {
+                        "title": "Size",
+                        "minimum": 1.0,
+                        "type": "integer"
+                    }
+                }
+            },
             "Page_InvoiceItemOutMonoAnalyticPlan_": {
                 "title": "Page[InvoiceItemOutMonoAnalyticPlan]",
                 "required": [
@@ -14536,6 +14844,40 @@
                     }
                 }
             },
+            "Page_TransactionItemOut_": {
+                "title": "Page[TransactionItemOut]",
+                "required": [
+                    "items",
+                    "total",
+                    "page",
+                    "size"
+                ],
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "title": "Items",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TransactionItemOut"
+                        }
+                    },
+                    "total": {
+                        "title": "Total",
+                        "minimum": 0.0,
+                        "type": "integer"
+                    },
+                    "page": {
+                        "title": "Page",
+                        "minimum": 1.0,
+                        "type": "integer"
+                    },
+                    "size": {
+                        "title": "Size",
+                        "minimum": 1.0,
+                        "type": "integer"
+                    }
+                }
+            },
             "PatchConnectionItem": {
                 "title": "PatchConnectionItem",
                 "type": "object",
@@ -15018,7 +15360,6 @@
                 "required": [
                     "name",
                     "id",
-                    "config",
                     "values"
                 ],
                 "type": "object",
@@ -15663,6 +16004,16 @@
                     }
                 }
             },
+            "TransactionAccountingCategory": {
+                "title": "TransactionAccountingCategory",
+                "enum": [
+                    "all",
+                    "unknown",
+                    "test"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
             "TransactionFilterDateType": {
                 "title": "TransactionFilterDateType",
                 "enum": [
@@ -15671,6 +16022,76 @@
                 ],
                 "type": "string",
                 "description": "An enumeration."
+            },
+            "TransactionItemOut": {
+                "title": "TransactionItemOut",
+                "required": [
+                    "id",
+                    "source_ref",
+                    "total",
+                    "fee",
+                    "currency",
+                    "exchange_rate",
+                    "create_date",
+                    "application_type",
+                    "accounting_category"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "description": "Technical id in Chift"
+                    },
+                    "source_ref": {
+                        "title": "Source Ref",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Ref"
+                            }
+                        ],
+                        "description": "Technical id in the target software"
+                    },
+                    "total": {
+                        "title": "Total",
+                        "type": "number",
+                        "description": "Total amount incl. fee"
+                    },
+                    "fee": {
+                        "title": "Fee",
+                        "type": "number",
+                        "description": "Total fee"
+                    },
+                    "currency": {
+                        "title": "Currency",
+                        "type": "string",
+                        "description": "Currency"
+                    },
+                    "exchange_rate": {
+                        "title": "Exchange Rate",
+                        "type": "number",
+                        "description": "Exchange rate"
+                    },
+                    "create_date": {
+                        "title": "Create Date",
+                        "type": "string",
+                        "description": "Create Date",
+                        "format": "date-time"
+                    },
+                    "application_type": {
+                        "title": "Application Type",
+                        "type": "string",
+                        "description": "Type of the transaction as recorded in the target software"
+                    },
+                    "accounting_category": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/TransactionAccountingCategory"
+                            }
+                        ],
+                        "description": "Accounting category"
+                    }
+                }
             },
             "TriggerResponse": {
                 "title": "TriggerResponse",
