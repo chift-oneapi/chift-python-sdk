@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.10 - 2023-09-08
+* Fixes + models update
+
 ## 0.1.9 - 2023-08-29
 * Payment: add new vertical
 

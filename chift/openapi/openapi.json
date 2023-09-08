@@ -9452,7 +9452,8 @@
                     "Invoicing",
                     "Communication",
                     "Banking",
-                    "Custom"
+                    "Custom",
+                    "Payment"
                 ],
                 "description": "An enumeration."
             },
