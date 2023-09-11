@@ -26,7 +26,7 @@ setup(
     ],
     python_requires=">=3.9",
     extras_require={
-        "dev": ["pytest-cov", "black", "isort", "autoflake", "coverage==6.5.0"]
+        "dev": ["pytest-cov", "black", "isort", "autoflake", "coverage==6.5.0", "build", "twine"]
     },
     include_package_data=True,
 )
