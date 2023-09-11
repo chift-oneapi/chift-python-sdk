@@ -26,9 +26,9 @@ coveralls: venv
 clean:
 	@rm -rf $(VENV_NAME) build/ dist/
 
-publish: clean
-	python3 -m build
-	python3 -m twine check dist/*
-	python3 -m twine upload dist/*
+publish: clean venv
+	${VENV_NAME}/bin/python -m build
+	${VENV_NAME}/bin/python -m twine check dist/*
+	${VENV_NAME}/bin/python -m twine upload dist/*
 
 .PHONY: venv test clean
