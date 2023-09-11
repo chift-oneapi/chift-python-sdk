@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.11 - 2023-09-11
+* Fixes + CI improvments
+
 ## 0.1.10 - 2023-09-08
 * Fixes + models update
 
