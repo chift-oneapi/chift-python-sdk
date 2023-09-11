@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.12 - 2023-09-11
+* Payment: add new types
+
 ## 0.1.11 - 2023-09-11
 * Fixes + CI improvments
 

@@ -5280,6 +5280,88 @@
                 }
             }
         },
+        "/consumers/{consumer_id}/accounting/financial-entry": {
+            "post": {
+                "tags": [
+                    "Accounting"
+                ],
+                "summary": "Create a financial entry",
+                "description": "Create a new financial entry (Bank or Cash operation)",
+                "operationId": "accounting_create_financial_entry",
+                "parameters": [
+                    {
+                        "name": "consumer_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "title": "Consumer Id",
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FinancialEntryItemIn"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FinancialEntryItemOut"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "The account 'x' cannot be used for this type of line.",
+                                    "status": "error"
+                                },
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChiftError"
+                                }
+                            }
+                        },
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "The currency 'x' doesn't exist in the accounting system.",
+                                    "status": "error"
+                                },
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChiftError"
+                                }
+                            }
+                        },
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/consumers/{consumer_id}/pos/orders": {
             "get": {
                 "tags": [
@@ -10795,6 +10877,193 @@
                     }
                 }
             },
+            "FinancialEntryItemIn": {
+                "title": "FinancialEntryItemIn",
+                "required": [
+                    "date",
+                    "journal_id",
+                    "currency",
+                    "items"
+                ],
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "title": "Date",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "journal_id": {
+                        "title": "Journal Id",
+                        "type": "string",
+                        "description": "Indicates the journal used in for the operation."
+                    },
+                    "currency": {
+                        "title": "Currency",
+                        "type": "string",
+                        "description": "Indicates the currency of the operation (e.g. EUR)."
+                    },
+                    "currency_exchange_rate": {
+                        "title": "Currency Exchange Rate",
+                        "type": "number",
+                        "description": "Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.",
+                        "default": 1
+                    },
+                    "reference": {
+                        "title": "Reference",
+                        "type": "string"
+                    },
+                    "items": {
+                        "title": "Items",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FinancialEntryLineItem"
+                        }
+                    },
+                    "number": {
+                        "title": "Number",
+                        "type": "string"
+                    },
+                    "pdf": {
+                        "title": "Pdf",
+                        "type": "string",
+                        "description": "Base 64 string representing the PDF attached to the sale/purchase entry."
+                    }
+                }
+            },
+            "FinancialEntryItemOut": {
+                "title": "FinancialEntryItemOut",
+                "required": [
+                    "date",
+                    "journal_id",
+                    "currency",
+                    "items",
+                    "id",
+                    "number"
+                ],
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "title": "Date",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "journal_id": {
+                        "title": "Journal Id",
+                        "type": "string",
+                        "description": "Indicates the journal used in for the operation."
+                    },
+                    "currency": {
+                        "title": "Currency",
+                        "type": "string",
+                        "description": "Indicates the currency of the operation (e.g. EUR)."
+                    },
+                    "currency_exchange_rate": {
+                        "title": "Currency Exchange Rate",
+                        "type": "number",
+                        "description": "Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.",
+                        "default": 1
+                    },
+                    "reference": {
+                        "title": "Reference",
+                        "type": "string"
+                    },
+                    "items": {
+                        "title": "Items",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FinancialEntryLineItemOut"
+                        }
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string"
+                    },
+                    "number": {
+                        "title": "Number",
+                        "type": "string"
+                    }
+                }
+            },
+            "FinancialEntryLineItem": {
+                "title": "FinancialEntryLineItem",
+                "required": [
+                    "type",
+                    "account_number",
+                    "amount"
+                ],
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "$ref": "#/components/schemas/FinancialEntryLineType"
+                    },
+                    "account_number": {
+                        "title": "Account Number",
+                        "type": "string"
+                    },
+                    "partner_id": {
+                        "title": "Partner Id",
+                        "type": "string",
+                        "description": "Must be filled in it is a 'customer_account' or 'supplier_account' line type."
+                    },
+                    "amount": {
+                        "title": "Amount",
+                        "type": "number",
+                        "description": "A positive amount represents funds transfered to the bank/cash account. In that case the bank/cash account is debited and the given account_number is credited."
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string"
+                    }
+                }
+            },
+            "FinancialEntryLineItemOut": {
+                "title": "FinancialEntryLineItemOut",
+                "required": [
+                    "type",
+                    "account_number",
+                    "amount",
+                    "counterpart_account"
+                ],
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "$ref": "#/components/schemas/FinancialEntryLineType"
+                    },
+                    "account_number": {
+                        "title": "Account Number",
+                        "type": "string"
+                    },
+                    "partner_id": {
+                        "title": "Partner Id",
+                        "type": "string",
+                        "description": "Must be filled in it is a 'customer_account' or 'supplier_account' line type."
+                    },
+                    "amount": {
+                        "title": "Amount",
+                        "type": "number",
+                        "description": "A positive amount represents funds transfered to the bank/cash account. In that case the bank/cash account is debited and the given account_number is credited."
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string"
+                    },
+                    "counterpart_account": {
+                        "title": "Counterpart Account",
+                        "type": "string"
+                    }
+                }
+            },
+            "FinancialEntryLineType": {
+                "title": "FinancialEntryLineType",
+                "enum": [
+                    "customer_account",
+                    "supplier_account",
+                    "employee_account",
+                    "general_account"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
             "FlowConfig": {
                 "title": "FlowConfig",
                 "type": "object",
@@ -16009,7 +16278,12 @@
                 "enum": [
                     "all",
                     "unknown",
-                    "test"
+                    "payout",
+                    "payout_cancel",
+                    "payment",
+                    "payment_cancel",
+                    "fee",
+                    "fee_cancel"
                 ],
                 "type": "string",
                 "description": "An enumeration."
