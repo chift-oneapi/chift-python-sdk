@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import ClassVar
 
-from chift.api.mixins import CreateMixin, PaginationMixin, ReadMixin
+from chift.api.mixins import CreateMixin, ListMixin, PaginationMixin, ReadMixin
 from chift.openapi.models import Contact as ContactModel
 from chift.openapi.models import Invoice as InvoiceModel
 from chift.openapi.models import Opportunity as OpportunityModel
@@ -17,6 +17,7 @@ class InvoicingRouter:
         self.Contact = Contact(consumer_id, connection_id)
         self.Opportunity = Opportunity(consumer_id, connection_id)
         self.Tax = Tax(consumer_id, connection_id)
+        self.Custom = Custom(consumer_id, connection_id)
 
 
 class Product(
@@ -63,3 +64,16 @@ class Tax(ReadMixin[TaxModel], PaginationMixin[TaxModel]):
     chift_vertical: ClassVar = "invoicing"
     chift_model: ClassVar = "taxes"
     model = TaxModel
+
+
+class Custom(CreateMixin, PaginationMixin):
+    chift_vertical: ClassVar = "invoicing"
+    chift_model: ClassVar = "custom"
+
+    def all(self, custom_path, params=None, client=None, limit=None):
+        self.extra_path = custom_path
+        return super().all(params=params, map_model=False, client=client, limit=limit)
+
+    def create(self, custom_path, data, client=None):
+        self.extra_path = custom_path
+        return super().create(data, map_model=False, client=client)
