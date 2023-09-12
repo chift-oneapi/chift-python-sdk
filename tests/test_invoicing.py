@@ -153,3 +153,20 @@ def test_opportunity(invoicing_consumer: Consumer):
         consumer.invoicing.Opportunity.all()
 
     assert e.value.message == "API Resource does not exist"
+
+
+def test_custom(invoicing_consumer: Consumer):
+    consumer = invoicing_consumer
+
+    cashes = consumer.invoicing.Custom.all("cashes")
+    assert cashes
+
+    for cashe in cashes[:1]:  # 1 is enough
+        entries = consumer.invoicing.Custom.all(f"cashes/{cashe.get('cashid')}/entries")
+        assert entries
+
+        with pytest.raises(ChiftException) as e:
+            consumer.invoicing.Custom.create(
+                f"cashes/{cashe.get('cashid')}/entries", {}
+            )
+        assert "was not created" in e.value.message
