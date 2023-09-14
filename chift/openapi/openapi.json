@@ -7261,11 +7261,11 @@
                         "required": false,
                         "schema": {
                             "title": "Updated After",
-                            "description": "Filter orders last updated at or after this date (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC)",
+                            "description": "Filter orders last updated at or after this date (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC). UTC is the only format that is supported on all connectors.",
                             "type": "string",
                             "format": "date-time"
                         },
-                        "description": "Filter orders last updated at or after this date (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC)"
+                        "description": "Filter orders last updated at or after this date (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC). UTC is the only format that is supported on all connectors."
                     },
                     {
                         "name": "include_detailed_refunds",
