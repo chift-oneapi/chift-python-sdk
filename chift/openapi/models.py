@@ -20,7 +20,7 @@ from .openapi import (
     DataItemOut,
     DataStoreItem,
     IntegrationItem,
-    InvoiceItemOut,
+    InvoiceItemOutSingle,
     InvoiceItemOutMonoAnalyticPlan,
     JournalEntryMultiAnalyticPlan,
     MiscellaneousOperationOut,
@@ -246,7 +246,7 @@ class Integration(IntegrationItem):
 # invoicing
 
 
-class Invoice(InvoiceItemOut):
+class Invoice(InvoiceItemOutSingle):
     pass
 
 

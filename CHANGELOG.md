@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.13 - 2023-09-19
+* Invoicing: use model with pdf
+
 ## 0.1.12 - 2023-09-11
 * Payment: add new types
 
