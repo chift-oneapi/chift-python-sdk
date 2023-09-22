@@ -15,7 +15,7 @@ def chift():
 
 
 @pytest.fixture
-def invoicing_consumer(chift):
+def evoliz_consumer(chift):
     # get evoliz connection
     return chift.Consumer.get("0740d8ad-1920-48c6-8909-c0ea8f8be19e")
 
@@ -49,14 +49,3 @@ def custom_regate_consumer(chift):
 def two_connections_consumer(chift):
     # get consumer wth 2 connections for one vertical
     return chift.Consumer.get("bccbe8ed-a2eb-431b-9ba9-7264557fbafd")
-
-
-@pytest.fixture
-def sync_consumer(chift):
-    # get consumer with a sync
-    return chift.Consumer.get("0740d8ad-1920-48c6-8909-c0ea8f8be19e")
-
-
-@pytest.fixture
-def sync(chift):
-    return chift.Sync.get("0bf973a7-22e2-4cef-8ae9-c80e4104320a")

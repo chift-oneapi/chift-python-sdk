@@ -4,8 +4,8 @@ from chift.api.exceptions import ChiftException
 from chift.openapi.models import Consumer
 
 
-def test_log(invoicing_consumer: Consumer):
-    consumer = invoicing_consumer
+def test_log(two_connections_consumer: Consumer):
+    consumer = two_connections_consumer
 
     # will raise if no connectionid is set
     with pytest.raises(ChiftException) as e:
