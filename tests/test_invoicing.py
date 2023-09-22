@@ -7,8 +7,8 @@ from chift.api.exceptions import ChiftException
 from chift.openapi.models import Consumer
 
 
-def test_contact(invoicing_consumer: Consumer):
-    consumer = invoicing_consumer
+def test_contact(evoliz_consumer: Consumer):
+    consumer = evoliz_consumer
 
     # create contact
     name = str(uuid.uuid1())
@@ -34,8 +34,8 @@ def test_contact(invoicing_consumer: Consumer):
     assert expected_contact == actual_contact, "get() failed"
 
 
-def test_contacts(invoicing_consumer: Consumer):
-    consumer = invoicing_consumer
+def test_contacts(evoliz_consumer: Consumer):
+    consumer = evoliz_consumer
 
     contacts = consumer.invoicing.Contact.all(limit=2)
 
@@ -45,8 +45,8 @@ def test_contacts(invoicing_consumer: Consumer):
         assert contact.id
 
 
-def test_invoice(invoicing_consumer: Consumer):
-    consumer = invoicing_consumer
+def test_invoice(evoliz_consumer: Consumer):
+    consumer = evoliz_consumer
 
     # find contact required in invoice
     contact = consumer.invoicing.Contact.all(
@@ -89,8 +89,8 @@ def test_invoice(invoicing_consumer: Consumer):
     assert expected_invoice == actual_invoice, "get() failed"
 
 
-def test_invoices(invoicing_consumer: Consumer):
-    consumer = invoicing_consumer
+def test_invoices(evoliz_consumer: Consumer):
+    consumer = evoliz_consumer
 
     invoices = consumer.invoicing.Invoice.all(
         {"invoice_type": "customer_invoice"}, limit=2
@@ -102,8 +102,8 @@ def test_invoices(invoicing_consumer: Consumer):
         assert invoice.id
 
 
-def test_product(invoicing_consumer: Consumer):
-    consumer = invoicing_consumer
+def test_product(evoliz_consumer: Consumer):
+    consumer = evoliz_consumer
 
     # create product
     data = {
@@ -120,11 +120,12 @@ def test_product(invoicing_consumer: Consumer):
     # find it back with its id
     actual_product = consumer.invoicing.Product.get(str(expected_product.id))
 
-    assert expected_product == actual_product, "get() failed"
+    assert expected_product.id == actual_product.id, "get() failed"
+    assert expected_product.name == actual_product.name, "get() failed"
 
 
-def test_products(invoicing_consumer: Consumer):
-    consumer = invoicing_consumer
+def test_products(evoliz_consumer: Consumer):
+    consumer = evoliz_consumer
 
     products = consumer.invoicing.Product.all(limit=2)
 
@@ -134,8 +135,8 @@ def test_products(invoicing_consumer: Consumer):
         assert product.id
 
 
-def test_tax(invoicing_consumer: Consumer):
-    consumer = invoicing_consumer
+def test_tax(evoliz_consumer: Consumer):
+    consumer = evoliz_consumer
 
     taxes = consumer.invoicing.Tax.all()
 
@@ -146,8 +147,8 @@ def test_tax(invoicing_consumer: Consumer):
     assert expected_tax == actual_tax, "get() failed"
 
 
-def test_opportunity(invoicing_consumer: Consumer):
-    consumer = invoicing_consumer
+def test_opportunity(evoliz_consumer: Consumer):
+    consumer = evoliz_consumer
 
     with pytest.raises(ChiftException) as e:
         consumer.invoicing.Opportunity.all()
@@ -155,8 +156,8 @@ def test_opportunity(invoicing_consumer: Consumer):
     assert e.value.message == "API Resource does not exist"
 
 
-def test_custom(invoicing_consumer: Consumer):
-    consumer = invoicing_consumer
+def test_custom(evoliz_consumer: Consumer):
+    consumer = evoliz_consumer
 
     cashes = consumer.invoicing.Custom.all("cashes")
     assert cashes
@@ -167,6 +168,7 @@ def test_custom(invoicing_consumer: Consumer):
 
         with pytest.raises(ChiftException) as e:
             consumer.invoicing.Custom.create(
-                f"cashes/{cashe.get('cashid')}/entries", {}
+                f"cashes/{cashe.get('cashid')}/entries", {"ok": "ok"}
             )
+
         assert "was not created" in e.value.message

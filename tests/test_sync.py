@@ -147,6 +147,12 @@ def _get_flow_data(
     return data
 
 
+def get_sync(chift):
+    # TODO: improve this once sync creation endpoint is there
+    syncs = chift.Sync.all()
+    return syncs[0]
+
+
 def test_sync(chift):
     syncs = chift.Sync.all()
 
@@ -199,7 +205,7 @@ def test_flow_update(chift):
     chift.Flow.delete(sync.syncid, flow_created.id)
 
 
-def test_flow_execution_code(chift):
+def test_flow_create_trigger_code(chift):
     syncs = chift.Sync.all()
 
     sync: Sync = syncs[0]
@@ -211,7 +217,7 @@ def test_flow_execution_code(chift):
     chift.Flow.trigger(sync.syncid, flow_created.id, {})
 
 
-def test_flow_execution_chain(chift):
+def test_flow_create_trigger_module(chift):
     syncs = chift.Sync.all()
     sync: Sync = syncs[0]
 
@@ -224,7 +230,7 @@ def test_flow_execution_chain(chift):
     chift.Flow.trigger(sync.syncid, flow_created.id, {})
 
 
-def test_flow_trigger_timer(chift):
+def test_flow_create_trigger_timer(chift):
     syncs = chift.Sync.all()
 
     sync: Sync = syncs[0]
@@ -235,7 +241,9 @@ def test_flow_trigger_timer(chift):
     assert flow_created
 
 
-def test_create_flow(chift, sync):
+def test_create_flow(chift):
+    sync = get_sync(chift)
+
     datastore_name = str(uuid.uuid1())
     data = _get_flow_data(
         flow_name="Migration de factures",
@@ -246,42 +254,33 @@ def test_create_flow(chift, sync):
 
     assert flow_created.id in [flow.id for flow in chift.Sync.get(sync.syncid).flows]
 
+    # let's trigger it
+    res = chift.Flow.trigger(
+        sync.syncid,
+        flow_created.id,
+        {},
+    )
+    status = chift.Flow.chainexecution(
+        sync.syncid, flow_created.id, res["data"]["executionid"]
+    )
+    assert status.get("status")
 
-def test_trigger_flows(chift, sync):
-    assert sync.flows
+    # let's trigger it for one consumer
+    chift.Flow.trigger(
+        sync.syncid,
+        flow_created.id,
+        {"consumers": sync.consumers[:1]},
+    )
 
-    for flow in sync.flows:
-        res = chift.Flow.trigger(
-            sync.syncid,
-            flow.id,
-            {},
-        )
-        status = chift.Flow.chainexecution(
-            sync.syncid, flow.id, res["data"]["executionid"]
-        )
-        assert status.get("status")
-
-        break  # one is engough
-
-
-def test_trigger_flows_for_consumer(chift, sync):
-    assert sync.flows
-
-    for flow in sync.flows:
-        chift.Flow.trigger(
-            sync.syncid,
-            flow.id,
-            {"consumers": sync.consumers[:1]},
-        )
-        # test getting sync for consumer info
-        consumer = chift.Consumer.get(sync.consumers[0])
-        info = consumer.Sync.get(sync.syncid)
-        assert info
-
-        break  # one is engough
+    # test getting sync for consumer info
+    consumer = chift.Consumer.get(sync.consumers[0])
+    info = consumer.Sync.get(sync.syncid)
+    assert info
 
 
-def test_datastore(chift, sync):
+def test_datastore(chift):
+    sync = get_sync(chift)
+
     consumer = chift.Consumer.get(sync.consumers[0])
     datastore = sync.flows[0].config.datastores[0]
 
