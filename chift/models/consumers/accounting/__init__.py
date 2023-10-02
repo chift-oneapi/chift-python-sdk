@@ -4,9 +4,12 @@ from chift.api.mixins import CreateMixin, PaginationMixin, ReadMixin, UpdateMixi
 from chift.openapi.models import Account as AccountModel
 from chift.openapi.models import AnalyticPlan as AnalyticPlanModel
 from chift.openapi.models import Client as ClientModel
+from chift.openapi.models import FinancialEntry as FinancialEntryModel
 from chift.openapi.models import InvoiceAccounting as InvoiceAccountingModel
+from chift.openapi.models import Journal as JournalModel
 from chift.openapi.models import JournalEntry as JournalEntryModel
 from chift.openapi.models import MiscellaneousOperation as MiscellaneousOperationModel
+from chift.openapi.models import Outstanding as OutstandingModel
 from chift.openapi.models import Supplier as SupplierModel
 from chift.openapi.models import TaxAccounting as TaxAccountingModel
 
@@ -21,6 +24,9 @@ class AccountingRouter:
         self.Supplier = Supplier(consumer_id, connection_id)
         self.Invoice = Invoice(consumer_id, connection_id)
         self.JournalEntry = JournalEntry(consumer_id, connection_id)
+        self.FinancialEntry = FinancialEntry(consumer_id, connection_id)
+        self.Outstanding = Outstanding(consumer_id, connection_id)
+        self.Journal = Journal(consumer_id, connection_id)
 
 
 class AnalyticPlan(PaginationMixin[AnalyticPlanModel]):
@@ -98,3 +104,27 @@ class JournalEntry(
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "journal/entries"
     model = JournalEntryModel
+
+
+class FinancialEntry(
+    CreateMixin[FinancialEntryModel],
+):
+    chift_vertical: ClassVar = "accounting"
+    chift_model: ClassVar = "financial-entry"
+    model = FinancialEntryModel
+
+
+class Outstanding(
+    PaginationMixin[OutstandingModel],
+):
+    chift_vertical: ClassVar = "accounting"
+    chift_model: ClassVar = "outstandings"
+    model = OutstandingModel
+
+
+class Journal(
+    PaginationMixin[JournalModel],
+):
+    chift_vertical: ClassVar = "accounting"
+    chift_model: ClassVar = "journals"
+    model = JournalModel

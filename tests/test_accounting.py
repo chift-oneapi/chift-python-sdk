@@ -1,3 +1,6 @@
+import pytest
+
+from chift.api.exceptions import ChiftException
 from chift.openapi.models import Consumer
 
 
@@ -124,3 +127,57 @@ def test_journal_entries(accounting_consumer: Consumer):
 
     # we will assume not raising error is ok
     # assert entries
+
+
+def test_journals(accounting_consumer: Consumer):
+    consumer = accounting_consumer
+
+    journals = consumer.accounting.Journal.all(
+        limit=2,
+    )
+
+    for journal in journals:
+        assert journal.id
+
+
+def test_financial_entries(accounting_consumer: Consumer):
+    consumer = accounting_consumer
+
+    journals = consumer.accounting.Journal.all()
+    accounts = consumer.accounting.Account.all()
+
+    for account in accounts:
+        if account.type.value == "other_financial":
+            account = account
+            break
+
+    for journal in journals:
+        if journal.journal_type.value == "financial_operation":
+            financial_entry = consumer.accounting.FinancialEntry.create(
+                {
+                    "date": "2023-08-01",
+                    "journal_id": journal.id,
+                    "currency": "EUR",
+                    "items": [
+                        {
+                            "type": "general_account",
+                            "account_number": account.number,
+                            "amount": 1,
+                        }
+                    ],
+                },
+            )
+            break
+
+    assert financial_entry
+
+
+def test_outstandings(accounting_consumer: Consumer):
+    consumer = accounting_consumer
+
+    with pytest.raises(ChiftException) as e:
+        consumer.accounting.Outstanding.all(
+            params={"type": "client", "unposted_allowed": "false"},
+            limit=2,
+        )
+    assert e.value.message == "API Resource does not exist"

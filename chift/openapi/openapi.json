@@ -482,7 +482,7 @@
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "message": "The specified connection could not be found for this account",
+                                    "message": "The connection does not exist",
                                     "status": "error"
                                 },
                                 "schema": {
@@ -555,7 +555,7 @@
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "message": "The specified connection could not be found for this account",
+                                    "message": "The connection does not exist",
                                     "status": "error"
                                 },
                                 "schema": {
@@ -610,6 +610,70 @@
                                 }
                             }
                         }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/integrations/{integrationid}/{image_type}.json": {
+            "get": {
+                "tags": [
+                    "Integrations"
+                ],
+                "summary": "Returns a logo/icon of an integration (as base64)",
+                "operationId": "integrations_get_integration_logo_json",
+                "parameters": [
+                    {
+                        "name": "integrationid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "title": "Integrationid",
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "image_type",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/ImageType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LogoImage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "The {image_type} doesn't exist.",
+                                    "status": "error"
+                                },
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChiftError"
+                                }
+                            }
+                        },
+                        "description": "Not Found"
                     },
                     "422": {
                         "description": "Validation Error",
@@ -1135,6 +1199,108 @@
                         "content": {
                             "application/json": {
                                 "example": {
+                                    "message": "The chain does not exist",
+                                    "status": "error"
+                                },
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChiftError"
+                                }
+                            }
+                        },
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/consumers/{consumerid}/syncs/{syncid}/flows/{flowid}/executions": {
+            "get": {
+                "tags": [
+                    "Consumers"
+                ],
+                "summary": "Get executions information for one consumer/flow/sync",
+                "description": "Returns executions information for one consumer/flow/sync",
+                "operationId": "syncs_get_consumer_executions",
+                "parameters": [
+                    {
+                        "name": "consumerid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "title": "Consumerid",
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "syncid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "title": "Syncid",
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "flowid",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "title": "Flowid",
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "date_to",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Date To",
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "date_from",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Date From",
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Syncs Get Consumer Executions",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ChainExecutionItem"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "example": {
                                     "message": "The flow does not exist",
                                     "status": "error"
                                 },
@@ -1191,6 +1357,15 @@
                         "required": true,
                         "schema": {
                             "title": "Executionid",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "consumerid",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Consumerid",
                             "type": "string"
                         }
                     }
@@ -1456,6 +1631,26 @@
                             "title": "Datastoreid",
                             "type": "string",
                             "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "date_to",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Date To",
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "date_from",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Date From",
+                            "type": "string",
+                            "format": "date-time"
                         }
                     },
                     {
@@ -5298,6 +5493,17 @@
                             "type": "string",
                             "format": "uuid"
                         }
+                    },
+                    {
+                        "name": "financial_counterpart_account",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Financial Counterpart Account",
+                            "description": "Counterpart account number of the bank/cash journal. This will be retrieved from the accounting settings if left empty.",
+                            "type": "string"
+                        },
+                        "description": "Counterpart account number of the bank/cash journal. This will be retrieved from the accounting settings if left empty."
                     }
                 ],
                 "requestBody": {
@@ -5348,6 +5554,103 @@
                             }
                         },
                         "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/consumers/{consumer_id}/accounting/outstandings": {
+            "get": {
+                "tags": [
+                    "Accounting"
+                ],
+                "summary": "Get clients/suppliers outstandings",
+                "description": "Returns a list of all clients/suppliers outstanding's informations",
+                "operationId": "accounting_get_outstandings",
+                "parameters": [
+                    {
+                        "name": "consumer_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "title": "Consumer Id",
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/OutstandingType"
+                        }
+                    },
+                    {
+                        "name": "unposted_allowed",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/BoolParam"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Page",
+                            "default": 1,
+                            "minimum": 1,
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Size",
+                            "default": 50,
+                            "minimum": 1,
+                            "maximum": 100,
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Page_OutstandingItem_"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Error while trying to perform your request",
+                                    "status": "error"
+                                },
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChiftError"
+                                }
+                            }
+                        },
+                        "description": "Bad Request"
                     },
                     "422": {
                         "description": "Validation Error",
@@ -10001,6 +10304,10 @@
                         "title": "Account Number",
                         "type": "string"
                     },
+                    "company_number": {
+                        "title": "Company Number",
+                        "type": "string"
+                    },
                     "id": {
                         "title": "Id",
                         "type": "string"
@@ -11003,7 +11310,7 @@
                     "partner_id": {
                         "title": "Partner Id",
                         "type": "string",
-                        "description": "Must be filled in it is a 'customer_account' or 'supplier_account' line type."
+                        "description": "Must be filled in it is a 'customer_account', 'supplier_account' or 'employee_account' line type."
                     },
                     "amount": {
                         "title": "Amount",
@@ -11036,7 +11343,7 @@
                     "partner_id": {
                         "title": "Partner Id",
                         "type": "string",
-                        "description": "Must be filled in it is a 'customer_account' or 'supplier_account' line type."
+                        "description": "Must be filled in it is a 'customer_account', 'supplier_account' or 'employee_account' line type."
                     },
                     "amount": {
                         "title": "Amount",
@@ -11286,13 +11593,23 @@
                     }
                 }
             },
+            "ImageType": {
+                "title": "ImageType",
+                "enum": [
+                    "icon",
+                    "logo"
+                ],
+                "description": "An enumeration."
+            },
             "IntegrationItem": {
                 "title": "IntegrationItem",
                 "required": [
                     "integrationid",
                     "name",
                     "status",
-                    "api"
+                    "api",
+                    "logo_url",
+                    "icon_url"
                 ],
                 "type": "object",
                 "properties": {
@@ -11309,6 +11626,14 @@
                     },
                     "api": {
                         "$ref": "#/components/schemas/Api"
+                    },
+                    "logo_url": {
+                        "title": "Logo Url",
+                        "type": "string"
+                    },
+                    "icon_url": {
+                        "title": "Icon Url",
+                        "type": "string"
                     },
                     "credentials": {
                         "title": "Credentials",
@@ -12998,7 +13323,8 @@
                     "supplier_invoice",
                     "supplier_refund",
                     "financial_operation",
-                    "miscellaneous_operation"
+                    "miscellaneous_operation",
+                    "unknown"
                 ],
                 "type": "string",
                 "description": "An enumeration."
@@ -13025,6 +13351,24 @@
                 "properties": {
                     "url": {
                         "title": "Url",
+                        "type": "string"
+                    }
+                }
+            },
+            "LogoImage": {
+                "title": "LogoImage",
+                "required": [
+                    "integrationid",
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "integrationid": {
+                        "title": "Integrationid",
+                        "type": "string"
+                    },
+                    "data": {
+                        "title": "Data",
                         "type": "string"
                     }
                 }
@@ -13914,6 +14258,91 @@
                     "cancelled",
                     "draft",
                     "confirmed"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "OutstandingItem": {
+                "title": "OutstandingItem",
+                "required": [
+                    "id",
+                    "journal_id",
+                    "journal_type",
+                    "date",
+                    "currency",
+                    "currency_exchange_rate",
+                    "amount",
+                    "open_amount",
+                    "partner_id",
+                    "account_number",
+                    "posted"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "string"
+                    },
+                    "number": {
+                        "title": "Number",
+                        "type": "string"
+                    },
+                    "journal_id": {
+                        "title": "Journal Id",
+                        "type": "string"
+                    },
+                    "journal_type": {
+                        "$ref": "#/components/schemas/JournalType"
+                    },
+                    "date": {
+                        "title": "Date",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "due_date": {
+                        "title": "Due Date",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "currency": {
+                        "title": "Currency",
+                        "type": "string"
+                    },
+                    "currency_exchange_rate": {
+                        "title": "Currency Exchange Rate",
+                        "type": "number"
+                    },
+                    "amount": {
+                        "title": "Amount",
+                        "type": "number"
+                    },
+                    "open_amount": {
+                        "title": "Open Amount",
+                        "type": "number"
+                    },
+                    "partner_id": {
+                        "title": "Partner Id",
+                        "type": "string"
+                    },
+                    "account_number": {
+                        "title": "Account Number",
+                        "type": "string"
+                    },
+                    "reference": {
+                        "title": "Reference",
+                        "type": "string"
+                    },
+                    "posted": {
+                        "title": "Posted",
+                        "type": "boolean"
+                    }
+                }
+            },
+            "OutstandingType": {
+                "title": "OutstandingType",
+                "enum": [
+                    "client",
+                    "supplier"
                 ],
                 "type": "string",
                 "description": "An enumeration."
@@ -14822,6 +15251,40 @@
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/OrderItem"
+                        }
+                    },
+                    "total": {
+                        "title": "Total",
+                        "minimum": 0.0,
+                        "type": "integer"
+                    },
+                    "page": {
+                        "title": "Page",
+                        "minimum": 1.0,
+                        "type": "integer"
+                    },
+                    "size": {
+                        "title": "Size",
+                        "minimum": 1.0,
+                        "type": "integer"
+                    }
+                }
+            },
+            "Page_OutstandingItem_": {
+                "title": "Page[OutstandingItem]",
+                "required": [
+                    "items",
+                    "total",
+                    "page",
+                    "size"
+                ],
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "title": "Items",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OutstandingItem"
                         }
                     },
                     "total": {
@@ -15990,6 +16453,10 @@
                     },
                     "account_number": {
                         "title": "Account Number",
+                        "type": "string"
+                    },
+                    "company_number": {
+                        "title": "Company Number",
                         "type": "string"
                     },
                     "id": {
