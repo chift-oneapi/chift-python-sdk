@@ -9,6 +9,7 @@ from .openapi import (
     AnalyticAccountItemOut,
     AppRoutersAccountingVatCode,
     AppRoutersCommerceProductItem,
+    BalanceItemOut,
     ClientItemOut,
     ClosureItem,
     CommerceCustomerItem,
@@ -373,4 +374,8 @@ class CommerceVariant(VariantItem):
 
 
 class PaymentTransaction(TransactionItemOut):
+    pass
+
+
+class PaymentBalance(BalanceItemOut):
     pass

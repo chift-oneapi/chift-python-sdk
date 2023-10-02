@@ -1,5 +1,9 @@
 # Changelog
 
+
+## 0.1.18 - 2023-10-09
+* Payment: add balances endpoints
+
 ## 0.1.17 - 2023-10-09
 * Accounting: generic endpoint for entries creation
 

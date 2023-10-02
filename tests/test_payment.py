@@ -10,3 +10,14 @@ def test_transactions(payment_consumer: Consumer):
 
     for transaction in transactions:
         assert transaction.id
+
+
+def test_balances(payment_consumer: Consumer):
+    consumer = payment_consumer
+
+    balances = consumer.payment.Balance.all(limit=2)
+
+    assert balances
+
+    for balance in balances:
+        assert balance.id
