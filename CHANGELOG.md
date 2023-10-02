@@ -2,6 +2,9 @@
 
 
 ## 0.1.14 - 2023-09-22
+* Accounting: add outstandings, financial-entry endpoints
+
+## 0.1.14 - 2023-09-22
 * Invoicing: add support for custom endpoints
 
 ## 0.1.13 - 2023-09-19

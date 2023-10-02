@@ -19,15 +19,18 @@ from .openapi import (
     DataItem,
     DataItemOut,
     DataStoreItem,
+    FinancialEntryItemOut,
     IntegrationItem,
     InvoiceItemOutMonoAnalyticPlan,
     InvoiceItemOutSingle,
+    Journal,
     JournalEntryMultiAnalyticPlan,
     MiscellaneousOperationOut,
     ModelsInvoicingVatCode,
     OpportunityItem,
     OrderItem,
     OrderItemOut,
+    OutstandingItem,
     PaymentItem,
     PaymentMethods,
     POSCustomerItem,
@@ -296,6 +299,18 @@ class InvoiceAccounting(InvoiceItemOutMonoAnalyticPlan):
 
 
 class JournalEntry(JournalEntryMultiAnalyticPlan):
+    pass
+
+
+class FinancialEntry(FinancialEntryItemOut):
+    pass
+
+
+class Outstanding(OutstandingItem):
+    pass
+
+
+class Journal(Journal):
     pass
 
 

@@ -1,3 +1,4 @@
+import datetime
 import uuid
 
 from chift.openapi.models import Consumer
@@ -89,7 +90,8 @@ def test_create_invoice(custom_regate_consumer: Consumer):
         "urgent": False,
         "vat_paid": "receipts",
         "customer_id": "16b9969d-5d89-4fc5-8a84-46d7dcd89f4d",
-        "due_date": "2023-01-31",
+        "delivery_date": datetime.datetime.now().strftime("%Y-%m-%d"),
+        "due_date": datetime.datetime.now().strftime("%Y-%m-%d"),
         "lines": [
             {
                 "quantity": 1,
