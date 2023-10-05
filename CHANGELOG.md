@@ -1,6 +1,9 @@
 # Changelog
 
 
+## 0.1.16 - 2023-10-05
+* Errors: missing detail in error
+
 ## 0.1.15 - 2023-09-22
 * Accounting: add outstandings, financial-entry endpoints
 

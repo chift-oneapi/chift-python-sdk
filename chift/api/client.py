@@ -147,7 +147,9 @@ class ChiftClient:
 
         if isinstance(result, dict) and result.get("status") == "error":
             raise exceptions.ChiftException(
-                result.get("message"), error_code=result.get("error_code")
+                result.get("message"),
+                error_code=result.get("error_code"),
+                detail=result.get("detail"),
             )
         elif not req.status_code == httplib.OK:
             raise exceptions.ChiftException(
