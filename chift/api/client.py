@@ -62,7 +62,7 @@ class ChiftClient:
     related_chain_execution_id = None
 
     __instance = None
-    __use_global = True
+    __use_global = False
 
     def __new__(cls, **kwargs):
         """
