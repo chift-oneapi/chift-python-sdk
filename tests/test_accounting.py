@@ -1,5 +1,6 @@
-import pytest
 import uuid
+
+import pytest
 
 from chift.api.exceptions import ChiftException
 from chift.openapi.models import Consumer
@@ -139,7 +140,7 @@ def test_journal_entries(pennylane_consumer: Consumer):
                     "description": "test credit",
                     "debit": 0,
                     "credit": 1,
-                }
+                },
             ],
         },
     )
