@@ -1,5 +1,7 @@
 # Changelog
 
+## 0.1.17 - 2023-10-09
+* Accounting: generic endpoint for entries creation
 
 ## 0.1.16 - 2023-10-05
 * Errors: missing detail in error

@@ -27,6 +27,7 @@ class AccountingRouter:
         self.FinancialEntry = FinancialEntry(consumer_id, connection_id)
         self.Outstanding = Outstanding(consumer_id, connection_id)
         self.Journal = Journal(consumer_id, connection_id)
+        self.Entry = Entry(consumer_id, connection_id)
 
 
 class AnalyticPlan(PaginationMixin[AnalyticPlanModel]):
@@ -97,12 +98,20 @@ class Invoice(
         return super().all(limit=limit, client=client)
 
 
+# deprecated
 class JournalEntry(
     PaginationMixin[JournalEntryModel],
-    CreateMixin[JournalEntryModel],
 ):
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "journal/entries"
+    model = JournalEntryModel
+
+
+class Entry(
+    CreateMixin[JournalEntryModel],
+):
+    chift_vertical: ClassVar = "accounting"
+    chift_model: ClassVar = "journal-entries"
     model = JournalEntryModel
 
 

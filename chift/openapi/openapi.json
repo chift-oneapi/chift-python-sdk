@@ -5665,6 +5665,104 @@
                 }
             }
         },
+        "/consumers/{consumer_id}/accounting/attachments": {
+            "get": {
+                "tags": [
+                    "Accounting"
+                ],
+                "summary": "Get attachments",
+                "description": "Returns a list of all attachments linked to an accounting entry",
+                "operationId": "accounting_get_attachments",
+                "parameters": [
+                    {
+                        "name": "consumer_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "title": "Consumer Id",
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/DocumentType"
+                        }
+                    },
+                    {
+                        "name": "document_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "title": "Document Id",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Page",
+                            "default": 1,
+                            "minimum": 1,
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Size",
+                            "default": 50,
+                            "minimum": 1,
+                            "maximum": 100,
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Page_AttachmentItemOut_"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Error while trying to perform your request",
+                                    "status": "error"
+                                },
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChiftError"
+                                }
+                            }
+                        },
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/consumers/{consumer_id}/pos/orders": {
             "get": {
                 "tags": [
@@ -9156,6 +9254,87 @@
                 }
             }
         },
+        "/consumers/{consumer_id}/payment/balances": {
+            "get": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Retrieve all Balances",
+                "description": "Returns a list of balances.",
+                "operationId": "payment_get_balances",
+                "parameters": [
+                    {
+                        "name": "consumer_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "title": "Consumer Id",
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Page",
+                            "default": 1,
+                            "minimum": 1,
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Size",
+                            "default": 50,
+                            "minimum": 1,
+                            "maximum": 100,
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Page_BalanceItemOut_"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Error while trying to perform your request",
+                                    "status": "error"
+                                },
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChiftError"
+                                }
+                            }
+                        },
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/consumers/{consumer_id}/payment/transactions": {
             "get": {
                 "tags": [
@@ -9200,6 +9379,17 @@
                             "type": "string"
                         },
                         "description": "Get all transactions more recent than this one excluded"
+                    },
+                    {
+                        "name": "balance_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Balance Id",
+                            "description": "Get all transactions for a specific balance",
+                            "type": "string"
+                        },
+                        "description": "Get all transactions for a specific balance"
                     },
                     {
                         "name": "date_from",
@@ -9855,6 +10045,24 @@
                     }
                 }
             },
+            "AttachmentItemOut": {
+                "title": "AttachmentItemOut",
+                "required": [
+                    "id",
+                    "base64_string"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "string"
+                    },
+                    "base64_string": {
+                        "title": "Base64 String",
+                        "type": "string"
+                    }
+                }
+            },
             "AuthItem": {
                 "title": "AuthItem",
                 "required": [
@@ -9876,6 +10084,49 @@
                         "title": "Accountid",
                         "type": "string",
                         "format": "uuid"
+                    }
+                }
+            },
+            "BalanceItemOut": {
+                "title": "BalanceItemOut",
+                "required": [
+                    "id",
+                    "source_ref",
+                    "availale_amount",
+                    "currency",
+                    "create_date"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "description": "Technical id in Chift"
+                    },
+                    "source_ref": {
+                        "title": "Source Ref",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Ref"
+                            }
+                        ],
+                        "description": "Technical id in the target software"
+                    },
+                    "availale_amount": {
+                        "title": "Availale Amount",
+                        "type": "number",
+                        "description": "Total amount available"
+                    },
+                    "currency": {
+                        "title": "Currency",
+                        "type": "string",
+                        "description": "Currency"
+                    },
+                    "create_date": {
+                        "title": "Create Date",
+                        "type": "string",
+                        "description": "Create Date",
+                        "format": "date-time"
                     }
                 }
             },
@@ -11030,7 +11281,7 @@
                         "title": "Type",
                         "type": "string"
                     },
-                    "Optional": {
+                    "optional": {
                         "title": "Optional",
                         "type": "boolean",
                         "default": false
@@ -11057,6 +11308,15 @@
                         "description": "Column name that will be indexed and used in search if any."
                     }
                 }
+            },
+            "DocumentType": {
+                "title": "DocumentType",
+                "enum": [
+                    "invoice",
+                    "entry"
+                ],
+                "type": "string",
+                "description": "An enumeration."
             },
             "EmployeeItem": {
                 "title": "EmployeeItem",
@@ -11112,6 +11372,17 @@
                         "type": "string"
                     }
                 }
+            },
+            "EntryLineType": {
+                "title": "EntryLineType",
+                "enum": [
+                    "customer_account",
+                    "supplier_account",
+                    "employee_account",
+                    "general_account"
+                ],
+                "type": "string",
+                "description": "An enumeration."
             },
             "ExecutionType": {
                 "title": "ExecutionType",
@@ -11301,7 +11572,7 @@
                 "type": "object",
                 "properties": {
                     "type": {
-                        "$ref": "#/components/schemas/FinancialEntryLineType"
+                        "$ref": "#/components/schemas/EntryLineType"
                     },
                     "account_number": {
                         "title": "Account Number",
@@ -11334,7 +11605,7 @@
                 "type": "object",
                 "properties": {
                     "type": {
-                        "$ref": "#/components/schemas/FinancialEntryLineType"
+                        "$ref": "#/components/schemas/EntryLineType"
                     },
                     "account_number": {
                         "title": "Account Number",
@@ -11359,17 +11630,6 @@
                         "type": "string"
                     }
                 }
-            },
-            "FinancialEntryLineType": {
-                "title": "FinancialEntryLineType",
-                "enum": [
-                    "customer_account",
-                    "supplier_account",
-                    "employee_account",
-                    "general_account"
-                ],
-                "type": "string",
-                "description": "An enumeration."
             },
             "FlowConfig": {
                 "title": "FlowConfig",
@@ -12482,7 +12742,6 @@
             "InvoiceLineItem": {
                 "title": "InvoiceLineItem",
                 "required": [
-                    "description",
                     "unit_price",
                     "quantity",
                     "tax_amount",
@@ -14639,6 +14898,74 @@
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/AnalyticPlanItem"
+                        }
+                    },
+                    "total": {
+                        "title": "Total",
+                        "minimum": 0.0,
+                        "type": "integer"
+                    },
+                    "page": {
+                        "title": "Page",
+                        "minimum": 1.0,
+                        "type": "integer"
+                    },
+                    "size": {
+                        "title": "Size",
+                        "minimum": 1.0,
+                        "type": "integer"
+                    }
+                }
+            },
+            "Page_AttachmentItemOut_": {
+                "title": "Page[AttachmentItemOut]",
+                "required": [
+                    "items",
+                    "total",
+                    "page",
+                    "size"
+                ],
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "title": "Items",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AttachmentItemOut"
+                        }
+                    },
+                    "total": {
+                        "title": "Total",
+                        "minimum": 0.0,
+                        "type": "integer"
+                    },
+                    "page": {
+                        "title": "Page",
+                        "minimum": 1.0,
+                        "type": "integer"
+                    },
+                    "size": {
+                        "title": "Size",
+                        "minimum": 1.0,
+                        "type": "integer"
+                    }
+                }
+            },
+            "Page_BalanceItemOut_": {
+                "title": "Page[BalanceItemOut]",
+                "required": [
+                    "items",
+                    "total",
+                    "page",
+                    "size"
+                ],
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "title": "Items",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BalanceItemOut"
                         }
                     },
                     "total": {

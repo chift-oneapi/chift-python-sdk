@@ -1,4 +1,5 @@
 import pytest
+import uuid
 
 from chift.api.exceptions import ChiftException
 from chift.openapi.models import Consumer
@@ -112,21 +113,52 @@ def test_invoice(accounting_consumer: Consumer):
         assert invoice == expected_invoice
 
 
-def test_journal_entries(accounting_consumer: Consumer):
-    consumer = accounting_consumer
+def test_journal_entries(pennylane_consumer: Consumer):
+    consumer = pennylane_consumer
+
+    journals = consumer.accounting.Journal.all()
+    accounts = consumer.accounting.Account.all()
+
+    entry = consumer.accounting.Entry.create(
+        {
+            "date": "2023-08-01",
+            "number": str(uuid.uuid4()),
+            "journal_id": journals[0].id,
+            "currency": "EUR",
+            "items": [
+                {
+                    "account": accounts[0].number,
+                    "account_type": "general_account",
+                    "description": "test debit",
+                    "debit": 1,
+                    "credit": 0,
+                },
+                {
+                    "account": accounts[0].number,
+                    "account_type": "general_account",
+                    "description": "test credit",
+                    "debit": 0,
+                    "credit": 1,
+                }
+            ],
+        },
+    )
+
+    assert entry
 
     entries = consumer.accounting.JournalEntry.all(
         {
-            "unposted_allowed": "false",
+            "unposted_allowed": "true",
             "date_from": "2023-08-01",
             "date_to": "2023-08-31",
-            "journal_id": "8",
+            "journal_id": journals[0].id,
         },
         limit=2,
     )
 
-    # we will assume not raising error is ok
-    # assert entries
+    assert entries
+
+    # assert entry.id in [entry.id for entry in entries] NOK with caching
 
 
 def test_journals(accounting_consumer: Consumer):

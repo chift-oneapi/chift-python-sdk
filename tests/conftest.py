@@ -21,6 +21,12 @@ def evoliz_consumer(chift):
 
 
 @pytest.fixture
+def pennylane_consumer(chift):
+    # get pennylane v2 connection
+    return chift.Consumer.get("e7a0051b-b314-4961-861d-3b65749fd33b")
+
+
+@pytest.fixture
 def accounting_consumer(chift):
     return chift.Consumer.get("0740d8ad-1920-48c6-8909-c0ea8f8be19e")
 
