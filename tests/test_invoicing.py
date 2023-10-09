@@ -7,10 +7,7 @@ from chift.api.exceptions import ChiftException
 from chift.openapi.models import Consumer
 
 
-def test_contact(evoliz_consumer: Consumer):
-    consumer = evoliz_consumer
-
-    # create contact
+def create_contact(consumer: Consumer):
     name = str(uuid.uuid1())
     data = {
         "first_name": name,
@@ -24,7 +21,13 @@ def test_contact(evoliz_consumer: Consumer):
             }
         ],
     }
-    expected_contact = consumer.invoicing.Contact.create(data)
+    return consumer.invoicing.Contact.create(data)
+
+
+def test_contact(evoliz_consumer: Consumer):
+    consumer = evoliz_consumer
+
+    expected_contact = create_contact(consumer)
 
     assert expected_contact.id, "create() failed"
 
@@ -49,9 +52,7 @@ def test_invoice(evoliz_consumer: Consumer):
     consumer = evoliz_consumer
 
     # find contact required in invoice
-    contact = consumer.invoicing.Contact.all(
-        limit=1, params={"contact_type": "customer"}
-    )[0]
+    contact = create_contact(consumer)
 
     # create invoice
     data = {
