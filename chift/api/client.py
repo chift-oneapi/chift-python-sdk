@@ -3,6 +3,8 @@ import json
 from datetime import datetime
 
 import requests
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 
 from chift.api import exceptions
 
@@ -95,6 +97,7 @@ class ChiftClient:
         self.related_chain_execution_id = (
             kwargs.get("related_chain_execution_id") or related_chain_execution_id
         )
+        self.max_retries = kwargs.get("max_retries")
         self._start_session()
 
     def _start_session(self):
@@ -107,6 +110,15 @@ class ChiftClient:
                 self.url_base,
                 self.env_id,
             )
+
+            if self.max_retries:
+                retries = Retry(
+                    total=int(self.max_retries),
+                    backoff_factor=0.1,
+                    status_forcelist=[502],
+                )
+                self.session.mount("http://", HTTPAdapter(max_retries=retries))
+                self.session.mount("https://", HTTPAdapter(max_retries=retries))
 
     def make_request(
         self, request_type, url, data=None, content_type="application/json", params=None
@@ -129,9 +141,14 @@ class ChiftClient:
         if self.related_chain_execution_id:
             headers["x-chift-relatedchainexecutionid"] = self.related_chain_execution_id
 
-        req = self.process_request(
-            request_type, url, headers=headers, params=params, json=data
-        )
+        try:
+            req = self.process_request(
+                request_type, url, headers=headers, params=params, json=data
+            )
+        except requests.exceptions.RetryError as e:
+            raise exceptions.ChiftException(
+                f"After {self.max_retries} retries, the request failed."
+            )
 
         if req.status_code == httplib.UNAUTHORIZED:
             raise exceptions.ChiftException(
