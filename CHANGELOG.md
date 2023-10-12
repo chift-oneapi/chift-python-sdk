@@ -1,6 +1,9 @@
 # Changelog
 
 
+## 0.1.20 - 2023-10-12
+* update models to have metadata
+
 ## 0.1.19 - 2023-10-12
 * Retry: retry mechanism on 502 if 'max_retries' is passed to ChiftClient
 

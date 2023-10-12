@@ -1902,6 +1902,29 @@
                             "type": "string",
                             "format": "uuid"
                         }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Page",
+                            "default": 1,
+                            "minimum": 1,
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Size",
+                            "default": 50,
+                            "minimum": 1,
+                            "maximum": 100,
+                            "type": "integer"
+                        }
                     }
                 ],
                 "responses": {
@@ -1910,11 +1933,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "title": "Response Accounting Get Folders",
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/FolderItem"
-                                    }
+                                    "$ref": "#/components/schemas/Page_FolderItem_"
                                 }
                             }
                         }
@@ -2983,7 +3002,7 @@
                             "default": "all",
                             "allOf": [
                                 {
-                                    "$ref": "#/components/schemas/app__routers__accounting__PaymentStatus"
+                                    "$ref": "#/components/schemas/models__common__PaymentStatus"
                                 }
                             ]
                         },
@@ -3326,7 +3345,7 @@
                             "default": "all",
                             "allOf": [
                                 {
-                                    "$ref": "#/components/schemas/app__routers__accounting__PaymentStatus"
+                                    "$ref": "#/components/schemas/models__common__PaymentStatus"
                                 }
                             ]
                         },
@@ -7931,6 +7950,21 @@
                         "description": "Filter based on the type of the invoice."
                     },
                     {
+                        "name": "payment_status",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "description": "Filter paid/unpaid invoices",
+                            "default": "all",
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/models__common__PaymentStatus"
+                                }
+                            ]
+                        },
+                        "description": "Filter paid/unpaid invoices"
+                    },
+                    {
                         "name": "date_from",
                         "in": "query",
                         "required": false,
@@ -11190,6 +11224,10 @@
                         },
                         "description": "[OPTIONAL] Can be used to specify maximum one integrationid for each One API that you want to highlight. If specified, only this connector will be displayed to your clients.",
                         "default": []
+                    },
+                    "link_metadata": {
+                        "title": "Link Metadata",
+                        "type": "object"
                     }
                 }
             },
@@ -14516,7 +14554,9 @@
                 "enum": [
                     "cancelled",
                     "draft",
-                    "confirmed"
+                    "confirmed",
+                    "shipped",
+                    "refunded"
                 ],
                 "type": "string",
                 "description": "An enumeration."
@@ -15238,6 +15278,40 @@
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/EmployeeItem"
+                        }
+                    },
+                    "total": {
+                        "title": "Total",
+                        "minimum": 0.0,
+                        "type": "integer"
+                    },
+                    "page": {
+                        "title": "Page",
+                        "minimum": 1.0,
+                        "type": "integer"
+                    },
+                    "size": {
+                        "title": "Size",
+                        "minimum": 1.0,
+                        "type": "integer"
+                    }
+                }
+            },
+            "Page_FolderItem_": {
+                "title": "Page[FolderItem]",
+                "required": [
+                    "items",
+                    "total",
+                    "page",
+                    "size"
+                ],
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "title": "Items",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FolderItem"
                         }
                     },
                     "total": {
@@ -16936,6 +17010,11 @@
                         },
                         "description": "Values of the mappings requested for the sync for the specific consumer"
                     },
+                    "link_metadata": {
+                        "title": "Link Metadata",
+                        "type": "object",
+                        "description": "Metadata passed during creation"
+                    },
                     "enabled_flows": {
                         "title": "Enabled Flows",
                         "type": "array",
@@ -17642,16 +17721,6 @@
                     }
                 }
             },
-            "app__routers__accounting__PaymentStatus": {
-                "title": "PaymentStatus",
-                "enum": [
-                    "all",
-                    "unpaid",
-                    "paid"
-                ],
-                "type": "string",
-                "description": "An enumeration."
-            },
             "app__routers__accounting__VatCode": {
                 "title": "VatCode",
                 "required": [
@@ -18171,6 +18240,16 @@
                         "description": "Format: ISO 3166-1 codes."
                     }
                 }
+            },
+            "models__common__PaymentStatus": {
+                "title": "PaymentStatus",
+                "enum": [
+                    "all",
+                    "unpaid",
+                    "paid"
+                ],
+                "type": "string",
+                "description": "An enumeration."
             },
             "models__invoicing__InvoiceType": {
                 "title": "InvoiceType",
