@@ -1,6 +1,9 @@
 # Changelog
 
 
+## 0.1.19 - 2023-10-12
+* Retry: retry mechanism on 502 if 'max_retries' is passed to ChiftClient
+
 ## 0.1.18 - 2023-10-09
 * Payment: add balances endpoints
 
