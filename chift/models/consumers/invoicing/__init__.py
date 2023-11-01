@@ -74,6 +74,6 @@ class Custom(CreateMixin, PaginationMixin):
         self.extra_path = custom_path
         return super().all(params=params, map_model=False, client=client, limit=limit)
 
-    def create(self, custom_path, data, client=None):
+    def create(self, custom_path, data, client=None, params=None):
         self.extra_path = custom_path
-        return super().create(data, map_model=False, client=client)
+        return super().create(data, map_model=False, client=client, params=params)
