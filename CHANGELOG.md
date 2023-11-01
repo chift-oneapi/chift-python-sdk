@@ -1,6 +1,9 @@
 # Changelog
 
 
+## 0.1.21 - 2023-11-01
+* add optional params on create and update endpoint
+
 ## 0.1.20 - 2023-10-12
 * update models to have metadata
 

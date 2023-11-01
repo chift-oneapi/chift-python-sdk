@@ -247,7 +247,7 @@ class ChiftClient:
 
         return self.get(url_path, params=params)
 
-    def post_one(self, chift_vertical, chift_model, data, extra_path=None):
+    def post_one(self, chift_vertical, chift_model, data, extra_path=None, params=None):
         url_path = self.path_builder(
             [
                 "consumers" if self.consumer_id else None,
@@ -258,9 +258,9 @@ class ChiftClient:
             ]
         )
 
-        return self.post(url_path, data=data)
+        return self.post(url_path, data=data, params=params)
 
-    def update_one(self, chift_vertical, chift_model, chift_id, data, extra_path=None):
+    def update_one(self, chift_vertical, chift_model, chift_id, data, extra_path=None, params=None):
         url_path = self.path_builder(
             [
                 "consumers" if self.consumer_id else None,
@@ -272,4 +272,4 @@ class ChiftClient:
             ]
         )
 
-        return self.patch(url_path, data=data)
+        return self.patch(url_path, data=data, params=params)

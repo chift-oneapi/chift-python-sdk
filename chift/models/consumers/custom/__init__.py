@@ -21,10 +21,10 @@ class Custom(ReadMixin, CreateMixin, UpdateMixin, PaginationMixin):
         self.extra_path = f"{connector}/{entity}"
         return super().all(params=params, map_model=False, client=client, limit=limit)
 
-    def create(self, connector, entity, data, client=None):
+    def create(self, connector, entity, data, client=None, params=None):
         self.extra_path = f"{connector}/{entity}"
-        return super().create(data, map_model=False, client=client)
+        return super().create(data, map_model=False, client=client, params=params)
 
-    def update(self, connector, entity, id, data, client=None):
+    def update(self, connector, entity, id, data, client=None, params=None):
         self.extra_path = f"{connector}/{entity}/{id}"
-        return super().update(None, data, map_model=False, client=client)
+        return super().update(None, data, map_model=False, client=client, params=params)

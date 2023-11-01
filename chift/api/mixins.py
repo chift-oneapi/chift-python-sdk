@@ -50,21 +50,25 @@ class ReadMixin(BaseMixin, Generic[T]):
 
 
 class CreateMixin(BaseMixin, Generic[T]):
-    def create(self, data, client=None, map_model=True) -> T:
+    def create(self, data, client=None, params=None, map_model=True) -> T:
         if not client:
             client = ChiftClient()
         client.consumer_id = self.consumer_id
         client.connection_id = self.connection_id
 
         json_data = client.post_one(
-            self.chift_vertical, self.chift_model, data, extra_path=self.extra_path
+            self.chift_vertical,
+            self.chift_model,
+            data,
+            extra_path=self.extra_path,
+            params=params,
         )
 
         return self.model(**json_data) if map_model else json_data
 
 
 class UpdateMixin(BaseMixin, Generic[T]):
-    def update(self, chift_id, data, client=None, map_model=True) -> T:
+    def update(self, chift_id, data, client=None, params=None, map_model=True) -> T:
         if not client:
             client = ChiftClient()
         client.consumer_id = self.consumer_id
@@ -76,6 +80,7 @@ class UpdateMixin(BaseMixin, Generic[T]):
             chift_id,
             data,
             extra_path=self.extra_path,
+            params=params,
         )
 
         return self.model(**json_data) if map_model else json_data

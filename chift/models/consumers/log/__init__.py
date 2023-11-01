@@ -9,5 +9,5 @@ class Log(ListMixin[LogModel], CreateMixin[LogModel]):
     chift_model: ClassVar = ""
     model = LogModel
 
-    def create(self, data: list, client=None):
-        return super().create(data, map_model=False, client=client)
+    def create(self, data: list, client=None, params=None):
+        return super().create(data, map_model=False, client=client, params=params)

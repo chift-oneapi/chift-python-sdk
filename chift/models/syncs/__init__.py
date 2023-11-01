@@ -33,9 +33,9 @@ class Flow(
     connection_id = None
 
     @classmethod
-    def create(self, sync_id, data, client=None):
+    def create(self, sync_id, data, client=None, params=None):
         self.extra_path = f"{sync_id}/flows"
-        return super().create(Flow, data, client=client)
+        return super().create(Flow, data, client=client, params=params)
 
     @classmethod
     def delete(self, sync_id, flow_id, client=None):

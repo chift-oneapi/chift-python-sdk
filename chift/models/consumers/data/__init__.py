@@ -17,13 +17,13 @@ class Data(
         self.extra_path = f"{datastore_id}/data"
         return super().all(params=params, client=client)
 
-    def create(self, datastore_id, data, client=None) -> list[DataModel]:
+    def create(self, datastore_id, data, client=None, params=None) -> list[DataModel]:
         self.extra_path = f"{datastore_id}/data"
         return [
             DataModel(**item)
-            for item in super().create(data, map_model=False, client=client)
+            for item in super().create(data, map_model=False, client=client, params=params)
         ]
 
-    def update(self, datastore_id, datastoredata_id, data, client=None) -> DataModel:
+    def update(self, datastore_id, datastoredata_id, data, client=None, params=None) -> DataModel:
         self.extra_path = f"{datastore_id}/data/{datastoredata_id}"
-        return super().update(None, data, client=client)
+        return super().update(None, data, client=client, params=params)
