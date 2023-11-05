@@ -1,6 +1,6 @@
 from typing import ClassVar
 
-from chift.api.mixins import CreateMixin, PaginationMixin, ReadMixin, UpdateMixin
+from chift.api.mixins import CreateMixin, PaginationMixin, ReadMixin, UpdateMixin, DeleteMixin
 
 
 class CustomRouter:
@@ -8,7 +8,7 @@ class CustomRouter:
         self.Custom = Custom(consumer_id, connection_id)
 
 
-class Custom(ReadMixin, CreateMixin, UpdateMixin, PaginationMixin):
+class Custom(ReadMixin, CreateMixin, UpdateMixin, PaginationMixin, DeleteMixin):
     chift_vertical: ClassVar = "custom"
     chift_model: ClassVar = ""
     model = None
