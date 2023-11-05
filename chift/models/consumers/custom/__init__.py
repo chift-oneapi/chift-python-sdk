@@ -1,6 +1,12 @@
 from typing import ClassVar
 
-from chift.api.mixins import CreateMixin, PaginationMixin, ReadMixin, UpdateMixin, DeleteMixin
+from chift.api.mixins import (
+    CreateMixin,
+    DeleteMixin,
+    PaginationMixin,
+    ReadMixin,
+    UpdateMixin,
+)
 
 
 class CustomRouter:
