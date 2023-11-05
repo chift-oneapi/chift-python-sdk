@@ -28,3 +28,7 @@ class Custom(ReadMixin, CreateMixin, UpdateMixin, PaginationMixin):
     def update(self, connector, entity, id, data, client=None, params=None):
         self.extra_path = f"{connector}/{entity}/{id}"
         return super().update(None, data, map_model=False, client=client, params=params)
+
+    def delete(self, connector, entity, id, client=None, params=None):
+        self.extra_path = f"{connector}/{entity}/{id}"
+        return super().delete(None, map_model=False, client=client, params=params)

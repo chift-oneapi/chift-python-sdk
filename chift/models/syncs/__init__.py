@@ -38,9 +38,9 @@ class Flow(
         return super().create(Flow, data, client=client, params=params)
 
     @classmethod
-    def delete(self, sync_id, flow_id, client=None):
+    def delete(self, sync_id, flow_id, client=None, params=None):
         self.extra_path = f"{sync_id}/flows/{flow_id}"
-        return super().delete(Flow, chift_id=None, client=client)
+        return super().delete(Flow, chift_id=None, client=client, params=params)
 
     @classmethod
     def trigger(self, sync_id, flow_id, data, client=None):

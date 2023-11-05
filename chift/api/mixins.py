@@ -17,7 +17,7 @@ class BaseMixin(object):
 
 
 class DeleteMixin(BaseMixin, Generic[T]):
-    def delete(self, chift_id, client=None) -> T:
+    def delete(self, chift_id, client=None, params=None) -> T:
         if not client:
             client = ChiftClient()
         client.consumer_id = self.consumer_id
@@ -28,6 +28,7 @@ class DeleteMixin(BaseMixin, Generic[T]):
             self.chift_model,
             chift_id=chift_id,
             extra_path=self.extra_path,
+            params=params,
         )
 
 
