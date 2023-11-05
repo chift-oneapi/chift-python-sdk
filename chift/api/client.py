@@ -204,7 +204,9 @@ class ChiftClient:
                 [str(path).strip("/") for path in ordered_paths if path]
             )
 
-    def delete_one(self, chift_vertical, chift_model, chift_id, extra_path=None):
+    def delete_one(
+        self, chift_vertical, chift_model, chift_id, params=None, extra_path=None
+    ):
         url_path = self.path_builder(
             [
                 "consumers" if self.consumer_id else None,
@@ -216,7 +218,7 @@ class ChiftClient:
             ]
         )
 
-        return self.delete(url_path)
+        return self.delete(url_path, params=params)
 
     def get_one(
         self, chift_vertical, chift_model, chift_id, params=None, extra_path=None
