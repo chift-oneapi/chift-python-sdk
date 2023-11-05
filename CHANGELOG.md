@@ -1,6 +1,9 @@
 # Changelog
 
 
+## 0.1.22 - 2023-11-05
+* add delete endpoint on custome API
+
 ## 0.1.21 - 2023-11-01
 * add optional params on create and update endpoint
 
