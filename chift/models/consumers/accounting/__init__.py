@@ -93,9 +93,9 @@ class Invoice(
     chift_model: ClassVar = "invoices"
     model = InvoiceAccountingModel
 
-    def all(self, invoice_type, limit=None, client=None):
+    def all(self, invoice_type, **kwargs):
         self.extra_path = f"type/{invoice_type}"
-        return super().all(limit=limit, client=client)
+        return super().all(**kwargs)
 
 
 # deprecated
