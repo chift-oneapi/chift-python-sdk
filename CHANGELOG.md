@@ -1,6 +1,9 @@
 # Changelog
 
 
+## 0.1.23 - 2023-11-07
+* fix accounting/invoices params
+
 ## 0.1.22 - 2023-11-05
 * add delete endpoint on custome API
 

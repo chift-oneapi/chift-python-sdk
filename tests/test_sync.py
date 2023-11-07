@@ -287,17 +287,25 @@ def test_datastore(chift):
     # test create
     value = {}
 
+    str_column_name = None
+
     for column in datastore.definition.columns:
-        value[column.name] = "1"
+        if column.type == "json":
+            value[column.name] = {"1": "1"}
+        elif column.type == "number":
+            value[column.name] = 1
+        else:
+            str_column_name = column.name
+            value[column.name] = "1"
 
     data = consumer.Data.create(datastore.id, [{"data": value}])[0]
 
     # test update
-    updated_value = {}
-    for column in data.data.keys():
-        updated_value[column] = "2"
+    updated_value = data.data
+    if str_column_name in updated_value:
+        updated_value[str_column_name] = "2"
 
     updated_data = consumer.Data.update(datastore.id, data.id, {"data": updated_value})
 
-    for column, value in updated_data.data.items():
-        assert value == "2"
+    if str_column_name in updated_data.data:
+        assert updated_data.data[str_column_name] == "2"

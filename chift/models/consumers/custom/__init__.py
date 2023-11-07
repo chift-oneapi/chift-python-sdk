@@ -19,9 +19,9 @@ class Custom(ReadMixin, CreateMixin, UpdateMixin, PaginationMixin, DeleteMixin):
     chift_model: ClassVar = ""
     model = None
 
-    def get(self, connector, entity, id, client=None):
+    def get(self, connector, entity, id, params=None, client=None):
         self.extra_path = f"{connector}/{entity}/{id}"
-        return super().get(map_model=False, client=client)
+        return super().get(map_model=False, params=params, client=client)
 
     def all(self, connector, entity, params=None, client=None, limit=None):
         self.extra_path = f"{connector}/{entity}"

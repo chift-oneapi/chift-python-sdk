@@ -3,7 +3,7 @@ import chift
 chift.client_secret = "Spht8g8zMYWHTRaT1Qwy"
 chift.client_id = "pZMQxOJJ6tl1716"
 chift.account_id = "a8bfa890-e7ab-480f-9ae1-4c685f2a2a76"
-chift.url_base = "http://localhost:8000"
+chift.url_base = "http://chift.localhost:8000"
 
 consumers = chift.Consumer.all()
 
