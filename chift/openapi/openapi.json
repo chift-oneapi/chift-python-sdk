@@ -16345,6 +16345,17 @@
                         "title": "Description",
                         "type": "string",
                         "description": "Description"
+                    },
+                    "available_quantity": {
+                        "title": "Available Quantity",
+                        "type": "number",
+                        "description": "Available quanity of the product in stock. Will only be used for products that have an inventory (services will always be 0)",
+                        "default": 0
+                    },
+                    "cost": {
+                        "title": "Cost",
+                        "type": "number",
+                        "description": "Cost of the product"
                     }
                 }
             },
