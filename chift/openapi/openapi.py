@@ -2445,6 +2445,12 @@ class ProductItemOut(BaseModel):
     description: Optional[str] = Field(
         None, description="Description", title="Description"
     )
+    available_quantity: Optional[float] = Field(
+        0,
+        description="Available quanity of the product in stock. Will only be used for products that have an inventory (services will always be 0)",
+        title="Available Quantity",
+    )
+    cost: Optional[float] = Field(0, description="Cost of the product", title="Cost")
 
 
 class ProductVariantItem(BaseModel):
