@@ -66,6 +66,13 @@ class AddressType(Enum):
     invoice = "invoice"
 
 
+class AddressTypeInvoicing(Enum):
+    main = "main"
+    delivery = "delivery"
+    invoice = "invoice"
+    other = "other"
+
+
 class AnalyticAccountItemIn(BaseModel):
     active: Optional[bool] = Field(True, title="Active")
     code: str = Field(..., title="Code")
@@ -1317,7 +1324,7 @@ class AccountItem(BaseModel):
 
 
 class AddressItemInInvoicing(BaseModel):
-    address_type: AddressType
+    address_type: AddressTypeInvoicing
     name: Optional[str] = Field(None, title="Name")
     number: Optional[str] = Field(None, title="Number")
     box: Optional[str] = Field(None, title="Box")
@@ -1331,7 +1338,7 @@ class AddressItemInInvoicing(BaseModel):
 
 
 class AddressItemOutInvoicing(BaseModel):
-    address_type: AddressType
+    address_type: AddressTypeInvoicing
     name: Optional[str] = Field(None, title="Name")
     number: Optional[str] = Field(None, title="Number")
     box: Optional[str] = Field(None, title="Box")

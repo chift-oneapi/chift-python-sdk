@@ -9702,7 +9702,7 @@
                 "type": "object",
                 "properties": {
                     "address_type": {
-                        "$ref": "#/components/schemas/AddressType"
+                        "$ref": "#/components/schemas/AddressTypeInvoicing"
                     },
                     "name": {
                         "title": "Name",
@@ -9755,7 +9755,7 @@
                 "type": "object",
                 "properties": {
                     "address_type": {
-                        "$ref": "#/components/schemas/AddressType"
+                        "$ref": "#/components/schemas/AddressTypeInvoicing"
                     },
                     "name": {
                         "title": "Name",
@@ -9806,6 +9806,17 @@
                     "main",
                     "delivery",
                     "invoice"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "AddressTypeInvoicing": {
+                "title": "AddressTypeInvoicing",
+                "enum": [
+                    "main",
+                    "delivery",
+                    "invoice",
+                    "other"
                 ],
                 "type": "string",
                 "description": "An enumeration."

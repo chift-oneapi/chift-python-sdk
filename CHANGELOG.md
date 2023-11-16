@@ -1,6 +1,9 @@
 # Changelog
 
 
+## 0.1.25 - 2023-11-16
+* update models: add special AddressType for Invoicing API
+
 ## 0.1.24 - 2023-11-13
 * update models: add cost and available_quantity on products in invoicing API
 
