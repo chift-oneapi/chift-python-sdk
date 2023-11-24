@@ -13371,7 +13371,7 @@
       },
       "ReadFlowConsumerItem": {
         "title": "ReadFlowConsumerItem",
-        "required": ["name", "id", "values", "enabled_on"],
+        "required": ["name", "id", "values"],
         "type": "object",
         "properties": {
           "name": { "title": "Name", "type": "string" },
