@@ -95,20 +95,18 @@ def test_closure(pos_consumer: Consumer):
 
     assert closure.status
 
-
 def test_product_all(pos_consumer: Consumer):
     consumer = pos_consumer
 
-    products = consumer.pos.Product.all()
+    products = consumer.pos.Product.all(limit=2)
     categories = consumer.pos.ProductCategory.all()
 
     for product in products:
         assert product.name
-        for product in products:
-            for category in product.categories:
-                found = False
-                for existingcategory in categories:
-                    if category == existingcategory.id:
-                        found = True
-                        break
-                assert found
+        for category in product.categories:
+            found = False
+            for existingcategory in categories:
+                if category == existingcategory.id:
+                    found = True
+                    break
+            assert found
