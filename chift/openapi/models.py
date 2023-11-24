@@ -46,6 +46,8 @@ from .openapi import (
     VariantItem,
     WebhookInstanceGetItem,
     WebhookItem,
+    ProductCategoryItem,
+    POSProductItem
 )
 
 # UNPUBLISHED MODELS
@@ -346,6 +348,12 @@ class Order(OrderItem):
 
 
 class Closure(ClosureItem):
+    pass
+
+class POSProductCategory(ProductCategoryItem):
+    pass
+
+class POSProduct(POSProductItem):
     pass
 
 

@@ -8,7 +8,8 @@ from chift.openapi.models import Order as OrderModel
 from chift.openapi.models import Payment as PaymentModel
 from chift.openapi.models import PaymentMethods as PaymentMethodsModel
 from chift.openapi.models import Sales as SalesModel
-
+from chift.openapi.models import POSProduct as ProductModel
+from chift.openapi.models import POSProductCategory as ProductCategoryModel
 
 class PosRouter:
     def __init__(self, consumer_id, connection_id):
@@ -19,6 +20,8 @@ class PosRouter:
         self.Location = Location(consumer_id, connection_id)
         self.Order = Order(consumer_id, connection_id)
         self.Closure = Closure(consumer_id, connection_id)
+        self.Product = Product(consumer_id, connection_id)
+        self.ProductCategory = ProductCategory(consumer_id, connection_id)
 
 
 class Customer(
@@ -63,3 +66,13 @@ class Order(ReadMixin[OrderModel], PaginationMixin[OrderModel]):
     chift_vertical: ClassVar = "pos"
     chift_model: ClassVar = "orders"
     model = OrderModel
+
+class Product(PaginationMixin[ProductModel]):
+    chift_vertical: ClassVar = "pos"
+    chift_model: ClassVar = "products"
+    model = ProductModel
+
+class ProductCategory(PaginationMixin[ProductCategoryModel]):
+    chift_vertical: ClassVar = "pos"
+    chift_model: ClassVar = "product-categories"
+    model = ProductCategoryModel
