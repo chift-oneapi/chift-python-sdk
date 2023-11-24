@@ -95,6 +95,7 @@ def test_closure(pos_consumer: Consumer):
 
     assert closure.status
 
+
 def test_product_all(pos_consumer: Consumer):
     consumer = pos_consumer
 

@@ -9,12 +9,12 @@ from .openapi import (
     AnalyticAccountItemOut,
     AppRoutersAccountingVatCode,
     AppRoutersCommerceProductItem,
+    AppRoutersConnectionsConnectionItem,
     BalanceItemOut,
     ClientItemOut,
     ClosureItem,
     CommerceCustomerItem,
     CommerceLocationItemOut,
-    ConnectionItem,
     ConsumerItem,
     ContactItemOut,
     DataItem,
@@ -36,6 +36,8 @@ from .openapi import (
     PaymentMethods,
     POSCustomerItem,
     POSLocationItem,
+    POSProductItem,
+    ProductCategoryItem,
     ProductItemOut,
     ReadFlowItem,
     SalesItem,
@@ -46,8 +48,6 @@ from .openapi import (
     VariantItem,
     WebhookInstanceGetItem,
     WebhookItem,
-    ProductCategoryItem,
-    POSProductItem
 )
 
 # UNPUBLISHED MODELS
@@ -240,7 +240,7 @@ class WebhookType(WebhookItem):
 
 
 # connections
-class Connection(ConnectionItem):
+class Connection(AppRoutersConnectionsConnectionItem):
     pass
 
 
@@ -350,8 +350,10 @@ class Order(OrderItem):
 class Closure(ClosureItem):
     pass
 
+
 class POSProductCategory(ProductCategoryItem):
     pass
+
 
 class POSProduct(POSProductItem):
     pass
