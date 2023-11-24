@@ -105,6 +105,7 @@ def test_product_all(pos_consumer: Consumer):
     for product in products:
         assert product.name
 
+
 def test_productcategories_all(pos_consumer: Consumer):
     consumer = pos_consumer
     categories = consumer.pos.ProductCategory.all()
