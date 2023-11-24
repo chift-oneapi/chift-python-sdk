@@ -94,3 +94,21 @@ def test_closure(pos_consumer: Consumer):
     closure = consumer.pos.Closure.get("2023-01-01")
 
     assert closure.status
+
+
+def test_product_all(pos_consumer: Consumer):
+    consumer = pos_consumer
+
+    products = consumer.pos.Product.all(limit=1)
+
+    assert products
+    for product in products:
+        assert product.name
+
+def test_productcategories_all(pos_consumer: Consumer):
+    consumer = pos_consumer
+    categories = consumer.pos.ProductCategory.all()
+
+    assert categories
+    for category in categories:
+        assert category.id

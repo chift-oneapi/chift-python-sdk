@@ -9,12 +9,12 @@ from .openapi import (
     AnalyticAccountItemOut,
     AppRoutersAccountingVatCode,
     AppRoutersCommerceProductItem,
+    AppRoutersConnectionsConnectionItem,
     BalanceItemOut,
     ClientItemOut,
     ClosureItem,
     CommerceCustomerItem,
     CommerceLocationItemOut,
-    ConnectionItem,
     ConsumerItem,
     ContactItemOut,
     DataItem,
@@ -36,12 +36,14 @@ from .openapi import (
     PaymentMethods,
     POSCustomerItem,
     POSLocationItem,
+    POSProductItem,
+    ProductCategoryItem,
     ProductItemOut,
     ReadFlowItem,
+    ReadSyncItem,
     SalesItem,
     SupplierItemOut,
     SyncConsumerItem,
-    SyncItem,
     TransactionItemOut,
     VariantItem,
     WebhookInstanceGetItem,
@@ -196,7 +198,7 @@ class Consumer(ConsumerItem, extra=Extra.allow):
 # syncs
 
 
-class Sync(SyncItem):
+class Sync(ReadSyncItem):
     pass
 
 
@@ -238,7 +240,7 @@ class WebhookType(WebhookItem):
 
 
 # connections
-class Connection(ConnectionItem):
+class Connection(AppRoutersConnectionsConnectionItem):
     pass
 
 
@@ -346,6 +348,14 @@ class Order(OrderItem):
 
 
 class Closure(ClosureItem):
+    pass
+
+
+class POSProductCategory(ProductCategoryItem):
+    pass
+
+
+class POSProduct(POSProductItem):
     pass
 
 

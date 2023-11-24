@@ -193,8 +193,8 @@ def test_financial_entries(accounting_consumer: Consumer):
                     "currency": "EUR",
                     "items": [
                         {
-                            "type": "general_account",
-                            "account_number": account.number,
+                            "account_type": "general_account",
+                            "account": account.number,
                             "amount": 1,
                         }
                     ],

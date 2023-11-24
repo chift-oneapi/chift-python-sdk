@@ -1,5 +1,7 @@
 # Changelog
 
+## 0.1.26 - 2023-11-24
+* New routes for POS: Get products & Get product categories
 
 ## 0.1.25 - 2023-11-16
 * update models: add special AddressType for Invoicing API

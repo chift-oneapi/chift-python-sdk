@@ -119,7 +119,7 @@ class FinancialEntry(
     CreateMixin[FinancialEntryModel],
 ):
     chift_vertical: ClassVar = "accounting"
-    chift_model: ClassVar = "financial-entry"
+    chift_model: ClassVar = "financial-entries"
     model = FinancialEntryModel
 
 
