@@ -43,7 +43,7 @@ from .openapi import (
     SalesItem,
     SupplierItemOut,
     SyncConsumerItem,
-    SyncItem,
+    ReadSyncItem,
     TransactionItemOut,
     VariantItem,
     WebhookInstanceGetItem,
@@ -198,7 +198,7 @@ class Consumer(ConsumerItem, extra=Extra.allow):
 # syncs
 
 
-class Sync(SyncItem):
+class Sync(ReadSyncItem):
     pass
 
 
