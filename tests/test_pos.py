@@ -98,7 +98,7 @@ def test_closure(pos_consumer: Consumer):
 def test_product_all(pos_consumer: Consumer):
     consumer = pos_consumer
 
-    products = consumer.pos.Product.all(limit=2)
+    products = consumer.pos.Product.all(limit=1)
     categories = consumer.pos.ProductCategory.all()
 
     for product in products:
