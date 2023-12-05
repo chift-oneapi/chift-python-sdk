@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.27 - 2023-12-05
+* fix custom API get one
+
 ## 0.1.26 - 2023-11-24
 * New routes for POS: Get products & Get product categories
 

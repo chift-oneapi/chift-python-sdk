@@ -21,7 +21,7 @@ class Custom(ReadMixin, CreateMixin, UpdateMixin, PaginationMixin, DeleteMixin):
 
     def get(self, connector, entity, id, params=None, client=None):
         self.extra_path = f"{connector}/{entity}/{id}"
-        return super().get(map_model=False, params=params, client=client)
+        return super().get(chift_id=None, map_model=False, params=params, client=client)
 
     def all(self, connector, entity, params=None, client=None, limit=None):
         self.extra_path = f"{connector}/{entity}"
