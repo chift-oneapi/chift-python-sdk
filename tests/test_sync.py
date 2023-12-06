@@ -14,7 +14,7 @@ def _get_flow_data(
     data = {
         "name": flow_name,
         "description": "test",
-        "trigger": {"type": trigger_type, "data": {}},
+        "triggers": [{"id": "trigger-1", "type": trigger_type}],
         "execution": {
             "type": execution_type,
             "data": {},
@@ -136,7 +136,7 @@ def _get_flow_data(
     }
 
     if trigger_type == "timer":
-        data["trigger"]["data"]["cronschedule"] = "0/30 * * * *"
+        data["triggers"][0]["cronschedules"] = ["0/30 * * * *"]
 
     if execution_type == "code":
         data["execution"]["data"]["code"] = "console.log('This is fucking awesome!')"

@@ -1,7 +1,7 @@
 # Changelog
 
 ## 0.1.28 - 2023-12-06
-* update models: description of mappings is optional
+* update models: description of mappings is optional + multiple triggers on flows
 
 ## 0.1.27 - 2023-12-05
 * fix custom API get one

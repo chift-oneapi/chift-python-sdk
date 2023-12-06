@@ -1256,6 +1256,20 @@
               }
             }
           },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "You cannot execute this flow as it is not correclty configured",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -1271,14 +1285,18 @@
             "description": "Not Found"
           },
           "422": {
-            "description": "Validation Error",
             "content": {
               "application/json": {
+                "example": {
+                  "message": "Error while validating context data; the field {field.get('name')} does not seem to be of type {fieldtype}",
+                  "status": "error"
+                },
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "$ref": "#/components/schemas/ChiftError"
                 }
               }
-            }
+            },
+            "description": "Unprocessable Entity"
           }
         }
       }
@@ -11579,7 +11597,7 @@
         "required": [
           "name",
           "execution",
-          "trigger"
+          "triggers"
         ],
         "type": "object",
         "properties": {
@@ -11605,8 +11623,12 @@
               "datastores": []
             }
           },
-          "trigger": {
-            "$ref": "#/components/schemas/FlowTrigger"
+          "triggers": {
+            "title": "Triggers",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FlowTrigger"
+            }
           }
         }
       },
@@ -12473,41 +12495,36 @@
       "FlowTrigger": {
         "title": "FlowTrigger",
         "required": [
+          "id",
           "type"
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
           "type": {
             "$ref": "#/components/schemas/TriggerType"
           },
-          "data": {
-            "title": "Data",
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/FlowTriggerTimer"
-              },
-              {
-                "$ref": "#/components/schemas/FlowTriggerEvent"
-              }
-            ]
-          }
-        }
-      },
-      "FlowTriggerEvent": {
-        "title": "FlowTriggerEvent",
-        "type": "object",
-        "properties": {}
-      },
-      "FlowTriggerTimer": {
-        "title": "FlowTriggerTimer",
-        "required": [
-          "cronschedule"
-        ],
-        "type": "object",
-        "properties": {
-          "cronschedule": {
-            "title": "Cronschedule",
-            "type": "string"
+          "cronschedules": {
+            "title": "Cronschedules",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "visible": {
+            "title": "Visible",
+            "type": "boolean",
+            "default": true
+          },
+          "definitionFields": {
+            "title": "Definitionfields",
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
           }
         }
       },
@@ -17276,7 +17293,8 @@
         "required": [
           "name",
           "id",
-          "values"
+          "values",
+          "trigger"
         ],
         "type": "object",
         "properties": {
@@ -17304,6 +17322,9 @@
             "type": "string",
             "description": "Date on which the flow was enabled for this consumer",
             "format": "date-time"
+          },
+          "trigger": {
+            "$ref": "#/components/schemas/ReadFlowTrigger"
           }
         }
       },
@@ -17341,8 +17362,33 @@
               "datastores": []
             }
           },
-          "trigger": {
-            "$ref": "#/components/schemas/FlowTrigger"
+          "triggers": {
+            "title": "Triggers",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FlowTrigger"
+            }
+          }
+        }
+      },
+      "ReadFlowTrigger": {
+        "title": "ReadFlowTrigger",
+        "required": [
+          "id",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/TriggerType"
+          },
+          "cronschedule": {
+            "title": "Cronschedule",
+            "type": "string"
           }
         }
       },
