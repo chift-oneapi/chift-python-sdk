@@ -17058,7 +17058,8 @@
           },
           "data": {
             "title": "Data",
-            "type": "object"
+            "type": "object",
+            "default": {}
           }
         }
       },
