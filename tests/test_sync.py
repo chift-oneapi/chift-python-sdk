@@ -1,7 +1,8 @@
 import uuid
-
+from datetime import datetime
 from chift.openapi.models import Sync
 
+today_date = datetime.now().strftime("%d/%m/%Y")
 
 def _get_flow_data(
     flow_name=None, datastore_name=None, trigger_type="event", execution_type="code"
@@ -214,7 +215,11 @@ def test_flow_create_trigger_code(chift):
     flow_created = chift.Flow.create(sync.syncid, _get_flow_data(execution_type="code"))
 
     # test trigger flow of type code (AWS lambda) should not raise
-    chift.Flow.trigger(sync.syncid, flow_created.id, {})
+    chift.Flow.trigger(sync.syncid, flow_created.id, {
+        "data": {
+            "from_date": today_date
+        }
+    })
 
 
 def test_flow_create_trigger_module(chift):
@@ -227,7 +232,11 @@ def test_flow_create_trigger_module(chift):
     )
 
     # test trigger flow of type chain should not raise
-    chift.Flow.trigger(sync.syncid, flow_created.id, {})
+    chift.Flow.trigger(sync.syncid, flow_created.id, {
+        "data": {
+            "from_date": today_date
+        }
+    })
 
 
 def test_flow_create_trigger_timer(chift):
@@ -258,7 +267,11 @@ def test_create_flow(chift):
     res = chift.Flow.trigger(
         sync.syncid,
         flow_created.id,
-        {},
+        {
+            "data": {
+                "from_date": today_date
+            }
+        },
     )
     status = chift.Flow.chainexecution(
         sync.syncid, flow_created.id, res["data"]["executionid"]
@@ -269,7 +282,12 @@ def test_create_flow(chift):
     chift.Flow.trigger(
         sync.syncid,
         flow_created.id,
-        {"consumers": sync.consumers[:1]},
+        {
+            "consumers": sync.consumers[:1],
+            "data": {
+                "from_date": today_date
+            }
+        },
     )
 
     # test getting sync for consumer info
