@@ -1,8 +1,6 @@
 import uuid
 
-import pytest
 
-from chift.api.exceptions import ChiftException
 from chift.openapi.models import Consumer
 
 
@@ -208,9 +206,12 @@ def test_financial_entries(accounting_consumer: Consumer):
 def test_outstandings(accounting_consumer: Consumer):
     consumer = accounting_consumer
 
-    with pytest.raises(ChiftException) as e:
-        consumer.accounting.Outstanding.all(
-            params={"type": "client", "unposted_allowed": "false"},
-            limit=2,
-        )
-    assert e.value.message == "API Resource does not exist"
+    outstandings = consumer.accounting.Outstanding.all(
+        params={"type": "client", "unposted_allowed": "false"},
+        limit=2,
+    )
+
+    assert outstandings
+
+    for outstanding in outstandings:
+        assert outstanding.id
