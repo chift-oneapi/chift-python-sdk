@@ -39,6 +39,14 @@ def test_location(ecommerce_consumer: Consumer):
     assert locations
 
 
+def test_payment_method(ecommerce_consumer: Consumer):
+    consumer = ecommerce_consumer
+
+    payment_methods = consumer.commerce.PaymentMethod.all(limit=2)
+
+    assert payment_methods
+
+
 def test_order(ecommerce_consumer: Consumer):
     consumer = ecommerce_consumer
     # TODO: test create()

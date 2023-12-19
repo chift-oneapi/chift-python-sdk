@@ -1,6 +1,5 @@
 import uuid
 
-
 from chift.openapi.models import Consumer
 
 

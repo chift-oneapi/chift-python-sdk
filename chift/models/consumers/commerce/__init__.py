@@ -4,6 +4,7 @@ from chift.api.mixins import PaginationMixin, ReadMixin
 from chift.openapi.models import CommerceCustomer as CommerceCustomerModel
 from chift.openapi.models import CommerceLocation as CommerceLocationModel
 from chift.openapi.models import CommerceOrder as CommerceOrderModel
+from chift.openapi.models import CommercePaymentMethod as CommercePaymentMethodModel
 from chift.openapi.models import CommerceProduct as CommerceProductModel
 from chift.openapi.models import CommerceVariant as CommerceVariantModel
 
@@ -15,6 +16,7 @@ class CommerceRouter:
         self.Location = Location(consumer_id, connection_id)
         self.Order = Order(consumer_id, connection_id)
         self.Variant = Variant(consumer_id, connection_id)
+        self.PaymentMethod = PaymentMethod(consumer_id, connection_id)
 
 
 class Customer(
@@ -59,3 +61,11 @@ class Order(
     chift_vertical: ClassVar = "commerce"
     chift_model: ClassVar = "orders"
     model = CommerceOrderModel
+
+
+class PaymentMethod(
+    PaginationMixin[CommercePaymentMethodModel],
+):
+    chift_vertical: ClassVar = "commerce"
+    chift_model: ClassVar = "payment-methods"
+    model = CommercePaymentMethodModel

@@ -2044,6 +2044,17 @@
             }
           },
           {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
+          },
+          {
             "name": "page",
             "in": "query",
             "required": false,
@@ -2134,6 +2145,17 @@
               "type": "string"
             },
             "description": "Indicate the ID of the corresponding supplier in the accounting system. Accounting systems using 1 entity to handle clients/customers and suppliers will merge the existing supplier with the new client/customer (if the parameter is filled in with the ID of an existing supplier)."
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           }
         ],
         "requestBody": {
@@ -2200,6 +2222,17 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           },
           {
             "name": "page",
@@ -2290,6 +2323,17 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           }
         ],
         "requestBody": {
@@ -2379,6 +2423,17 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           }
         ],
         "responses": {
@@ -2462,6 +2517,17 @@
               "type": "string"
             },
             "description": "Indicate the ID of the corresponding client/customer in the accounting system. Accounting systems using 1 entity to handle clients/customers and suppliers will merge the existing client/customer with the new supplier (if the parameter is filled in with the ID of an existing client/customer)."
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           }
         ],
         "requestBody": {
@@ -2528,6 +2594,17 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           },
           {
             "name": "page",
@@ -2618,6 +2695,17 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           }
         ],
         "responses": {
@@ -2697,6 +2785,17 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           }
         ],
         "requestBody": {
@@ -2806,6 +2905,17 @@
               ]
             },
             "description": "Regroup lines by account number, tax code and analytic account in the accounting system."
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           }
         ],
         "requestBody": {
@@ -2915,6 +3025,17 @@
               ]
             },
             "description": "Regroup lines by account number, tax code and analytic distribution in the accounting system."
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           }
         ],
         "requestBody": {
@@ -3069,6 +3190,17 @@
             "description": "Extra filter to retrieve invoices with a specific payment status."
           },
           {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
+          },
+          {
             "name": "page",
             "in": "query",
             "required": false,
@@ -3172,6 +3304,17 @@
               ]
             },
             "description": "Indicate if payments linked to the invoice should be included in the response. By default payments are not included and the field payments is null."
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           }
         ],
         "responses": {
@@ -3268,6 +3411,17 @@
               ]
             },
             "description": "Indicate if payments linked to the invoice should be included in the response. By default payments are not included and the field payments is null."
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           }
         ],
         "responses": {
@@ -3412,6 +3566,17 @@
             "description": "Extra filter to retrieve invoices with a specific payment status."
           },
           {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
+          },
+          {
             "name": "page",
             "in": "query",
             "required": false,
@@ -3491,6 +3656,17 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           }
         ],
         "requestBody": {
@@ -3557,6 +3733,17 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           },
           {
             "name": "page",
@@ -3647,6 +3834,17 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           }
         ],
         "requestBody": {
@@ -3724,6 +3922,17 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           }
         ],
         "requestBody": {
@@ -3813,6 +4022,17 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           }
         ],
         "responses": {
@@ -3903,6 +4123,17 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           }
         ],
         "requestBody": {
@@ -4001,6 +4232,17 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           }
         ],
         "responses": {
@@ -4075,6 +4317,17 @@
             }
           },
           {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
+          },
+          {
             "name": "page",
             "in": "query",
             "required": false,
@@ -4122,110 +4375,6 @@
               }
             },
             "description": "Bad Request"
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/consumers/{consumer_id}/accounting/analytic-account-lines/account/{analytic_account_id}": {
-      "get": {
-        "tags": [
-          "Accounting"
-        ],
-        "summary": "Get analytic account lines of account",
-        "description": "Get a list of analytic account lines of a specific account",
-        "operationId": "accounting_get_analytic_account_lines",
-        "parameters": [
-          {
-            "name": "analytic_account_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "title": "Analytic Account Id",
-              "type": "string"
-            }
-          },
-          {
-            "name": "consumer_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "title": "Consumer Id",
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "title": "Page",
-              "default": 1,
-              "minimum": 1,
-              "type": "integer"
-            }
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "title": "Size",
-              "default": 50,
-              "minimum": 1,
-              "maximum": 100,
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Page_AnalyticAccountLineItemOut_"
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Analytic plans have a number between 1 and 8 in the accounting system. (Only applicable to Winbooks)",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "The given analytic account doesn't exist in the accounting system.",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Not Found"
           },
           "422": {
             "description": "Validation Error",
@@ -4306,6 +4455,17 @@
             }
           },
           {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
+          },
+          {
             "name": "page",
             "in": "query",
             "required": false,
@@ -4370,7 +4530,7 @@
         "tags": [
           "Accounting"
         ],
-        "summary": "Create Journal Entry",
+        "summary": "Create Journal Entry [Deprecated]",
         "description": "Create a new Journal Entry in the accounting system",
         "operationId": "accounting_create_journal_entry",
         "parameters": [
@@ -4383,6 +4543,17 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           }
         ],
         "requestBody": {
@@ -4517,6 +4688,17 @@
             }
           },
           {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
+          },
+          {
             "name": "page",
             "in": "query",
             "required": false,
@@ -4578,6 +4760,103 @@
         }
       }
     },
+    "/consumers/{consumer_id}/accounting/journal-entries": {
+      "post": {
+        "tags": [
+          "Accounting"
+        ],
+        "summary": "Create Journal Entry",
+        "description": "Create a new Journal Entry in the accounting system",
+        "operationId": "accounting_create_generic_journal_entry",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Consumer Id",
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenericJournalEntry"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JournalEntryMultiAnalyticPlan"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The entry is not balanced.",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The currency doesn't exist or is not active in the accounting system.",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Debit and credit cannot be both positive.",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/accounting/invoices/id/{invoice_id}/payments": {
       "get": {
         "tags": [
@@ -4605,6 +4884,17 @@
               "title": "Invoice Id",
               "type": "string"
             }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           },
           {
             "name": "page",
@@ -4702,6 +4992,17 @@
             }
           },
           {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
+          },
+          {
             "name": "page",
             "in": "query",
             "required": false,
@@ -4783,6 +5084,17 @@
             }
           },
           {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
+          },
+          {
             "name": "page",
             "in": "query",
             "required": false,
@@ -4862,6 +5174,17 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           }
         ],
         "requestBody": {
@@ -4976,6 +5299,17 @@
             "example": "3,12"
           },
           {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
+          },
+          {
             "name": "page",
             "in": "query",
             "required": false,
@@ -5064,6 +5398,17 @@
               "title": "Operation Id",
               "type": "string"
             }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           }
         ],
         "responses": {
@@ -5122,6 +5467,17 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           }
         ],
         "requestBody": {
@@ -5228,6 +5584,17 @@
               ]
             },
             "description": "Indicate what to do if a document is already attched to the invoice."
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           }
         ],
         "requestBody": {
@@ -5321,6 +5688,17 @@
             "description": "Filter based on the class of the account (e.g. 6,7 to retrieve 6 and 7 account classes). The classes are separed by ','."
           },
           {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
+          },
+          {
             "name": "page",
             "in": "query",
             "required": false,
@@ -5400,6 +5778,17 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           },
           {
             "name": "page",
@@ -5493,6 +5882,17 @@
             }
           },
           {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
+          },
+          {
             "name": "page",
             "in": "query",
             "required": false,
@@ -5583,6 +5983,17 @@
               "type": "string"
             },
             "description": "Counterpart account number of the bank/cash journal. This will be retrieved from the accounting settings if left empty."
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           }
         ],
         "requestBody": {
@@ -5676,6 +6087,17 @@
               "type": "string"
             },
             "description": "Counterpart account number of the bank/cash journal. This will be retrieved from the accounting settings if left empty."
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           }
         ],
         "requestBody": {
@@ -5776,6 +6198,17 @@
             }
           },
           {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
+          },
+          {
             "name": "page",
             "in": "query",
             "required": false,
@@ -5872,6 +6305,17 @@
               "title": "Document Id",
               "type": "string"
             }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
           },
           {
             "name": "page",
@@ -6794,10 +7238,10 @@
             "required": false,
             "schema": {
               "title": "Search",
-              "description": "Filter based on other parameters than the email, e.g. firstname, lastname",
+              "description": "Filter based on other parameters than the email/phone, e.g. firstname, lastname",
               "type": "string"
             },
-            "description": "Filter based on other parameters than the email, e.g. firstname, lastname"
+            "description": "Filter based on other parameters than the email/phone, e.g. firstname, lastname"
           },
           {
             "name": "email",
@@ -6809,6 +7253,17 @@
               "type": "string"
             },
             "description": "Filter based on email of customer"
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Phone",
+              "description": "Filter based on phone of customer",
+              "type": "string"
+            },
+            "description": "Filter based on phone of customer"
           },
           {
             "name": "page",
@@ -8285,6 +8740,87 @@
               }
             },
             "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/commerce/payment-methods": {
+      "get": {
+        "tags": [
+          "eCommerce"
+        ],
+        "summary": "Get all payment methods",
+        "description": "Returns the list of the payment methods",
+        "operationId": "ecommerce_get_payments_methods",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Consumer Id",
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Page",
+              "default": 1,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Size",
+              "default": 50,
+              "minimum": 1,
+              "maximum": 100,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_PaymentMethodItem_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
           },
           "422": {
             "description": "Validation Error",
@@ -10357,39 +10893,6 @@
           }
         }
       },
-      "AnalyticAccountLineItemOut": {
-        "title": "AnalyticAccountLineItemOut",
-        "required": [
-          "account_id",
-          "description",
-          "amount",
-          "date"
-        ],
-        "type": "object",
-        "properties": {
-          "account_id": {
-            "title": "Account Id",
-            "type": "string"
-          },
-          "description": {
-            "title": "Description",
-            "type": "string"
-          },
-          "amount": {
-            "title": "Amount",
-            "type": "number"
-          },
-          "date": {
-            "title": "Date",
-            "type": "string",
-            "format": "date"
-          },
-          "id": {
-            "title": "Id",
-            "type": "string"
-          }
-        }
-      },
       "AnalyticDistribution": {
         "title": "AnalyticDistribution",
         "required": [
@@ -10517,6 +11020,11 @@
           },
           "accountId": {
             "title": "Accountid",
+            "type": "string",
+            "format": "uuid"
+          },
+          "marketplaceId": {
+            "title": "Marketplaceid",
             "type": "string",
             "format": "uuid"
           }
@@ -12543,6 +13051,113 @@
           "name": {
             "title": "Name",
             "type": "string"
+          },
+          "selected": {
+            "title": "Selected",
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
+      "GenericJournalEntry": {
+        "title": "GenericJournalEntry",
+        "required": [
+          "journal_id",
+          "number",
+          "currency",
+          "date",
+          "items"
+        ],
+        "type": "object",
+        "properties": {
+          "reference": {
+            "title": "Reference",
+            "type": "string"
+          },
+          "due_date": {
+            "title": "Due Date",
+            "type": "string",
+            "format": "date"
+          },
+          "journal_id": {
+            "title": "Journal Id",
+            "type": "string"
+          },
+          "number": {
+            "title": "Number",
+            "type": "string"
+          },
+          "currency": {
+            "title": "Currency",
+            "minLength": 1,
+            "type": "string"
+          },
+          "date": {
+            "title": "Date",
+            "type": "string",
+            "format": "date"
+          },
+          "items": {
+            "title": "Items",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GenericJournalItem"
+            }
+          },
+          "pdf": {
+            "title": "Pdf",
+            "type": "string",
+            "description": "Base 64 string representing the PDF attached to the item."
+          }
+        }
+      },
+      "GenericJournalItem": {
+        "title": "GenericJournalItem",
+        "required": [
+          "account_type",
+          "account",
+          "debit",
+          "credit"
+        ],
+        "type": "object",
+        "properties": {
+          "account_type": {
+            "$ref": "#/components/schemas/EntryLineType"
+          },
+          "account": {
+            "title": "Account",
+            "minLength": 1,
+            "type": "string"
+          },
+          "force_general_account": {
+            "title": "Force General Account",
+            "type": "string",
+            "description": "For ustomer/supplier/employee accounts we determine the general account based on the configurations in the accounting system. The general account can also be forced by specifying the value in this field."
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "debit": {
+            "title": "Debit",
+            "type": "number"
+          },
+          "credit": {
+            "title": "Credit",
+            "type": "number"
+          },
+          "analytic_distribution": {
+            "title": "Analytic Distribution",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AnalyticDistribution"
+            },
+            "default": []
+          },
+          "pdf": {
+            "title": "Pdf",
+            "type": "string",
+            "description": "Base 64 string representing the PDF attached to the item."
           }
         }
       },
@@ -14019,6 +14634,11 @@
             "items": {
               "$ref": "#/components/schemas/JournalItemIn"
             }
+          },
+          "pdf": {
+            "title": "Pdf",
+            "type": "string",
+            "description": "Base 64 string representing the PDF attached to the item."
           }
         }
       },
@@ -14741,10 +15361,6 @@
         ],
         "type": "object",
         "properties": {
-          "email": {
-            "title": "Email",
-            "type": "string"
-          },
           "first_name": {
             "title": "First Name",
             "type": "string"
@@ -14759,6 +15375,10 @@
           },
           "internal_notes": {
             "title": "Internal Notes",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email",
             "type": "string"
           }
         }
@@ -14766,15 +15386,10 @@
       "OrderCustomerItemOut": {
         "title": "OrderCustomerItemOut",
         "required": [
-          "email",
           "id"
         ],
         "type": "object",
         "properties": {
-          "email": {
-            "title": "Email",
-            "type": "string"
-          },
           "first_name": {
             "title": "First Name",
             "type": "string"
@@ -14789,6 +15404,10 @@
           },
           "internal_notes": {
             "title": "Internal Notes",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email",
             "type": "string"
           },
           "id": {
@@ -15083,6 +15702,11 @@
               "$ref": "#/components/schemas/FeesItem"
             },
             "default": []
+          },
+          "payment_method_id": {
+            "title": "Payment Method Id",
+            "type": "string",
+            "description": "Technical id of the payment method in the eCommerce"
           }
         }
       },
@@ -15431,6 +16055,12 @@
           "loyalty": {
             "title": "Loyalty",
             "type": "integer"
+          },
+          "birthdate": {
+            "title": "Birthdate",
+            "type": "string",
+            "description": "Birthdate",
+            "format": "date"
           }
         }
       },
@@ -15615,40 +16245,6 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AnalyticAccountItemOut"
-            }
-          },
-          "total": {
-            "title": "Total",
-            "minimum": 0.0,
-            "type": "integer"
-          },
-          "page": {
-            "title": "Page",
-            "minimum": 1.0,
-            "type": "integer"
-          },
-          "size": {
-            "title": "Size",
-            "minimum": 1.0,
-            "type": "integer"
-          }
-        }
-      },
-      "Page_AnalyticAccountLineItemOut_": {
-        "title": "Page[AnalyticAccountLineItemOut]",
-        "required": [
-          "items",
-          "total",
-          "page",
-          "size"
-        ],
-        "type": "object",
-        "properties": {
-          "items": {
-            "title": "Items",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AnalyticAccountLineItemOut"
             }
           },
           "total": {
@@ -16552,6 +17148,40 @@
           }
         }
       },
+      "Page_PaymentMethodItem_": {
+        "title": "Page[PaymentMethodItem]",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Items",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaymentMethodItem"
+            }
+          },
+          "total": {
+            "title": "Total",
+            "minimum": 0.0,
+            "type": "integer"
+          },
+          "page": {
+            "title": "Page",
+            "minimum": 1.0,
+            "type": "integer"
+          },
+          "size": {
+            "title": "Size",
+            "minimum": 1.0,
+            "type": "integer"
+          }
+        }
+      },
       "Page_PaymentMethods_": {
         "title": "Page[PaymentMethods]",
         "required": [
@@ -16927,6 +17557,40 @@
             "title": "Date",
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "PaymentMethodItem": {
+        "title": "PaymentMethodItem",
+        "required": [
+          "id",
+          "source_ref",
+          "name",
+          "active"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "title": "Source Ref",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Ref"
+              }
+            ],
+            "description": "Technical id in the target software"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "active": {
+            "title": "Active",
+            "type": "boolean"
           }
         }
       },

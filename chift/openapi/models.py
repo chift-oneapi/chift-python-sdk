@@ -33,6 +33,7 @@ from .openapi import (
     OrderItemOut,
     OutstandingItem,
     PaymentItem,
+    PaymentMethodItem,
     PaymentMethods,
     POSCustomerItem,
     POSLocationItem,
@@ -377,6 +378,10 @@ class CommerceOrder(OrderItemOut):
 
 
 class CommerceVariant(VariantItem):
+    pass
+
+
+class CommercePaymentMethod(PaymentMethodItem):
     pass
 
 

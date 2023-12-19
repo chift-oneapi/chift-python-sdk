@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.29 - 2023-12-19
+* update models + add endpoint: add payment methods to eCommerce
+
 ## 0.1.28 - 2023-12-06
 * update models: description of mappings is optional + multiple triggers on flows
 
