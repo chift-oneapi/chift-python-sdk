@@ -7578,6 +7578,15 @@
             }
           },
           {
+            "name": "location_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Location Id",
+              "type": "string"
+            }
+          },
+          {
             "name": "only_parents",
             "in": "query",
             "required": false,
@@ -7697,6 +7706,15 @@
               "title": "Consumer Id",
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "location_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Location Id",
+              "type": "string"
             }
           },
           {
@@ -8804,6 +8822,181 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Page_PaymentMethodItem_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/commerce/product-categories": {
+      "get": {
+        "tags": [
+          "eCommerce"
+        ],
+        "summary": "Get all product categories",
+        "description": "Returns the list of the product categories",
+        "operationId": "ecommerce_get_product_categories",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Consumer Id",
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "only_parents",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "default": "false",
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/BoolParam"
+                }
+              ]
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Page",
+              "default": 1,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Size",
+              "default": 50,
+              "minimum": 1,
+              "maximum": 100,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_CategoryItem_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/commerce/taxes": {
+      "get": {
+        "tags": [
+          "eCommerce"
+        ],
+        "summary": "Get all tax rates",
+        "description": "Returns the list of all tax rates",
+        "operationId": "ecommerce_get_taxes",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Consumer Id",
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Page",
+              "default": 1,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Size",
+              "default": 50,
+              "minimum": 1,
+              "maximum": 100,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_TaxRateItem_"
                 }
               }
             }
@@ -11230,6 +11423,7 @@
         "title": "CategoryItem",
         "required": [
           "id",
+          "source_ref",
           "name"
         ],
         "type": "object",
@@ -11237,11 +11431,25 @@
           "id": {
             "title": "Id",
             "type": "string",
-            "description": "Technical id of the category in the target software"
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "title": "Source Ref",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Ref"
+              }
+            ],
+            "description": "Technical id in the target software"
           },
           "name": {
             "title": "Name",
             "type": "string"
+          },
+          "parent_id": {
+            "title": "Parent Id",
+            "type": "string",
+            "description": "Technical id of the parent category in the target software"
           }
         }
       },
@@ -12435,6 +12643,11 @@
             "title": "Tax Rate",
             "type": "number"
           },
+          "tax_id": {
+            "title": "Tax Id",
+            "type": "string",
+            "description": "Technical id of the tax rate in Chift"
+          },
           "untaxed_amount": {
             "title": "Untaxed Amount",
             "type": "number"
@@ -13091,6 +13304,11 @@
             "title": "Currency",
             "minLength": 1,
             "type": "string"
+          },
+          "currency_exchange_rate": {
+            "title": "Currency Exchange Rate",
+            "type": "number",
+            "default": 1
           },
           "date": {
             "title": "Date",
@@ -15792,6 +16010,11 @@
             "title": "Description",
             "type": "string"
           },
+          "tax_id": {
+            "title": "Tax Id",
+            "type": "string",
+            "description": "Technical id of the tax rate in Chift"
+          },
           "tax_rate": {
             "title": "Tax Rate",
             "type": "number",
@@ -16449,6 +16672,40 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/BankingTransactionItem"
+            }
+          },
+          "total": {
+            "title": "Total",
+            "minimum": 0.0,
+            "type": "integer"
+          },
+          "page": {
+            "title": "Page",
+            "minimum": 1.0,
+            "type": "integer"
+          },
+          "size": {
+            "title": "Size",
+            "minimum": 1.0,
+            "type": "integer"
+          }
+        }
+      },
+      "Page_CategoryItem_": {
+        "title": "Page[CategoryItem]",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Items",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CategoryItem"
             }
           },
           "total": {
@@ -17264,7 +17521,7 @@
             "title": "Items",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProductCategoryItem"
+              "$ref": "#/components/schemas/app__routers__pos__ProductCategoryItem"
             }
           },
           "total": {
@@ -17367,6 +17624,40 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/SupplierItemOut"
+            }
+          },
+          "total": {
+            "title": "Total",
+            "minimum": 0.0,
+            "type": "integer"
+          },
+          "page": {
+            "title": "Page",
+            "minimum": 1.0,
+            "type": "integer"
+          },
+          "size": {
+            "title": "Size",
+            "minimum": 1.0,
+            "type": "integer"
+          }
+        }
+      },
+      "Page_TaxRateItem_": {
+        "title": "Page[TaxRateItem]",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Items",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TaxRateItem"
             }
           },
           "total": {
@@ -17727,33 +18018,6 @@
           }
         }
       },
-      "ProductCategoryItem": {
-        "title": "ProductCategoryItem",
-        "required": [
-          "id",
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "title": "Id",
-            "type": "string"
-          },
-          "name": {
-            "title": "Name",
-            "type": "string"
-          },
-          "description": {
-            "title": "Description",
-            "type": "string"
-          },
-          "id_parent": {
-            "title": "Id Parent",
-            "type": "string",
-            "description": "Indicates if the category belongs to a parent category"
-          }
-        }
-      },
       "ProductItemOut": {
         "title": "ProductItemOut",
         "required": [
@@ -17887,7 +18151,7 @@
             "title": "Categories",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CategoryItem"
+              "$ref": "#/components/schemas/app__routers__commerce__ProductCategoryItem"
             },
             "default": []
           },
@@ -18632,6 +18896,44 @@
         ],
         "description": "An enumeration."
       },
+      "TaxRateItem": {
+        "title": "TaxRateItem",
+        "required": [
+          "id",
+          "source_ref",
+          "label",
+          "rate"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "title": "Source Ref",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Ref"
+              }
+            ],
+            "description": "Technical id in the target software"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "rate": {
+            "title": "Rate",
+            "type": "number"
+          },
+          "country": {
+            "title": "Country",
+            "type": "string"
+          }
+        }
+      },
       "Token": {
         "title": "Token",
         "required": [
@@ -18956,7 +19258,7 @@
             "title": "Categories",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CategoryItem"
+              "$ref": "#/components/schemas/app__routers__commerce__ProductCategoryItem"
             },
             "default": []
           },
@@ -19450,6 +19752,25 @@
           }
         }
       },
+      "app__routers__commerce__ProductCategoryItem": {
+        "title": "ProductCategoryItem",
+        "required": [
+          "id",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "Technical id of the category in Chift"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          }
+        }
+      },
       "app__routers__commerce__ProductItem": {
         "title": "ProductItem",
         "required": [
@@ -19489,7 +19810,7 @@
             "title": "Categories",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CategoryItem"
+              "$ref": "#/components/schemas/app__routers__commerce__ProductCategoryItem"
             },
             "default": []
           },
@@ -19719,6 +20040,33 @@
           "Authorised"
         ],
         "description": "An enumeration."
+      },
+      "app__routers__pos__ProductCategoryItem": {
+        "title": "ProductCategoryItem",
+        "required": [
+          "id",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "id_parent": {
+            "title": "Id Parent",
+            "type": "string",
+            "description": "Indicates if the category belongs to a parent category"
+          }
+        }
       },
       "app__routers__pos__ProductPriceItem": {
         "title": "ProductPriceItem",

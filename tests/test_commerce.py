@@ -1,3 +1,6 @@
+import pytest
+
+from chift.api.exceptions import ChiftException
 from chift.openapi.models import Consumer
 
 
@@ -45,6 +48,22 @@ def test_payment_method(ecommerce_consumer: Consumer):
     payment_methods = consumer.commerce.PaymentMethod.all(limit=2)
 
     assert payment_methods
+
+
+def test_product_categories(ecommerce_consumer: Consumer):
+    consumer = ecommerce_consumer
+
+    product_categories = consumer.commerce.ProductCategory.all(limit=2)
+
+    assert product_categories
+
+
+def test_taxes(ecommerce_consumer: Consumer):
+    consumer = ecommerce_consumer
+
+    with pytest.raises(ChiftException) as e:
+        consumer.commerce.Tax.all(limit=2)
+    assert e.value.message == "API Resource does not exist"
 
 
 def test_order(ecommerce_consumer: Consumer):

@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.30 - 2023-12-29
+* update models + add endpoint: add categories and taxes to eCommerce
+
 ## 0.1.29 - 2023-12-19
 * update models + add endpoint: add payment methods to eCommerce
 

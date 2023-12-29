@@ -6,6 +6,8 @@ from chift.openapi.models import CommerceLocation as CommerceLocationModel
 from chift.openapi.models import CommerceOrder as CommerceOrderModel
 from chift.openapi.models import CommercePaymentMethod as CommercePaymentMethodModel
 from chift.openapi.models import CommerceProduct as CommerceProductModel
+from chift.openapi.models import CommerceProductCategory as CommerceProductCategoryModel
+from chift.openapi.models import CommerceTax as CommerceTaxModel
 from chift.openapi.models import CommerceVariant as CommerceVariantModel
 
 
@@ -17,6 +19,8 @@ class CommerceRouter:
         self.Order = Order(consumer_id, connection_id)
         self.Variant = Variant(consumer_id, connection_id)
         self.PaymentMethod = PaymentMethod(consumer_id, connection_id)
+        self.ProductCategory = ProductCategory(consumer_id, connection_id)
+        self.Tax = Tax(consumer_id, connection_id)
 
 
 class Customer(
@@ -69,3 +73,19 @@ class PaymentMethod(
     chift_vertical: ClassVar = "commerce"
     chift_model: ClassVar = "payment-methods"
     model = CommercePaymentMethodModel
+
+
+class ProductCategory(
+    PaginationMixin[CommerceProductCategoryModel],
+):
+    chift_vertical: ClassVar = "commerce"
+    chift_model: ClassVar = "product-categories"
+    model = CommerceProductCategoryModel
+
+
+class Tax(
+    PaginationMixin[CommerceTaxModel],
+):
+    chift_vertical: ClassVar = "commerce"
+    chift_model: ClassVar = "taxes"
+    model = CommerceTaxModel

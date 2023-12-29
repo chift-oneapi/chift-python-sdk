@@ -10,7 +10,9 @@ from .openapi import (
     AppRoutersAccountingVatCode,
     AppRoutersCommerceProductItem,
     AppRoutersConnectionsConnectionItem,
+    AppRoutersPosProductCategoryItem,
     BalanceItemOut,
+    CategoryItem,
     ClientItemOut,
     ClosureItem,
     CommerceCustomerItem,
@@ -38,13 +40,13 @@ from .openapi import (
     POSCustomerItem,
     POSLocationItem,
     POSProductItem,
-    ProductCategoryItem,
     ProductItemOut,
     ReadFlowItem,
     ReadSyncItem,
     SalesItem,
     SupplierItemOut,
     SyncConsumerItem,
+    TaxRateItem,
     TransactionItemOut,
     VariantItem,
     WebhookInstanceGetItem,
@@ -352,7 +354,7 @@ class Closure(ClosureItem):
     pass
 
 
-class POSProductCategory(ProductCategoryItem):
+class POSProductCategory(AppRoutersPosProductCategoryItem):
     pass
 
 
@@ -382,6 +384,14 @@ class CommerceVariant(VariantItem):
 
 
 class CommercePaymentMethod(PaymentMethodItem):
+    pass
+
+
+class CommerceProductCategory(CategoryItem):
+    pass
+
+
+class CommerceTax(TaxRateItem):
     pass
 
 
