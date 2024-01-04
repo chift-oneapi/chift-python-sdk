@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.31 - 2024-01-04
+* update sync models due to update in mappings
+
 ## 0.1.30 - 2023-12-29
 * update models + add endpoint: add categories and taxes to eCommerce
 
