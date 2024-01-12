@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.32 - 2024-01-12
+* update invoicing API: add custom get and update endpoints
+
 ## 0.1.31 - 2024-01-04
 * update sync models due to update in mappings
 

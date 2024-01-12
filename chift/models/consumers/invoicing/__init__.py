@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import ClassVar
 
-from chift.api.mixins import CreateMixin, ListMixin, PaginationMixin, ReadMixin
+from chift.api.mixins import CreateMixin, PaginationMixin, ReadMixin, UpdateMixin
 from chift.openapi.models import Contact as ContactModel
 from chift.openapi.models import Invoice as InvoiceModel
 from chift.openapi.models import Opportunity as OpportunityModel
@@ -66,7 +66,7 @@ class Tax(ReadMixin[TaxModel], PaginationMixin[TaxModel]):
     model = TaxModel
 
 
-class Custom(CreateMixin, PaginationMixin):
+class Custom(ReadMixin, CreateMixin, UpdateMixin, PaginationMixin):
     chift_vertical: ClassVar = "invoicing"
     chift_model: ClassVar = "custom"
 
@@ -77,3 +77,11 @@ class Custom(CreateMixin, PaginationMixin):
     def create(self, custom_path, data, client=None, params=None):
         self.extra_path = custom_path
         return super().create(data, map_model=False, client=client, params=params)
+
+    def update(self, custom_path, chift_id, data, client=None, params=None):
+        self.extra_path = f"{custom_path}/{chift_id}"
+        return super().update(None, data, map_model=False, client=client, params=params)
+
+    def get(self, custom_path, chift_id, params=None, client=None):
+        self.extra_path = f"{custom_path}/{chift_id}"
+        return super().get(chift_id=None, map_model=False, params=params, client=client)
