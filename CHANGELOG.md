@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.33 - 2024-01-20
+* new endpoint to delete datastoredata by id
+
 ## 0.1.32 - 2024-01-12
 * update invoicing API: add custom get and update endpoints
 

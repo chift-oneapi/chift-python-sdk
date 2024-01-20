@@ -1,6 +1,6 @@
 from typing import ClassVar
 
-from chift.api.mixins import CreateMixin, ListMixin, UpdateMixin
+from chift.api.mixins import CreateMixin, ListMixin, UpdateMixin, DeleteMixin
 from chift.openapi.models import Data as DataModel
 
 
@@ -8,6 +8,7 @@ class Data(
     ListMixin[DataModel],
     CreateMixin[DataModel],
     UpdateMixin[DataModel],
+    DeleteMixin[DataModel]
 ):
     chift_vertical: ClassVar = "datastore"
     chift_model: ClassVar = ""
@@ -31,3 +32,7 @@ class Data(
     ) -> DataModel:
         self.extra_path = f"{datastore_id}/data/{datastoredata_id}"
         return super().update(None, data, client=client, params=params)
+
+    def delete(self, datastore_id, datastoredata_id, client=None, params=None):
+        self.extra_path = f"{datastore_id}/data/{datastoredata_id}"
+        return super().delete(None, client=client, params=params)
