@@ -1,6 +1,3 @@
-import pytest
-
-from chift.api.exceptions import ChiftException
 from chift.openapi.models import Consumer
 
 
@@ -61,9 +58,8 @@ def test_product_categories(ecommerce_consumer: Consumer):
 def test_taxes(ecommerce_consumer: Consumer):
     consumer = ecommerce_consumer
 
-    with pytest.raises(ChiftException) as e:
-        consumer.commerce.Tax.all(limit=2)
-    assert e.value.message == "API Resource does not exist"
+    taxes = consumer.commerce.Tax.all(limit=2)
+    assert taxes
 
 
 def test_order(ecommerce_consumer: Consumer):

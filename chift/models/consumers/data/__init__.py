@@ -1,6 +1,6 @@
 from typing import ClassVar
 
-from chift.api.mixins import CreateMixin, ListMixin, UpdateMixin, DeleteMixin
+from chift.api.mixins import CreateMixin, DeleteMixin, ListMixin, UpdateMixin
 from chift.openapi.models import Data as DataModel
 
 
@@ -8,7 +8,7 @@ class Data(
     ListMixin[DataModel],
     CreateMixin[DataModel],
     UpdateMixin[DataModel],
-    DeleteMixin[DataModel]
+    DeleteMixin[DataModel],
 ):
     chift_vertical: ClassVar = "datastore"
     chift_model: ClassVar = ""
