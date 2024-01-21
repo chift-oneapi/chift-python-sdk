@@ -8,7 +8,7 @@ class Data(
     ListMixin[DataModel],
     CreateMixin[DataModel],
     UpdateMixin[DataModel],
-    DeleteMixin[DataModel],
+    DeleteMixin,
 ):
     chift_vertical: ClassVar = "datastore"
     chift_model: ClassVar = ""
