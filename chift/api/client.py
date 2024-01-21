@@ -157,6 +157,9 @@ class ChiftClient:
                 detail=req.text,
             )
 
+        if req.status_code == 204:
+            return True
+
         try:
             result = req.json()
         except:

@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.34 & 0.1.35 - 2024-01-21
+* fix delete requests response handling
+
 ## 0.1.33 - 2024-01-20
 * new endpoint to delete datastoredata by id
 
