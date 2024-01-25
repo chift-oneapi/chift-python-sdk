@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.36 - 2024-01-25
+* add new POS route: Get accounting categories
+
 ## 0.1.34 & 0.1.35 - 2024-01-21
 * fix delete requests response handling
 

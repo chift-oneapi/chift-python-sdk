@@ -7,6 +7,7 @@ from chift.openapi.models import Location as LocationModel
 from chift.openapi.models import Order as OrderModel
 from chift.openapi.models import Payment as PaymentModel
 from chift.openapi.models import PaymentMethods as PaymentMethodsModel
+from chift.openapi.models import POSAccountingCategory as AccountingCategoryModel
 from chift.openapi.models import POSProduct as ProductModel
 from chift.openapi.models import POSProductCategory as ProductCategoryModel
 from chift.openapi.models import Sales as SalesModel
@@ -23,6 +24,7 @@ class PosRouter:
         self.Closure = Closure(consumer_id, connection_id)
         self.Product = Product(consumer_id, connection_id)
         self.ProductCategory = ProductCategory(consumer_id, connection_id)
+        self.AccountingCategory = AccountingCategory(consumer_id, connection_id)
 
 
 class Customer(
@@ -79,3 +81,9 @@ class ProductCategory(PaginationMixin[ProductCategoryModel]):
     chift_vertical: ClassVar = "pos"
     chift_model: ClassVar = "product-categories"
     model = ProductCategoryModel
+
+
+class AccountingCategory(PaginationMixin[AccountingCategoryModel]):
+    chift_vertical: ClassVar = "pos"
+    chift_model: ClassVar = "accounting-categories"
+    model = AccountingCategoryModel

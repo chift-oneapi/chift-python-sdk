@@ -983,6 +983,38 @@
             }
           }
         }
+      },
+      "patch": {
+        "tags": ["Syncs"],
+        "summary": "Update existing sync",
+        "description": "Update existing sync & related flows and mappings",
+        "operationId": "syncs_update_sync",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateSyncItem" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ReadSyncItem" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
       }
     },
     "/syncs/{syncid}": {
@@ -6855,6 +6887,105 @@
         }
       }
     },
+    "/consumers/{consumer_id}/pos/accounting-categories": {
+      "get": {
+        "tags": ["Point of Sale"],
+        "summary": "Get accounting categories",
+        "description": "Returns a list of accounting categories. When not available for a specific POS, it will return the same values as the product categories.",
+        "operationId": "pos_get_accounting_categories",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Consumer Id",
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Page",
+              "default": 1,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Size",
+              "default": 50,
+              "minimum": 1,
+              "maximum": 100,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_AccountingCategoryItem_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": { "$ref": "#/components/schemas/ChiftError" }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to authenticate to {ConnectorName}",
+                  "status": "error"
+                },
+                "schema": { "$ref": "#/components/schemas/ChiftError" }
+              }
+            },
+            "description": "Bad Gateway"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                  "status": "error"
+                },
+                "schema": { "$ref": "#/components/schemas/ChiftError" }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/pos/closures/{date}": {
       "get": {
         "tags": ["Point of Sale"],
@@ -9139,6 +9270,103 @@
         }
       }
     },
+    "/consumers/{consumer_id}/banking/counterparts": {
+      "get": {
+        "tags": ["Banking"],
+        "summary": "Get aggregated list of account counterparts found in transactions",
+        "description": "Returns the aggregated list of account counterpats found in transactions. Useful for categorisation.",
+        "operationId": "banking_get_account_counterparts",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Consumer Id",
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "accountid",
+            "in": "query",
+            "required": false,
+            "schema": { "title": "Accountid", "type": "string" }
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Date From",
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "required": false,
+            "schema": { "title": "Date To", "type": "string", "format": "date" }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Page",
+              "default": 1,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Size",
+              "default": 50,
+              "minimum": 1,
+              "maximum": 100,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_BankingCounterPartItem_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": { "$ref": "#/components/schemas/ChiftError" }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/payment/balances": {
       "get": {
         "tags": ["Payment"],
@@ -9438,6 +9666,30 @@
         ],
         "type": "string",
         "description": "An enumeration."
+      },
+      "AccountingCategoryItem": {
+        "title": "AccountingCategoryItem",
+        "required": ["id", "name"],
+        "type": "object",
+        "properties": {
+          "id": { "title": "Id", "type": "string" },
+          "name": { "title": "Name", "type": "string" },
+          "code": {
+            "title": "Code",
+            "type": "string",
+            "description": "Code assigned to the category"
+          },
+          "ledger_account_code": {
+            "title": "Ledger Account Code",
+            "type": "string",
+            "description": "Ledger account code assigned to the category"
+          },
+          "posting_account_code": {
+            "title": "Posting Account Code",
+            "type": "string",
+            "description": "Posting account code assigned to the category"
+          }
+        }
       },
       "AddressItem": {
         "title": "AddressItem",
@@ -9748,6 +10000,15 @@
           "reference": { "title": "Reference", "type": "string" },
           "reference_type": { "title": "Reference Type", "type": "string" },
           "holder_name": { "title": "Holder Name", "type": "string" }
+        }
+      },
+      "BankingCounterPartItem": {
+        "title": "BankingCounterPartItem",
+        "type": "object",
+        "properties": {
+          "name": { "title": "Name", "type": "string" },
+          "reference": { "title": "Reference", "type": "string" },
+          "details": { "title": "Details", "type": "string" }
         }
       },
       "BankingFinancialInstitutionItem": {
@@ -11135,11 +11396,6 @@
             "type": "array",
             "items": { "$ref": "#/components/schemas/AnalyticDistribution" },
             "default": []
-          },
-          "pdf": {
-            "title": "Pdf",
-            "type": "string",
-            "description": "Base 64 string representing the PDF attached to the item."
           }
         }
       },
@@ -12245,6 +12501,11 @@
             "title": "Product Id",
             "type": "string",
             "description": "Reference to the product related to this item"
+          },
+          "accounting_category_id": {
+            "title": "Accounting Category Id",
+            "type": "string",
+            "description": "Sometimes used by a POS to give a specific accounting category to an order item"
           }
         }
       },
@@ -12376,11 +12637,6 @@
             "type": "array",
             "items": { "$ref": "#/components/schemas/AnalyticDistribution" },
             "default": []
-          },
-          "pdf": {
-            "title": "Pdf",
-            "type": "string",
-            "description": "Base 64 string representing the PDF attached to the item."
           }
         }
       },
@@ -13279,6 +13535,12 @@
             "items": {
               "$ref": "#/components/schemas/app__routers__pos__ProductPriceItem"
             }
+          },
+          "accounting_category_ids": {
+            "title": "Accounting Category Ids",
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Used by a POS to give one or more specific accounting categories to a product item. If not available it will use the category ids"
           }
         }
       },
@@ -13306,6 +13568,21 @@
             "title": "Items",
             "type": "array",
             "items": { "$ref": "#/components/schemas/AccountItem" }
+          },
+          "total": { "title": "Total", "minimum": 0.0, "type": "integer" },
+          "page": { "title": "Page", "minimum": 1.0, "type": "integer" },
+          "size": { "title": "Size", "minimum": 1.0, "type": "integer" }
+        }
+      },
+      "Page_AccountingCategoryItem_": {
+        "title": "Page[AccountingCategoryItem]",
+        "required": ["items", "total", "page", "size"],
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Items",
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/AccountingCategoryItem" }
           },
           "total": { "title": "Total", "minimum": 0.0, "type": "integer" },
           "page": { "title": "Page", "minimum": 1.0, "type": "integer" },
@@ -13398,6 +13675,21 @@
             "title": "Items",
             "type": "array",
             "items": { "$ref": "#/components/schemas/BankingAccountItem" }
+          },
+          "total": { "title": "Total", "minimum": 0.0, "type": "integer" },
+          "page": { "title": "Page", "minimum": 1.0, "type": "integer" },
+          "size": { "title": "Size", "minimum": 1.0, "type": "integer" }
+        }
+      },
+      "Page_BankingCounterPartItem_": {
+        "title": "Page[BankingCounterPartItem]",
+        "required": ["items", "total", "page", "size"],
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Items",
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/BankingCounterPartItem" }
           },
           "total": { "title": "Total", "minimum": 0.0, "type": "integer" },
           "page": { "title": "Page", "minimum": 1.0, "type": "integer" },
@@ -15153,7 +15445,12 @@
           "rate": { "title": "Rate", "type": "number" },
           "type": {
             "$ref": "#/components/schemas/app__routers__accounting__VatCodeType"
-          }
+          },
+          "deductible_account": {
+            "title": "Deductible Account",
+            "type": "string"
+          },
+          "payable_account": { "title": "Payable Account", "type": "string" }
         }
       },
       "app__routers__accounting__VatCodeScope": {

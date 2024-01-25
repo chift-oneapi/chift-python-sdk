@@ -5,6 +5,7 @@ from typing import List, Optional
 from pydantic import BaseModel, Extra
 
 from .openapi import (
+    AccountingCategoryItem,
     AccountItem,
     AnalyticAccountItemOut,
     AppRoutersAccountingVatCode,
@@ -355,6 +356,10 @@ class Closure(ClosureItem):
 
 
 class POSProductCategory(AppRoutersPosProductCategoryItem):
+    pass
+
+
+class POSAccountingCategory(AccountingCategoryItem):
     pass
 
 
