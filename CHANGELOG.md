@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.37 - 2024-01-25
+* update accounting category model (POS)
+
 ## 0.1.36 - 2024-01-25
 * add new POS route: Get accounting categories
 
