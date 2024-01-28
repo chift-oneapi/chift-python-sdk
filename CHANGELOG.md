@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.38 - 2024-01-28
+* update refunds model (eCommerce)
+
 ## 0.1.37 - 2024-01-25
 * update accounting category model (POS)
 
