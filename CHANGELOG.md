@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.39 - 2024-01-31
+* update refunds model (eCommerce): add shipping details
+
 ## 0.1.38 - 2024-01-28
 * update refunds model (eCommerce)
 

@@ -16456,6 +16456,14 @@
             "title": "Other",
             "type": "number",
             "default": 0
+          },
+          "shipping_refunds": {
+            "title": "Shipping Refunds",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShippingRefund"
+            },
+            "default": []
           }
         }
       },
@@ -18946,6 +18954,32 @@
             "items": {
               "$ref": "#/components/schemas/TotalTaxItem"
             }
+          }
+        }
+      },
+      "ShippingRefund": {
+        "title": "ShippingRefund",
+        "required": [
+          "untaxed_amount",
+          "tax_amount",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "untaxed_amount": {
+            "title": "Untaxed Amount",
+            "type": "number",
+            "description": "Untaxed amount refunded (after discount)."
+          },
+          "tax_amount": {
+            "title": "Tax Amount",
+            "type": "number",
+            "description": "Total taxes refunded (after discount)."
+          },
+          "total": {
+            "title": "Total",
+            "type": "number",
+            "description": "Total refunded (after discount)."
           }
         }
       },
