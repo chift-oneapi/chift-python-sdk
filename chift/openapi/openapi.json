@@ -16382,6 +16382,11 @@
               "$ref": "#/components/schemas/app__routers__commerce__DiscountItem"
             },
             "default": []
+          },
+          "gift_card": {
+            "title": "Gift Card",
+            "type": "boolean",
+            "default": false
           }
         }
       },

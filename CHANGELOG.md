@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.40 - 2024-02-06
+* update orders model (eCommerce): add gift card detail
+
 ## 0.1.39 - 2024-01-31
 * update refunds model (eCommerce): add shipping details
 
