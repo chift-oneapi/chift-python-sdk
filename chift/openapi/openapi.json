@@ -9247,6 +9247,16 @@
             }
           },
           {
+            "name": "updated_after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Updated After",
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
             "name": "page",
             "in": "query",
             "required": false,
@@ -13671,6 +13681,11 @@
             "title": "Pdf",
             "type": "string",
             "description": "Base 64 string representing the PDF attached to the item."
+          },
+          "posted": {
+            "title": "Posted",
+            "type": "boolean",
+            "default": true
           }
         }
       },
@@ -14324,6 +14339,11 @@
               }
             ],
             "description": "Journal"
+          },
+          "last_updated_on": {
+            "title": "Last Updated On",
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -14650,6 +14670,11 @@
               }
             ],
             "description": "Journal"
+          },
+          "last_updated_on": {
+            "title": "Last Updated On",
+            "type": "string",
+            "format": "date-time"
           },
           "pdf": {
             "title": "Pdf",

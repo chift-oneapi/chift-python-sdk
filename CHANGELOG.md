@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.41 - 2024-02-14
+* update journal entries creation (Accounting): add possibility to create draft entries
+
 ## 0.1.40 - 2024-02-06
 * update orders model (eCommerce): add gift card detail
 
