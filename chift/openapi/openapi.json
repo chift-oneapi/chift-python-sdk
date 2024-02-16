@@ -12991,6 +12991,11 @@
         ],
         "type": "object",
         "properties": {
+          "created_on": {
+            "title": "Created On",
+            "type": "string",
+            "format": "date-time"
+          },
           "type": {
             "$ref": "#/components/schemas/FeesType"
           },
@@ -16290,6 +16295,22 @@
             "title": "Payment Method Id",
             "type": "string",
             "description": "Technical id of the payment method in the eCommerce"
+          },
+          "transactions": {
+            "title": "Transactions",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderTransactions"
+            },
+            "default": []
+          },
+          "payment_methods": {
+            "title": "Payment Methods",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderPaymentMethods"
+            },
+            "default": []
           }
         }
       },
@@ -16352,6 +16373,11 @@
               }
             ],
             "description": "Technical id in the target software"
+          },
+          "created_on": {
+            "title": "Created On",
+            "type": "string",
+            "format": "date-time"
           },
           "variant": {
             "title": "Variant",
@@ -16438,6 +16464,25 @@
           }
         }
       },
+      "OrderPaymentMethods": {
+        "title": "OrderPaymentMethods",
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "Technical id of the payment method in the eCommerce"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string",
+            "description": "Name of the payment method"
+          }
+        }
+      },
       "OrderRefundItem": {
         "title": "OrderRefundItem",
         "required": [
@@ -16508,6 +16553,39 @@
         ],
         "type": "string",
         "description": "An enumeration."
+      },
+      "OrderTransactions": {
+        "title": "OrderTransactions",
+        "required": [
+          "id",
+          "amount",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "Technical id of the transaction in the eCommerce"
+          },
+          "payment_method_id": {
+            "title": "Payment Method Id",
+            "type": "string",
+            "description": "Technical id of the payment method in the eCommerce"
+          },
+          "payment_method_name": {
+            "title": "Payment Method Name",
+            "type": "string",
+            "description": "Name of the payment method"
+          },
+          "amount": {
+            "title": "Amount",
+            "type": "number"
+          },
+          "status": {
+            "$ref": "#/components/schemas/TransactionStatus"
+          }
+        }
       },
       "OutstandingItem": {
         "title": "OutstandingItem",
@@ -19584,6 +19662,16 @@
             "description": "Accounting category"
           }
         }
+      },
+      "TransactionStatus": {
+        "title": "TransactionStatus",
+        "enum": [
+          "failed",
+          "pending",
+          "success"
+        ],
+        "type": "string",
+        "description": "An enumeration."
       },
       "TriggerResponse": {
         "title": "TriggerResponse",

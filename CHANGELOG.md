@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.42 - 2024-02-16
+* update orders model (eCommerce): multiple payment methods + transactions + creation date on each element of an order
+
 ## 0.1.41 - 2024-02-14
 * update journal entries creation (Accounting): add possibility to create draft entries
 
