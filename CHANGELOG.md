@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.43 - 2024-02-17
+* update models to support custom mappings
+
 ## 0.1.42 - 2024-02-16
 * update orders model (eCommerce): multiple payment methods + transactions + creation date on each element of an order
 
