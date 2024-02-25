@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.44 - 2024-02-25
+* update orders model (eCommerce): add discounts on fees
+
 ## 0.1.43 - 2024-02-17
 * update models to support custom mappings
 
