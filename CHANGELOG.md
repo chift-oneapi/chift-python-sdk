@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.45 - 2024-02-26
+* update POS model: description optional
+
 ## 0.1.44 - 2024-02-25
 * update orders model (eCommerce): add discounts on fees
 
