@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.46 - 2024-02-27
+* add analytic accounts support in SDK (Accounting)
+
 ## 0.1.45 - 2024-02-26
 * update POS model: description optional
 

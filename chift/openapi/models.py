@@ -7,7 +7,8 @@ from pydantic import BaseModel, Extra
 from .openapi import (
     AccountingCategoryItem,
     AccountItem,
-    AnalyticAccountItemOut,
+    AnalyticAccountItemOutMultiAnalyticPlans,
+    AnalyticPlanItem,
     AppRoutersAccountingVatCode,
     AppRoutersCommerceProductItem,
     AppRoutersConnectionsConnectionItem,
@@ -277,7 +278,11 @@ class Tax(ModelsInvoicingVatCode):
 
 
 # accouting
-class AnalyticPlan(AnalyticAccountItemOut):
+class AnalyticPlan(AnalyticPlanItem):
+    pass
+
+
+class AnalyticAccountMultiPlan(AnalyticAccountItemOutMultiAnalyticPlans):
     pass
 
 

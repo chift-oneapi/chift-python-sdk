@@ -2,6 +2,9 @@ from typing import ClassVar
 
 from chift.api.mixins import CreateMixin, PaginationMixin, ReadMixin, UpdateMixin
 from chift.openapi.models import Account as AccountModel
+from chift.openapi.models import (
+    AnalyticAccountMultiPlan as AnalyticAccountMultiPlanModel,
+)
 from chift.openapi.models import AnalyticPlan as AnalyticPlanModel
 from chift.openapi.models import Client as ClientModel
 from chift.openapi.models import FinancialEntry as FinancialEntryModel
@@ -34,6 +37,15 @@ class AnalyticPlan(PaginationMixin[AnalyticPlanModel]):
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "analytic-plans"
     model = AnalyticPlanModel
+
+
+class AnalyticAccountMultiPlan(
+    CreateMixin[AnalyticAccountMultiPlanModel],
+    PaginationMixin[AnalyticAccountMultiPlanModel],
+):
+    chift_vertical: ClassVar = "accounting"
+    chift_model: ClassVar = "analytic-accounts/multi-analytic-plans"
+    model = AnalyticAccountMultiPlanModel
 
 
 class Tax(PaginationMixin[TaxAccountingModel]):
