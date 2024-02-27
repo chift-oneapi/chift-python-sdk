@@ -20,6 +20,9 @@ from chift.openapi.models import TaxAccounting as TaxAccountingModel
 class AccountingRouter:
     def __init__(self, consumer_id, connection_id):
         self.AnalyticPlan = AnalyticPlan(consumer_id, connection_id)
+        self.AnalyticAccountMultiPlan = AnalyticAccountMultiPlan(
+            consumer_id, connection_id
+        )
         self.Tax = Tax(consumer_id, connection_id)
         self.Account = Account(consumer_id, connection_id)
         self.MiscellaneousOperation = MiscellaneousOperation(consumer_id, connection_id)
