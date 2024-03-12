@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.47 - 2024-03-13
+* add challenge question in sync mapping model
+
 ## 0.1.46 - 2024-02-27
 * add analytic accounts support in SDK (Accounting)
 

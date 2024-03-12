@@ -7,6 +7,20 @@
   },
   "servers": [{ "url": "https://api.chift.eu", "description": "Chift" }],
   "paths": {
+    "/chift_metrics": {
+      "get": {
+        "tags": ["metrics"],
+        "summary": "Metrics",
+        "description": "Endpoint that serves Prometheus metrics.",
+        "operationId": "metrics_chift_metrics_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    },
     "/consumers": {
       "get": {
         "tags": ["Consumers"],
@@ -1781,6 +1795,70 @@
               }
             },
             "description": "Unprocessable Entity"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Consumers"],
+        "summary": "Delete execution data for a specific consumer and a specific datastore",
+        "description": "Delete execution data related to a consumer and a datastore",
+        "operationId": "datastores_update_consumer_datastoredata",
+        "parameters": [
+          {
+            "name": "consumerid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Consumerid",
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "datastoreid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Datastoreid",
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "datastoredataid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Datastoredataid",
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The datastoredata does not exist",
+                  "status": "error"
+                },
+                "schema": { "$ref": "#/components/schemas/ChiftError" }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
           }
         }
       }
@@ -5536,8 +5614,8 @@
     "/consumers/{consumer_id}/accounting/outstandings": {
       "get": {
         "tags": ["Accounting"],
-        "summary": "Get clients/suppliers outstandings",
-        "description": "Returns a list of all clients/suppliers outstanding's informations",
+        "summary": "Get clients/suppliers outstanding items",
+        "description": "Returns a list of all clients/suppliers outstanding items",
         "operationId": "accounting_get_outstandings",
         "parameters": [
           {
@@ -11481,6 +11559,10 @@
             "type": "integer",
             "default": 0
           },
+          "challenge_question": {
+            "title": "Challenge Question",
+            "type": "string"
+          },
           "sub_mappings": {
             "title": "Sub Mappings",
             "type": "array",
@@ -11502,6 +11584,10 @@
             "title": "Display Order",
             "type": "integer",
             "default": 0
+          },
+          "challenge_question": {
+            "title": "Challenge Question",
+            "type": "string"
           },
           "source_field": { "$ref": "#/components/schemas/FieldItem" },
           "target_field": { "$ref": "#/components/schemas/FieldItem" },
@@ -12419,6 +12505,9 @@
             "allOf": [{ "$ref": "#/components/schemas/InvoiceCorrection" }],
             "description": "Information used to add a correction line when roundings have an impact on the total amount of the invoice."
           },
+          "nl_payment_terms_split": {
+            "$ref": "#/components/schemas/NlPaymentTermsSplit"
+          },
           "lines": {
             "title": "Lines",
             "type": "array",
@@ -12504,6 +12593,9 @@
             "title": "Invoice Correction",
             "allOf": [{ "$ref": "#/components/schemas/InvoiceCorrection" }],
             "description": "Information used to add a correction line when roundings have an impact on the total amount of the invoice."
+          },
+          "nl_payment_terms_split": {
+            "$ref": "#/components/schemas/NlPaymentTermsSplit"
           },
           "lines": {
             "title": "Lines",
@@ -13647,6 +13739,17 @@
         "type": "string",
         "description": "An enumeration."
       },
+      "NlPaymentTermsSplit": {
+        "title": "NlPaymentTermsSplit",
+        "required": ["g_account", "n_account"],
+        "type": "object",
+        "properties": {
+          "g_account": {
+            "$ref": "#/components/schemas/PaymentTermAccountInfo"
+          },
+          "n_account": { "$ref": "#/components/schemas/PaymentTermAccountInfo" }
+        }
+      },
       "OpportunityItem": {
         "title": "OpportunityItem",
         "required": [
@@ -14253,6 +14356,10 @@
           "partner_id": { "title": "Partner Id", "type": "string" },
           "account_number": { "title": "Account Number", "type": "string" },
           "reference": { "title": "Reference", "type": "string" },
+          "payment_communication": {
+            "title": "Payment Communication",
+            "type": "string"
+          },
           "posted": { "title": "Posted", "type": "boolean" }
         }
       },
@@ -14543,6 +14650,15 @@
           "id": { "title": "Id", "type": "string" },
           "name": { "title": "Name", "type": "string" },
           "extra": { "title": "Extra", "type": "string" }
+        }
+      },
+      "PaymentTermAccountInfo": {
+        "title": "PaymentTermAccountInfo",
+        "required": ["amount", "iban"],
+        "type": "object",
+        "properties": {
+          "amount": { "title": "Amount", "type": "number" },
+          "iban": { "title": "Iban", "type": "string" }
         }
       },
       "PostAddressItem": {
@@ -14863,6 +14979,10 @@
             "title": "Display Order",
             "type": "integer",
             "default": 0
+          },
+          "challenge_question": {
+            "title": "Challenge Question",
+            "type": "string"
           },
           "values": {
             "title": "Values",
@@ -15753,6 +15873,7 @@
         "type": "object",
         "properties": {
           "address_type": { "$ref": "#/components/schemas/AddressType" },
+          "company_name": { "title": "Company Name", "type": "string" },
           "first_name": { "title": "First Name", "type": "string" },
           "last_name": { "title": "Last Name", "type": "string" },
           "street": { "title": "Street", "type": "string" },
