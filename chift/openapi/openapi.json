@@ -13578,6 +13578,19 @@
         "type": "object",
         "properties": { "url": { "title": "Url", "type": "string" } }
       },
+      "LocalAgentInfo": {
+        "title": "LocalAgentInfo",
+        "required": ["status"],
+        "type": "object",
+        "properties": {
+          "status": { "$ref": "#/components/schemas/LocalAgentStatus" }
+        }
+      },
+      "LocalAgentStatus": {
+        "title": "LocalAgentStatus",
+        "enum": ["up", "down"],
+        "description": "An enumeration."
+      },
       "LogoImage": {
         "title": "LogoImage",
         "required": ["integrationid", "data"],
@@ -16008,6 +16021,11 @@
           "data": { "title": "Data", "type": "object" },
           "status": {
             "$ref": "#/components/schemas/app__routers__connections__Status"
+          },
+          "agent": {
+            "title": "Agent",
+            "allOf": [{ "$ref": "#/components/schemas/LocalAgentInfo" }],
+            "description": "For local agent only. Indicates whether the local agent is up and running"
           }
         }
       },

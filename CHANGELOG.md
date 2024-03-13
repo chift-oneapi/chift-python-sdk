@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.48 - 2024-03-13
+* update connection model: add agent field
+
 ## 0.1.47 - 2024-03-13
 * add challenge question in sync mapping model
 
