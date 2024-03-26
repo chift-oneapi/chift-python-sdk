@@ -21,6 +21,7 @@ from .openapi import (
     CommerceLocationItemOut,
     ConsumerItem,
     ContactItemOut,
+    CountryItem,
     DataItem,
     DataItemOut,
     DataStoreItem,
@@ -398,6 +399,10 @@ class CommercePaymentMethod(PaymentMethodItem):
 
 
 class CommerceProductCategory(CategoryItem):
+    pass
+
+
+class CommerceCountry(CountryItem):
     pass
 
 

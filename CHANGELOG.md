@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.49 - 2024-03-26
+* add countries endpoint in eCommerce
+
 ## 0.1.48 - 2024-03-13
 * update connection model: add agent field
 
