@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.50 - 2024-04-03
+* add endpoints to create connections and consumers
+
 ## 0.1.49 - 2024-03-26
 * add countries endpoint in eCommerce
 
