@@ -10,3 +10,7 @@ class Connection(
     chift_vertical: ClassVar = "connections"
     chift_model: ClassVar = ""
     model = ConnectionModel
+
+    @classmethod
+    def create(cls, data, client=None) -> dict:
+        return super().create(cls, data, client=client)
