@@ -31,6 +31,7 @@ from .openapi import (
     InvoiceItemOutSingle,
     Journal,
     JournalEntryMultiAnalyticPlan,
+    LinkItem,
     MiscellaneousOperationOut,
     ModelsInvoicingVatCode,
     OpportunityItem,
@@ -247,6 +248,10 @@ class WebhookType(WebhookItem):
 
 # connections
 class Connection(AppRoutersConnectionsConnectionItem):
+    pass
+
+
+class ConnectionLink(LinkItem):
     pass
 
 

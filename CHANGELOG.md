@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.52 - 2024-04-03
+* fix issues connection creation
+
 ## 0.1.50 - 2024-04-03
 * add endpoints to create connections and consumers
 
