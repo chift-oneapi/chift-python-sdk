@@ -11204,6 +11204,10 @@
             "title": "Account Number",
             "type": "string"
           },
+          "account_name": {
+            "title": "Account Name",
+            "type": "string"
+          },
           "debit": {
             "title": "Debit",
             "type": "number"
@@ -11222,7 +11226,6 @@
         "title": "AccountBalanceFilter",
         "required": [
           "accounts",
-          "start",
           "end"
         ],
         "type": "object",
@@ -11238,12 +11241,14 @@
           "start": {
             "title": "Start",
             "type": "string",
-            "description": "Start month (included, e.g. 022023 for february 2023)"
+            "description": "Start month (included, e.g. 202302 for february 2023)"
           },
           "end": {
             "title": "End",
+            "maxLength": 6,
+            "minLength": 6,
             "type": "string",
-            "description": "End month (included, e.g. 122023 for december 2023)"
+            "description": "End month (included, e.g. 202312 for december 2023)"
           }
         }
       },
@@ -14615,6 +14620,8 @@
       "FeesItem": {
         "title": "FeesItem",
         "required": [
+          "id",
+          "source_ref",
           "type",
           "tax_rate",
           "untaxed_amount",
@@ -14623,6 +14630,20 @@
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "title": "Source Ref",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Ref"
+              }
+            ],
+            "description": "Technical id in the target software"
+          },
           "created_on": {
             "title": "Created On",
             "type": "string",

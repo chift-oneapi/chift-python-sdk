@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.53 - 2024-04-10
+* ecommerce: add id on fees
+
 ## 0.1.52 - 2024-04-03
 * fix issues connection creation
 
