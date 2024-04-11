@@ -19533,12 +19533,28 @@
       "ShippingRefund": {
         "title": "ShippingRefund",
         "required": [
+          "id",
+          "source_ref",
           "untaxed_amount",
           "tax_amount",
           "total"
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "title": "Source Ref",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Ref"
+              }
+            ],
+            "description": "Technical id in the target software"
+          },
           "untaxed_amount": {
             "title": "Untaxed Amount",
             "type": "number",
