@@ -8883,6 +8883,21 @@
             "description": "Include detailed information concerning refunds"
           },
           {
+            "name": "include_product_categories",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "description": "Include detailed information about categories",
+              "default": "false",
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/BoolParam"
+                }
+              ]
+            },
+            "description": "Include detailed information about categories"
+          },
+          {
             "name": "page",
             "in": "query",
             "required": false,
@@ -9041,6 +9056,21 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "include_product_categories",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "description": "Include detailed information about categories",
+              "default": "false",
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/BoolParam"
+                }
+              ]
+            },
+            "description": "Include detailed information about categories"
           }
         ],
         "responses": {
@@ -18192,6 +18222,14 @@
           "name": {
             "title": "Name",
             "type": "string"
+          },
+          "categories": {
+            "title": "Categories",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/app__routers__commerce__ProductCategoryItem"
+            },
+            "default": []
           }
         }
       },
