@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.56 - 2024-05-07
+* ecommerce: add delivery date on orders
+
 ## 0.1.55 - 2024-04-11
 * ecommerce: add product categories on order line items
 

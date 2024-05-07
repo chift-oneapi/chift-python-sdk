@@ -2239,6 +2239,97 @@
         }
       }
     },
+    "/consumers/{consumer_id}/accounting/bookyears": {
+      "get": {
+        "tags": [
+          "Accounting"
+        ],
+        "summary": "Get Bookyears",
+        "operationId": "accounting_get_bookyears",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Consumer Id",
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Page",
+              "default": 1,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Size",
+              "default": 50,
+              "minimum": 1,
+              "maximum": 100,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_BookYear_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/accounting/analytic-plans": {
       "get": {
         "tags": [
@@ -12025,6 +12116,36 @@
           }
         }
       },
+      "BookYear": {
+        "title": "BookYear",
+        "required": [
+          "name",
+          "start",
+          "end",
+          "closed"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "start": {
+            "title": "Start",
+            "type": "string",
+            "format": "date"
+          },
+          "end": {
+            "title": "End",
+            "type": "string",
+            "format": "date"
+          },
+          "closed": {
+            "title": "Closed",
+            "type": "boolean"
+          }
+        }
+      },
       "BoolParam": {
         "title": "BoolParam",
         "enum": [
@@ -12373,6 +12494,40 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/BalanceItemOut"
+            }
+          },
+          "total": {
+            "title": "Total",
+            "minimum": 0.0,
+            "type": "integer"
+          },
+          "page": {
+            "title": "Page",
+            "minimum": 1.0,
+            "type": "integer"
+          },
+          "size": {
+            "title": "Size",
+            "minimum": 1.0,
+            "type": "integer"
+          }
+        }
+      },
+      "ChiftPage_BookYear_": {
+        "title": "ChiftPage[BookYear]",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Items",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BookYear"
             }
           },
           "total": {
@@ -15320,6 +15475,14 @@
             "title": "Selected",
             "type": "boolean",
             "default": true
+          },
+          "vat": {
+            "title": "Vat",
+            "type": "string"
+          },
+          "company_number": {
+            "title": "Company Number",
+            "type": "string"
           }
         }
       },
@@ -15817,6 +15980,10 @@
           "nl_payment_terms_split": {
             "$ref": "#/components/schemas/NlPaymentTermsSplit"
           },
+          "shipping_country": {
+            "title": "Shipping Country",
+            "type": "string"
+          },
           "lines": {
             "title": "Lines",
             "type": "array",
@@ -15928,6 +16095,10 @@
           },
           "nl_payment_terms_split": {
             "$ref": "#/components/schemas/NlPaymentTermsSplit"
+          },
+          "shipping_country": {
+            "title": "Shipping Country",
+            "type": "string"
           },
           "lines": {
             "title": "Lines",
@@ -17971,6 +18142,11 @@
           },
           "confirmed_on": {
             "title": "Confirmed On",
+            "type": "string",
+            "format": "date-time"
+          },
+          "delivery_date": {
+            "title": "Delivery Date",
             "type": "string",
             "format": "date-time"
           },
