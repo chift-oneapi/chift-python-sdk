@@ -33,10 +33,10 @@ from .openapi import (
     MiscellaneousOperationOut,
     ModelsInvoicingVatCode,
     OpportunityItem,
-    OrderItem,
+    POSOrderItem,
     OrderItemOut,
     OutstandingItem,
-    PaymentItem,
+    POSPaymentItem,
     PaymentMethodItem,
     PaymentMethods,
     POSCustomerItem,
@@ -53,6 +53,12 @@ from .openapi import (
     VariantItem,
     WebhookInstanceGetItem,
     WebhookItem,
+    PMSAccountingCategoryItem,
+    PMSLocationItem,
+    PMSClosureItem,
+    PMSOrderItem,
+    PMSPaymentItem,
+    PMSPaymentMethods
 )
 
 # UNPUBLISHED MODELS
@@ -150,6 +156,13 @@ class Consumer(ConsumerItem, extra=Extra.allow):
         from chift.models.consumers.pos import PosRouter  # avoid circular import
 
         return PosRouter(self.consumerid, self.connectionid)
+
+    @property
+    def pms(self):
+        from chift.models.consumers.pms import PmsRouter  # avoid circular import
+
+        return PmsRouter(self.consumerid, self.connectionid)
+
 
     @property
     def commerce(self):
@@ -344,7 +357,7 @@ class Sales(SalesItem):
     pass
 
 
-class Payment(PaymentItem):
+class Payment(POSPaymentItem):
     pass
 
 
@@ -352,7 +365,7 @@ class Location(POSLocationItem):
     pass
 
 
-class Order(OrderItem):
+class Order(POSOrderItem):
     pass
 
 
@@ -371,6 +384,29 @@ class POSAccountingCategory(AccountingCategoryItem):
 class POSProduct(POSProductItem):
     pass
 
+# pms
+
+class PMSPaymentMethods(PMSPaymentMethods):
+    pass
+
+
+class PMSPayment(PMSPaymentItem):
+    pass
+
+
+class PMSLocation(PMSLocationItem):
+    pass
+
+
+class PMSOrder(PMSOrderItem):
+    pass
+
+
+class PMSClosure(PMSClosureItem):
+    pass
+
+class PMSAccountingCategory(PMSAccountingCategoryItem):
+    pass
 
 # e-commerce
 class CommerceCustomer(CommerceCustomerItem):
