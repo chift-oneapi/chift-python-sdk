@@ -19,7 +19,6 @@ class PmsRouter:
         self.AccountingCategory = AccountingCategory(consumer_id, connection_id)
 
 
-
 class PaymentMethod(PaginationMixin[PaymentMethodsModel]):
     chift_vertical: ClassVar = "pms"
     chift_model: ClassVar = "payment-methods"
@@ -48,6 +47,7 @@ class Order(PaginationMixin[OrderModel]):
     chift_vertical: ClassVar = "pms"
     chift_model: ClassVar = "orders"
     model = OrderModel
+
 
 class AccountingCategory(PaginationMixin[AccountingCategoryModel]):
     chift_vertical: ClassVar = "pms"

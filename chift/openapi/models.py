@@ -21,6 +21,7 @@ from .openapi import (
     CommerceLocationItemOut,
     ConsumerItem,
     ContactItemOut,
+    CountryItem,
     DataItem,
     DataItemOut,
     DataStoreItem,
@@ -30,17 +31,24 @@ from .openapi import (
     InvoiceItemOutSingle,
     Journal,
     JournalEntryMultiAnalyticPlan,
+    LinkItem,
     MiscellaneousOperationOut,
     ModelsInvoicingVatCode,
     OpportunityItem,
-    POSOrderItem,
     OrderItemOut,
     OutstandingItem,
-    POSPaymentItem,
     PaymentMethodItem,
     PaymentMethods,
+    PMSAccountingCategoryItem,
+    PMSClosureItem,
+    PMSLocationItem,
+    PMSOrderItem,
+    PMSPaymentItem,
+    PMSPaymentMethods,
     POSCustomerItem,
     POSLocationItem,
+    POSOrderItem,
+    POSPaymentItem,
     POSProductItem,
     ProductItemOut,
     ReadFlowItem,
@@ -53,12 +61,6 @@ from .openapi import (
     VariantItem,
     WebhookInstanceGetItem,
     WebhookItem,
-    PMSAccountingCategoryItem,
-    PMSLocationItem,
-    PMSClosureItem,
-    PMSOrderItem,
-    PMSPaymentItem,
-    PMSPaymentMethods
 )
 
 # UNPUBLISHED MODELS
@@ -163,7 +165,6 @@ class Consumer(ConsumerItem, extra=Extra.allow):
 
         return PmsRouter(self.consumerid, self.connectionid)
 
-
     @property
     def commerce(self):
         from chift.models.consumers.commerce import (
@@ -259,6 +260,10 @@ class WebhookType(WebhookItem):
 
 # connections
 class Connection(AppRoutersConnectionsConnectionItem):
+    pass
+
+
+class ConnectionLink(LinkItem):
     pass
 
 
@@ -384,7 +389,9 @@ class POSAccountingCategory(AccountingCategoryItem):
 class POSProduct(POSProductItem):
     pass
 
+
 # pms
+
 
 class PMSPaymentMethods(PMSPaymentMethods):
     pass
@@ -405,8 +412,10 @@ class PMSOrder(PMSOrderItem):
 class PMSClosure(PMSClosureItem):
     pass
 
+
 class PMSAccountingCategory(PMSAccountingCategoryItem):
     pass
+
 
 # e-commerce
 class CommerceCustomer(CommerceCustomerItem):
@@ -434,6 +443,10 @@ class CommercePaymentMethod(PaymentMethodItem):
 
 
 class CommerceProductCategory(CategoryItem):
+    pass
+
+
+class CommerceCountry(CountryItem):
     pass
 
 

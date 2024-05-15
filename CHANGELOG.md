@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.1.56 - 2024-05-07
+* ecommerce: add delivery date on orders
+
+## 0.1.55 - 2024-04-11
+* ecommerce: add product categories on order line items
+
+## 0.1.54 - 2024-04-11
+* ecommerce: add id on shipping refunds
+
+## 0.1.53 - 2024-04-10
+* ecommerce: add id on fees
+
+## 0.1.52 - 2024-04-03
+* fix issues connection creation
+
+## 0.1.50 - 2024-04-03
+* add endpoints to create connections and consumers
+
+## 0.1.49 - 2024-03-26
+* add countries endpoint in eCommerce
+
 ## 0.1.48 - 2024-03-13
 * update connection model: add agent field
 

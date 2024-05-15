@@ -1,6 +1,7 @@
 from typing import ClassVar
 
 from chift.api.mixins import PaginationMixin, ReadMixin
+from chift.openapi.models import CommerceCountry as CommerceCountryModel
 from chift.openapi.models import CommerceCustomer as CommerceCustomerModel
 from chift.openapi.models import CommerceLocation as CommerceLocationModel
 from chift.openapi.models import CommerceOrder as CommerceOrderModel
@@ -81,6 +82,14 @@ class ProductCategory(
     chift_vertical: ClassVar = "commerce"
     chift_model: ClassVar = "product-categories"
     model = CommerceProductCategoryModel
+
+
+class County(
+    PaginationMixin[CommerceCountryModel],
+):
+    chift_vertical: ClassVar = "commerce"
+    chift_model: ClassVar = "countries"
+    model = CommerceCountryModel
 
 
 class Tax(
