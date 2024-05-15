@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.57 - 2024-05-15
+* pms: add PMS vertical
+
 ## 0.1.56 - 2024-05-07
 * ecommerce: add delivery date on orders
 
