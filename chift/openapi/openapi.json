@@ -18484,12 +18484,21 @@
               "$ref": "#/components/schemas/ShippingRefund"
             },
             "default": []
+          },
+          "transactions": {
+            "title": "Transactions",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderTransactions"
+            },
+            "default": []
           }
         }
       },
       "OrderStatus": {
         "title": "OrderStatus",
         "enum": [
+          "cancelled_unpaid",
           "cancelled",
           "draft",
           "confirmed",
