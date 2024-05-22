@@ -10879,7 +10879,8 @@
           "Communication",
           "Banking",
           "Custom",
-          "Payment"
+          "Payment",
+          "Property Management System"
         ],
         "description": "An enumeration."
       },
