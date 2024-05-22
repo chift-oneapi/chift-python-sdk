@@ -1,12 +1,12 @@
 from typing import ClassVar
 
 from chift.api.mixins import PaginationMixin, ReadMixin
+from chift.openapi.models import PMSAccountingCategory as AccountingCategoryModel
 from chift.openapi.models import PMSClosure as ClosureModel
 from chift.openapi.models import PMSLocation as LocationModel
 from chift.openapi.models import PMSOrder as OrderModel
 from chift.openapi.models import PMSPayment as PaymentModel
 from chift.openapi.models import PMSPaymentMethods as PaymentMethodsModel
-from chift.openapi.models import PMSPOSAccountingCategory as AccountingCategoryModel
 
 
 class PmsRouter:

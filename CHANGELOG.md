@@ -1,7 +1,10 @@
 # Changelog
 
-## 0.1.57 - 2024-05-15
+## 0.1.58 - 2024-05-22
 * pms: add PMS vertical
+
+## 0.1.57 - 2024-05-22
+* ecommerce: add transactions on refunds + new order status
 
 ## 0.1.56 - 2024-05-07
 * ecommerce: add delivery date on orders
