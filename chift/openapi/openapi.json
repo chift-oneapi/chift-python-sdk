@@ -15395,8 +15395,16 @@
           },
           "total": { "title": "Total", "type": "number" },
           "tax_amount": { "title": "Tax Amount", "type": "number" },
-          "total_discount": { "title": "Total Discount", "type": "number" },
-          "total_refund": { "title": "Total Refund", "type": "number" },
+          "total_discount": {
+            "title": "Total Discount",
+            "type": "number",
+            "default": 0
+          },
+          "total_refund": {
+            "title": "Total Refund",
+            "type": "number",
+            "default": 0
+          },
           "total_tip": { "title": "Total Tip", "type": "number", "default": 0 },
           "currency": { "title": "Currency", "type": "string" },
           "country": { "title": "Country", "type": "string" },
@@ -15408,6 +15416,7 @@
             "type": "array",
             "items": { "$ref": "#/components/schemas/TotalTaxItem" }
           },
+          "guests": { "title": "Guests", "type": "integer" },
           "items": {
             "title": "Items",
             "type": "array",
@@ -15654,8 +15663,16 @@
           },
           "total": { "title": "Total", "type": "number" },
           "tax_amount": { "title": "Tax Amount", "type": "number" },
-          "total_discount": { "title": "Total Discount", "type": "number" },
-          "total_refund": { "title": "Total Refund", "type": "number" },
+          "total_discount": {
+            "title": "Total Discount",
+            "type": "number",
+            "default": 0
+          },
+          "total_refund": {
+            "title": "Total Refund",
+            "type": "number",
+            "default": 0
+          },
           "total_tip": { "title": "Total Tip", "type": "number", "default": 0 },
           "currency": { "title": "Currency", "type": "string" },
           "country": { "title": "Country", "type": "string" },
@@ -15667,6 +15684,7 @@
             "type": "array",
             "items": { "$ref": "#/components/schemas/TotalTaxItem" }
           },
+          "guests": { "title": "Guests", "type": "integer" },
           "payments": {
             "title": "Payments",
             "type": "array",

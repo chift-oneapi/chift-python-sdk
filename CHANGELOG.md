@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.59 - 2024-05-23
+* POS: add new field 'guests'
+
 ## 0.1.58 - 2024-05-22
 * pms: add PMS vertical
 
