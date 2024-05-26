@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.60 - 2024-05-26
+* ecommerce: add creation date on transactions
+
 ## 0.1.59 - 2024-05-23
 * POS: add new field 'guests'
 
