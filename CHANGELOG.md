@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.61 - 2024-05-31
+* get integration: add post_connections
+
 ## 0.1.60 - 2024-05-26
 * ecommerce: add creation date on transactions
 
