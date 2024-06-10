@@ -1,6 +1,6 @@
 from typing import ClassVar
 
-from chift.api.mixins import CreateMixin, ListMixin, ReadMixin
+from chift.api.mixins import CreateMixin, DeleteMixin, ListMixin, ReadMixin
 from chift.openapi.models import Connection as ConnectionModel
 from chift.openapi.models import ConnectionLink as ConnectionLinkModel
 
@@ -9,6 +9,7 @@ class Connection(
     ReadMixin[ConnectionModel],
     ListMixin[ConnectionModel],
     CreateMixin[ConnectionLinkModel],
+    DeleteMixin,
 ):
     chift_vertical: ClassVar = "connections"
     chift_model: ClassVar = ""

@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.62 - 2024-06-10
+* connections: add delete endpoint
+
 ## 0.1.61 - 2024-05-31
 * get integration: add post_connections
 
