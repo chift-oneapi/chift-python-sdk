@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.63 - 2024-06-30
+* new field delivery_fee in POS model
+
 ## 0.1.62 - 2024-06-10
 * connections: add delete endpoint
 

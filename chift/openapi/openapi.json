@@ -1487,12 +1487,16 @@
             "description": "Bad Request"
           },
           "422": {
-            "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "example": {
+                  "message": "Error while validating context data; the field {field_name} does not seem to be of type {field_type}",
+                  "status": "error"
+                },
+                "schema": { "$ref": "#/components/schemas/ChiftError" }
               }
-            }
+            },
+            "description": "Unprocessable Entity"
           }
         }
       }
@@ -10605,7 +10609,15 @@
     "schemas": {
       "AccountBalance": {
         "title": "AccountBalance",
-        "required": ["account_number", "debit", "credit", "balance"],
+        "required": [
+          "account_number",
+          "debit",
+          "credit",
+          "balance",
+          "period_debit",
+          "period_credit",
+          "period_balance"
+        ],
         "type": "object",
         "properties": {
           "account_number": {
@@ -10618,9 +10630,28 @@
             "type": "string",
             "description": "Display name of the account"
           },
-          "debit": { "title": "Debit", "type": "number" },
-          "credit": { "title": "Credit", "type": "number" },
-          "balance": { "title": "Balance", "type": "number" }
+          "debit": {
+            "title": "Debit",
+            "type": "number",
+            "description": "Debit at end date. When debit and credit are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, only the balance can be calculated in those cases."
+          },
+          "credit": {
+            "title": "Credit",
+            "type": "number",
+            "description": "Credit at end date. When debit and credit are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, only the balance can be calculated in those cases."
+          },
+          "balance": { "title": "Balance", "type": "number" },
+          "period_debit": {
+            "title": "Period Debit",
+            "type": "number",
+            "description": "Debit at end date beginning from the given start date. When debit and credit are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, only the balance can be calculated in those cases."
+          },
+          "period_credit": {
+            "title": "Period Credit",
+            "type": "number",
+            "description": "Credit at end date beginning from the given start date. When debit and credit are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, only the balance can be calculated in those cases."
+          },
+          "period_balance": { "title": "Period Balance", "type": "number" }
         }
       },
       "AccountBalanceFilter": {
@@ -12665,7 +12696,13 @@
             "type": "string",
             "default": "trigger-1"
           },
-          "cronschedule": { "title": "Cronschedule", "type": "string" }
+          "cronschedule": { "title": "Cronschedule", "type": "string" },
+          "data": {
+            "title": "Data",
+            "type": "object",
+            "description": "Object containing the configuration of the flow for the consumer",
+            "default": {}
+          }
         }
       },
       "EntryLineType": {
@@ -13110,7 +13147,8 @@
             "title": "Definitionfields",
             "type": "array",
             "items": { "type": "object" }
-          }
+          },
+          "options": { "title": "Options", "type": "object" }
         }
       },
       "FolderItem": {
@@ -13415,11 +13453,6 @@
             "title": "Journal Ref",
             "allOf": [{ "$ref": "#/components/schemas/FieldRef" }],
             "description": "Journal"
-          },
-          "outstanding_amount": {
-            "title": "Outstanding Amount",
-            "type": "number",
-            "description": "Amount left to be paid"
           }
         }
       },
@@ -13707,15 +13740,15 @@
             "allOf": [{ "$ref": "#/components/schemas/FieldRef" }],
             "description": "Journal"
           },
-          "outstanding_amount": {
-            "title": "Outstanding Amount",
-            "type": "number",
-            "description": "Amount left to be paid"
-          },
           "last_updated_on": {
             "title": "Last Updated On",
             "type": "string",
             "format": "date-time"
+          },
+          "outstanding_amount": {
+            "title": "Outstanding Amount",
+            "type": "number",
+            "description": "Amount left to be paid"
           }
         }
       },
@@ -13973,15 +14006,15 @@
             "allOf": [{ "$ref": "#/components/schemas/FieldRef" }],
             "description": "Journal"
           },
-          "outstanding_amount": {
-            "title": "Outstanding Amount",
-            "type": "number",
-            "description": "Amount left to be paid"
-          },
           "last_updated_on": {
             "title": "Last Updated On",
             "type": "string",
             "format": "date-time"
+          },
+          "outstanding_amount": {
+            "title": "Outstanding Amount",
+            "type": "number",
+            "description": "Amount left to be paid"
           },
           "pdf": {
             "title": "Pdf",
@@ -15441,6 +15474,11 @@
             "default": 0
           },
           "total_tip": { "title": "Total Tip", "type": "number", "default": 0 },
+          "delivery_fee": {
+            "title": "Delivery Fee",
+            "type": "number",
+            "default": 0
+          },
           "currency": { "title": "Currency", "type": "string" },
           "country": { "title": "Country", "type": "string" },
           "loyalty": { "title": "Loyalty", "type": "integer" },
@@ -15709,6 +15747,11 @@
             "default": 0
           },
           "total_tip": { "title": "Total Tip", "type": "number", "default": 0 },
+          "delivery_fee": {
+            "title": "Delivery Fee",
+            "type": "number",
+            "default": 0
+          },
           "currency": { "title": "Currency", "type": "string" },
           "country": { "title": "Country", "type": "string" },
           "loyalty": { "title": "Loyalty", "type": "integer" },
@@ -16770,7 +16813,8 @@
               { "$ref": "#/components/schemas/TransactionAccountingCategory" }
             ],
             "description": "Accounting category"
-          }
+          },
+          "reference": { "title": "Reference", "type": "string" }
         }
       },
       "TransactionStatus": {
@@ -17409,7 +17453,7 @@
       },
       "app__routers__pos__ProductPriceItem": {
         "title": "ProductPriceItem",
-        "required": ["unit_price", "tax_rate"],
+        "required": ["unit_price"],
         "type": "object",
         "properties": {
           "unit_price": { "title": "Unit Price", "type": "number" },
