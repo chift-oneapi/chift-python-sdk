@@ -152,8 +152,8 @@ def _get_flow_data(
 
 def get_sync(chift):
     # TODO: improve this once sync creation endpoint is there
-    syncs = chift.Sync.all()
-    return syncs[0]
+    sync = chift.Sync.get("76d8b868-4900-4302-9eee-c3d62bb79b2d")
+    return sync
 
 
 def test_sync(chift):
