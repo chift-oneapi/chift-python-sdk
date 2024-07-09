@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.64 - 2024-07-09
+* support test client
+
 ## 0.1.63 - 2024-06-30
 * new field delivery_fee in POS model
 

@@ -10,12 +10,14 @@ from chift.api import exceptions
 
 
 class ChiftAuth(requests.auth.AuthBase):
-    def __init__(self, client_id, client_secret, account_id, url_base, env_id):
+    def __init__(self, client_id, client_secret, account_id, url_base, env_id, test_client):
         self.client_id = client_id
         self.client_secret = client_secret
         self.account_id = account_id
         self.url_base = url_base
         self.env_id = env_id
+        self.test_client = test_client
+        self.request_engine = self.test_client or requests
 
         self.access_token = None
         self.exires_at = None
@@ -43,7 +45,8 @@ class ChiftAuth(requests.auth.AuthBase):
         }
         if self.env_id:
             payload["envId"] = self.env_id
-        response = requests.post(self.url_base + "/token", json=payload)
+        
+        response = self.request_engine.post(self.url_base + "/token", json=payload)
 
         if not response.status_code == httplib.OK:
             raise exceptions.ChiftException(
@@ -85,7 +88,7 @@ class ChiftClient:
             client_id,
             client_secret,
             related_chain_execution_id,
-            url_base,
+            url_base
         )
 
         self.consumer_id = consumer_id
@@ -94,6 +97,7 @@ class ChiftClient:
         self.account_id = kwargs.get("account_id") or account_id
         self.url_base = kwargs.get("url_base") or url_base
         self.env_id = kwargs.get("env_id")
+        self.test_client = kwargs.get("test_client")
         self.related_chain_execution_id = (
             kwargs.get("related_chain_execution_id") or related_chain_execution_id
         )
@@ -101,7 +105,17 @@ class ChiftClient:
         self._start_session()
 
     def _start_session(self):
-        if not self.session:
+        if self.test_client:
+            self.url_base = "" # set to empty string to avoid url_base in the request
+            self.test_auth = ChiftAuth(
+                self.client_id,
+                self.client_secret,
+                self.account_id,
+                self.url_base,
+                self.env_id,
+                self.test_client
+            )
+        elif not self.session:
             self.session = requests.Session()
             self.session.auth = ChiftAuth(
                 self.client_id,
@@ -109,6 +123,7 @@ class ChiftClient:
                 self.account_id,
                 self.url_base,
                 self.env_id,
+                None
             )
 
             if self.max_retries:
@@ -181,7 +196,10 @@ class ChiftClient:
     def process_request(
         self, request_type, url_path, headers=None, params=None, json=None
     ):
-        return self.session.request(
+        engine = self.test_client or self.session
+        if self.test_client:
+            headers.update(self.test_auth.get_auth_header())
+        return engine.request(
             request_type,
             self.url_base + url_path,
             headers=headers,
