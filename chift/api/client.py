@@ -10,7 +10,9 @@ from chift.api import exceptions
 
 
 class ChiftAuth(requests.auth.AuthBase):
-    def __init__(self, client_id, client_secret, account_id, url_base, env_id, test_client):
+    def __init__(
+        self, client_id, client_secret, account_id, url_base, env_id, test_client
+    ):
         self.client_id = client_id
         self.client_secret = client_secret
         self.account_id = account_id
@@ -45,7 +47,7 @@ class ChiftAuth(requests.auth.AuthBase):
         }
         if self.env_id:
             payload["envId"] = self.env_id
-        
+
         response = self.request_engine.post(self.url_base + "/token", json=payload)
 
         if not response.status_code == httplib.OK:
@@ -88,7 +90,7 @@ class ChiftClient:
             client_id,
             client_secret,
             related_chain_execution_id,
-            url_base
+            url_base,
         )
 
         self.consumer_id = consumer_id
@@ -106,14 +108,14 @@ class ChiftClient:
 
     def _start_session(self):
         if self.test_client:
-            self.url_base = "" # set to empty string to avoid url_base in the request
+            self.url_base = ""  # set to empty string to avoid url_base in the request
             self.test_auth = ChiftAuth(
                 self.client_id,
                 self.client_secret,
                 self.account_id,
                 self.url_base,
                 self.env_id,
-                self.test_client
+                self.test_client,
             )
         elif not self.session:
             self.session = requests.Session()
@@ -123,7 +125,7 @@ class ChiftClient:
                 self.account_id,
                 self.url_base,
                 self.env_id,
-                None
+                None,
             )
 
             if self.max_retries:
