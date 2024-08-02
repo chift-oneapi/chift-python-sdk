@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.65 - 2024-08-02
+* invoicing: add externa_reference on contacts
+
 ## 0.1.64 - 2024-07-09
 * support test client
 
