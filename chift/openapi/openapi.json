@@ -1781,6 +1781,96 @@
         }
       }
     },
+    "/consumers/{consumerid}/syncs/{syncid}/flows/{flowid}": {
+      "patch": {
+        "tags": [
+          "Syncs"
+        ],
+        "summary": "Update flow settings for a specific consumer",
+        "description": "Route that can be used to update the flow configuration for a specific consumer. It will merge the new configuration with the existing one.",
+        "operationId": "syncs_update_flowtoconsumer",
+        "parameters": [
+          {
+            "name": "syncid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Syncid",
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "flowid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Flowid",
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "consumerid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Consumerid",
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFlowConsumer"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The flow is not yet activated for this consumer",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while validating context data; the field {field_name} does not seem to be of type {field_type}",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
     "/datastores": {
       "get": {
         "tags": [
@@ -19054,6 +19144,9 @@
           "untaxed_amount_without_fees",
           "tax_amount_without_fees",
           "total_without_fees",
+          "current_untaxed_amount",
+          "current_tax_amount",
+          "current_total",
           "untaxed_amount",
           "tax_amount",
           "total",
@@ -19124,7 +19217,7 @@
           "untaxed_amount_without_fees": {
             "title": "Untaxed Amount Without Fees",
             "type": "number",
-            "description": "Untaxed amount without fees (e.g. shipping) but with discout. Refunds are not included."
+            "description": "Untaxed amount without fees (e.g. shipping) but with discout. Refunds and returns are not included."
           },
           "tax_amount_without_fees": {
             "title": "Tax Amount Without Fees",
@@ -19134,34 +19227,42 @@
           "total_without_fees": {
             "title": "Total Without Fees",
             "type": "number",
-            "description": "Total of the order without fees (e.g. shipping) but with discount. Refunds are not included."
+            "description": "Total of the order without fees (e.g. shipping) but with discount. Refunds and returns are not included."
+          },
+          "current_untaxed_amount": {
+            "title": "Current Untaxed Amount",
+            "type": "number",
+            "description": "Untaxed amount with discout and any kind of fee (e.g. shipping). After returns, removes and returns."
+          },
+          "current_tax_amount": {
+            "title": "Current Tax Amount",
+            "type": "number",
+            "description": "Total taxes applied to the order. After returns, removes and returns."
+          },
+          "current_total": {
+            "title": "Current Total",
+            "type": "number",
+            "description": "Current total of the order with discount. After returns, removes and returns."
           },
           "untaxed_amount": {
             "title": "Untaxed Amount",
             "type": "number",
-            "description": "Untaxed amount with discout and any kind of fee (e.g. shipping). Refunds are not included."
+            "description": "Untaxed amount with discout and any kind of fee (e.g. shipping). Refunds and returns are not included."
           },
           "tax_amount": {
             "title": "Tax Amount",
             "type": "number",
-            "description": "Total taxes applied to the order."
+            "description": "Total taxes applied to the order. Refunds and returns are not included."
           },
           "total": {
             "title": "Total",
             "type": "number",
-            "description": "Total of the order with discount. Refunds are not included."
+            "description": "Total of the order with discount. Refunds and returns are not included."
           },
           "refunded_amount": {
             "title": "Refunded Amount",
             "type": "number",
             "default": 0
-          },
-          "detailed_refunds": {
-            "title": "Detailed Refunds",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OrderRefundItem"
-            }
           },
           "currency": {
             "title": "Currency",
@@ -19207,6 +19308,21 @@
               "$ref": "#/components/schemas/OrderPaymentMethods"
             },
             "default": []
+          },
+          "detailed_refunds": {
+            "title": "Detailed Refunds",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderRefundItem"
+            }
+          },
+          "returns": {
+            "title": "Returns",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderReturnItem"
+            },
+            "default": []
           }
         }
       },
@@ -19247,6 +19363,7 @@
           "id",
           "source_ref",
           "quantity",
+          "current_quantity",
           "unit_price",
           "description",
           "tax_rate",
@@ -19286,6 +19403,10 @@
           },
           "quantity": {
             "title": "Quantity",
+            "type": "integer"
+          },
+          "current_quantity": {
+            "title": "Current Quantity",
             "type": "integer"
           },
           "unit_price": {
@@ -19444,11 +19565,72 @@
             },
             "default": []
           },
+          "other_fees": {
+            "title": "Other Fees",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RefundFeesItem"
+            },
+            "default": []
+          },
           "transactions": {
             "title": "Transactions",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/OrderTransactions"
+            },
+            "default": []
+          }
+        }
+      },
+      "OrderReturnItem": {
+        "title": "OrderReturnItem",
+        "required": [
+          "id",
+          "source_ref"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "Technical id of the return in Chift"
+          },
+          "source_ref": {
+            "title": "Source Ref",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Ref"
+              }
+            ],
+            "description": "Technical id in the target software"
+          },
+          "created_on": {
+            "title": "Created On",
+            "type": "string",
+            "format": "date-time"
+          },
+          "order_lines": {
+            "title": "Order Lines",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReturnOrderLineItem"
+            },
+            "default": []
+          },
+          "new_lines": {
+            "title": "New Lines",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReturnOrderLineItem"
+            },
+            "default": []
+          },
+          "linked_fees": {
+            "title": "Linked Fees",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReturnFeesItem"
             },
             "default": []
           }
@@ -21047,8 +21229,140 @@
           }
         }
       },
+      "RefundFeesItem": {
+        "title": "RefundFeesItem",
+        "required": [
+          "id",
+          "source_ref",
+          "type",
+          "untaxed_amount",
+          "tax_amount",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "Technical id of the fee in Chift"
+          },
+          "source_ref": {
+            "title": "Source Ref",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Ref"
+              }
+            ],
+            "description": "Technical id in the target software"
+          },
+          "type": {
+            "$ref": "#/components/schemas/FeesType"
+          },
+          "untaxed_amount": {
+            "title": "Untaxed Amount",
+            "type": "number"
+          },
+          "tax_amount": {
+            "title": "Tax Amount",
+            "type": "number"
+          },
+          "total": {
+            "title": "Total",
+            "type": "number"
+          }
+        }
+      },
       "RefundOrderLineItem": {
         "title": "RefundOrderLineItem",
+        "required": [
+          "id",
+          "quantity",
+          "untaxed_amount",
+          "tax_amount",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "Technical id of the order line in Chift"
+          },
+          "variant": {
+            "title": "Variant",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OrderLineProductVariantItem"
+              }
+            ],
+            "description": "Product variant"
+          },
+          "quantity": {
+            "title": "Quantity",
+            "type": "integer"
+          },
+          "untaxed_amount": {
+            "title": "Untaxed Amount",
+            "type": "number",
+            "description": "Untaxed amount refunded (after discount)."
+          },
+          "tax_amount": {
+            "title": "Tax Amount",
+            "type": "number",
+            "description": "Total taxes refunded (after discount)."
+          },
+          "total": {
+            "title": "Total",
+            "type": "number",
+            "description": "Total refunded (after discount)."
+          }
+        }
+      },
+      "ReturnFeesItem": {
+        "title": "ReturnFeesItem",
+        "required": [
+          "id",
+          "source_ref",
+          "type",
+          "untaxed_amount",
+          "tax_amount",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "Technical id of the fee in Chift"
+          },
+          "source_ref": {
+            "title": "Source Ref",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Ref"
+              }
+            ],
+            "description": "Technical id in the target software"
+          },
+          "type": {
+            "$ref": "#/components/schemas/FeesType"
+          },
+          "untaxed_amount": {
+            "title": "Untaxed Amount",
+            "type": "number"
+          },
+          "tax_amount": {
+            "title": "Tax Amount",
+            "type": "number"
+          },
+          "total": {
+            "title": "Total",
+            "type": "number"
+          }
+        }
+      },
+      "ReturnOrderLineItem": {
+        "title": "ReturnOrderLineItem",
         "required": [
           "id",
           "quantity",
@@ -21795,6 +22109,23 @@
             "title": "Redirect Url",
             "maxLength": 255,
             "type": "string"
+          }
+        }
+      },
+      "UpdateFlowConsumer": {
+        "title": "UpdateFlowConsumer",
+        "type": "object",
+        "properties": {
+          "triggerid": {
+            "title": "Triggerid",
+            "type": "string",
+            "default": "trigger-1"
+          },
+          "data": {
+            "title": "Data",
+            "type": "object",
+            "description": "Object containing the configuration of the flow for the consumer",
+            "default": {}
           }
         }
       },

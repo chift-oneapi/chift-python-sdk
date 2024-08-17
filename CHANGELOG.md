@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.66 - 2024-08-17
+* ecommerce: add returns on orders and current amounts
+
 ## 0.1.65 - 2024-08-02
 * invoicing: add externa_reference on contacts
 
