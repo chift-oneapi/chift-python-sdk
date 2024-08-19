@@ -37,4 +37,4 @@ class Custom(ReadMixin, CreateMixin, UpdateMixin, PaginationMixin, DeleteMixin):
 
     def delete(self, connector, entity, id, client=None, params=None):
         self.extra_path = f"{connector}/{entity}/{id}"
-        return super().delete(None, map_model=False, client=client, params=params)
+        return super().delete(chift_id=None, client=client, params=params)
