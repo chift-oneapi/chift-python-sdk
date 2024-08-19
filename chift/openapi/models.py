@@ -32,6 +32,7 @@ from .openapi import (
     Journal,
     JournalEntryMultiAnalyticPlan,
     LinkItem,
+    MatchingIn,
     MiscellaneousOperationOut,
     ModelsInvoicingVatCode,
     OpportunityItem,
@@ -295,7 +296,7 @@ class Tax(ModelsInvoicingVatCode):
     pass
 
 
-# accouting
+# accounting
 class AnalyticPlan(AnalyticPlanItem):
     pass
 
@@ -341,6 +342,10 @@ class Outstanding(OutstandingItem):
 
 
 class Journal(Journal):
+    pass
+
+
+class Matching(MatchingIn):
     pass
 
 

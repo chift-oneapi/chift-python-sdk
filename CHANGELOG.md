@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.67 - 2024-08-19
+* accounting: add endpoint to match accounting entries
+
 ## 0.1.66 - 2024-08-17
 * ecommerce: add returns on orders and current amounts
 

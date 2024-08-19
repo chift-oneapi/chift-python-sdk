@@ -11,6 +11,7 @@ from chift.openapi.models import FinancialEntry as FinancialEntryModel
 from chift.openapi.models import InvoiceAccounting as InvoiceAccountingModel
 from chift.openapi.models import Journal as JournalModel
 from chift.openapi.models import JournalEntry as JournalEntryModel
+from chift.openapi.models import Matching as MatchingModel
 from chift.openapi.models import MiscellaneousOperation as MiscellaneousOperationModel
 from chift.openapi.models import Outstanding as OutstandingModel
 from chift.openapi.models import Supplier as SupplierModel
@@ -34,6 +35,7 @@ class AccountingRouter:
         self.Outstanding = Outstanding(consumer_id, connection_id)
         self.Journal = Journal(consumer_id, connection_id)
         self.Entry = Entry(consumer_id, connection_id)
+        self.EntryMatching = EntryMatching(consumer_id, connection_id)
 
 
 class AnalyticPlan(PaginationMixin[AnalyticPlanModel]):
@@ -152,3 +154,9 @@ class Journal(
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "journals"
     model = JournalModel
+
+
+class EntryMatching(CreateMixin[MatchingModel]):
+    chift_vertical: ClassVar = "accounting"
+    chift_model: ClassVar = "matching"
+    model = MatchingModel
