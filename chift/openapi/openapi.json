@@ -16006,6 +16006,12 @@
           "type": {
             "$ref": "#/components/schemas/FeesType"
           },
+          "removed": {
+            "title": "Removed",
+            "type": "boolean",
+            "description": "Indicates if the fee has been removed from the order",
+            "default": false
+          },
           "tax_rate": {
             "title": "Tax Rate",
             "type": "number"
@@ -19407,7 +19413,8 @@
           },
           "current_quantity": {
             "title": "Current Quantity",
-            "type": "integer"
+            "type": "integer",
+            "description": "Quantity without refunds and returns."
           },
           "unit_price": {
             "title": "Unit Price",
