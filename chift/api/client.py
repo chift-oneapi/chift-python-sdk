@@ -22,7 +22,7 @@ class ChiftAuth(requests.auth.AuthBase):
         self.request_engine = self.test_client or requests
 
         self.access_token = None
-        self.exires_at = None
+        self.expires_at = None
 
     def __call__(self, request):
         request.headers.update(self.get_auth_header())
@@ -33,11 +33,11 @@ class ChiftAuth(requests.auth.AuthBase):
 
     def _parse_token(self, token):
         self.access_token = token.get("access_token")
-        self.exires_at = datetime.fromtimestamp(token.get("expires_on"))
+        self.expires_at = datetime.fromtimestamp(token.get("expires_on"))
 
     def get_access_token(self):
         if self.access_token:
-            if datetime.now() < self.exires_at:
+            if datetime.now() < self.expires_at:
                 return self.access_token
 
         payload = {
