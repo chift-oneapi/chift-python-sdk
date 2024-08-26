@@ -38,6 +38,7 @@ from .openapi import (
     OpportunityItem,
     OrderItemOut,
     OutstandingItem,
+    PaymentItemOut,
     PaymentMethodItem,
     PaymentMethods,
     PMSAccountingCategoryItem,
@@ -467,4 +468,8 @@ class PaymentTransaction(TransactionItemOut):
 
 
 class PaymentBalance(BalanceItemOut):
+    pass
+
+
+class PaymentPayment(PaymentItemOut):
     pass

@@ -11374,6 +11374,191 @@
         }
       }
     },
+    "/consumers/{consumer_id}/payment/payments": {
+      "get": {
+        "tags": [
+          "Payment"
+        ],
+        "summary": "Retrieve all Payments",
+        "description": "Returns a list of payments.",
+        "operationId": "payment_get_payments",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Consumer Id",
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Page",
+              "default": 1,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Size",
+              "default": 50,
+              "minimum": 1,
+              "maximum": 100,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_PaymentItemOut_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/payment/payments/{payment_id}": {
+      "get": {
+        "tags": [
+          "Payment"
+        ],
+        "summary": "Get a Payment",
+        "description": "Returns a specific payment.",
+        "operationId": "payment_get_payment",
+        "parameters": [
+          {
+            "name": "payment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Payment Id",
+              "type": "string"
+            }
+          },
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Consumer Id",
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Page",
+              "default": 1,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Size",
+              "default": 50,
+              "minimum": 1,
+              "maximum": 100,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentItemOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The payment doesn't exist in the system.",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/pms/orders": {
       "get": {
         "tags": [
@@ -12768,7 +12953,7 @@
         "required": [
           "id",
           "source_ref",
-          "availale_amount",
+          "available_amount",
           "currency",
           "create_date"
         ],
@@ -12788,8 +12973,8 @@
             ],
             "description": "Technical id in the target software"
           },
-          "availale_amount": {
-            "title": "Availale Amount",
+          "available_amount": {
+            "title": "Available Amount",
             "type": "number",
             "description": "Total amount available"
           },
@@ -14434,6 +14619,40 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/POSProductItem"
+            }
+          },
+          "total": {
+            "title": "Total",
+            "minimum": 0.0,
+            "type": "integer"
+          },
+          "page": {
+            "title": "Page",
+            "minimum": 1.0,
+            "type": "integer"
+          },
+          "size": {
+            "title": "Size",
+            "minimum": 1.0,
+            "type": "integer"
+          }
+        }
+      },
+      "ChiftPage_PaymentItemOut_": {
+        "title": "ChiftPage[PaymentItemOut]",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Items",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaymentItemOut"
             }
           },
           "total": {
@@ -20643,6 +20862,70 @@
           }
         }
       },
+      "PaymentItemOut": {
+        "title": "PaymentItemOut",
+        "required": [
+          "id",
+          "source_ref",
+          "status",
+          "description",
+          "amount",
+          "currency",
+          "payment_date",
+          "partner_id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "title": "Source Ref",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Ref"
+              }
+            ],
+            "description": "Technical id in the target software"
+          },
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/models__payment__PaymentStatus"
+              }
+            ],
+            "description": "Payment status"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string",
+            "description": "Description"
+          },
+          "amount": {
+            "title": "Amount",
+            "type": "number",
+            "description": "Amount"
+          },
+          "currency": {
+            "title": "Currency",
+            "type": "string",
+            "description": "Currency"
+          },
+          "payment_date": {
+            "title": "Payment Date",
+            "type": "string",
+            "description": "Date of creation",
+            "format": "date-time"
+          },
+          "partner_id": {
+            "title": "Partner Id",
+            "type": "string",
+            "description": "Partner ID"
+          }
+        }
+      },
       "PaymentMethodItem": {
         "title": "PaymentMethodItem",
         "required": [
@@ -23420,6 +23703,18 @@
           "unknown"
         ],
         "type": "string",
+        "description": "An enumeration."
+      },
+      "models__payment__PaymentStatus": {
+        "title": "PaymentStatus",
+        "enum": [
+          "pending",
+          "completed",
+          "canceled",
+          "failed",
+          "unknown",
+          "authorized"
+        ],
         "description": "An enumeration."
       },
       "models__pos_pms__DiscountItem": {
