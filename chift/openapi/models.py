@@ -25,6 +25,7 @@ from .openapi import (
     DataItem,
     DataItemOut,
     DataStoreItem,
+    EmployeeItem,
     FinancialEntryItemOut,
     IntegrationItem,
     InvoiceItemOutMonoAnalyticPlan,
@@ -323,6 +324,10 @@ class Supplier(SupplierItemOut):
 
 
 class Client(ClientItemOut):
+    pass
+
+
+class Employee(EmployeeItem):
     pass
 
 

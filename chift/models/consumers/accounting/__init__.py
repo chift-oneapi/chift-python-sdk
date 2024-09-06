@@ -7,6 +7,7 @@ from chift.openapi.models import (
 )
 from chift.openapi.models import AnalyticPlan as AnalyticPlanModel
 from chift.openapi.models import Client as ClientModel
+from chift.openapi.models import Employee as EmployeeModel
 from chift.openapi.models import FinancialEntry as FinancialEntryModel
 from chift.openapi.models import InvoiceAccounting as InvoiceAccountingModel
 from chift.openapi.models import Journal as JournalModel
@@ -29,6 +30,7 @@ class AccountingRouter:
         self.MiscellaneousOperation = MiscellaneousOperation(consumer_id, connection_id)
         self.Client = Client(consumer_id, connection_id)
         self.Supplier = Supplier(consumer_id, connection_id)
+        self.Employee = Employee(consumer_id, connection_id)
         self.Invoice = Invoice(consumer_id, connection_id)
         self.JournalEntry = JournalEntry(consumer_id, connection_id)
         self.FinancialEntry = FinancialEntry(consumer_id, connection_id)
@@ -160,3 +162,9 @@ class EntryMatching(CreateMixin[MatchingModel]):
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "matching"
     model = MatchingModel
+
+
+class Employee(PaginationMixin[EmployeeModel]):
+    chift_vertical: ClassVar = "accounting"
+    chift_model: ClassVar = "employees"
+    model = EmployeeModel

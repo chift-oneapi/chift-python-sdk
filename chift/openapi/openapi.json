@@ -8226,6 +8226,15 @@
             }
           },
           {
+            "name": "location_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Location Id",
+              "type": "string"
+            }
+          },
+          {
             "name": "page",
             "in": "query",
             "required": false,
@@ -22334,8 +22343,12 @@
             ],
             "description": "Accounting category"
           },
-          "reference": {
-            "title": "Reference",
+          "refund_id": {
+            "title": "Refund Id",
+            "type": "string"
+          },
+          "payment_id": {
+            "title": "Payment Id",
             "type": "string"
           }
         }
