@@ -9,10 +9,11 @@ from .openapi import (
     AccountItem,
     AnalyticAccountItemOutMultiAnalyticPlans,
     AnalyticPlanItem,
-    AppRoutersAccountingVatCode,
-    AppRoutersCommerceProductItem,
-    AppRoutersConnectionsConnectionItem,
-    AppRoutersPosProductCategoryItem,
+    BackboneApiAppRoutersAccountingVatCode,
+    BackboneApiAppRoutersCommerceProductItem,
+    BackboneApiAppRoutersConnectionsConnectionItem,
+    BackboneApiAppRoutersPosProductCategoryItem,
+    BackboneCommonModelsInvoicingVatCode,
     BalanceItemOut,
     CategoryItem,
     ClientItemOut,
@@ -35,7 +36,6 @@ from .openapi import (
     LinkItem,
     MatchingIn,
     MiscellaneousOperationOut,
-    ModelsInvoicingVatCode,
     OpportunityItem,
     OrderItemOut,
     OutstandingItem,
@@ -56,6 +56,7 @@ from .openapi import (
     ProductItemOut,
     ReadFlowItem,
     ReadSyncItem,
+    RefundItemOut,
     SalesItem,
     SupplierItemOut,
     SyncConsumerItem,
@@ -262,7 +263,7 @@ class WebhookType(WebhookItem):
 
 
 # connections
-class Connection(AppRoutersConnectionsConnectionItem):
+class Connection(BackboneApiAppRoutersConnectionsConnectionItem):
     pass
 
 
@@ -294,7 +295,7 @@ class Opportunity(OpportunityItem):
     pass
 
 
-class Tax(ModelsInvoicingVatCode):
+class Tax(BackboneCommonModelsInvoicingVatCode):
     pass
 
 
@@ -307,7 +308,7 @@ class AnalyticAccountMultiPlan(AnalyticAccountItemOutMultiAnalyticPlans):
     pass
 
 
-class TaxAccounting(AppRoutersAccountingVatCode):
+class TaxAccounting(BackboneApiAppRoutersAccountingVatCode):
     pass
 
 
@@ -389,7 +390,7 @@ class Closure(ClosureItem):
     pass
 
 
-class POSProductCategory(AppRoutersPosProductCategoryItem):
+class POSProductCategory(BackboneApiAppRoutersPosProductCategoryItem):
     pass
 
 
@@ -433,7 +434,7 @@ class CommerceCustomer(CommerceCustomerItem):
     pass
 
 
-class CommerceProduct(AppRoutersCommerceProductItem):
+class CommerceProduct(BackboneApiAppRoutersCommerceProductItem):
     pass
 
 
@@ -477,4 +478,8 @@ class PaymentBalance(BalanceItemOut):
 
 
 class PaymentPayment(PaymentItemOut):
+    pass
+
+
+class PaymentRefund(RefundItemOut):
     pass

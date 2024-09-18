@@ -323,7 +323,7 @@
                   "title": "Response Connections Get Connections",
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/app__routers__connections__ConnectionItem"
+                    "$ref": "#/components/schemas/backbone_api__app__routers__connections__ConnectionItem"
                   }
                 }
               }
@@ -378,7 +378,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/app__routers__connections__PostConnectionItem"
+                "$ref": "#/components/schemas/backbone_api__app__routers__connections__PostConnectionItem"
               }
             }
           }
@@ -613,7 +613,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "$ref": "#/components/schemas/app__routers__integrations__Status"
+              "$ref": "#/components/schemas/backbone_api__app__routers__integrations__Status"
             }
           }
         ],
@@ -803,7 +803,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "$ref": "#/components/schemas/app__routers__webhooks__Status"
+              "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
             }
           }
         ],
@@ -1885,7 +1885,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "$ref": "#/components/schemas/app__routers__datastores__Status"
+              "$ref": "#/components/schemas/backbone_api__app__routers__datastores__Status"
             }
           }
         ],
@@ -3513,7 +3513,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/app__routers__accounting__InvoiceType"
+              "$ref": "#/components/schemas/backbone_api__app__routers__accounting__InvoiceType"
             }
           },
           {
@@ -3582,7 +3582,7 @@
               "default": "all",
               "allOf": [
                 {
-                  "$ref": "#/components/schemas/models__common__PaymentStatus"
+                  "$ref": "#/components/schemas/backbone_common__models__common__PaymentStatus"
                 }
               ]
             },
@@ -3889,7 +3889,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/app__routers__accounting__InvoiceType"
+              "$ref": "#/components/schemas/backbone_api__app__routers__accounting__InvoiceType"
             }
           },
           {
@@ -3958,7 +3958,7 @@
               "default": "all",
               "allOf": [
                 {
-                  "$ref": "#/components/schemas/models__common__PaymentStatus"
+                  "$ref": "#/components/schemas/backbone_common__models__common__PaymentStatus"
                 }
               ]
             },
@@ -5179,6 +5179,21 @@
             }
           },
           {
+            "name": "force_currency_exchange",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "description": "Force your own currency exchange rate when creating entries.",
+              "default": "false",
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/BoolParam"
+                }
+              ]
+            },
+            "description": "Force your own currency exchange rate when creating entries."
+          },
+          {
             "name": "folder_id",
             "in": "query",
             "required": false,
@@ -5523,7 +5538,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/app__routers__accounting__ChiftPage[VatCode]"
+                  "$ref": "#/components/schemas/backbone_api__app__routers__accounting__ChiftPage[VatCode]"
                 }
               }
             }
@@ -8707,7 +8722,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/app__routers__commerce__ProductItem"
+                  "$ref": "#/components/schemas/backbone_api__app__routers__commerce__ProductItem"
                 }
               }
             }
@@ -9714,7 +9729,7 @@
               "default": "all",
               "allOf": [
                 {
-                  "$ref": "#/components/schemas/models__common__PaymentStatus"
+                  "$ref": "#/components/schemas/backbone_common__models__common__PaymentStatus"
                 }
               ]
             },
@@ -10023,7 +10038,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/app__routers__invoicing__ChiftPage[VatCode]"
+                  "$ref": "#/components/schemas/backbone_api__app__routers__invoicing__ChiftPage[VatCode]"
                 }
               }
             }
@@ -10090,7 +10105,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/models__invoicing__VatCode"
+                  "$ref": "#/components/schemas/backbone_common__models__invoicing__VatCode"
                 }
               }
             }
@@ -10240,7 +10255,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/models__invoicing__ProductItem"
+                "$ref": "#/components/schemas/backbone_common__models__invoicing__ProductItem"
               }
             }
           }
@@ -11403,6 +11418,26 @@
             }
           },
           {
+            "name": "date_from",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Date From",
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Date To",
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
             "name": "page",
             "in": "query",
             "required": false,
@@ -11491,29 +11526,6 @@
               "type": "string",
               "format": "uuid"
             }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "title": "Page",
-              "default": 1,
-              "minimum": 1,
-              "type": "integer"
-            }
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "title": "Size",
-              "default": 50,
-              "minimum": 1,
-              "maximum": 100,
-              "type": "integer"
-            }
           }
         ],
         "responses": {
@@ -11554,6 +11566,118 @@
               }
             },
             "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/payment/refunds": {
+      "get": {
+        "tags": [
+          "Payment"
+        ],
+        "summary": "Retrieve all Refunds",
+        "description": "Returns a list of refunds.",
+        "operationId": "payment_get_refunds",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Consumer Id",
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "payment_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Payment Id",
+              "description": "Optional payment ID, to retrieve all refunds associated with that payment.",
+              "type": "string"
+            },
+            "description": "Optional payment ID, to retrieve all refunds associated with that payment."
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Date From",
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Date To",
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Page",
+              "default": 1,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Size",
+              "default": 50,
+              "minimum": 1,
+              "maximum": 100,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_RefundItemOut_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
           },
           "422": {
             "description": "Validation Error",
@@ -14797,7 +14921,7 @@
             "title": "Items",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/app__routers__pos__ProductCategoryItem"
+              "$ref": "#/components/schemas/backbone_api__app__routers__pos__ProductCategoryItem"
             }
           },
           "total": {
@@ -14865,7 +14989,41 @@
             "title": "Items",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/app__routers__commerce__ProductItem"
+              "$ref": "#/components/schemas/backbone_api__app__routers__commerce__ProductItem"
+            }
+          },
+          "total": {
+            "title": "Total",
+            "minimum": 0.0,
+            "type": "integer"
+          },
+          "page": {
+            "title": "Page",
+            "minimum": 1.0,
+            "type": "integer"
+          },
+          "size": {
+            "title": "Size",
+            "minimum": 1.0,
+            "type": "integer"
+          }
+        }
+      },
+      "ChiftPage_RefundItemOut_": {
+        "title": "ChiftPage[RefundItemOut]",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Items",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RefundItemOut"
             }
           },
           "total": {
@@ -15011,6 +15169,7 @@
           },
           "name": {
             "title": "Name",
+            "minLength": 1,
             "type": "string"
           },
           "function": {
@@ -15082,7 +15241,7 @@
             "title": "Addresses",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/models__common__AddressItemIn"
+              "$ref": "#/components/schemas/backbone_common__models__common__AddressItemIn"
             }
           },
           "account_number": {
@@ -15182,7 +15341,7 @@
             "title": "Addresses",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/models__common__AddressItemOut"
+              "$ref": "#/components/schemas/backbone_common__models__common__AddressItemOut"
             },
             "default": []
           },
@@ -15291,7 +15450,7 @@
             "title": "Addresses",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/models__common__AddressItemOut"
+              "$ref": "#/components/schemas/backbone_common__models__common__AddressItemOut"
             },
             "default": []
           }
@@ -15379,7 +15538,7 @@
             "title": "Addresses",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/app__routers__commerce__AddressItemOut"
+              "$ref": "#/components/schemas/backbone_api__app__routers__commerce__AddressItemOut"
             },
             "default": []
           },
@@ -15871,7 +16030,7 @@
             "title": "Connections",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/app__routers__syncs__ConnectionItem"
+              "$ref": "#/components/schemas/backbone_api__app__routers__syncs__ConnectionItem"
             }
           },
           "mappings": {
@@ -16026,7 +16185,7 @@
           "status": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/app__routers__datastores__Status"
+                "$ref": "#/components/schemas/backbone_api__app__routers__datastores__Status"
               }
             ],
             "default": "active"
@@ -16253,7 +16412,7 @@
             "title": "Discounts",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/app__routers__commerce__DiscountItem"
+              "$ref": "#/components/schemas/backbone_api__app__routers__commerce__DiscountItem"
             },
             "default": []
           },
@@ -16763,7 +16922,7 @@
           "status": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/app__routers__datastores__Status"
+                "$ref": "#/components/schemas/backbone_api__app__routers__datastores__Status"
               }
             ],
             "default": "active"
@@ -16919,6 +17078,7 @@
           },
           "number": {
             "title": "Number",
+            "minLength": 1,
             "type": "string"
           },
           "currency": {
@@ -17090,7 +17250,7 @@
             "type": "string"
           },
           "status": {
-            "$ref": "#/components/schemas/app__routers__integrations__Status"
+            "$ref": "#/components/schemas/backbone_api__app__routers__integrations__Status"
           },
           "api": {
             "$ref": "#/components/schemas/Api"
@@ -17107,7 +17267,7 @@
             "title": "Post Connections",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/app__routers__integrations__PostConnectionItem"
+              "$ref": "#/components/schemas/backbone_api__app__routers__integrations__PostConnectionItem"
             },
             "description": "List of post-connections that can be activated for this integration.",
             "default": []
@@ -17116,7 +17276,7 @@
             "title": "Credentials",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/app__routers__integrations__CredentialItem"
+              "$ref": "#/components/schemas/backbone_api__app__routers__integrations__CredentialItem"
             },
             "description": "List of credentials that must be specified to create a connection. Can be used if you want to pass credentials on connection creation. Not compatible with oAuth2 routes.",
             "default": []
@@ -17203,7 +17363,7 @@
           "invoice_type": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/models__invoicing__InvoiceType"
+                "$ref": "#/components/schemas/backbone_common__models__invoicing__InvoiceType"
               }
             ],
             "description": "Invoice type"
@@ -17304,7 +17464,7 @@
         "type": "object",
         "properties": {
           "invoice_type": {
-            "$ref": "#/components/schemas/app__routers__accounting__InvoiceType"
+            "$ref": "#/components/schemas/backbone_api__app__routers__accounting__InvoiceType"
           },
           "invoice_number": {
             "title": "Invoice Number",
@@ -17420,7 +17580,7 @@
         "type": "object",
         "properties": {
           "invoice_type": {
-            "$ref": "#/components/schemas/app__routers__accounting__InvoiceType"
+            "$ref": "#/components/schemas/backbone_api__app__routers__accounting__InvoiceType"
           },
           "invoice_number": {
             "title": "Invoice Number",
@@ -17557,7 +17717,7 @@
           "invoice_type": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/models__invoicing__InvoiceType"
+                "$ref": "#/components/schemas/backbone_common__models__invoicing__InvoiceType"
               }
             ],
             "description": "Invoice type"
@@ -17669,7 +17829,7 @@
         "type": "object",
         "properties": {
           "invoice_type": {
-            "$ref": "#/components/schemas/app__routers__accounting__InvoiceType"
+            "$ref": "#/components/schemas/backbone_api__app__routers__accounting__InvoiceType"
           },
           "invoice_number": {
             "title": "Invoice Number",
@@ -17771,7 +17931,7 @@
         "type": "object",
         "properties": {
           "invoice_type": {
-            "$ref": "#/components/schemas/app__routers__accounting__InvoiceType"
+            "$ref": "#/components/schemas/backbone_api__app__routers__accounting__InvoiceType"
           },
           "invoice_number": {
             "title": "Invoice Number",
@@ -17893,7 +18053,7 @@
           "invoice_type": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/models__invoicing__InvoiceType"
+                "$ref": "#/components/schemas/backbone_common__models__invoicing__InvoiceType"
               }
             ],
             "description": "Invoice type"
@@ -19340,10 +19500,10 @@
             "$ref": "#/components/schemas/OrderCustomerItem"
           },
           "billing_address": {
-            "$ref": "#/components/schemas/app__routers__commerce__AddressItemIn"
+            "$ref": "#/components/schemas/backbone_api__app__routers__commerce__AddressItemIn"
           },
           "shipping_address": {
-            "$ref": "#/components/schemas/app__routers__commerce__AddressItemIn"
+            "$ref": "#/components/schemas/backbone_api__app__routers__commerce__AddressItemIn"
           },
           "currency": {
             "title": "Currency",
@@ -19411,10 +19571,10 @@
             "$ref": "#/components/schemas/OrderCustomerItemOut"
           },
           "billing_address": {
-            "$ref": "#/components/schemas/app__routers__commerce__AddressItemOut"
+            "$ref": "#/components/schemas/backbone_api__app__routers__commerce__AddressItemOut"
           },
           "shipping_address": {
-            "$ref": "#/components/schemas/app__routers__commerce__AddressItemOut"
+            "$ref": "#/components/schemas/backbone_api__app__routers__commerce__AddressItemOut"
           },
           "created_on": {
             "title": "Created On",
@@ -19682,7 +19842,7 @@
             "title": "Discounts",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/app__routers__commerce__DiscountItem"
+              "$ref": "#/components/schemas/backbone_api__app__routers__commerce__DiscountItem"
             },
             "default": []
           },
@@ -19718,7 +19878,7 @@
             "title": "Categories",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/app__routers__commerce__ProductCategoryItem"
+              "$ref": "#/components/schemas/backbone_api__app__routers__commerce__ProductCategoryItem"
             },
             "default": []
           }
@@ -20279,7 +20439,7 @@
             "title": "Discounts",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/models__pos_pms__DiscountItem"
+              "$ref": "#/components/schemas/backbone_common__models__pos_pms__DiscountItem"
             },
             "default": []
           },
@@ -20336,7 +20496,7 @@
           "status": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/models__pos_pms__PaymentStatus"
+                "$ref": "#/components/schemas/backbone_common__models__pos_pms__PaymentStatus"
               }
             ],
             "default": "Unknown"
@@ -20527,7 +20687,7 @@
             "title": "Discounts",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/models__pos_pms__DiscountItem"
+              "$ref": "#/components/schemas/backbone_common__models__pos_pms__DiscountItem"
             },
             "default": []
           },
@@ -20716,7 +20876,7 @@
           "status": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/models__pos_pms__PaymentStatus"
+                "$ref": "#/components/schemas/backbone_common__models__pos_pms__PaymentStatus"
               }
             ],
             "default": "Unknown"
@@ -20765,7 +20925,7 @@
             "title": "Prices",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/app__routers__pos__ProductPriceItem"
+              "$ref": "#/components/schemas/backbone_api__app__routers__pos__ProductPriceItem"
             }
           },
           "accounting_category_ids": {
@@ -20797,7 +20957,7 @@
             "title": "Credentials",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/app__routers__connections__CredentialItem"
+              "$ref": "#/components/schemas/backbone_api__app__routers__connections__CredentialItem"
             },
             "description": "Can be used to update the credentials of an existing connection. Please use the getIntegrations route to see the available credentials for each integration"
           }
@@ -20902,7 +21062,7 @@
           "status": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/models__payment__PaymentStatus"
+                "$ref": "#/components/schemas/backbone_common__models__payment__PaymentStatus"
               }
             ],
             "description": "Payment status"
@@ -21229,7 +21389,7 @@
             "title": "Categories",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/app__routers__commerce__ProductCategoryItem"
+              "$ref": "#/components/schemas/backbone_api__app__routers__commerce__ProductCategoryItem"
             },
             "default": []
           },
@@ -21255,7 +21415,7 @@
             "title": "Prices",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/app__routers__commerce__ProductPriceItem"
+              "$ref": "#/components/schemas/backbone_api__app__routers__commerce__ProductPriceItem"
             },
             "default": []
           },
@@ -21437,7 +21597,7 @@
             "title": "Connections",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/app__routers__syncs__ConnectionItem"
+              "$ref": "#/components/schemas/backbone_api__app__routers__syncs__ConnectionItem"
             }
           },
           "mappings": {
@@ -21568,6 +21728,69 @@
           "total": {
             "title": "Total",
             "type": "number"
+          }
+        }
+      },
+      "RefundItemOut": {
+        "title": "RefundItemOut",
+        "required": [
+          "id",
+          "source_ref",
+          "status",
+          "description",
+          "amount",
+          "currency",
+          "refund_date"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "title": "Source Ref",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Ref"
+              }
+            ],
+            "description": "Technical id in the target software"
+          },
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/backbone_common__models__payment__PaymentStatus"
+              }
+            ],
+            "description": "Payment status"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string",
+            "description": "Description"
+          },
+          "amount": {
+            "title": "Amount",
+            "type": "number",
+            "description": "Amount"
+          },
+          "currency": {
+            "title": "Currency",
+            "type": "string",
+            "description": "Currency"
+          },
+          "refund_date": {
+            "title": "Refund Date",
+            "type": "string",
+            "description": "Date of creation",
+            "format": "date-time"
+          },
+          "payment_id": {
+            "title": "Payment Id",
+            "type": "string",
+            "description": "ID of the payment being refunded"
           }
         }
       },
@@ -21806,6 +22029,7 @@
           },
           "name": {
             "title": "Name",
+            "minLength": 1,
             "type": "string"
           },
           "function": {
@@ -21877,7 +22101,7 @@
             "title": "Addresses",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/models__common__AddressItemIn"
+              "$ref": "#/components/schemas/backbone_common__models__common__AddressItemIn"
             }
           },
           "account_number": {
@@ -21977,7 +22201,7 @@
             "title": "Addresses",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/models__common__AddressItemOut"
+              "$ref": "#/components/schemas/backbone_common__models__common__AddressItemOut"
             },
             "default": []
           },
@@ -22086,7 +22310,7 @@
             "title": "Addresses",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/models__common__AddressItemOut"
+              "$ref": "#/components/schemas/backbone_common__models__common__AddressItemOut"
             },
             "default": []
           }
@@ -22559,7 +22783,7 @@
             "title": "Categories",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/app__routers__commerce__ProductCategoryItem"
+              "$ref": "#/components/schemas/backbone_api__app__routers__commerce__ProductCategoryItem"
             },
             "default": []
           },
@@ -22585,7 +22809,7 @@
             "title": "Prices",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/app__routers__commerce__ProductPriceItem"
+              "$ref": "#/components/schemas/backbone_api__app__routers__commerce__ProductPriceItem"
             },
             "default": []
           },
@@ -22692,7 +22916,7 @@
             "type": "string"
           },
           "status": {
-            "$ref": "#/components/schemas/app__routers__webhooks__Status"
+            "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
           },
           "integrationid": {
             "title": "Integrationid",
@@ -22705,7 +22929,7 @@
         "type": "object",
         "properties": {
           "status": {
-            "$ref": "#/components/schemas/app__routers__webhooks__Status"
+            "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
           },
           "url": {
             "title": "Url",
@@ -22816,7 +23040,7 @@
           }
         }
       },
-      "app__routers__accounting__ChiftPage[VatCode]": {
+      "backbone_api__app__routers__accounting__ChiftPage[VatCode]": {
         "title": "ChiftPage[VatCode]",
         "required": [
           "items",
@@ -22830,7 +23054,7 @@
             "title": "Items",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/app__routers__accounting__VatCode"
+              "$ref": "#/components/schemas/backbone_api__app__routers__accounting__VatCode"
             }
           },
           "total": {
@@ -22850,7 +23074,7 @@
           }
         }
       },
-      "app__routers__accounting__InvoiceType": {
+      "backbone_api__app__routers__accounting__InvoiceType": {
         "title": "InvoiceType",
         "enum": [
           "customer_invoice",
@@ -22861,7 +23085,7 @@
         "type": "string",
         "description": "An enumeration."
       },
-      "app__routers__accounting__VatCode": {
+      "backbone_api__app__routers__accounting__VatCode": {
         "title": "VatCode",
         "required": [
           "id",
@@ -22886,7 +23110,7 @@
           "scope": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/app__routers__accounting__VatCodeScope"
+                "$ref": "#/components/schemas/backbone_api__app__routers__accounting__VatCodeScope"
               }
             ],
             "default": "unknown"
@@ -22896,7 +23120,7 @@
             "type": "number"
           },
           "type": {
-            "$ref": "#/components/schemas/app__routers__accounting__VatCodeType"
+            "$ref": "#/components/schemas/backbone_api__app__routers__accounting__VatCodeType"
           },
           "deductible_account": {
             "title": "Deductible Account",
@@ -22908,7 +23132,7 @@
           }
         }
       },
-      "app__routers__accounting__VatCodeScope": {
+      "backbone_api__app__routers__accounting__VatCodeScope": {
         "title": "VatCodeScope",
         "enum": [
           "nat",
@@ -22919,7 +23143,7 @@
         "type": "string",
         "description": "An enumeration."
       },
-      "app__routers__accounting__VatCodeType": {
+      "backbone_api__app__routers__accounting__VatCodeType": {
         "title": "VatCodeType",
         "enum": [
           "sale",
@@ -22930,7 +23154,7 @@
         "type": "string",
         "description": "An enumeration."
       },
-      "app__routers__commerce__AddressItemIn": {
+      "backbone_api__app__routers__commerce__AddressItemIn": {
         "title": "AddressItemIn",
         "required": [
           "first_name",
@@ -22985,7 +23209,7 @@
           }
         }
       },
-      "app__routers__commerce__AddressItemOut": {
+      "backbone_api__app__routers__commerce__AddressItemOut": {
         "title": "AddressItemOut",
         "required": [
           "address_type"
@@ -23042,7 +23266,7 @@
           }
         }
       },
-      "app__routers__commerce__DiscountItem": {
+      "backbone_api__app__routers__commerce__DiscountItem": {
         "title": "DiscountItem",
         "required": [
           "name",
@@ -23065,7 +23289,7 @@
           }
         }
       },
-      "app__routers__commerce__ProductCategoryItem": {
+      "backbone_api__app__routers__commerce__ProductCategoryItem": {
         "title": "ProductCategoryItem",
         "required": [
           "id",
@@ -23084,7 +23308,7 @@
           }
         }
       },
-      "app__routers__commerce__ProductItem": {
+      "backbone_api__app__routers__commerce__ProductItem": {
         "title": "ProductItem",
         "required": [
           "id",
@@ -23123,7 +23347,7 @@
             "title": "Categories",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/app__routers__commerce__ProductCategoryItem"
+              "$ref": "#/components/schemas/backbone_api__app__routers__commerce__ProductCategoryItem"
             },
             "default": []
           },
@@ -23171,7 +23395,7 @@
           }
         }
       },
-      "app__routers__commerce__ProductPriceItem": {
+      "backbone_api__app__routers__commerce__ProductPriceItem": {
         "title": "ProductPriceItem",
         "required": [
           "currency"
@@ -23189,7 +23413,7 @@
           }
         }
       },
-      "app__routers__connections__ConnectionItem": {
+      "backbone_api__app__routers__connections__ConnectionItem": {
         "title": "ConnectionItem",
         "required": [
           "connectionid",
@@ -23227,7 +23451,7 @@
             "type": "object"
           },
           "status": {
-            "$ref": "#/components/schemas/app__routers__connections__Status"
+            "$ref": "#/components/schemas/backbone_api__app__routers__connections__Status"
           },
           "agent": {
             "title": "Agent",
@@ -23240,7 +23464,7 @@
           }
         }
       },
-      "app__routers__connections__CredentialItem": {
+      "backbone_api__app__routers__connections__CredentialItem": {
         "title": "CredentialItem",
         "required": [
           "key",
@@ -23258,7 +23482,7 @@
           }
         }
       },
-      "app__routers__connections__PostConnectionItem": {
+      "backbone_api__app__routers__connections__PostConnectionItem": {
         "title": "PostConnectionItem",
         "type": "object",
         "properties": {
@@ -23276,13 +23500,13 @@
             "title": "Credentials",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/app__routers__connections__CredentialItem"
+              "$ref": "#/components/schemas/backbone_api__app__routers__connections__CredentialItem"
             },
             "description": "Can be used to specify the credentials of your connection. Must be used in combination with an integrationid and a name. Please use the getIntegrations route to see the available credentials for each integration"
           }
         }
       },
-      "app__routers__connections__Status": {
+      "backbone_api__app__routers__connections__Status": {
         "title": "Status",
         "enum": [
           "active",
@@ -23290,7 +23514,7 @@
         ],
         "description": "An enumeration."
       },
-      "app__routers__datastores__Status": {
+      "backbone_api__app__routers__datastores__Status": {
         "title": "Status",
         "enum": [
           "active",
@@ -23298,7 +23522,7 @@
         ],
         "description": "An enumeration."
       },
-      "app__routers__integrations__CredentialItem": {
+      "backbone_api__app__routers__integrations__CredentialItem": {
         "title": "CredentialItem",
         "required": [
           "name"
@@ -23316,7 +23540,7 @@
           }
         }
       },
-      "app__routers__integrations__PostConnectionItem": {
+      "backbone_api__app__routers__integrations__PostConnectionItem": {
         "title": "PostConnectionItem",
         "required": [
           "title",
@@ -23339,7 +23563,7 @@
           }
         }
       },
-      "app__routers__integrations__Status": {
+      "backbone_api__app__routers__integrations__Status": {
         "title": "Status",
         "enum": [
           "active",
@@ -23347,7 +23571,7 @@
         ],
         "description": "An enumeration."
       },
-      "app__routers__invoicing__ChiftPage[VatCode]": {
+      "backbone_api__app__routers__invoicing__ChiftPage[VatCode]": {
         "title": "ChiftPage[VatCode]",
         "required": [
           "items",
@@ -23361,7 +23585,7 @@
             "title": "Items",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/models__invoicing__VatCode"
+              "$ref": "#/components/schemas/backbone_common__models__invoicing__VatCode"
             }
           },
           "total": {
@@ -23381,7 +23605,7 @@
           }
         }
       },
-      "app__routers__pos__ProductCategoryItem": {
+      "backbone_api__app__routers__pos__ProductCategoryItem": {
         "title": "ProductCategoryItem",
         "required": [
           "id",
@@ -23408,7 +23632,7 @@
           }
         }
       },
-      "app__routers__pos__ProductPriceItem": {
+      "backbone_api__app__routers__pos__ProductPriceItem": {
         "title": "ProductPriceItem",
         "required": [
           "unit_price"
@@ -23425,7 +23649,7 @@
           }
         }
       },
-      "app__routers__syncs__ConnectionItem": {
+      "backbone_api__app__routers__syncs__ConnectionItem": {
         "title": "ConnectionItem",
         "type": "object",
         "properties": {
@@ -23449,7 +23673,7 @@
           }
         }
       },
-      "app__routers__webhooks__Status": {
+      "backbone_api__app__routers__webhooks__Status": {
         "title": "Status",
         "enum": [
           "active",
@@ -23457,7 +23681,7 @@
         ],
         "description": "An enumeration."
       },
-      "models__common__AddressItemIn": {
+      "backbone_common__models__common__AddressItemIn": {
         "title": "AddressItemIn",
         "required": [
           "address_type",
@@ -23514,7 +23738,7 @@
           }
         }
       },
-      "models__common__AddressItemOut": {
+      "backbone_common__models__common__AddressItemOut": {
         "title": "AddressItemOut",
         "required": [
           "address_type"
@@ -23567,7 +23791,7 @@
           }
         }
       },
-      "models__common__PaymentStatus": {
+      "backbone_common__models__common__PaymentStatus": {
         "title": "PaymentStatus",
         "enum": [
           "all",
@@ -23577,7 +23801,7 @@
         "type": "string",
         "description": "An enumeration."
       },
-      "models__invoicing__InvoiceType": {
+      "backbone_common__models__invoicing__InvoiceType": {
         "title": "InvoiceType",
         "enum": [
           "customer_invoice",
@@ -23588,7 +23812,7 @@
         "type": "string",
         "description": "An enumeration."
       },
-      "models__invoicing__ProductItem": {
+      "backbone_common__models__invoicing__ProductItem": {
         "title": "ProductItem",
         "required": [
           "name"
@@ -23637,7 +23861,7 @@
           }
         }
       },
-      "models__invoicing__VatCode": {
+      "backbone_common__models__invoicing__VatCode": {
         "title": "VatCode",
         "required": [
           "id",
@@ -23675,7 +23899,7 @@
           "type": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/models__invoicing__VatCodeType"
+                "$ref": "#/components/schemas/backbone_common__models__invoicing__VatCodeType"
               }
             ],
             "description": "Type"
@@ -23688,7 +23912,7 @@
           "scope": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/models__invoicing__VatCodeScope"
+                "$ref": "#/components/schemas/backbone_common__models__invoicing__VatCodeScope"
               }
             ],
             "description": "Scope",
@@ -23696,7 +23920,7 @@
           }
         }
       },
-      "models__invoicing__VatCodeScope": {
+      "backbone_common__models__invoicing__VatCodeScope": {
         "title": "VatCodeScope",
         "enum": [
           "nat",
@@ -23707,7 +23931,7 @@
         "type": "string",
         "description": "An enumeration."
       },
-      "models__invoicing__VatCodeType": {
+      "backbone_common__models__invoicing__VatCodeType": {
         "title": "VatCodeType",
         "enum": [
           "sale",
@@ -23718,7 +23942,7 @@
         "type": "string",
         "description": "An enumeration."
       },
-      "models__payment__PaymentStatus": {
+      "backbone_common__models__payment__PaymentStatus": {
         "title": "PaymentStatus",
         "enum": [
           "pending",
@@ -23730,7 +23954,7 @@
         ],
         "description": "An enumeration."
       },
-      "models__pos_pms__DiscountItem": {
+      "backbone_common__models__pos_pms__DiscountItem": {
         "title": "DiscountItem",
         "required": [
           "total"
@@ -23747,7 +23971,7 @@
           }
         }
       },
-      "models__pos_pms__PaymentStatus": {
+      "backbone_common__models__pos_pms__PaymentStatus": {
         "title": "PaymentStatus",
         "enum": [
           "Pending",

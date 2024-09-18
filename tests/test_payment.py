@@ -40,3 +40,19 @@ def test_payments(payment_consumer: Consumer):
     payment = consumer.payment.Payment.get(payment_id)
     assert payment
     assert payment.id
+
+
+def test_refunds(payment_consumer: Consumer):
+    consumer = payment_consumer
+
+    refunds = consumer.payment.Refund.all(limit=2)
+
+    assert refunds
+
+    for refund in refunds:
+        assert refund.id
+
+    payment_id = random.choice(refunds).id
+    payment = consumer.payment.Payment.get(payment_id)
+    assert payment
+    assert payment.id
