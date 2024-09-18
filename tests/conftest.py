@@ -54,4 +54,4 @@ def custom_regate_consumer(chift):
 @pytest.fixture
 def two_connections_consumer(chift):
     # get consumer wth 2 connections for one vertical
-    return chift.Consumer.get("bccbe8ed-a2eb-431b-9ba9-7264557fbafd")
+    return chift.Consumer.get("0740d8ad-1920-48c6-8909-c0ea8f8be19e")
