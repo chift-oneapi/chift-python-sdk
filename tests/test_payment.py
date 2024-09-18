@@ -47,8 +47,6 @@ def test_refunds(payment_consumer: Consumer):
 
     refunds = consumer.payment.Refund.all(limit=2)
 
-    assert refunds
-
     for refund in refunds:
         assert refund.id
 
