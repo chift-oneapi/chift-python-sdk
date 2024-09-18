@@ -49,8 +49,7 @@ def test_refunds(payment_consumer: Consumer):
 
     for refund in refunds:
         assert refund.id
-
-    payment_id = random.choice(refunds).payment_id
-    payment = consumer.payment.Payment.get(payment_id)
-    assert payment
-    assert payment.id
+        assert refund.payment_id
+        payment = consumer.payment.Payment.get(refund.payment_id)
+        assert payment
+        assert payment.id
