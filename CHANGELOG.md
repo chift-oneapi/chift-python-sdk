@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.68 - 2024-08-26
+* payment: add endpoint for payment retrieval
+
 ## 0.1.67 - 2024-08-19
 * accounting: add endpoint to match accounting entries
 * custom: fix delete mixin

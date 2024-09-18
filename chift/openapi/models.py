@@ -9,10 +9,11 @@ from .openapi import (
     AccountItem,
     AnalyticAccountItemOutMultiAnalyticPlans,
     AnalyticPlanItem,
-    AppRoutersAccountingVatCode,
-    AppRoutersCommerceProductItem,
-    AppRoutersConnectionsConnectionItem,
-    AppRoutersPosProductCategoryItem,
+    BackboneApiAppRoutersAccountingVatCode,
+    BackboneApiAppRoutersCommerceProductItem,
+    BackboneApiAppRoutersConnectionsConnectionItem,
+    BackboneApiAppRoutersPosProductCategoryItem,
+    BackboneCommonModelsInvoicingVatCode,
     BalanceItemOut,
     CategoryItem,
     ClientItemOut,
@@ -25,6 +26,7 @@ from .openapi import (
     DataItem,
     DataItemOut,
     DataStoreItem,
+    EmployeeItem,
     FinancialEntryItemOut,
     IntegrationItem,
     InvoiceItemOutMonoAnalyticPlan,
@@ -34,10 +36,10 @@ from .openapi import (
     LinkItem,
     MatchingIn,
     MiscellaneousOperationOut,
-    ModelsInvoicingVatCode,
     OpportunityItem,
     OrderItemOut,
     OutstandingItem,
+    PaymentItemOut,
     PaymentMethodItem,
     PaymentMethods,
     PMSAccountingCategoryItem,
@@ -54,6 +56,7 @@ from .openapi import (
     ProductItemOut,
     ReadFlowItem,
     ReadSyncItem,
+    RefundItemOut,
     SalesItem,
     SupplierItemOut,
     SyncConsumerItem,
@@ -260,7 +263,7 @@ class WebhookType(WebhookItem):
 
 
 # connections
-class Connection(AppRoutersConnectionsConnectionItem):
+class Connection(BackboneApiAppRoutersConnectionsConnectionItem):
     pass
 
 
@@ -292,7 +295,7 @@ class Opportunity(OpportunityItem):
     pass
 
 
-class Tax(ModelsInvoicingVatCode):
+class Tax(BackboneCommonModelsInvoicingVatCode):
     pass
 
 
@@ -305,7 +308,7 @@ class AnalyticAccountMultiPlan(AnalyticAccountItemOutMultiAnalyticPlans):
     pass
 
 
-class TaxAccounting(AppRoutersAccountingVatCode):
+class TaxAccounting(BackboneApiAppRoutersAccountingVatCode):
     pass
 
 
@@ -322,6 +325,10 @@ class Supplier(SupplierItemOut):
 
 
 class Client(ClientItemOut):
+    pass
+
+
+class Employee(EmployeeItem):
     pass
 
 
@@ -383,7 +390,7 @@ class Closure(ClosureItem):
     pass
 
 
-class POSProductCategory(AppRoutersPosProductCategoryItem):
+class POSProductCategory(BackboneApiAppRoutersPosProductCategoryItem):
     pass
 
 
@@ -427,7 +434,7 @@ class CommerceCustomer(CommerceCustomerItem):
     pass
 
 
-class CommerceProduct(AppRoutersCommerceProductItem):
+class CommerceProduct(BackboneApiAppRoutersCommerceProductItem):
     pass
 
 
@@ -467,4 +474,12 @@ class PaymentTransaction(TransactionItemOut):
 
 
 class PaymentBalance(BalanceItemOut):
+    pass
+
+
+class PaymentPayment(PaymentItemOut):
+    pass
+
+
+class PaymentRefund(RefundItemOut):
     pass
