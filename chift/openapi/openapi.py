@@ -2216,12 +2216,12 @@ class IntegrationItem(BaseModel):
         description="List of post-connections that can be activated for this integration.",
         title="Post Connections",
     )
-    credentials: Optional[
-        List[BackboneApiAppRoutersIntegrationsCredentialItem]
-    ] = Field(
-        [],
-        description="List of credentials that must be specified to create a connection. Can be used if you want to pass credentials on connection creation. Not compatible with oAuth2 routes.",
-        title="Credentials",
+    credentials: Optional[List[BackboneApiAppRoutersIntegrationsCredentialItem]] = (
+        Field(
+            [],
+            description="List of credentials that must be specified to create a connection. Can be used if you want to pass credentials on connection creation. Not compatible with oAuth2 routes.",
+            title="Credentials",
+        )
     )
 
 
@@ -2639,9 +2639,9 @@ class OrderLineProductVariantItem(BaseModel):
     )
     sku: Optional[str] = Field(None, title="Sku")
     name: str = Field(..., title="Name")
-    categories: Optional[
-        List[BackboneApiAppRoutersCommerceProductCategoryItem]
-    ] = Field([], title="Categories")
+    categories: Optional[List[BackboneApiAppRoutersCommerceProductCategoryItem]] = (
+        Field([], title="Categories")
+    )
 
 
 class OrderTransactions(BaseModel):
@@ -2886,9 +2886,9 @@ class ProductVariantItem(BaseModel):
     name: str = Field(..., title="Name")
     description: Optional[str] = Field(None, title="Description")
     description_html: Optional[str] = Field(None, title="Description Html")
-    categories: Optional[
-        List[BackboneApiAppRoutersCommerceProductCategoryItem]
-    ] = Field([], title="Categories")
+    categories: Optional[List[BackboneApiAppRoutersCommerceProductCategoryItem]] = (
+        Field([], title="Categories")
+    )
     created_on: Optional[datetime] = Field(None, title="Created On")
     sku: Optional[str] = Field(None, title="Sku")
     barcode: Optional[str] = Field(None, title="Barcode")
@@ -3164,9 +3164,9 @@ class VariantItem(BaseModel):
     name: str = Field(..., title="Name")
     description: Optional[str] = Field(None, title="Description")
     description_html: Optional[str] = Field(None, title="Description Html")
-    categories: Optional[
-        List[BackboneApiAppRoutersCommerceProductCategoryItem]
-    ] = Field([], title="Categories")
+    categories: Optional[List[BackboneApiAppRoutersCommerceProductCategoryItem]] = (
+        Field([], title="Categories")
+    )
     created_on: Optional[datetime] = Field(None, title="Created On")
     sku: Optional[str] = Field(None, title="Sku")
     barcode: Optional[str] = Field(None, title="Barcode")
@@ -3239,9 +3239,9 @@ class BackboneApiAppRoutersCommerceProductItem(BaseModel):
     name: str = Field(..., title="Name")
     description: Optional[str] = Field(None, title="Description")
     description_html: Optional[str] = Field(None, title="Description Html")
-    categories: Optional[
-        List[BackboneApiAppRoutersCommerceProductCategoryItem]
-    ] = Field([], title="Categories")
+    categories: Optional[List[BackboneApiAppRoutersCommerceProductCategoryItem]] = (
+        Field([], title="Categories")
+    )
     created_on: Optional[datetime] = Field(None, title="Created On")
     variants: Optional[List[ProductVariantItem]] = Field([], title="Variants")
     status: Optional[ProductStatus] = None
