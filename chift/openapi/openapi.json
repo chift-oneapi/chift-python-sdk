@@ -17809,6 +17809,12 @@
             "title": "Outstanding Amount",
             "type": "number",
             "description": "Amount left to be paid"
+          },
+          "accounting_date": {
+            "title": "Accounting Date",
+            "type": "string",
+            "description": "Accounting date",
+            "format": "date"
           }
         }
       },
@@ -18145,6 +18151,12 @@
             "title": "Outstanding Amount",
             "type": "number",
             "description": "Amount left to be paid"
+          },
+          "accounting_date": {
+            "title": "Accounting Date",
+            "type": "string",
+            "description": "Accounting date",
+            "format": "date"
           },
           "pdf": {
             "title": "Pdf",

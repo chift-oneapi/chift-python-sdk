@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.69 - 2024-09-22
+* invoicing: add accounting date on invoices
+
 ## 0.1.68 - 2024-08-26
 * payment: add endpoint for payment retrieval
 
