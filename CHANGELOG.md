@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.70 - 2024-10-01
+* pos: add product type & menu_id
+
 ## 0.1.69 - 2024-09-22
 * invoicing: add accounting date on invoices
 
