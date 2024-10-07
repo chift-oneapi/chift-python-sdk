@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.71 - 2024-10-01
+* ecommerce: add tags on orders
+* accounting: add account info when creation is required in the entry creation request
+
 ## 0.1.70 - 2024-10-01
 * pos: add product type & menu_id
 
