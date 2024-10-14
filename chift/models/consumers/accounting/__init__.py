@@ -1,6 +1,6 @@
 from typing import ClassVar
 
-from chift.api.mixins import CreateMixin, PaginationMixin, ReadMixin, UpdateMixin
+from chift.api.mixins import CreateMixin, PaginationMixin, ReadMixin, UpdateMixin, PutMixin
 from chift.openapi.models import Account as AccountModel
 from chift.openapi.models import (
     AnalyticAccountMultiPlan as AnalyticAccountMultiPlanModel,
@@ -128,6 +128,7 @@ class JournalEntry(
 
 class Entry(
     CreateMixin[JournalEntryModel],
+    PutMixin[JournalEntryModel],
 ):
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "journal-entries"
