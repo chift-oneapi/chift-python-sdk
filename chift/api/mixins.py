@@ -86,6 +86,24 @@ class UpdateMixin(BaseMixin, Generic[T]):
 
         return self.model(**json_data) if map_model else json_data
 
+class PutMixin(BaseMixin, Generic[T]):
+    def update(self, chift_id, data, client=None, params=None, map_model=True) -> T:
+        if not client:
+            client = ChiftClient()
+        client.consumer_id = self.consumer_id
+        client.connection_id = self.connection_id
+
+        json_data = client.put_one(
+            self.chift_vertical,
+            self.chift_model,
+            chift_id,
+            data,
+            extra_path=self.extra_path,
+            params=params,
+        )
+
+        return self.model(**json_data) if map_model else json_data
+
 
 class PaginationMixin(BaseMixin, Generic[T]):
     def all(self, params=None, client=None, map_model=True, limit=None) -> list[T]:
