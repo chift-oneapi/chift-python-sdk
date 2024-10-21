@@ -2178,6 +2178,7 @@ class FlowTrigger(BaseModel):
 class GenericJournalItem(BaseModel):
     account_type: EntryLineType
     account: constr(min_length=1) = Field(..., title="Account")
+    account_info: Optional[AccountToCreate] = None
     force_general_account: Optional[str] = Field(
         None,
         description="For ustomer/supplier/employee accounts we determine the general account based on the configurations in the accounting system. The general account can also be forced by specifying the value in this field.",
@@ -3500,6 +3501,7 @@ class InvoiceItemInMonoAnalyticPlan(BaseModel):
     invoice_date: date = Field(..., title="Invoice Date")
     due_date: date = Field(..., title="Due Date")
     partner_id: constr(min_length=1) = Field(..., title="Partner Id")
+    partner_info: Optional[AccountToCreate] = None
     journal_id: Optional[str] = Field(
         None,
         description="Indicates the journal used in for the invoice. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.",
@@ -3547,6 +3549,7 @@ class InvoiceItemInMultiAnalyticPlans(BaseModel):
     invoice_date: date = Field(..., title="Invoice Date")
     due_date: date = Field(..., title="Due Date")
     partner_id: constr(min_length=1) = Field(..., title="Partner Id")
+    partner_info: Optional[AccountToCreate] = None
     journal_id: Optional[str] = Field(
         None,
         description="Indicates the journal used in for the invoice. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.",
