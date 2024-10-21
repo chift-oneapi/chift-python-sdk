@@ -11,7 +11,6 @@ from chift.openapi.models import PaymentBalance as PaymentBalanceModel
 from chift.openapi.models import PaymentPayment as PaymentItemModel
 from chift.openapi.models import PaymentRefund as RefundItemModel
 from chift.openapi.models import PaymentTransaction as TransactionModel
-from chift.openapi.openapi import PaymentItemOut
 
 
 class PaymentRouter:
@@ -34,7 +33,7 @@ class Balance(PaginationMixin[PaymentBalanceModel]):
     model = PaymentBalanceModel
 
 
-class Payment(PaginationMixin[PaymentItemModel], ReadMixin[PaymentItemOut]):
+class Payment(PaginationMixin[PaymentItemModel], ReadMixin[PaymentItemModel]):
     chift_vertical: ClassVar = "payment"
     chift_model: ClassVar = "payments"
     model = PaymentItemModel

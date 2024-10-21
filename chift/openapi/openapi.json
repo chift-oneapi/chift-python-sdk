@@ -1675,6 +1675,86 @@
             }
           }
         }
+      },
+      "patch": {
+        "tags": [
+          "Syncs"
+        ],
+        "summary": "Update flow mappings for a specific consumer",
+        "description": "Route that can be used to update the flow mappings for a specific consumer. It will replace the existing configuration with the provided one.",
+        "operationId": "syncs_update_synctoconsumer",
+        "parameters": [
+          {
+            "name": "syncid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Syncid",
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "consumerid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Consumerid",
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "Body",
+                "type": "array",
+                "items": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The flow is not yet activated for this consumer",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The body should be a list",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        }
       }
     },
     "/consumers/{consumerid}/syncs/{syncid}/flows/{flowid}/enable": {

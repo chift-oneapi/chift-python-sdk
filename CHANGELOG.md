@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.72 - 2024-10-21
+* sync: add update mixin for sync configuration modification
+
 ## 0.1.71 - 2024-10-01
 * ecommerce: add tags on orders
 * accounting: add account info when creation is required in the entry creation request
