@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.73 - 2024-11-12
+* pms: update model and add new route
+
 ## 0.1.72 - 2024-10-21
 * sync: add update mixin for sync configuration modification
 

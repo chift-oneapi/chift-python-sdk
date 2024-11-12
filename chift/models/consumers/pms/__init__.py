@@ -3,6 +3,7 @@ from typing import ClassVar
 from chift.api.mixins import PaginationMixin, ReadMixin
 from chift.openapi.models import PMSAccountingCategory as AccountingCategoryModel
 from chift.openapi.models import PMSClosure as ClosureModel
+from chift.openapi.models import PMSInvoiceFull as InvoiceModel
 from chift.openapi.models import PMSLocation as LocationModel
 from chift.openapi.models import PMSOrder as OrderModel
 from chift.openapi.models import PMSPayment as PaymentModel
@@ -17,6 +18,7 @@ class PmsRouter:
         self.Order = Order(consumer_id, connection_id)
         self.Closure = Closure(consumer_id, connection_id)
         self.AccountingCategory = AccountingCategory(consumer_id, connection_id)
+        self.Invoice = Invoice(consumer_id, connection_id)
 
 
 class PaymentMethod(PaginationMixin[PaymentMethodsModel]):
@@ -47,6 +49,12 @@ class Order(PaginationMixin[OrderModel]):
     chift_vertical: ClassVar = "pms"
     chift_model: ClassVar = "orders"
     model = OrderModel
+
+
+class Invoice(PaginationMixin[InvoiceModel]):
+    chift_vertical: ClassVar = "pms"
+    chift_model: ClassVar = "invoices"
+    model = InvoiceModel
 
 
 class AccountingCategory(PaginationMixin[AccountingCategoryModel]):
