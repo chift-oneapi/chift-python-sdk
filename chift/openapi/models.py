@@ -44,6 +44,7 @@ from .openapi import (
     PaymentMethods,
     PMSAccountingCategoryItem,
     PMSClosureItem,
+    PMSCustomerItem,
     PMSInvoiceFullItem,
     PMSLocationItem,
     PMSOrderItem,
@@ -431,6 +432,10 @@ class PMSAccountingCategory(PMSAccountingCategoryItem):
 
 
 class PMSInvoiceFull(PMSInvoiceFullItem):
+    pass
+
+
+class PMSCustomer(PMSCustomerItem):
     pass
 
 

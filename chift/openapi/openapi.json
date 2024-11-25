@@ -1141,7 +1141,7 @@
             "content": {
               "application/json": {
                 "example": {
-                  "message": "You cannot execute this flow as it is not correclty configured",
+                  "message": "You cannot force the execution for all consumers",
                   "status": "error"
                 },
                 "schema": { "$ref": "#/components/schemas/ChiftError" }
@@ -10659,6 +10659,105 @@
         }
       }
     },
+    "/consumers/{consumer_id}/pms/customers": {
+      "get": {
+        "tags": ["Property Management System"],
+        "summary": "Get customers (PMS)",
+        "description": "Returns a list of all the customers",
+        "operationId": "pms_get_customers",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Consumer Id",
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Page",
+              "default": 1,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Size",
+              "default": 50,
+              "minimum": 1,
+              "maximum": 100,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_PMSCustomerItem_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": { "$ref": "#/components/schemas/ChiftError" }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to authenticate to {ConnectorName}",
+                  "status": "error"
+                },
+                "schema": { "$ref": "#/components/schemas/ChiftError" }
+              }
+            },
+            "description": "Bad Gateway"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                  "status": "error"
+                },
+                "schema": { "$ref": "#/components/schemas/ChiftError" }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/pms/locations": {
       "get": {
         "tags": ["Property Management System"],
@@ -12241,6 +12340,21 @@
             "items": {
               "$ref": "#/components/schemas/PMSAccountingCategoryItem"
             }
+          },
+          "total": { "title": "Total", "minimum": 0.0, "type": "integer" },
+          "page": { "title": "Page", "minimum": 1.0, "type": "integer" },
+          "size": { "title": "Size", "minimum": 1.0, "type": "integer" }
+        }
+      },
+      "ChiftPage_PMSCustomerItem_": {
+        "title": "ChiftPage[PMSCustomerItem]",
+        "required": ["items", "total", "page", "size"],
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Items",
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/PMSCustomerItem" }
           },
           "total": { "title": "Total", "minimum": 0.0, "type": "integer" },
           "page": { "title": "Page", "minimum": 1.0, "type": "integer" },
@@ -16180,6 +16294,43 @@
           "status": { "$ref": "#/components/schemas/ClosureStates" }
         }
       },
+      "PMSCustomerItem": {
+        "title": "PMSCustomerItem",
+        "required": ["id", "source_ref"],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "title": "Source Ref",
+            "allOf": [{ "$ref": "#/components/schemas/Ref" }],
+            "description": "Technical id in the target software"
+          },
+          "first_name": { "title": "First Name", "type": "string" },
+          "last_name": { "title": "Last Name", "type": "string" },
+          "company_name": { "title": "Company Name", "type": "string" },
+          "phone": { "title": "Phone", "type": "string" },
+          "email": { "title": "Email", "type": "string" },
+          "account_number": {
+            "title": "Account Number",
+            "type": "string",
+            "description": "Number of the accounting account used (e.g. 701000)"
+          },
+          "created_on": {
+            "title": "Created On",
+            "type": "string",
+            "format": "date-time"
+          },
+          "addresses": {
+            "title": "Addresses",
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/AddressItem" }
+          }
+        }
+      },
       "PMSInvoiceFullItem": {
         "title": "PMSInvoiceFullItem",
         "required": ["id", "source_ref", "items", "payments"],
@@ -16422,7 +16573,12 @@
             "default": "Unknown"
           },
           "currency": { "title": "Currency", "type": "string" },
-          "date": { "title": "Date", "type": "string", "format": "date-time" }
+          "date": { "title": "Date", "type": "string", "format": "date-time" },
+          "partner_id": {
+            "title": "Partner Id",
+            "allOf": [{ "$ref": "#/components/schemas/ChiftId" }],
+            "description": "Reference to the customer related to this payment"
+          }
         }
       },
       "PMSPaymentMethods": {

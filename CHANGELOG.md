@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.74 - 2024-11-19
+* pms: add customers route
+
 ## 0.1.73 - 2024-11-12
 * pms: update model and add new route
 
