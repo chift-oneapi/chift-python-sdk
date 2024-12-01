@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.75 - 2024-12-01
+* invoicing: add Italian specificities regarding e-Invoicing
+
 ## 0.1.74 - 2024-11-19
 * pms: add customers route
 
