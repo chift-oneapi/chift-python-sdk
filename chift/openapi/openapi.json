@@ -12,6 +12,49 @@
     }
   ],
   "paths": {
+    "/token": {
+      "post": {
+        "tags": [
+          "General"
+        ],
+        "summary": "Get access token",
+        "description": "This endpoint allows you to get an access token that can be used as a BEARER token to access the protected endpoints of this APIs. The token is valid for 30 minutes. You can refresh the token by requesting a new token.",
+        "operationId": "generate_access_token_token_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthItem"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
     "/consumers": {
       "get": {
         "tags": [
@@ -1300,7 +1343,7 @@
             "content": {
               "application/json": {
                 "example": {
-                  "message": "You cannot execute this flow as it is not correclty configured",
+                  "message": "You cannot force the execution for all consumers",
                   "status": "error"
                 },
                 "schema": {
@@ -1712,19 +1755,16 @@
               "schema": {
                 "title": "Body",
                 "type": "array",
-                "items": {}
+                "items": {
+                  "$ref": "#/components/schemas/ReadSyncMappingItem"
+                }
               }
             }
           }
         },
         "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
+          "204": {
+            "description": "Successful Response"
           },
           "404": {
             "content": {
@@ -1912,13 +1952,8 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
+          "204": {
+            "description": "Successful Response"
           },
           "404": {
             "content": {
@@ -4475,7 +4510,7 @@
             "content": {
               "application/json": {
                 "example": {
-                  "message": "The analytic account doesn't exists in the accounting system.",
+                  "message": "The analytic account doesn't exist in the accounting system.",
                   "status": "error"
                 },
                 "schema": {
@@ -4676,7 +4711,7 @@
             "content": {
               "application/json": {
                 "example": {
-                  "message": "The analytic account doesn't exists in the accounting system.",
+                  "message": "The analytic account doesn't exist in the accounting system.",
                   "status": "error"
                 },
                 "schema": {
@@ -9952,7 +9987,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/InvoiceItem"
+                "$ref": "#/components/schemas/backbone_common__models__invoicing__InvoiceItem"
               }
             }
           }
@@ -11945,6 +11980,253 @@
         }
       }
     },
+    "/consumers/{consumer_id}/pms/invoices": {
+      "get": {
+        "tags": [
+          "Property Management System"
+        ],
+        "summary": "Get invoices (PMS)",
+        "description": "Returns a list of the invoices",
+        "operationId": "pms_get_invoices",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Consumer Id",
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Date From",
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Date To",
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "location_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Location Id",
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Page",
+              "default": 1,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Size",
+              "default": 50,
+              "minimum": 1,
+              "maximum": 100,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_PMSInvoiceFullItem_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to authenticate to {ConnectorName}",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/pms/customers": {
+      "get": {
+        "tags": [
+          "Property Management System"
+        ],
+        "summary": "Get customers (PMS)",
+        "description": "Returns a list of all the customers",
+        "operationId": "pms_get_customers",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Consumer Id",
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Page",
+              "default": 1,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Size",
+              "default": 50,
+              "minimum": 1,
+              "maximum": 100,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_PMSCustomerItem_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to authenticate to {ConnectorName}",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/pms/locations": {
       "get": {
         "tags": [
@@ -12513,49 +12795,6 @@
             }
           }
         }
-      }
-    },
-    "/token": {
-      "post": {
-        "tags": [
-          "General"
-        ],
-        "summary": "Get access token",
-        "description": "This endpoint allows you to get an access token that can be used as a BEARER token to access the protected endpoints of this APIs. The token is valid for 30 minutes. You can refresh the token by requesting a new token.",
-        "operationId": "generate_access_token_token_post",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AuthItem"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Token"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": []
       }
     }
   },
@@ -13525,6 +13764,30 @@
             "title": "Detail",
             "type": "string",
             "default": ""
+          }
+        }
+      },
+      "ChiftId": {
+        "title": "ChiftId",
+        "required": [
+          "id",
+          "source_ref"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "title": "Source Ref",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Ref"
+              }
+            ],
+            "description": "Technical id in the target software"
           }
         }
       },
@@ -14563,6 +14826,74 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PMSAccountingCategoryItem"
+            }
+          },
+          "total": {
+            "title": "Total",
+            "minimum": 0.0,
+            "type": "integer"
+          },
+          "page": {
+            "title": "Page",
+            "minimum": 1.0,
+            "type": "integer"
+          },
+          "size": {
+            "title": "Size",
+            "minimum": 1.0,
+            "type": "integer"
+          }
+        }
+      },
+      "ChiftPage_PMSCustomerItem_": {
+        "title": "ChiftPage[PMSCustomerItem]",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Items",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMSCustomerItem"
+            }
+          },
+          "total": {
+            "title": "Total",
+            "minimum": 0.0,
+            "type": "integer"
+          },
+          "page": {
+            "title": "Page",
+            "minimum": 1.0,
+            "type": "integer"
+          },
+          "size": {
+            "title": "Size",
+            "minimum": 1.0,
+            "type": "integer"
+          }
+        }
+      },
+      "ChiftPage_PMSInvoiceFullItem_": {
+        "title": "ChiftPage[PMSInvoiceFullItem]",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Items",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMSInvoiceFullItem"
             }
           },
           "total": {
@@ -17469,112 +17800,6 @@
           }
         }
       },
-      "InvoiceItem": {
-        "title": "InvoiceItem",
-        "required": [
-          "currency",
-          "invoice_type",
-          "status",
-          "invoice_date",
-          "tax_amount",
-          "untaxed_amount",
-          "total"
-        ],
-        "type": "object",
-        "properties": {
-          "currency": {
-            "title": "Currency",
-            "type": "string",
-            "description": "Currency matching target sofware name"
-          },
-          "invoice_type": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/backbone_common__models__invoicing__InvoiceType"
-              }
-            ],
-            "description": "Invoice type"
-          },
-          "status": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/InvoiceStatus"
-              }
-            ],
-            "description": "Status"
-          },
-          "invoice_date": {
-            "title": "Invoice Date",
-            "type": "string",
-            "description": "Invoicing date",
-            "format": "date"
-          },
-          "tax_amount": {
-            "title": "Tax Amount",
-            "type": "number",
-            "description": "Taxes amount"
-          },
-          "untaxed_amount": {
-            "title": "Untaxed Amount",
-            "type": "number",
-            "description": "Untaxed amount"
-          },
-          "total": {
-            "title": "Total",
-            "type": "number",
-            "description": "Total amount incl. taxes"
-          },
-          "lines": {
-            "title": "Lines",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/InvoiceLineItem"
-            },
-            "description": "Invoice lines",
-            "default": []
-          },
-          "partner_id": {
-            "title": "Partner Id",
-            "type": "string",
-            "description": "Technical id of the vendor/customer in Chift"
-          },
-          "invoice_number": {
-            "title": "Invoice Number",
-            "type": "string",
-            "description": "Number/sequence"
-          },
-          "due_date": {
-            "title": "Due Date",
-            "type": "string",
-            "description": "Due date",
-            "format": "date"
-          },
-          "reference": {
-            "title": "Reference",
-            "type": "string",
-            "description": "Reference"
-          },
-          "payment_communication": {
-            "title": "Payment Communication",
-            "type": "string",
-            "description": "Payment communication"
-          },
-          "customer_memo": {
-            "title": "Customer Memo",
-            "type": "string",
-            "description": "Customer note/memo"
-          },
-          "journal_ref": {
-            "title": "Journal Ref",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/FieldRef"
-              }
-            ],
-            "description": "Journal"
-          }
-        }
-      },
       "InvoiceItemInMonoAnalyticPlan": {
         "title": "InvoiceItemInMonoAnalyticPlan",
         "required": [
@@ -17927,6 +18152,15 @@
             ],
             "description": "Journal"
           },
+          "italian_specificities": {
+            "title": "Italian Specificities",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ItalianSpecificities"
+              }
+            ],
+            "description": "Specificities for Italy"
+          },
           "last_updated_on": {
             "title": "Last Updated On",
             "type": "string",
@@ -18269,6 +18503,15 @@
             ],
             "description": "Journal"
           },
+          "italian_specificities": {
+            "title": "Italian Specificities",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ItalianSpecificities"
+              }
+            ],
+            "description": "Specificities for Italy"
+          },
           "last_updated_on": {
             "title": "Last Updated On",
             "type": "string",
@@ -18354,6 +18597,11 @@
             "title": "Tax Id",
             "type": "string",
             "description": "Technical id of the tax in Chift"
+          },
+          "tax_exemption_reason": {
+            "title": "Tax Exemption Reason",
+            "type": "string",
+            "description": "Tax exemption reason"
           },
           "unit_of_measure": {
             "title": "Unit Of Measure",
@@ -18667,6 +18915,49 @@
           }
         }
       },
+      "InvoicePartnerItem": {
+        "title": "InvoicePartnerItem",
+        "required": [
+          "id",
+          "source_ref",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "title": "Source Ref",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Ref"
+              }
+            ],
+            "description": "Technical id in the target software"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ParnerType"
+          },
+          "address": {
+            "$ref": "#/components/schemas/AddressItem"
+          },
+          "first_name": {
+            "title": "First Name",
+            "type": "string"
+          },
+          "last_name": {
+            "title": "Last Name",
+            "type": "string"
+          },
+          "company_name": {
+            "title": "Company Name",
+            "type": "string"
+          }
+        }
+      },
       "InvoiceStatus": {
         "title": "InvoiceStatus",
         "enum": [
@@ -18709,6 +19000,35 @@
         ],
         "type": "string",
         "description": "An enumeration."
+      },
+      "ItalianSpecificities": {
+        "title": "ItalianSpecificities",
+        "type": "object",
+        "properties": {
+          "stamp_duty_amount": {
+            "title": "Stamp Duty Amount",
+            "type": "number",
+            "description": "Documentary stamp tax (specific to Italy)"
+          },
+          "withholding_tax": {
+            "title": "Withholding Tax",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WithholdingTax"
+              }
+            ],
+            "description": "Withholding tax (specific to Italy)"
+          },
+          "welfare_fund": {
+            "title": "Welfare Fund",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WelfareFund"
+              }
+            ],
+            "description": "Welfare fund (specific to Italy)"
+          }
+        }
       },
       "Journal": {
         "title": "Journal",
@@ -20299,6 +20619,14 @@
             "title": "Reference",
             "type": "string"
           },
+          "matching_numbers": {
+            "title": "Matching Numbers",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
           "payment_communication": {
             "title": "Payment Communication",
             "type": "string"
@@ -20376,6 +20704,143 @@
           },
           "status": {
             "$ref": "#/components/schemas/ClosureStates"
+          }
+        }
+      },
+      "PMSCustomerItem": {
+        "title": "PMSCustomerItem",
+        "required": [
+          "id",
+          "source_ref"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "title": "Source Ref",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Ref"
+              }
+            ],
+            "description": "Technical id in the target software"
+          },
+          "first_name": {
+            "title": "First Name",
+            "type": "string"
+          },
+          "last_name": {
+            "title": "Last Name",
+            "type": "string"
+          },
+          "company_name": {
+            "title": "Company Name",
+            "type": "string"
+          },
+          "phone": {
+            "title": "Phone",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email",
+            "type": "string"
+          },
+          "account_number": {
+            "title": "Account Number",
+            "type": "string",
+            "description": "Number of the accounting account used (e.g. 701000)"
+          },
+          "created_on": {
+            "title": "Created On",
+            "type": "string",
+            "format": "date-time"
+          },
+          "addresses": {
+            "title": "Addresses",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AddressItem"
+            }
+          }
+        }
+      },
+      "PMSInvoiceFullItem": {
+        "title": "PMSInvoiceFullItem",
+        "required": [
+          "id",
+          "source_ref",
+          "items",
+          "payments"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "title": "Source Ref",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Ref"
+              }
+            ],
+            "description": "Technical id in the target software"
+          },
+          "invoice_number": {
+            "title": "Invoice Number",
+            "type": "string",
+            "description": "Number/sequence"
+          },
+          "creation_date": {
+            "title": "Creation Date",
+            "type": "string",
+            "format": "date-time"
+          },
+          "closing_date": {
+            "title": "Closing Date",
+            "type": "string",
+            "format": "date-time"
+          },
+          "partners": {
+            "title": "Partners",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InvoicePartnerItem"
+            }
+          },
+          "items": {
+            "title": "Items",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMSOrderLineItem"
+            }
+          },
+          "payments": {
+            "title": "Payments",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMSPaymentItem"
+            }
+          },
+          "service_id": {
+            "title": "Service Id",
+            "type": "string",
+            "description": "Reference to the service related to this order"
+          },
+          "reservation": {
+            "title": "Reservation",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReservationItem"
+              }
+            ],
+            "description": "Reference to the reservation related to this order"
           }
         }
       },
@@ -20525,6 +20990,23 @@
             "title": "Service Id",
             "type": "string",
             "description": "Reference to the service related to this order"
+          },
+          "reservation": {
+            "title": "Reservation",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReservationItem"
+              }
+            ],
+            "description": "Reference to the reservation related to this order"
+          },
+          "bills": {
+            "title": "Bills",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/backbone_api__app__routers__pms__InvoiceItem"
+            },
+            "description": "Reference to the bills related to this order"
           }
         }
       },
@@ -20658,6 +21140,15 @@
             "title": "Date",
             "type": "string",
             "format": "date-time"
+          },
+          "partner_id": {
+            "title": "Partner Id",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ChiftId"
+              }
+            ],
+            "description": "Reference to the customer related to this payment"
           }
         }
       },
@@ -21102,6 +21593,14 @@
             "description": "Used by a POS to give one or more specific accounting categories to a product item. If not available it will use the category ids"
           }
         }
+      },
+      "ParnerType": {
+        "title": "ParnerType",
+        "enum": [
+          "owner",
+          "account"
+        ],
+        "description": "An enumeration."
       },
       "PatchConnectionItem": {
         "title": "PatchConnectionItem",
@@ -22002,6 +22501,56 @@
             "title": "Total",
             "type": "number",
             "description": "Total refunded (after discount)."
+          }
+        }
+      },
+      "ReservationItem": {
+        "title": "ReservationItem",
+        "required": [
+          "id",
+          "source_ref"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "title": "Source Ref",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Ref"
+              }
+            ],
+            "description": "Technical id in the target software"
+          },
+          "start_date": {
+            "title": "Start Date",
+            "type": "string",
+            "format": "date-time"
+          },
+          "end_date": {
+            "title": "End Date",
+            "type": "string",
+            "format": "date-time"
+          },
+          "creation_date": {
+            "title": "Creation Date",
+            "type": "string",
+            "format": "date-time"
+          },
+          "resource_id": {
+            "$ref": "#/components/schemas/ChiftId"
+          },
+          "resource_name": {
+            "title": "Resource Name",
+            "type": "string"
+          },
+          "resource_identifier": {
+            "title": "Resource Identifier",
+            "type": "string"
           }
         }
       },
@@ -23205,6 +23754,150 @@
           }
         }
       },
+      "WelfareFund": {
+        "title": "WelfareFund",
+        "required": [
+          "rate",
+          "amount"
+        ],
+        "type": "object",
+        "properties": {
+          "rate": {
+            "title": "Rate",
+            "type": "number",
+            "description": "Rate"
+          },
+          "amount": {
+            "title": "Amount",
+            "type": "number",
+            "description": "Amount"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WelfareFundType"
+              }
+            ],
+            "description": "Type"
+          }
+        }
+      },
+      "WelfareFundType": {
+        "title": "WelfareFundType",
+        "enum": [
+          "TC01",
+          "TC02",
+          "TC03",
+          "TC04",
+          "TC05",
+          "TC06",
+          "TC07",
+          "TC08",
+          "TC09",
+          "TC10",
+          "TC11",
+          "TC12",
+          "TC13",
+          "TC14",
+          "TC15",
+          "TC16",
+          "TC17",
+          "TC18",
+          "TC19",
+          "TC20",
+          "TC21",
+          "TC22"
+        ],
+        "type": "string",
+        "description": "An enumeration."
+      },
+      "WithholdingTax": {
+        "title": "WithholdingTax",
+        "required": [
+          "rate",
+          "amount"
+        ],
+        "type": "object",
+        "properties": {
+          "rate": {
+            "title": "Rate",
+            "type": "number",
+            "description": "Rate"
+          },
+          "amount": {
+            "title": "Amount",
+            "type": "number",
+            "description": "Amount"
+          },
+          "reason": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WithholdingTaxReason"
+              }
+            ],
+            "description": "Reason"
+          },
+          "payment_reason": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WithholdingTaxPaymentReason"
+              }
+            ],
+            "description": "Payment reason"
+          }
+        }
+      },
+      "WithholdingTaxPaymentReason": {
+        "title": "WithholdingTaxPaymentReason",
+        "enum": [
+          "A",
+          "U",
+          "R",
+          "Q",
+          "H",
+          "V",
+          "V2",
+          "I",
+          "J",
+          "K",
+          "P",
+          "S",
+          "T",
+          "W",
+          "X",
+          "Y",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "L",
+          "L1",
+          "M",
+          "M1",
+          "M2",
+          "IN",
+          "O",
+          "O1",
+          "V1"
+        ],
+        "type": "string",
+        "description": "An enumeration."
+      },
+      "WithholdingTaxReason": {
+        "title": "WithholdingTaxReason",
+        "enum": [
+          "RT01",
+          "RT02",
+          "RT03",
+          "RT04",
+          "RT05",
+          "RT06"
+        ],
+        "type": "string",
+        "description": "An enumeration."
+      },
       "backbone_api__app__routers__accounting__ChiftPage[VatCode]": {
         "title": "ChiftPage[VatCode]",
         "required": [
@@ -23770,6 +24463,52 @@
           }
         }
       },
+      "backbone_api__app__routers__pms__InvoiceItem": {
+        "title": "InvoiceItem",
+        "required": [
+          "id",
+          "source_ref"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "title": "Source Ref",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Ref"
+              }
+            ],
+            "description": "Technical id in the target software"
+          },
+          "invoice_number": {
+            "title": "Invoice Number",
+            "type": "string",
+            "description": "Number/sequence"
+          },
+          "creation_date": {
+            "title": "Creation Date",
+            "type": "string",
+            "format": "date-time"
+          },
+          "closing_date": {
+            "title": "Closing Date",
+            "type": "string",
+            "format": "date-time"
+          },
+          "partners": {
+            "title": "Partners",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InvoicePartnerItem"
+            }
+          }
+        }
+      },
       "backbone_api__app__routers__pos__ProductCategoryItem": {
         "title": "ProductCategoryItem",
         "required": [
@@ -23965,6 +24704,121 @@
         ],
         "type": "string",
         "description": "An enumeration."
+      },
+      "backbone_common__models__invoicing__InvoiceItem": {
+        "title": "InvoiceItem",
+        "required": [
+          "currency",
+          "invoice_type",
+          "status",
+          "invoice_date",
+          "tax_amount",
+          "untaxed_amount",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "currency": {
+            "title": "Currency",
+            "type": "string",
+            "description": "Currency matching target sofware name"
+          },
+          "invoice_type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/backbone_common__models__invoicing__InvoiceType"
+              }
+            ],
+            "description": "Invoice type"
+          },
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/InvoiceStatus"
+              }
+            ],
+            "description": "Status"
+          },
+          "invoice_date": {
+            "title": "Invoice Date",
+            "type": "string",
+            "description": "Invoicing date",
+            "format": "date"
+          },
+          "tax_amount": {
+            "title": "Tax Amount",
+            "type": "number",
+            "description": "Taxes amount"
+          },
+          "untaxed_amount": {
+            "title": "Untaxed Amount",
+            "type": "number",
+            "description": "Untaxed amount"
+          },
+          "total": {
+            "title": "Total",
+            "type": "number",
+            "description": "Total amount incl. taxes"
+          },
+          "lines": {
+            "title": "Lines",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InvoiceLineItem"
+            },
+            "description": "Invoice lines",
+            "default": []
+          },
+          "partner_id": {
+            "title": "Partner Id",
+            "type": "string",
+            "description": "Technical id of the vendor/customer in Chift"
+          },
+          "invoice_number": {
+            "title": "Invoice Number",
+            "type": "string",
+            "description": "Number/sequence"
+          },
+          "due_date": {
+            "title": "Due Date",
+            "type": "string",
+            "description": "Due date",
+            "format": "date"
+          },
+          "reference": {
+            "title": "Reference",
+            "type": "string",
+            "description": "Reference"
+          },
+          "payment_communication": {
+            "title": "Payment Communication",
+            "type": "string",
+            "description": "Payment communication"
+          },
+          "customer_memo": {
+            "title": "Customer Memo",
+            "type": "string",
+            "description": "Customer note/memo"
+          },
+          "journal_ref": {
+            "title": "Journal Ref",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/FieldRef"
+              }
+            ],
+            "description": "Journal"
+          },
+          "italian_specificities": {
+            "title": "Italian Specificities",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ItalianSpecificities"
+              }
+            ],
+            "description": "Specificities for Italy"
+          }
+        }
       },
       "backbone_common__models__invoicing__InvoiceType": {
         "title": "InvoiceType",

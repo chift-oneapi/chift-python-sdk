@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.73 - 2024-12-01
+* invoicing: add Italian specificities regarding e-Invoicing
+
 ## 0.1.72 - 2024-10-21
 * sync: add update mixin for sync configuration modification
 
