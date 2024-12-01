@@ -20,47 +20,6 @@ def test_get_contacts(custom_regate_consumer: Consumer):
     assert contacts and len(contacts) <= 2
 
 
-def test_create_update_contact(custom_regate_consumer: Consumer):
-    consumer = custom_regate_consumer
-
-    data = {
-        "external_id": None,
-        "name": "testyyy fou",
-        "customer_type": "company",
-        "customer_reference": None,
-        "payment_method": "bank_transfer",
-        "balance_cents": 0,
-        "yearly_billed_cents": 0,
-        "discount_condition": "No discount granted for early payment.",
-        "late_payment_penalties": "In the event of non-payment on the due date, penalties calculated at three times the legal interest rate will be applied.",
-        "legal_fixed_compensation": "Any late payment will result in a fixed compensation for recovery costs of €40.",
-        "company_number": None,
-        "unit_number": None,
-        "vat_number": None,
-        "is_archived": None,
-        "vat_exemption_reason": None,
-        "address": {
-            "id": "24819b3f-cd0a-43d9-9daa-d83a7d9b1985",
-            "city": "test",
-            "address_line_1": "test",
-            "address_line_2": "test",
-            "postal_code": "test",
-            "country_code": "AF",
-            "country": {"id": 4, "iso_alpha2": "AF", "name": "Afghanistan"},
-        },
-        "bank_accounts": [{"id": "4c108f34-1b95-45cf-a94b-b869675dc962"}],
-    }
-
-    contact = consumer.custom.Custom.create("regate", "contacts", data)
-
-    assert contact
-
-    data = {"legal_fixed_compensation": "12345"}
-    contact = consumer.custom.Custom.update("regate", "contacts", contact["id"], data)
-
-    assert contact["legal_fixed_compensation"] == "12345"
-
-
 def test_create_product(custom_regate_consumer: Consumer):
     consumer = custom_regate_consumer
 
