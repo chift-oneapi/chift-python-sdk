@@ -21,7 +21,7 @@ setup(
     version=version_contents["VERSION"],
     packages=find_packages(),
     install_requires=[
-        "pydantic >= 1.10, <2",
+        "pydantic >= 2.8.0",
         "requests >= 2.20",
     ],
     python_requires=">=3.9",
