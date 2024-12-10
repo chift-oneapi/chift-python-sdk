@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.76 - 2024-12-10
+* pos: add discount type
+
 ## 0.1.75 - 2024-12-01
 * invoicing: add Italian specificities regarding e-Invoicing
 
