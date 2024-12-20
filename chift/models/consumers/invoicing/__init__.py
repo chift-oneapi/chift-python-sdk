@@ -5,6 +5,8 @@ from typing import ClassVar
 from chift.api.mixins import CreateMixin, PaginationMixin, ReadMixin, UpdateMixin
 from chift.openapi.models import Contact as ContactModel
 from chift.openapi.models import Invoice as InvoiceModel
+from chift.openapi.models import InvoicingPayment as PaymentModel
+from chift.openapi.models import InvoicingPaymentMethod as PaymentMethodModel
 from chift.openapi.models import Opportunity as OpportunityModel
 from chift.openapi.models import Product as ProductModel
 from chift.openapi.models import Tax as TaxModel
@@ -64,6 +66,22 @@ class Tax(ReadMixin[TaxModel], PaginationMixin[TaxModel]):
     chift_vertical: ClassVar = "invoicing"
     chift_model: ClassVar = "taxes"
     model = TaxModel
+
+
+class Payment(
+    PaginationMixin[PaymentModel],
+):
+    chift_vertical: ClassVar = "invoicing"
+    chift_model: ClassVar = "payments"
+    model = PaymentModel
+
+
+class PaymentMethod(
+    PaginationMixin[PaymentMethodModel],
+):
+    chift_vertical: ClassVar = "invoicing"
+    chift_model: ClassVar = "payment-methods"
+    model = PaymentMethodModel
 
 
 class Custom(ReadMixin, CreateMixin, UpdateMixin, PaginationMixin):

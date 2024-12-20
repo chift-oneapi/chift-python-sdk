@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.77 - 2024-12-20
+* invoicing: add payments and payment methods
+
 ## 0.1.76 - 2024-12-10
 * pos: add discount type
 

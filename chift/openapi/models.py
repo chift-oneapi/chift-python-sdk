@@ -31,6 +31,8 @@ from .openapi import (
     IntegrationItem,
     InvoiceItemOutMonoAnalyticPlan,
     InvoiceItemOutSingle,
+    InvoicingPaymentItem,
+    InvoicingPaymentMethodItem,
     Journal,
     JournalEntryMultiAnalyticPlan,
     LinkItem,
@@ -298,6 +300,14 @@ class Opportunity(OpportunityItem):
 
 
 class Tax(BackboneCommonModelsInvoicingVatCode):
+    pass
+
+
+class InvoicingPayment(InvoicingPaymentItem):
+    pass
+
+
+class InvoicingPaymentMethod(InvoicingPaymentMethodItem):
     pass
 
 
