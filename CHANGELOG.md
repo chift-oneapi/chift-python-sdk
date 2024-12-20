@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.78 - 2024-12-20
+* invoicing: fix invoicing router error
+
 ## 0.1.77 - 2024-12-20
 * invoicing: add payments and payment methods
 

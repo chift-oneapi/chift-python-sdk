@@ -19,6 +19,8 @@ class InvoicingRouter:
         self.Contact = Contact(consumer_id, connection_id)
         self.Opportunity = Opportunity(consumer_id, connection_id)
         self.Tax = Tax(consumer_id, connection_id)
+        self.Payment = Payment(consumer_id, connection_id)
+        self.PaymentMethod = PaymentMethod(consumer_id, connection_id)
         self.Custom = Custom(consumer_id, connection_id)
 
 
