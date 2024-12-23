@@ -36,8 +36,9 @@ from .openapi import (
     Journal,
     JournalEntryMultiAnalyticPlan,
     LinkItem,
-    MatchingIn,
+    MatchingOut,
     MiscellaneousOperationOut,
+    MultipleMatchingOut,
     OpportunityItem,
     OrderItemOut,
     OutstandingItem,
@@ -364,7 +365,11 @@ class Journal(Journal):
     pass
 
 
-class Matching(MatchingIn):
+class Matching(MatchingOut):
+    pass
+
+
+class MultipleMatching(MultipleMatchingOut):
     pass
 
 

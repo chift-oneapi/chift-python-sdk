@@ -9,6 +9,10 @@
     {
       "url": "https://api.chift.eu",
       "description": "Chift"
+    },
+    {
+      "url": "http://127.0.0.1:8000",
+      "description": "Chift-Local"
     }
   ],
   "paths": {
@@ -6172,6 +6176,103 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/MatchingOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Entry 'x' doesn't have the correct status.",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Entry 'x' doesn't exist in the accounting system.",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/accounting/matching-multiple": {
+      "post": {
+        "tags": [
+          "Accounting"
+        ],
+        "summary": "Match multipe entries",
+        "description": "Match existing entries in the accounting system",
+        "operationId": "accounting_match_entries",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Consumer Id",
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Folder Id",
+              "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature.",
+              "type": "string"
+            },
+            "description": "Accounting folder ID, this needs to be passed when activating the multiple folders feature."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MultipleMatchingIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Accounting Match Entries",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MultipleMatchingOut"
+                  }
                 }
               }
             }
@@ -20251,6 +20352,43 @@
         ],
         "type": "string",
         "description": "An enumeration."
+      },
+      "MultipleMatchingIn": {
+        "title": "MultipleMatchingIn",
+        "required": [
+          "matchings"
+        ],
+        "type": "object",
+        "properties": {
+          "matchings": {
+            "title": "Matchings",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MatchingIn"
+            }
+          }
+        }
+      },
+      "MultipleMatchingOut": {
+        "title": "MultipleMatchingOut",
+        "required": [
+          "processed"
+        ],
+        "type": "object",
+        "properties": {
+          "matching_number": {
+            "title": "Matching Number",
+            "type": "string"
+          },
+          "processed": {
+            "title": "Processed",
+            "type": "boolean"
+          },
+          "error_msg": {
+            "title": "Error Msg",
+            "type": "object"
+          }
+        }
       },
       "NextDocumentNumber": {
         "title": "NextDocumentNumber",

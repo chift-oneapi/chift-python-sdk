@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.79 - 2024-12-23
+* accounting: add multiple matching endpoint
+
 ## 0.1.78 - 2024-12-20
 * invoicing: fix invoicing router error
 
