@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.80 - 2025-01-11
+* invoicing: return exchange rate on invoices
+
 ## 0.1.79 - 2024-12-23
 * accounting: add multiple matching endpoint
 

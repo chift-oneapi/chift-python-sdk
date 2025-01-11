@@ -5803,7 +5803,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/backbone_api__app__routers__accounting__ChiftPage[VatCode]"
+                  "$ref": "#/components/schemas/ChiftPage_AccountingVatCode_"
                 }
               }
             }
@@ -6228,7 +6228,7 @@
         ],
         "summary": "Match multipe entries",
         "description": "Match existing entries in the accounting system",
-        "operationId": "accounting_match_entries",
+        "operationId": "accounting_match_entries_multiple",
         "parameters": [
           {
             "name": "consumer_id",
@@ -6268,7 +6268,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "Response Accounting Match Entries",
+                  "title": "Response Accounting Match Entries Multiple",
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/MultipleMatchingOut"
@@ -10425,7 +10425,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/backbone_api__app__routers__invoicing__ChiftPage[VatCode]"
+                  "$ref": "#/components/schemas/ChiftPage_InvoicingVatCode_"
                 }
               }
             }
@@ -10492,7 +10492,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/backbone_common__models__invoicing__VatCode"
+                  "$ref": "#/components/schemas/InvoicingVatCode"
                 }
               }
             }
@@ -13410,6 +13410,53 @@
           }
         }
       },
+      "AccountingVatCode": {
+        "title": "AccountingVatCode",
+        "required": [
+          "id",
+          "label",
+          "rate",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "scope": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/backbone_api__app__routers__accounting__VatCodeScope"
+              }
+            ],
+            "default": "unknown"
+          },
+          "rate": {
+            "title": "Rate",
+            "type": "number"
+          },
+          "type": {
+            "$ref": "#/components/schemas/backbone_api__app__routers__accounting__VatCodeType"
+          },
+          "deductible_account": {
+            "title": "Deductible Account",
+            "type": "string"
+          },
+          "payable_account": {
+            "title": "Payable Account",
+            "type": "string"
+          }
+        }
+      },
       "AddressItem": {
         "title": "AddressItem",
         "type": "object",
@@ -14325,6 +14372,40 @@
           }
         }
       },
+      "ChiftPage_AccountingVatCode_": {
+        "title": "ChiftPage[AccountingVatCode]",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Items",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccountingVatCode"
+            }
+          },
+          "total": {
+            "title": "Total",
+            "minimum": 0.0,
+            "type": "integer"
+          },
+          "page": {
+            "title": "Page",
+            "minimum": 1.0,
+            "type": "integer"
+          },
+          "size": {
+            "title": "Size",
+            "minimum": 1.0,
+            "type": "integer"
+          }
+        }
+      },
       "ChiftPage_AnalyticAccountItemOutMultiAnalyticPlans_": {
         "title": "ChiftPage[AnalyticAccountItemOutMultiAnalyticPlans]",
         "required": [
@@ -15054,6 +15135,40 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/InvoicingPaymentMethodItem"
+            }
+          },
+          "total": {
+            "title": "Total",
+            "minimum": 0.0,
+            "type": "integer"
+          },
+          "page": {
+            "title": "Page",
+            "minimum": 1.0,
+            "type": "integer"
+          },
+          "size": {
+            "title": "Size",
+            "minimum": 1.0,
+            "type": "integer"
+          }
+        }
+      },
+      "ChiftPage_InvoicingVatCode_": {
+        "title": "ChiftPage[InvoicingVatCode]",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Items",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InvoicingVatCode"
             }
           },
           "total": {
@@ -18694,6 +18809,12 @@
             "title": "Payment Method Id",
             "type": "string",
             "description": "Technical id of the payment method in Chift"
+          },
+          "currency_exchange_rate": {
+            "title": "Currency Exchange Rate",
+            "type": "number",
+            "description": "Indicates the exchange rate at the date of the invoice.",
+            "default": 1
           }
         }
       },
@@ -19050,6 +19171,12 @@
             "title": "Payment Method Id",
             "type": "string",
             "description": "Technical id of the payment method in Chift"
+          },
+          "currency_exchange_rate": {
+            "title": "Currency Exchange Rate",
+            "type": "number",
+            "description": "Indicates the exchange rate at the date of the invoice.",
+            "default": 1
           },
           "pdf": {
             "title": "Pdf",
@@ -19635,6 +19762,65 @@
             "title": "Name",
             "type": "string",
             "description": "Payment method name"
+          }
+        }
+      },
+      "InvoicingVatCode": {
+        "title": "InvoicingVatCode",
+        "required": [
+          "id",
+          "source_ref",
+          "label",
+          "rate",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "title": "Source Ref",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Ref"
+              }
+            ],
+            "description": "Technical id in the target software"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string",
+            "description": "Label"
+          },
+          "rate": {
+            "title": "Rate",
+            "type": "number",
+            "description": "Tax rate (e.g. 21.0)"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/backbone_common__models__invoicing__VatCodeType"
+              }
+            ],
+            "description": "Type"
+          },
+          "code": {
+            "title": "Code",
+            "type": "string",
+            "description": "Code"
+          },
+          "scope": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/backbone_common__models__invoicing__VatCodeScope"
+              }
+            ],
+            "description": "Scope",
+            "default": "unknown"
           }
         }
       },
@@ -24582,40 +24768,6 @@
         "type": "string",
         "description": "An enumeration."
       },
-      "backbone_api__app__routers__accounting__ChiftPage[VatCode]": {
-        "title": "ChiftPage[VatCode]",
-        "required": [
-          "items",
-          "total",
-          "page",
-          "size"
-        ],
-        "type": "object",
-        "properties": {
-          "items": {
-            "title": "Items",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/backbone_api__app__routers__accounting__VatCode"
-            }
-          },
-          "total": {
-            "title": "Total",
-            "minimum": 0.0,
-            "type": "integer"
-          },
-          "page": {
-            "title": "Page",
-            "minimum": 1.0,
-            "type": "integer"
-          },
-          "size": {
-            "title": "Size",
-            "minimum": 1.0,
-            "type": "integer"
-          }
-        }
-      },
       "backbone_api__app__routers__accounting__InvoiceType": {
         "title": "InvoiceType",
         "enum": [
@@ -24626,53 +24778,6 @@
         ],
         "type": "string",
         "description": "An enumeration."
-      },
-      "backbone_api__app__routers__accounting__VatCode": {
-        "title": "VatCode",
-        "required": [
-          "id",
-          "label",
-          "rate",
-          "type"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "title": "Id",
-            "type": "string"
-          },
-          "code": {
-            "title": "Code",
-            "type": "string"
-          },
-          "label": {
-            "title": "Label",
-            "type": "string"
-          },
-          "scope": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/backbone_api__app__routers__accounting__VatCodeScope"
-              }
-            ],
-            "default": "unknown"
-          },
-          "rate": {
-            "title": "Rate",
-            "type": "number"
-          },
-          "type": {
-            "$ref": "#/components/schemas/backbone_api__app__routers__accounting__VatCodeType"
-          },
-          "deductible_account": {
-            "title": "Deductible Account",
-            "type": "string"
-          },
-          "payable_account": {
-            "title": "Payable Account",
-            "type": "string"
-          }
-        }
       },
       "backbone_api__app__routers__accounting__VatCodeScope": {
         "title": "VatCodeScope",
@@ -25113,40 +25218,6 @@
         ],
         "description": "An enumeration."
       },
-      "backbone_api__app__routers__invoicing__ChiftPage[VatCode]": {
-        "title": "ChiftPage[VatCode]",
-        "required": [
-          "items",
-          "total",
-          "page",
-          "size"
-        ],
-        "type": "object",
-        "properties": {
-          "items": {
-            "title": "Items",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/backbone_common__models__invoicing__VatCode"
-            }
-          },
-          "total": {
-            "title": "Total",
-            "minimum": 0.0,
-            "type": "integer"
-          },
-          "page": {
-            "title": "Page",
-            "minimum": 1.0,
-            "type": "integer"
-          },
-          "size": {
-            "title": "Size",
-            "minimum": 1.0,
-            "type": "integer"
-          }
-        }
-      },
       "backbone_api__app__routers__pms__InvoiceItem": {
         "title": "InvoiceItem",
         "required": [
@@ -25561,65 +25632,6 @@
             "title": "Description",
             "type": "string",
             "description": "Description"
-          }
-        }
-      },
-      "backbone_common__models__invoicing__VatCode": {
-        "title": "VatCode",
-        "required": [
-          "id",
-          "source_ref",
-          "label",
-          "rate",
-          "type"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "title": "Id",
-            "type": "string",
-            "description": "Technical id in Chift"
-          },
-          "source_ref": {
-            "title": "Source Ref",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Ref"
-              }
-            ],
-            "description": "Technical id in the target software"
-          },
-          "label": {
-            "title": "Label",
-            "type": "string",
-            "description": "Label"
-          },
-          "rate": {
-            "title": "Rate",
-            "type": "number",
-            "description": "Tax rate (e.g. 21.0)"
-          },
-          "type": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/backbone_common__models__invoicing__VatCodeType"
-              }
-            ],
-            "description": "Type"
-          },
-          "code": {
-            "title": "Code",
-            "type": "string",
-            "description": "Code"
-          },
-          "scope": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/backbone_common__models__invoicing__VatCodeScope"
-              }
-            ],
-            "description": "Scope",
-            "default": "unknown"
           }
         }
       },
