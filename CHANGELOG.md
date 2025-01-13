@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.81 - 2025-01-13
+* fix vat code models
+
 ## 0.1.80 - 2025-01-11
 * invoicing: return exchange rate on invoices
 

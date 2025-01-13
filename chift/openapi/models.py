@@ -9,11 +9,11 @@ from .openapi import (
     AccountItem,
     AnalyticAccountItemOutMultiAnalyticPlans,
     AnalyticPlanItem,
-    BackboneApiAppRoutersAccountingVatCode,
+    AccountingVatCode,
     BackboneApiAppRoutersCommerceProductItem,
     BackboneApiAppRoutersConnectionsConnectionItem,
     BackboneApiAppRoutersPosProductCategoryItem,
-    BackboneCommonModelsInvoicingVatCode,
+    InvoicingVatCode,
     BalanceItemOut,
     CategoryItem,
     ClientItemOut,
@@ -300,7 +300,7 @@ class Opportunity(OpportunityItem):
     pass
 
 
-class Tax(BackboneCommonModelsInvoicingVatCode):
+class Tax(InvoicingVatCode):
     pass
 
 
@@ -321,7 +321,7 @@ class AnalyticAccountMultiPlan(AnalyticAccountItemOutMultiAnalyticPlans):
     pass
 
 
-class TaxAccounting(BackboneApiAppRoutersAccountingVatCode):
+class TaxAccounting(AccountingVatCode):
     pass
 
 
