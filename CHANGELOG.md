@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.82 - 2025-01-20
+* invoicing: add italian specific fields
+
 ## 0.1.81 - 2025-01-13
 * fix vat code models
 

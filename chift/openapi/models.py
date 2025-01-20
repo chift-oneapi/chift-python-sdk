@@ -6,14 +6,13 @@ from pydantic import BaseModel, Extra
 
 from .openapi import (
     AccountingCategoryItem,
+    AccountingVatCode,
     AccountItem,
     AnalyticAccountItemOutMultiAnalyticPlans,
     AnalyticPlanItem,
-    AccountingVatCode,
     BackboneApiAppRoutersCommerceProductItem,
     BackboneApiAppRoutersConnectionsConnectionItem,
     BackboneApiAppRoutersPosProductCategoryItem,
-    InvoicingVatCode,
     BalanceItemOut,
     CategoryItem,
     ClientItemOut,
@@ -33,6 +32,7 @@ from .openapi import (
     InvoiceItemOutSingle,
     InvoicingPaymentItem,
     InvoicingPaymentMethodItem,
+    InvoicingVatCode,
     Journal,
     JournalEntryMultiAnalyticPlan,
     LinkItem,
