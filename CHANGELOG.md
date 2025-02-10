@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.80 - 2024-12-27
+* debug: write output to json file
+
 ## 0.1.79 - 2024-12-23
 * accounting: add multiple matching endpoint
 

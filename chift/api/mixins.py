@@ -1,6 +1,6 @@
 from typing import Generic, TypeVar
 
-from chift.api.client import ChiftClient
+from .client import ChiftClient
 
 T = TypeVar("T")
 
@@ -93,6 +93,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
             client = ChiftClient()
         client.consumer_id = self.consumer_id
         client.connection_id = self.connection_id
+
 
         if not params:
             params = {}

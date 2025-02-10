@@ -67,6 +67,7 @@ class ChiftClient:
     consumer_id = None
     connection_id = None
     related_chain_execution_id = None
+    sync_id = None
 
     __instance = None
     __use_global = False
@@ -90,7 +91,9 @@ class ChiftClient:
             client_id,
             client_secret,
             related_chain_execution_id,
+            sync_id,
             url_base,
+            debug
         )
 
         self.consumer_id = consumer_id
@@ -98,11 +101,13 @@ class ChiftClient:
         self.client_secret = kwargs.get("client_secret") or client_secret
         self.account_id = kwargs.get("account_id") or account_id
         self.url_base = kwargs.get("url_base") or url_base
+        self.debug = kwargs.get("debug") or debug
         self.env_id = kwargs.get("env_id")
         self.test_client = kwargs.get("test_client")
         self.related_chain_execution_id = (
             kwargs.get("related_chain_execution_id") or related_chain_execution_id
         )
+        self.sync_id = kwargs.get("sync_id") or sync_id
         self.max_retries = kwargs.get("max_retries")
         self._start_session()
 
@@ -158,6 +163,9 @@ class ChiftClient:
         if self.related_chain_execution_id:
             headers["x-chift-relatedchainexecutionid"] = self.related_chain_execution_id
 
+        if self.sync_id:
+            headers["x-chift-syncid"] = self.sync_id
+
         try:
             req = self.process_request(
                 request_type, url, headers=headers, params=params, json=data
@@ -181,6 +189,13 @@ class ChiftClient:
             result = req.json()
         except:
             raise exceptions.ChiftException(f"Error parsing json response: {req.text}")
+        
+        if self.debug:
+            self.append_to_json({
+                "request_url": url,
+                "request_params": params,
+                "response_json": result
+            })
 
         if isinstance(result, dict) and result.get("status") == "error":
             raise exceptions.ChiftException(
@@ -300,3 +315,36 @@ class ChiftClient:
         )
 
         return self.patch(url_path, data=data, params=params)
+
+    def append_to_json(self, output_data):
+        filename = "input.json" # used to save data for testing
+        try:
+            # Try to read existing data
+            with open(filename, 'r') as f:
+                data = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            # File doesn't exist or is empty, start with empty dict
+            data = []
+
+        replace  = False
+        for request in data:
+            found = False
+            if request.get("request_url") == output_data.get("request_url"):
+                # Request already exists, don't add it again
+                found = True
+            if found:
+                for param in request.get("request_params", {}):
+                    if request["request_params"][param] != output_data["request_params"].get(param):
+                        found = False
+                        break
+            if found:
+                replace = True
+                request = output_data
+                break
+        
+        if not replace:
+            data.append(output_data)
+        
+        # Write back to file
+        with open(filename, 'w') as f:
+            json.dump(data, f, indent=4)
