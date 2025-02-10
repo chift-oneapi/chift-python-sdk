@@ -67,6 +67,7 @@ class ChiftClient:
     consumer_id = None
     connection_id = None
     related_chain_execution_id = None
+    sync_id = None
 
     __instance = None
     __use_global = False
@@ -90,6 +91,7 @@ class ChiftClient:
             client_id,
             client_secret,
             related_chain_execution_id,
+            sync_id,
             url_base,
         )
 
@@ -103,6 +105,7 @@ class ChiftClient:
         self.related_chain_execution_id = (
             kwargs.get("related_chain_execution_id") or related_chain_execution_id
         )
+        self.sync_id = kwargs.get("sync_id") or sync_id
         self.max_retries = kwargs.get("max_retries")
         self._start_session()
 
@@ -157,6 +160,9 @@ class ChiftClient:
 
         if self.related_chain_execution_id:
             headers["x-chift-relatedchainexecutionid"] = self.related_chain_execution_id
+
+        if self.sync_id:
+            headers["x-chift-syncid"] = self.sync_id
 
         try:
             req = self.process_request(

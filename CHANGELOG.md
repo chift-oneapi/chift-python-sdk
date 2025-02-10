@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.83 - 2025-02-10
+* add support for specific header
+
 ## 0.1.82 - 2025-01-20
 * invoicing: add italian specific fields
 
