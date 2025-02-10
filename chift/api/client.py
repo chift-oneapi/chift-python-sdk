@@ -188,7 +188,7 @@ class ChiftClient:
                 error_code=result.get("error_code"),
                 detail=result.get("detail"),
             )
-        elif not req.status_code == httplib.OK:
+        elif req.status_code not in [httplib.OK, httplib.CREATED]:
             raise exceptions.ChiftException(
                 f"Error returned with status code '{req.status_code}': {req.text}"
             )
