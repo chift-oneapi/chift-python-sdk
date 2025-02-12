@@ -10,6 +10,7 @@ from .openapi import (
     AccountItem,
     AnalyticAccountItemOutMultiAnalyticPlans,
     AnalyticPlanItem,
+    AttachmentItemOut,
     BackboneApiAppRoutersCommerceProductItem,
     BackboneApiAppRoutersConnectionsConnectionItem,
     BackboneApiAppRoutersPosProductCategoryItem,
@@ -370,6 +371,10 @@ class Matching(MatchingOut):
 
 
 class MultipleMatching(MultipleMatchingOut):
+    pass
+
+
+class Attachment(AttachmentItemOut):
     pass
 
 
