@@ -21,6 +21,7 @@ class InvoicingRouter:
         self.Tax = Tax(consumer_id, connection_id)
         self.Payment = Payment(consumer_id, connection_id)
         self.PaymentMethod = PaymentMethod(consumer_id, connection_id)
+        self.UploadDocument = UploadDocument(consumer_id, connection_id)
         self.Custom = Custom(consumer_id, connection_id)
 
 
@@ -84,6 +85,12 @@ class PaymentMethod(
     chift_vertical: ClassVar = "invoicing"
     chift_model: ClassVar = "payment-methods"
     model = PaymentMethodModel
+
+
+class UploadDocument(CreateMixin):
+    chift_vertical: ClassVar = "invoicing"
+    chift_model: ClassVar = "upload-document"
+    model = InvoiceModel
 
 
 class Custom(ReadMixin, CreateMixin, UpdateMixin, PaginationMixin):

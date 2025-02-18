@@ -18,6 +18,7 @@ from chift.openapi.models import MultipleMatching as MultipleMatchingModel
 from chift.openapi.models import Outstanding as OutstandingModel
 from chift.openapi.models import Supplier as SupplierModel
 from chift.openapi.models import TaxAccounting as TaxAccountingModel
+from chift.openapi.models import Attachment as AttachmentModel
 
 
 class AccountingRouter:
@@ -40,6 +41,7 @@ class AccountingRouter:
         self.Entry = Entry(consumer_id, connection_id)
         self.EntryMatching = EntryMatching(consumer_id, connection_id)
         self.MultipleEntryMatching = MultipleEntryMatching(consumer_id, connection_id)
+        self.Attachment = Attachment(consumer_id, connection_id)
 
 
 class AnalyticPlan(PaginationMixin[AnalyticPlanModel]):
@@ -176,3 +178,8 @@ class Employee(PaginationMixin[EmployeeModel]):
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "employees"
     model = EmployeeModel
+
+class Attachment(PaginationMixin[AttachmentModel]):
+    chift_vertical: ClassVar = "accounting"
+    chift_model: ClassVar = "attachments"
+    model = AttachmentModel
