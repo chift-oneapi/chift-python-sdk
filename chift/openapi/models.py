@@ -11,9 +11,9 @@ from .openapi import (
     AnalyticAccountItemOutMultiAnalyticPlans,
     AnalyticPlanItem,
     AttachmentItemOut,
-    BackboneApiAppRoutersCommerceProductItem,
     BackboneApiAppRoutersConnectionsConnectionItem,
-    BackboneApiAppRoutersPosProductCategoryItem,
+    BackboneCommonModelsCommerceCommonProductItem,
+    BackboneCommonModelsPosCommonProductCategoryItem,
     BalanceItemOut,
     CategoryItem,
     ClientItemOut,
@@ -412,7 +412,7 @@ class Closure(ClosureItem):
     pass
 
 
-class POSProductCategory(BackboneApiAppRoutersPosProductCategoryItem):
+class POSProductCategory(BackboneCommonModelsPosCommonProductCategoryItem):
     pass
 
 
@@ -464,7 +464,7 @@ class CommerceCustomer(CommerceCustomerItem):
     pass
 
 
-class CommerceProduct(BackboneApiAppRoutersCommerceProductItem):
+class CommerceProduct(BackboneCommonModelsCommerceCommonProductItem):
     pass
 
 

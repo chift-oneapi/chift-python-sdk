@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.84 - 2025-02-18
+* pms: add get one customer endpoint
+
 ## 0.1.83 - 2025-02-10
 * add support for specific header
 

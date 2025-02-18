@@ -65,7 +65,7 @@ class AccountingCategory(PaginationMixin[AccountingCategoryModel]):
     model = AccountingCategoryModel
 
 
-class Customer(PaginationMixin[CustomerModel]):
+class Customer(ReadMixin[CustomerModel], PaginationMixin[CustomerModel]):
     chift_vertical: ClassVar = "pms"
     chift_model: ClassVar = "customers"
     model = CustomerModel
