@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.85 - 2025-02-25
+* accounting: add push attachment endpoint
+
 ## 0.1.84 - 2025-02-18
 * pms: add get one customer endpoint
 

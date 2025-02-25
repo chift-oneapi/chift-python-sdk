@@ -180,7 +180,12 @@ class Employee(PaginationMixin[EmployeeModel]):
     model = EmployeeModel
 
 
-class Attachment(PaginationMixin[AttachmentModel]):
+class Attachment(CreateMixin[MatchingModel], PaginationMixin[AttachmentModel]):
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "attachments"
     model = AttachmentModel
+
+    def create(self, invoice_id, data, client=None, params=None):
+        self.chift_model = "invoices"
+        self.extra_path = f"pdf/{invoice_id}"
+        return super().create(data=data, client=client, params=params, map_model=False)
