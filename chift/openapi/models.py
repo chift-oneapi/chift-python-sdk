@@ -137,20 +137,21 @@ class FlowTriggerTimer(BaseModel):
 
 class FlowTrigger(BaseModel):
     type: TriggerType
-    data: Optional[FlowTriggerTimer]
+    data: Optional[FlowTriggerTimer] = None
 
 
 class FlowConfig(BaseModel):
-    definitionFields: Optional[List[dict]]
-    doorkeyFields: Optional[List[dict]]
-    customFields: Optional[List[dict]]
+    definitionFields: Optional[List[dict]] = None
+    doorkeyFields: Optional[List[dict]] = None
+    customFields: Optional[List[dict]] = None
     datastores: Optional[List[Datastore]] = []
 
 
 # consumers
 
 
-class Consumer(ConsumerItem, extra=Extra.allow):
+class Consumer(ConsumerItem, extra="allow"):
+    pass
     connectionid: str = None
 
     @property
