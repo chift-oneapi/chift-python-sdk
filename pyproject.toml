@@ -8,7 +8,7 @@ packages = [{ include = "chift" }]
 
 [tool.poetry.dependencies]
 python = ">=3.9"
-pydantic = "2.10"
+pydantic = ">=2.7.2,<3.0.0"
 requests = ">=2.20"
 
 [tool.poetry.group.dev.dependencies]
