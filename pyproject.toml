@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "chift"
+version = "0.1.85"
+description = "Chift API client"
+readme = "README.md"
+authors = ["Your Name <your.email@example.com>"]
+packages = [{ include = "chift" }]
+
+[tool.poetry.dependencies]
+python = ">=3.9"
+pydantic = "2.10"
+requests = ">=2.20"
+
+[tool.poetry.group.dev.dependencies]
+pytest-cov = "*"
+black = "*"
+isort = "*"
+autoflake = "*"
+coverage = "6.5.0"
+build = "*"
+twine = "*"
+pytest = "^8.3.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
