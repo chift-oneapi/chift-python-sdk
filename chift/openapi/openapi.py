@@ -4,13 +4,31 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime
+import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Union
+from typing import (
+    Any,
+    Dict,
+    List,
+    Optional,
+    Union,
+)
 from uuid import UUID
 
-from pydantic import BaseModel, Field, confloat, conint, constr
+from pydantic import (
+    BaseModel as PydanticBaseModel,
+    ConfigDict,
+    Field,
+    confloat,
+    conint,
+    constr,
+)
 
+
+class BaseModel(PydanticBaseModel):
+    model_config = ConfigDict(
+        arbitrary_types_allowed=True,
+    )
 
 class AccountBalance(BaseModel):
     account_number: str = Field(
@@ -21,23 +39,29 @@ class AccountBalance(BaseModel):
     )
     debit: float = Field(
         ...,
-        description="Debit at end date. When debit and credit are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, only the balance can be calculated in those cases.",
+        description="Debit at end datetime.date. When debit and credit are equal to 0 and balance is different from 0 "
+                    "then the debit and credit cannot be determined, only the balance can be calculated in those cases.",
         title="Debit",
     )
     credit: float = Field(
         ...,
-        description="Credit at end date. When debit and credit are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, only the balance can be calculated in those cases.",
+        description="Credit at end datetime.date. When debit and credit are equal to 0 and balance is different from 0 "
+                    "then the debit and credit cannot be determined, only the balance can be calculated in those cases.",
         title="Credit",
     )
     balance: float = Field(..., title="Balance")
     period_debit: float = Field(
         ...,
-        description="Debit at end date beginning from the given start date. When debit and credit are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, only the balance can be calculated in those cases.",
+        description="Debit at end datetime.date beginning from the given start datetime.date. When debit and credit "
+                    "are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, "
+                    "only the balance can be calculated in those cases.",
         title="Period Debit",
     )
     period_credit: float = Field(
         ...,
-        description="Credit at end date beginning from the given start date. When debit and credit are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, only the balance can be calculated in those cases.",
+        description="Credit at end datetime.date beginning from the given start datetime.date. When debit and credit "
+                    "are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, "
+                    "only the balance can be calculated in those cases.",
         title="Period Credit",
     )
     period_balance: float = Field(..., title="Period Balance")
@@ -220,11 +244,11 @@ class BankingAccountItem(BaseModel):
     id: str = Field(..., title="Id")
     currency: str = Field(..., title="Currency")
     current_balance: float = Field(..., title="Current Balance")
-    current_balance_last_update_date: Optional[datetime] = Field(
+    current_balance_last_update_date: Optional[datetime.datetime] = Field(
         None, title="Current Balance Last Update Date"
     )
     available_balance: float = Field(..., title="Available Balance")
-    available_balance_last_update_date: Optional[datetime] = Field(
+    available_balance_last_update_date: Optional[datetime.datetime] = Field(
         None, title="Available Balance Last Update Date"
     )
     description: str = Field(..., title="Description")
@@ -255,15 +279,15 @@ class BankingTransactionItem(BaseModel):
     counterpart_name: Optional[str] = Field(None, title="Counterpart Name")
     counterpart_reference: Optional[str] = Field(None, title="Counterpart Reference")
     remittance_information: Optional[str] = Field(None, title="Remittance Information")
-    creation_date: datetime = Field(..., title="Creation Date")
-    value_date: datetime = Field(..., title="Value Date")
-    execution_date: datetime = Field(..., title="Execution Date")
+    creation_date: datetime.datetime = Field(..., title="Creation Date")
+    value_date: datetime.datetime = Field(..., title="Value Date")
+    execution_date: datetime.datetime = Field(..., title="Execution Date")
 
 
 class BookYear(BaseModel):
     name: str = Field(..., title="Name")
-    start: date = Field(..., title="Start")
-    end: date = Field(..., title="End")
+    start: datetime.date = Field(..., title="Start")
+    end: datetime.date = Field(..., title="End")
     closed: bool = Field(..., title="Closed")
 
 
@@ -274,8 +298,8 @@ class BoolParam(Enum):
 
 class ChainExecutionItem(BaseModel):
     id: str = Field(..., title="Id")
-    start: datetime = Field(..., title="Start")
-    end: Optional[datetime] = Field(None, title="End")
+    start: datetime.datetime = Field(..., title="Start")
+    end: Optional[datetime.datetime] = Field(None, title="End")
     status: str = Field(..., title="Status")
 
 
@@ -422,7 +446,7 @@ class DataItem(BaseModel):
 class DataItemOut(BaseModel):
     data: Dict[str, Any] = Field(..., title="Data")
     id: str = Field(..., title="Id")
-    created_on: datetime = Field(..., title="Created On")
+    created_on: datetime.datetime = Field(..., title="Created On")
 
 
 class DatastoreColumn(BaseModel):
@@ -854,8 +878,8 @@ class MultipleMatchingOut(BaseModel):
 class NextDocumentNumber(BaseModel):
     bookyear_name: Optional[str] = Field(None, title="Bookyear Name")
     next_document_number: Optional[str] = Field(None, title="Next Document Number")
-    start_date: Optional[date] = Field(None, title="Start Date")
-    end_date: Optional[date] = Field(None, title="End Date")
+    start_date: Optional[datetime.date] = Field(None, title="Start Date")
+    end_date: Optional[datetime.date] = Field(None, title="End Date")
 
 
 class OpportunityStatus(Enum):
@@ -927,8 +951,8 @@ class OriginalOutstandingItem(BaseModel):
     number: Optional[str] = Field(None, title="Number")
     journal_id: Optional[str] = Field(None, title="Journal Id")
     journal_type: Optional[JournalType] = None
-    date: Optional[date] = Field(None, title="Date")
-    due_date: Optional[date] = Field(None, title="Due Date")
+    datetime.date: Optional[datetime.date] = Field(None, title="Date")
+    due_date: Optional[datetime.date] = Field(None, title="Due Date")
     reference: Optional[str] = Field(None, title="Reference")
 
 
@@ -937,8 +961,8 @@ class OutstandingItem(BaseModel):
     number: Optional[str] = Field(None, title="Number")
     journal_id: str = Field(..., title="Journal Id")
     journal_type: JournalType
-    date: date = Field(..., title="Date")
-    due_date: Optional[date] = Field(None, title="Due Date")
+    datetime.date: datetime.date = Field(..., title="Date")
+    due_date: Optional[datetime.date] = Field(None, title="Due Date")
     currency: str = Field(..., title="Currency")
     currency_exchange_rate: float = Field(..., title="Currency Exchange Rate")
     amount: float = Field(..., title="Amount")
@@ -958,7 +982,7 @@ class OutstandingType(Enum):
 
 
 class PMSClosureItem(BaseModel):
-    date: date = Field(..., title="Date")
+    datetime.date: datetime.date = Field(..., title="Date")
     status: ClosureStates
 
 
@@ -985,10 +1009,10 @@ class POSCustomerItem(BaseModel):
     name: str = Field(..., title="Name")
     phone: Optional[str] = Field(None, title="Phone")
     email: Optional[str] = Field(None, title="Email")
-    created_on: Optional[datetime] = Field(None, title="Created On")
+    created_on: Optional[datetime.datetime] = Field(None, title="Created On")
     addresses: Optional[List[AddressItem]] = Field(None, title="Addresses")
     loyalty: Optional[int] = Field(None, title="Loyalty")
-    birthdate: Optional[date] = Field(None, description="Birthdate", title="Birthdate")
+    birthdate: Optional[datetime.date] = Field(None, description="Birthdate", title="Birthdate")
 
 
 class POSLineItemType(Enum):
@@ -1026,7 +1050,7 @@ class Payment(BaseModel):
         description="Amount of the payment dedicated to the invoice. Zero the accounting software doesn't provide the information.",
         title="Dedicated Amount",
     )
-    payment_date: date = Field(..., title="Payment Date")
+    payment_date: datetime.date = Field(..., title="Payment Date")
     journal_type: JournalType
     journal_id: str = Field(..., title="Journal Id")
     journal_name: str = Field(..., title="Journal Name")
@@ -1238,7 +1262,7 @@ class TransactionItemOut(BaseModel):
     exchange_rate: float = Field(
         ..., description="Exchange rate", title="Exchange Rate"
     )
-    create_date: datetime = Field(..., description="Create Date", title="Create Date")
+    create_date: datetime.datetime = Field(..., description="Create Date", title="Create Date")
     application_type: str = Field(
         ...,
         description="Type of the transaction as recorded in the target software",
@@ -1328,7 +1352,7 @@ class WebhookLogItem(BaseModel):
     event: str = Field(..., title="Event")
     url: str = Field(..., title="Url")
     accountid: str = Field(..., title="Accountid")
-    createdon: datetime = Field(..., title="Createdon")
+    createdon: datetime.datetime = Field(..., title="Createdon")
     httpstatus: int = Field(..., title="Httpstatus")
     integrationid: Optional[int] = Field(None, title="Integrationid")
 
@@ -1716,7 +1740,7 @@ class BalanceItemOut(BaseModel):
         ..., description="Total amount available", title="Available Amount"
     )
     currency: str = Field(..., description="Currency", title="Currency")
-    create_date: datetime = Field(..., description="Create Date", title="Create Date")
+    create_date: datetime.datetime = Field(..., description="Create Date", title="Create Date")
 
 
 class CategoryItem(BaseModel):
@@ -2013,7 +2037,7 @@ class ClientItemUpdate(BaseModel):
 
 
 class ClosureItem(BaseModel):
-    date: date = Field(..., title="Date")
+    datetime.date: datetime.date = Field(..., title="Date")
     status: ClosureStates
 
 
@@ -2038,7 +2062,7 @@ class CommerceCustomerItem(BaseModel):
     addresses: Optional[List[BackboneCommonModelsCommerceCommonAddressItemOut]] = Field(
         [], title="Addresses"
     )
-    created_on: Optional[datetime] = Field(None, title="Created On")
+    created_on: Optional[datetime.datetime] = Field(None, title="Created On")
 
 
 class CommerceLocationItemOut(BaseModel):
@@ -2102,7 +2126,7 @@ class ContactItemIn(BaseModel):
         description="Number of the accounting account used for purchases (e.g. 601000)",
         title="Supplier Account Number",
     )
-    birthdate: Optional[date] = Field(None, description="Birthdate", title="Birthdate")
+    birthdate: Optional[datetime.date] = Field(None, description="Birthdate", title="Birthdate")
     gender: Optional[ContactGender] = Field(None, description="Gender")
     addresses: Optional[List[AddressItemInInvoicing]] = Field(
         [], description="Addresses", title="Addresses"
@@ -2162,7 +2186,7 @@ class ContactItemOut(BaseModel):
         description="Number of the accounting account used for purchases (e.g. 601000)",
         title="Supplier Account Number",
     )
-    birthdate: Optional[date] = Field(None, description="Birthdate", title="Birthdate")
+    birthdate: Optional[datetime.date] = Field(None, description="Birthdate", title="Birthdate")
     gender: Optional[ContactGender] = Field(None, description="Gender")
     addresses: Optional[List[AddressItemOutInvoicing]] = Field(
         [], description="Addresses", title="Addresses"
@@ -2186,7 +2210,7 @@ class FeesItem(BaseModel):
     source_ref: Ref = Field(
         ..., description="Technical id in the target software", title="Source Ref"
     )
-    created_on: Optional[datetime] = Field(None, title="Created On")
+    created_on: Optional[datetime.datetime] = Field(None, title="Created On")
     type: FeesType
     removed: Optional[bool] = Field(
         False,
@@ -2215,7 +2239,7 @@ class FieldItem(BaseModel):
 
 
 class FinancialEntryItemIn(BaseModel):
-    date: date = Field(..., title="Date")
+    datetime.date: datetime.date = Field(..., title="Date")
     journal_id: str = Field(
         ...,
         description="Indicates the journal used in for the operation.",
@@ -2228,7 +2252,8 @@ class FinancialEntryItemIn(BaseModel):
     )
     currency_exchange_rate: Optional[float] = Field(
         1,
-        description="Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.",
+        description="Indicates the exchange rate at the datetime.date of the operation. Must be filled in when "
+                    "creating the operation in another currency from the default currency of the accounting system.",
         title="Currency Exchange Rate",
     )
     reference: Optional[str] = Field(None, title="Reference")
@@ -2242,7 +2267,7 @@ class FinancialEntryItemIn(BaseModel):
 
 
 class FinancialEntryItemInOld(BaseModel):
-    date: date = Field(..., title="Date")
+    datetime.date: datetime.date = Field(..., title="Date")
     journal_id: str = Field(
         ...,
         description="Indicates the journal used in for the operation.",
@@ -2255,7 +2280,8 @@ class FinancialEntryItemInOld(BaseModel):
     )
     currency_exchange_rate: Optional[float] = Field(
         1,
-        description="Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.",
+        description="Indicates the exchange rate at the datetime.date of the operation. Must be filled in when "
+                    "creating the operation in another currency from the default currency of the accounting system.",
         title="Currency Exchange Rate",
     )
     reference: Optional[str] = Field(None, title="Reference")
@@ -2269,7 +2295,7 @@ class FinancialEntryItemInOld(BaseModel):
 
 
 class FinancialEntryItemOut(BaseModel):
-    date: date = Field(..., title="Date")
+    datetime.date: datetime.date = Field(..., title="Date")
     journal_id: str = Field(
         ...,
         description="Indicates the journal used in for the operation.",
@@ -2282,7 +2308,8 @@ class FinancialEntryItemOut(BaseModel):
     )
     currency_exchange_rate: Optional[float] = Field(
         1,
-        description="Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.",
+        description="Indicates the exchange rate at the datetime.date of the operation. Must be filled in when "
+                    "creating the operation in another currency from the default currency of the accounting system.",
         title="Currency Exchange Rate",
     )
     reference: Optional[str] = Field(None, title="Reference")
@@ -2292,7 +2319,7 @@ class FinancialEntryItemOut(BaseModel):
 
 
 class FinancialEntryItemOutOld(BaseModel):
-    date: date = Field(..., title="Date")
+    datetime.date: datetime.date = Field(..., title="Date")
     journal_id: str = Field(
         ...,
         description="Indicates the journal used in for the operation.",
@@ -2305,7 +2332,8 @@ class FinancialEntryItemOutOld(BaseModel):
     )
     currency_exchange_rate: Optional[float] = Field(
         1,
-        description="Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.",
+        description="Indicates the exchange rate at the datetime.date of the operation. Must be filled in when "
+                    "creating the operation in another currency from the default currency of the accounting system.",
         title="Currency Exchange Rate",
     )
     reference: Optional[str] = Field(None, title="Reference")
@@ -2413,14 +2441,16 @@ class InvoiceItemOutMonoAnalyticPlan(BaseModel):
     payment_communication: Optional[str] = Field(None, title="Payment Communication")
     customer_memo: Optional[str] = Field(None, title="Customer Memo")
     id: Optional[str] = Field(None, title="Id")
-    invoice_date: date = Field(
+    invoice_date: datetime.date = Field(
         ...,
-        description="Accounting invoice date. It is automatically set to '1970-01-01' if the value is empty in the accounting system.",
+        description="Accounting invoice datetime.date. It is automatically set to '1970-01-01' if the value is empty "
+                    "in the accounting system.",
         title="Invoice Date",
     )
-    due_date: date = Field(
+    due_date: datetime.date = Field(
         ...,
-        description="Due date of the invoice. We use the value of the invoice date if the value is not available/empty in the accounting system.",
+        description="Due datetime.date of the invoice. We use the value of the invoice datetime.date if the value is "
+                    "not available/empty in the accounting system.",
         title="Due Date",
     )
     partner_id: str = Field(..., title="Partner Id")
@@ -2523,7 +2553,7 @@ class InvoicingPaymentItem(BaseModel):
     description: str = Field(..., description="Description", title="Description")
     amount: float = Field(..., description="Amount", title="Amount")
     currency: str = Field(..., description="Currency", title="Currency")
-    payment_date: datetime = Field(
+    payment_date: datetime.datetime = Field(
         ..., description="Date of creation", title="Payment Date"
     )
     partner_id: str = Field(..., description="Partner ID", title="Partner Id")
@@ -2580,13 +2610,14 @@ class Journal(BaseModel):
 
 class JournalEntryMonoAnalyticPlan(BaseModel):
     reference: Optional[str] = Field(None, title="Reference")
-    due_date: Optional[date] = Field(None, title="Due Date")
+    due_date: Optional[datetime.date] = Field(None, title="Due Date")
     journal_id: str = Field(..., title="Journal Id")
     name: Optional[str] = Field(None, title="Name")
     journal_name: str = Field(..., title="Journal Name")
-    date: Optional[date] = Field(
+    datetime.date: Optional[datetime.date] = Field(
         "1970-01-01",
-        description="Accounting date of the journal entry. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.",
+        description="Accounting datetime.date of the journal entry. It is automatically set to '1970-01-01' if the "
+                    "value is not available/empty in the accounting system.",
         title="Date",
     )
     posted: Optional[bool] = Field(False, title="Posted")
@@ -2653,13 +2684,15 @@ class MiscellaneousOperationOut(BaseModel):
     )
     currency_exchange_rate: Optional[float] = Field(
         1,
-        description="Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.",
+        description="Indicates the exchange rate at the datetime.date of the operation. Must be filled in when "
+                    "creating the operation in another currency from the default currency of the accounting system.",
         title="Currency Exchange Rate",
     )
     lines: List[MiscellaneousOperationLine] = Field(..., title="Lines")
-    operation_date: Optional[date] = Field(
+    operation_date: Optional[datetime.date] = Field(
         "1970-01-01",
-        description="Accounting date of the miscellaneous operation. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.",
+        description="Accounting datetime.date of the miscellaneous operation. It is automatically set to '1970-01-01' "
+                    "if the value is not available/empty in the accounting system.",
         title="Operation Date",
     )
     journal_id: str = Field(
@@ -2703,11 +2736,11 @@ class OpportunityItem(BaseModel):
     pipe_name: Optional[str] = Field(
         None, description="Pipeline name", title="Pipe Name"
     )
-    created_date: Optional[date] = Field(
+    created_date: Optional[datetime.date] = Field(
         None, description="Date creation", title="Created Date"
     )
-    due_date: Optional[date] = Field(None, description="Due Date", title="Due Date")
-    end_date: Optional[date] = Field(None, description="End Date", title="End Date")
+    due_date: Optional[datetime.date] = Field(None, description="Due Date", title="Due Date")
+    end_date: Optional[datetime.date] = Field(None, description="End Date", title="End Date")
     is_won: Optional[bool] = Field(None, description="Is won?", title="Is Won")
     owner_ref: Optional[FieldRef] = Field(
         None, description="Employee/User", title="Owner Ref"
@@ -2747,7 +2780,7 @@ class OrderTransactions(BaseModel):
     id: str = Field(
         ..., description="Technical id of the transaction in the eCommerce", title="Id"
     )
-    created_on: Optional[datetime] = Field(None, title="Created On")
+    created_on: Optional[datetime.datetime] = Field(None, title="Created On")
     payment_method_id: Optional[str] = Field(
         None,
         description="Technical id of the payment method in the eCommerce",
@@ -2796,7 +2829,7 @@ class PMSCustomerItem(BaseModel):
         description="Number of the accounting account used (e.g. 701000)",
         title="Account Number",
     )
-    created_on: Optional[datetime] = Field(None, title="Created On")
+    created_on: Optional[datetime.datetime] = Field(None, title="Created On")
     addresses: Optional[List[AddressItem]] = Field(None, title="Addresses")
 
 
@@ -2839,7 +2872,7 @@ class PMSPaymentItem(BaseModel):
     tip: Optional[float] = Field(0, title="Tip")
     status: Optional[BackboneCommonModelsPosPmsPaymentStatus] = "Unknown"
     currency: Optional[str] = Field(None, title="Currency")
-    date: Optional[datetime] = Field(None, title="Date")
+    datetime.date: Optional[datetime.datetime] = Field(None, title="Date")
     partner_id: Optional[ChiftId] = Field(
         None,
         description="Reference to the customer related to this payment",
@@ -2902,7 +2935,7 @@ class POSPaymentItem(BaseModel):
     tip: Optional[float] = Field(0, title="Tip")
     status: Optional[BackboneCommonModelsPosPmsPaymentStatus] = "Unknown"
     currency: Optional[str] = Field(None, title="Currency")
-    date: Optional[datetime] = Field(None, title="Date")
+    datetime.date: Optional[datetime.datetime] = Field(None, title="Date")
 
 
 class POSProductItem(BaseModel):
@@ -2949,7 +2982,7 @@ class PaymentItemOut(BaseModel):
     description: str = Field(..., description="Description", title="Description")
     amount: float = Field(..., description="Amount", title="Amount")
     currency: str = Field(..., description="Currency", title="Currency")
-    payment_date: datetime = Field(
+    payment_date: datetime.datetime = Field(
         ..., description="Date of creation", title="Payment Date"
     )
     partner_id: str = Field(..., description="Partner ID", title="Partner Id")
@@ -3020,7 +3053,7 @@ class ProductVariantItem(BaseModel):
     categories: Optional[
         List[BackboneCommonModelsCommerceCommonProductCategoryItem]
     ] = Field([], title="Categories")
-    created_on: Optional[datetime] = Field(None, title="Created On")
+    created_on: Optional[datetime.datetime] = Field(None, title="Created On")
     sku: Optional[str] = Field(None, title="Sku")
     barcode: Optional[str] = Field(None, title="Barcode")
     available_quantity: Optional[float] = Field(0, title="Available Quantity")
@@ -3060,7 +3093,7 @@ class RefundItemOut(BaseModel):
     description: str = Field(..., description="Description", title="Description")
     amount: float = Field(..., description="Amount", title="Amount")
     currency: str = Field(..., description="Currency", title="Currency")
-    refund_date: datetime = Field(
+    refund_date: datetime.datetime = Field(
         ..., description="Date of creation", title="Refund Date"
     )
     payment_id: Optional[str] = Field(
@@ -3094,9 +3127,9 @@ class ReservationItem(BaseModel):
     source_ref: Ref = Field(
         ..., description="Technical id in the target software", title="Source Ref"
     )
-    start_date: Optional[datetime] = Field(None, title="Start Date")
-    end_date: Optional[datetime] = Field(None, title="End Date")
-    creation_date: Optional[datetime] = Field(None, title="Creation Date")
+    start_date: Optional[datetime.datetime] = Field(None, title="Start Date")
+    end_date: Optional[datetime.datetime] = Field(None, title="End Date")
+    creation_date: Optional[datetime.datetime] = Field(None, title="Creation Date")
     resource_id: Optional[ChiftId] = None
     resource_name: Optional[str] = Field(None, title="Resource Name")
     resource_identifier: Optional[str] = Field(None, title="Resource Identifier")
@@ -3311,7 +3344,7 @@ class VariantItem(BaseModel):
     categories: Optional[
         List[BackboneCommonModelsCommerceCommonProductCategoryItem]
     ] = Field([], title="Categories")
-    created_on: Optional[datetime] = Field(None, title="Created On")
+    created_on: Optional[datetime.datetime] = Field(None, title="Created On")
     sku: Optional[str] = Field(None, title="Sku")
     barcode: Optional[str] = Field(None, title="Barcode")
     available_quantity: Optional[float] = Field(0, title="Available Quantity")
@@ -3351,7 +3384,7 @@ class WebhookInstanceGetItem(BaseModel):
     webhookid: UUID = Field(..., title="Webhookid")
     accountid: UUID = Field(..., title="Accountid")
     createdby: Optional[UUID] = Field(None, title="Createdby")
-    createdon: datetime = Field(..., title="Createdon")
+    createdon: datetime.datetime = Field(..., title="Createdon")
     event: str = Field(..., title="Event")
     url: str = Field(..., title="Url")
     status: BackboneApiAppRoutersWebhooksStatus
@@ -3405,7 +3438,7 @@ class BackboneCommonModelsCommerceCommonProductItem(BaseModel):
     categories: Optional[
         List[BackboneCommonModelsCommerceCommonProductCategoryItem]
     ] = Field([], title="Categories")
-    created_on: Optional[datetime] = Field(None, title="Created On")
+    created_on: Optional[datetime.datetime] = Field(None, title="Created On")
     variants: Optional[List[ProductVariantItem]] = Field([], title="Variants")
     status: Optional[ProductStatus] = None
     common_attributes: Optional[List[CommonAttributeItem]] = Field(
@@ -3431,8 +3464,8 @@ class BackboneCommonModelsPmsCommonInvoiceItem(BaseModel):
     invoice_number: Optional[str] = Field(
         None, description="Number/sequence", title="Invoice Number"
     )
-    creation_date: Optional[datetime] = Field(None, title="Creation Date")
-    closing_date: Optional[datetime] = Field(None, title="Closing Date")
+    creation_date: Optional[datetime.datetime] = Field(None, title="Creation Date")
+    closing_date: Optional[datetime.datetime] = Field(None, title="Closing Date")
     partners: Optional[List[InvoicePartnerItem]] = Field(None, title="Partners")
 
 
@@ -3628,12 +3661,12 @@ class FlowConfig(BaseModel):
 
 class GenericJournalEntry(BaseModel):
     reference: Optional[str] = Field(None, title="Reference")
-    due_date: Optional[date] = Field(None, title="Due Date")
+    due_date: Optional[datetime.date] = Field(None, title="Due Date")
     journal_id: str = Field(..., title="Journal Id")
     number: constr(min_length=1) = Field(..., title="Number")
     currency: constr(min_length=1) = Field(..., title="Currency")
     currency_exchange_rate: Optional[float] = Field(1, title="Currency Exchange Rate")
-    date: date = Field(..., title="Date")
+    datetime.date: datetime.date = Field(..., title="Date")
     items: List[GenericJournalItem] = Field(..., title="Items")
     pdf: Optional[str] = Field(
         None,
@@ -3641,8 +3674,8 @@ class GenericJournalEntry(BaseModel):
         title="Pdf",
     )
     posted: Optional[bool] = Field(True, title="Posted")
-    start_date: Optional[date] = Field(None, title="Start Date")
-    end_date: Optional[date] = Field(None, title="End Date")
+    start_date: Optional[datetime.date] = Field(None, title="Start Date")
+    end_date: Optional[datetime.date] = Field(None, title="End Date")
 
 
 class InvoiceItemInMonoAnalyticPlan(BaseModel):
@@ -3663,8 +3696,8 @@ class InvoiceItemInMonoAnalyticPlan(BaseModel):
     reference: Optional[str] = Field(None, title="Reference")
     payment_communication: Optional[str] = Field(None, title="Payment Communication")
     customer_memo: Optional[str] = Field(None, title="Customer Memo")
-    invoice_date: date = Field(..., title="Invoice Date")
-    due_date: date = Field(..., title="Due Date")
+    invoice_date: datetime.date = Field(..., title="Invoice Date")
+    due_date: datetime.date = Field(..., title="Due Date")
     partner_id: constr(min_length=1) = Field(..., title="Partner Id")
     journal_id: Optional[str] = Field(
         None,
@@ -3679,7 +3712,8 @@ class InvoiceItemInMonoAnalyticPlan(BaseModel):
     )
     currency_exchange_rate: Optional[float] = Field(
         1,
-        description="Indicates the exchange rate at the date of the invoice. Must be filled in when creating the invoice in another currency from the default currency of the accounting system.",
+        description="Indicates the exchange rate at the datetime.date of the invoice. Must be filled in when creating "
+                    "the invoice in another currency from the default currency of the accounting system.",
         title="Currency Exchange Rate",
     )
     invoice_correction: Optional[InvoiceCorrection] = Field(
@@ -3710,8 +3744,8 @@ class InvoiceItemInMultiAnalyticPlans(BaseModel):
     reference: Optional[str] = Field(None, title="Reference")
     payment_communication: Optional[str] = Field(None, title="Payment Communication")
     customer_memo: Optional[str] = Field(None, title="Customer Memo")
-    invoice_date: date = Field(..., title="Invoice Date")
-    due_date: date = Field(..., title="Due Date")
+    invoice_date: datetime.date = Field(..., title="Invoice Date")
+    due_date: datetime.date = Field(..., title="Due Date")
     partner_id: constr(min_length=1) = Field(..., title="Partner Id")
     journal_id: Optional[str] = Field(
         None,
@@ -3726,7 +3760,8 @@ class InvoiceItemInMultiAnalyticPlans(BaseModel):
     )
     currency_exchange_rate: Optional[float] = Field(
         1,
-        description="Indicates the exchange rate at the date of the invoice. Must be filled in when creating the invoice in another currency from the default currency of the accounting system.",
+        description="Indicates the exchange rate at the datetime.date of the invoice. Must be filled in when creating "
+                    "the invoice in another currency from the default currency of the accounting system.",
         title="Currency Exchange Rate",
     )
     invoice_correction: Optional[InvoiceCorrection] = Field(
@@ -3758,14 +3793,16 @@ class InvoiceItemOutMultiAnalyticPlans(BaseModel):
     payment_communication: Optional[str] = Field(None, title="Payment Communication")
     customer_memo: Optional[str] = Field(None, title="Customer Memo")
     id: Optional[str] = Field(None, title="Id")
-    invoice_date: date = Field(
+    invoice_date: datetime.date = Field(
         ...,
-        description="Accounting invoice date. It is automatically set to '1970-01-01' if the value is empty in the accounting system.",
+        description="Accounting invoice datetime.date. It is automatically set to '1970-01-01' if the value is empty "
+                    "in the accounting system.",
         title="Invoice Date",
     )
-    due_date: date = Field(
+    due_date: datetime.date = Field(
         ...,
-        description="Due date of the invoice. We use the value of the invoice date if the value is not available/empty in the accounting system.",
+        description="Due datetime.date of the invoice. We use the value of the invoice datetime.date if the value is "
+                    "not available/empty in the accounting system.",
         title="Due Date",
     )
     partner_id: str = Field(..., title="Partner Id")
@@ -3800,10 +3837,10 @@ class ItalianSpecificities(BaseModel):
 
 class JournalEntryIn(BaseModel):
     reference: Optional[str] = Field(None, title="Reference")
-    due_date: Optional[date] = Field(None, title="Due Date")
+    due_date: Optional[datetime.date] = Field(None, title="Due Date")
     journal_id: str = Field(..., title="Journal Id")
     name: str = Field(..., title="Name")
-    date: date = Field(..., title="Date")
+    datetime.date: datetime.date = Field(..., title="Date")
     items: List[JournalItemIn] = Field(..., title="Items")
     pdf: Optional[str] = Field(
         None,
@@ -3814,13 +3851,14 @@ class JournalEntryIn(BaseModel):
 
 class JournalEntryMultiAnalyticPlan(BaseModel):
     reference: Optional[str] = Field(None, title="Reference")
-    due_date: Optional[date] = Field(None, title="Due Date")
+    due_date: Optional[datetime.date] = Field(None, title="Due Date")
     journal_id: str = Field(..., title="Journal Id")
     name: Optional[str] = Field(None, title="Name")
     journal_name: str = Field(..., title="Journal Name")
-    date: Optional[date] = Field(
+    datetime.date: Optional[datetime.date] = Field(
         "1970-01-01",
-        description="Accounting date of the journal entry. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.",
+        description="Accounting datetime.date of the journal entry. It is automatically set to '1970-01-01' if the "
+                    "value is not available/empty in the accounting system.",
         title="Date",
     )
     posted: Optional[bool] = Field(False, title="Posted")
@@ -3837,11 +3875,12 @@ class MiscellaneousOperationIn(BaseModel):
     )
     currency_exchange_rate: Optional[float] = Field(
         1,
-        description="Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.",
+        description="Indicates the exchange rate at the datetime.date of the operation. Must be filled in when "
+                    "creating the operation in another currency from the default currency of the accounting system.",
         title="Currency Exchange Rate",
     )
     lines: List[MiscellaneousOperationLine] = Field(..., title="Lines")
-    operation_date: date = Field(..., title="Operation Date")
+    operation_date: datetime.date = Field(..., title="Operation Date")
     journal_id: Optional[str] = Field(
         None,
         description="Indicates the journal used in for the operation. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.",
@@ -3855,7 +3894,7 @@ class OrderLineItemOut(BaseModel):
     source_ref: Ref = Field(
         ..., description="Technical id in the target software", title="Source Ref"
     )
-    created_on: Optional[datetime] = Field(None, title="Created On")
+    created_on: Optional[datetime.datetime] = Field(None, title="Created On")
     variant: Optional[OrderLineProductVariantItem] = Field(
         None, description="Product variant", title="Variant"
     )
@@ -3899,7 +3938,7 @@ class OrderRefundItem(BaseModel):
     source_ref: Ref = Field(
         ..., description="Technical id in the target software", title="Source Ref"
     )
-    created_on: Optional[datetime] = Field(None, title="Created On")
+    created_on: Optional[datetime.datetime] = Field(None, title="Created On")
     total: float = Field(..., title="Total")
     reason: Optional[str] = Field(None, title="Reason")
     order_lines: Optional[List[RefundOrderLineItem]] = Field([], title="Order Lines")
@@ -3916,7 +3955,7 @@ class OrderReturnItem(BaseModel):
     source_ref: Ref = Field(
         ..., description="Technical id in the target software", title="Source Ref"
     )
-    created_on: Optional[datetime] = Field(None, title="Created On")
+    created_on: Optional[datetime.datetime] = Field(None, title="Created On")
     order_lines: Optional[List[ReturnOrderLineItem]] = Field([], title="Order Lines")
     new_lines: Optional[List[ReturnOrderLineItem]] = Field([], title="New Lines")
     linked_fees: Optional[List[ReturnFeesItem]] = Field([], title="Linked Fees")
@@ -3930,8 +3969,8 @@ class PMSInvoiceFullItem(BaseModel):
     invoice_number: Optional[str] = Field(
         None, description="Number/sequence", title="Invoice Number"
     )
-    creation_date: Optional[datetime] = Field(None, title="Creation Date")
-    closing_date: Optional[datetime] = Field(None, title="Closing Date")
+    creation_date: Optional[datetime.datetime] = Field(None, title="Creation Date")
+    closing_date: Optional[datetime.datetime] = Field(None, title="Closing Date")
     partners: Optional[List[InvoicePartnerItem]] = Field(None, title="Partners")
     items: List[PMSOrderLineItem] = Field(..., title="Items")
     payments: List[PMSPaymentItem] = Field(..., title="Payments")
@@ -3953,11 +3992,12 @@ class PMSOrderItem(BaseModel):
         ..., description="Technical id in the target software", title="Source Ref"
     )
     order_number: Optional[str] = Field(None, title="Order Number")
-    creation_date: datetime = Field(..., title="Creation Date")
-    closing_date: Optional[datetime] = Field(None, title="Closing Date")
-    service_date: Optional[datetime] = Field(
+    creation_date: datetime.datetime = Field(..., title="Creation Date")
+    closing_date: Optional[datetime.datetime] = Field(None, title="Closing Date")
+    service_date: Optional[datetime.datetime] = Field(
         None,
-        description="Indicates the date of the service to which the order belongs (can be used to group orders by closure date)",
+        description="Indicates the datetime.date of the service to which the order belongs (can be used to group "
+                    "orders by closure datetime.date)",
         title="Service Date",
     )
     device_id: Optional[str] = Field(
@@ -3995,11 +4035,12 @@ class PMSOrderItem(BaseModel):
 class POSOrderItem(BaseModel):
     id: str = Field(..., title="Id")
     order_number: Optional[str] = Field(None, title="Order Number")
-    creation_date: datetime = Field(..., title="Creation Date")
-    closing_date: Optional[datetime] = Field(None, title="Closing Date")
-    service_date: Optional[datetime] = Field(
+    creation_date: datetime.datetime = Field(..., title="Creation Date")
+    closing_date: Optional[datetime.datetime] = Field(None, title="Closing Date")
+    service_date: Optional[datetime.datetime] = Field(
         None,
-        description="Indicates the date of the service to which the order belongs (can be used to group orders by closure date)",
+        description="Indicates the datetime.date of the service to which the order belongs (can be used to group "
+                    "orders by closure datetime.date)",
         title="Service Date",
     )
     device_id: Optional[str] = Field(
@@ -4028,7 +4069,7 @@ class ReadFlowConsumerItem(BaseModel):
     id: str = Field(..., title="Id")
     config: Optional[FlowConfig] = None
     values: Dict[str, Any] = Field(..., title="Values")
-    enabled_on: Optional[datetime] = Field(
+    enabled_on: Optional[datetime.datetime] = Field(
         None,
         description="Date on which the flow was enabled for this consumer",
         title="Enabled On",
@@ -4059,7 +4100,7 @@ class SyncConsumerItem(BaseModel):
         description="Gives additional information if the status is inactive",
         title="Status Details",
     )
-    link_createdon: datetime = Field(
+    link_createdon: datetime.datetime = Field(
         ...,
         description="Date on which the consumer first navigated to the link to setup the sync",
         title="Link Createdon",
@@ -4087,7 +4128,7 @@ class BackboneCommonModelsInvoicingCommonInvoiceItem(BaseModel):
         ..., description="Invoice type"
     )
     status: InvoiceStatus = Field(..., description="Status")
-    invoice_date: date = Field(..., description="Invoicing date", title="Invoice Date")
+    invoice_date: datetime.date = Field(..., description="Invoicing datetime.date", title="Invoice Date")
     tax_amount: float = Field(..., description="Taxes amount", title="Tax Amount")
     untaxed_amount: float = Field(
         ..., description="Untaxed amount", title="Untaxed Amount"
@@ -4104,7 +4145,7 @@ class BackboneCommonModelsInvoicingCommonInvoiceItem(BaseModel):
     invoice_number: Optional[str] = Field(
         None, description="Number/sequence", title="Invoice Number"
     )
-    due_date: Optional[date] = Field(None, description="Due date", title="Due Date")
+    due_date: Optional[datetime.date] = Field(None, description="Due datetime.date", title="Due Date")
     reference: Optional[str] = Field(None, description="Reference", title="Reference")
     payment_communication: Optional[str] = Field(
         None, description="Payment communication", title="Payment Communication"
@@ -4187,7 +4228,7 @@ class InvoiceItemOut(BaseModel):
         ..., description="Invoice type"
     )
     status: InvoiceStatus = Field(..., description="Status")
-    invoice_date: date = Field(..., description="Invoicing date", title="Invoice Date")
+    invoice_date: datetime.date = Field(..., description="Invoicing datetime.date", title="Invoice Date")
     tax_amount: float = Field(..., description="Taxes amount", title="Tax Amount")
     untaxed_amount: float = Field(
         ..., description="Untaxed amount", title="Untaxed Amount"
@@ -4204,7 +4245,7 @@ class InvoiceItemOut(BaseModel):
     invoice_number: Optional[str] = Field(
         None, description="Number/sequence", title="Invoice Number"
     )
-    due_date: Optional[date] = Field(None, description="Due date", title="Due Date")
+    due_date: Optional[datetime.date] = Field(None, description="Due datetime.date", title="Due Date")
     reference: Optional[str] = Field(None, description="Reference", title="Reference")
     payment_communication: Optional[str] = Field(
         None, description="Payment communication", title="Payment Communication"
@@ -4218,12 +4259,12 @@ class InvoiceItemOut(BaseModel):
     italian_specificities: Optional[ItalianSpecificities] = Field(
         None, description="Specificities for Italy", title="Italian Specificities"
     )
-    last_updated_on: Optional[datetime] = Field(None, title="Last Updated On")
+    last_updated_on: Optional[datetime.datetime] = Field(None, title="Last Updated On")
     outstanding_amount: Optional[float] = Field(
         None, description="Amount left to be paid", title="Outstanding Amount"
     )
-    accounting_date: Optional[date] = Field(
-        None, description="Accounting date", title="Accounting Date"
+    accounting_date: Optional[datetime.date] = Field(
+        None, description="Accounting datetime.date", title="Accounting Date"
     )
     payment_method_id: Optional[str] = Field(
         None,
@@ -4232,7 +4273,7 @@ class InvoiceItemOut(BaseModel):
     )
     currency_exchange_rate: Optional[float] = Field(
         1,
-        description="Indicates the exchange rate at the date of the invoice.",
+        description="Indicates the exchange rate at the datetime.date of the invoice.",
         title="Currency Exchange Rate",
     )
 
@@ -4249,7 +4290,7 @@ class InvoiceItemOutSingle(BaseModel):
         ..., description="Invoice type"
     )
     status: InvoiceStatus = Field(..., description="Status")
-    invoice_date: date = Field(..., description="Invoicing date", title="Invoice Date")
+    invoice_date: datetime.date = Field(..., description="Invoicing datetime.date", title="Invoice Date")
     tax_amount: float = Field(..., description="Taxes amount", title="Tax Amount")
     untaxed_amount: float = Field(
         ..., description="Untaxed amount", title="Untaxed Amount"
@@ -4266,7 +4307,7 @@ class InvoiceItemOutSingle(BaseModel):
     invoice_number: Optional[str] = Field(
         None, description="Number/sequence", title="Invoice Number"
     )
-    due_date: Optional[date] = Field(None, description="Due date", title="Due Date")
+    due_date: Optional[datetime.date] = Field(None, description="Due datetime.date", title="Due Date")
     reference: Optional[str] = Field(None, description="Reference", title="Reference")
     payment_communication: Optional[str] = Field(
         None, description="Payment communication", title="Payment Communication"
@@ -4280,12 +4321,12 @@ class InvoiceItemOutSingle(BaseModel):
     italian_specificities: Optional[ItalianSpecificities] = Field(
         None, description="Specificities for Italy", title="Italian Specificities"
     )
-    last_updated_on: Optional[datetime] = Field(None, title="Last Updated On")
+    last_updated_on: Optional[datetime.datetime] = Field(None, title="Last Updated On")
     outstanding_amount: Optional[float] = Field(
         None, description="Amount left to be paid", title="Outstanding Amount"
     )
-    accounting_date: Optional[date] = Field(
-        None, description="Accounting date", title="Accounting Date"
+    accounting_date: Optional[datetime.date] = Field(
+        None, description="Accounting datetime.date", title="Accounting Date"
     )
     payment_method_id: Optional[str] = Field(
         None,
@@ -4294,7 +4335,7 @@ class InvoiceItemOutSingle(BaseModel):
     )
     currency_exchange_rate: Optional[float] = Field(
         1,
-        description="Indicates the exchange rate at the date of the invoice.",
+        description="Indicates the exchange rate at the datetime.date of the invoice.",
         title="Currency Exchange Rate",
     )
     pdf: Optional[str] = Field(None, description="PDF document in base64", title="Pdf")
@@ -4309,11 +4350,11 @@ class OrderItemOut(BaseModel):
     customer: Optional[OrderCustomerItemOut] = None
     billing_address: Optional[BackboneCommonModelsCommerceCommonAddressItemOut] = None
     shipping_address: Optional[BackboneCommonModelsCommerceCommonAddressItemOut] = None
-    created_on: Optional[datetime] = Field(None, title="Created On")
-    last_updated_on: Optional[datetime] = Field(None, title="Last Updated On")
-    confirmed_on: Optional[datetime] = Field(None, title="Confirmed On")
-    delivery_date: Optional[datetime] = Field(None, title="Delivery Date")
-    cancelled_on: Optional[datetime] = Field(None, title="Cancelled On")
+    created_on: Optional[datetime.datetime] = Field(None, title="Created On")
+    last_updated_on: Optional[datetime.datetime] = Field(None, title="Last Updated On")
+    confirmed_on: Optional[datetime.datetime] = Field(None, title="Confirmed On")
+    delivery_date: Optional[datetime.datetime] = Field(None, title="Delivery Date")
+    cancelled_on: Optional[datetime.datetime] = Field(None, title="Cancelled On")
     status: OrderStatus
     discount_amount: float = Field(..., title="Discount Amount")
     untaxed_amount_without_fees: float = Field(

@@ -2,7 +2,11 @@ import datetime
 from enum import Enum
 from typing import List, Optional
 
-from pydantic import BaseModel, Extra
+from pydantic import (
+    BaseModel as PydanticBaseModel,
+    ConfigDict,
+    Extra,
+)
 
 from .openapi import (
     AccountingCategoryItem,
@@ -75,6 +79,8 @@ from .openapi import (
 
 # UNPUBLISHED MODELS
 
+class BaseModel(PydanticBaseModel):
+    pass
 
 class DatastoreColumn(BaseModel):
     name: str
