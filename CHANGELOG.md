@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.86 - 2025-03-20
+* pos: improve closure model
+
 ## 0.1.85 - 2025-02-25
 * accounting: add push attachment endpoint
 
