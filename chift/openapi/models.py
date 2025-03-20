@@ -2,11 +2,7 @@ import datetime
 from enum import Enum
 from typing import List, Optional
 
-from pydantic import (
-    BaseModel as PydanticBaseModel,
-    ConfigDict,
-    Extra,
-)
+from pydantic import BaseModel as PydanticBaseModel
 
 from .openapi import (
     AccountingCategoryItem,
@@ -79,8 +75,10 @@ from .openapi import (
 
 # UNPUBLISHED MODELS
 
+
 class BaseModel(PydanticBaseModel):
     pass
+
 
 class DatastoreColumn(BaseModel):
     name: str
@@ -151,7 +149,6 @@ class FlowConfig(BaseModel):
 
 
 class Consumer(ConsumerItem, extra="allow"):
-    pass
     connectionid: str = None
 
     @property
