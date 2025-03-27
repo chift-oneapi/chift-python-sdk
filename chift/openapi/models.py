@@ -43,6 +43,7 @@ from .openapi import (
     OpportunityItem,
     OrderItemOut,
     OutstandingItem,
+    PMSTaxRateItem,
     PaymentItemOut,
     PaymentMethodItem,
     PaymentMethods,
@@ -456,6 +457,10 @@ class PMSInvoiceFull(PMSInvoiceFullItem):
 
 
 class PMSCustomer(PMSCustomerItem):
+    pass
+
+
+class PMSTaxRate(PMSTaxRateItem):
     pass
 
 

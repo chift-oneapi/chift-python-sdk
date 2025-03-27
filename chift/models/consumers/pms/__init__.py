@@ -9,6 +9,7 @@ from chift.openapi.models import PMSLocation as LocationModel
 from chift.openapi.models import PMSOrder as OrderModel
 from chift.openapi.models import PMSPayment as PaymentModel
 from chift.openapi.models import PMSPaymentMethods as PaymentMethodsModel
+from chift.openapi.models import PMSTaxRate as TaxRateModel
 
 
 class PmsRouter:
@@ -21,6 +22,7 @@ class PmsRouter:
         self.AccountingCategory = AccountingCategory(consumer_id, connection_id)
         self.Invoice = Invoice(consumer_id, connection_id)
         self.Customer = Customer(consumer_id, connection_id)
+        self.TaxRate = TaxRate(consumer_id, connection_id)
 
 
 class PaymentMethod(PaginationMixin[PaymentMethodsModel]):
@@ -69,3 +71,9 @@ class Customer(ReadMixin[CustomerModel], PaginationMixin[CustomerModel]):
     chift_vertical: ClassVar = "pms"
     chift_model: ClassVar = "customers"
     model = CustomerModel
+
+
+class TaxRate(PaginationMixin[TaxRateModel]):
+    chift_vertical: ClassVar = "pms"
+    chift_model: ClassVar = "taxes"
+    model = TaxRateModel
