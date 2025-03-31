@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.87 - 2025-03-31
+* ecommerce: add unit_cost to product variant
+
 ## 0.1.86 - 2025-03-20
 * pos: improve closure model
 
