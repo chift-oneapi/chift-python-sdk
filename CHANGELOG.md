@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.88 - 2025-04-01
+* internal: add ignored error codes
+
 ## 0.1.87 - 2025-03-31
 * ecommerce: add unit_cost to product variant
 

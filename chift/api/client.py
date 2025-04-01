@@ -110,6 +110,7 @@ class ChiftClient:
         self._start_session()
 
     def _start_session(self):
+        self.ignored_error_codes = []
         if self.test_client:
             self.url_base = ""  # set to empty string to avoid url_base in the request
             self.test_auth = ChiftAuth(
@@ -163,6 +164,9 @@ class ChiftClient:
 
         if self.sync_id:
             headers["x-chift-syncid"] = self.sync_id
+
+        if self.ignored_error_codes:
+            headers["x-chift-ignored-error-codes"] = ",".join(self.ignored_error_codes)
 
         try:
             req = self.process_request(
@@ -306,3 +310,6 @@ class ChiftClient:
         )
 
         return self.patch(url_path, data=data, params=params)
+
+    def set_ignored_error_codes(self, ignored_error_codes=[]):
+        self.ignored_error_codes = ignored_error_codes
