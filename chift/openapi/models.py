@@ -15,6 +15,10 @@ from .openapi import (
     BackboneCommonModelsCommerceCommonProductItem,
     BackboneCommonModelsPosCommonProductCategoryItem,
     BalanceItemOut,
+    BankingAccountItem,
+    BankingCounterPartItem,
+    BankingFinancialInstitutionItem,
+    BankingTransactionItem,
     CategoryItem,
     ClientItemOut,
     ClosureItem,
@@ -162,6 +166,14 @@ class Consumer(ConsumerItem, extra=Extra.allow):
         )  # avoid circular import
 
         return AccountingRouter(self.consumerid, self.connectionid)
+
+    @property
+    def banking(self):
+        from chift.models.consumers.banking import (
+            BankingRouter,
+        )  # avoid circular import
+
+        return BankingRouter(self.consumerid, self.connectionid)
 
     @property
     def pos(self):
@@ -512,4 +524,23 @@ class PaymentPayment(PaymentItemOut):
 
 
 class PaymentRefund(RefundItemOut):
+    pass
+
+
+# Banking
+
+
+class BankingFinancialInstitution(BankingFinancialInstitutionItem):
+    pass
+
+
+class BankingAccount(BankingAccountItem):
+    pass
+
+
+class BankingTransaction(BankingTransactionItem):
+    pass
+
+
+class BankingCounterpart(BankingCounterPartItem):
     pass

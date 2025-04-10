@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.89 - 2025-04-10
+* banking: add banking routes
+
 ## 0.1.88 - 2025-04-01
 * internal: add ignored error codes
 
