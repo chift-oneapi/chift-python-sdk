@@ -14,2765 +14,2765 @@ from pydantic import BaseModel, Field, confloat, conint, constr
 
 class AccountBalance(BaseModel):
     account_number: str = Field(
-        ..., description='Number of the account', title='Account Number'
+        ..., description="Number of the account", title="Account Number"
     )
     account_name: Optional[str] = Field(
-        None, description='Display name of the account', title='Account Name'
+        None, description="Display name of the account", title="Account Name"
     )
     debit: float = Field(
         ...,
-        description='Debit at end date. When debit and credit are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, only the balance can be calculated in those cases.',
-        title='Debit',
+        description="Debit at end date. When debit and credit are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, only the balance can be calculated in those cases.",
+        title="Debit",
     )
     credit: float = Field(
         ...,
-        description='Credit at end date. When debit and credit are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, only the balance can be calculated in those cases.',
-        title='Credit',
+        description="Credit at end date. When debit and credit are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, only the balance can be calculated in those cases.",
+        title="Credit",
     )
-    balance: float = Field(..., title='Balance')
+    balance: float = Field(..., title="Balance")
     period_debit: float = Field(
         ...,
-        description='Debit at end date beginning from the given start date. When debit and credit are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, only the balance can be calculated in those cases.',
-        title='Period Debit',
+        description="Debit at end date beginning from the given start date. When debit and credit are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, only the balance can be calculated in those cases.",
+        title="Period Debit",
     )
     period_credit: float = Field(
         ...,
-        description='Credit at end date beginning from the given start date. When debit and credit are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, only the balance can be calculated in those cases.',
-        title='Period Credit',
+        description="Credit at end date beginning from the given start date. When debit and credit are equal to 0 and balance is different from 0 then the debit and credit cannot be determined, only the balance can be calculated in those cases.",
+        title="Period Credit",
     )
-    period_balance: float = Field(..., title='Period Balance')
+    period_balance: float = Field(..., title="Period Balance")
 
 
 class AccountBalanceFilter(BaseModel):
     accounts: List[str] = Field(
         ...,
         description='Array/list containing the account numbers/classes to include in the response. E.g. ["601", "7"] to retrieve all account in the class 7 and accounts with an account number beginning with 601',
-        title='Accounts',
+        title="Accounts",
     )
     start: Optional[str] = Field(
         None,
-        description='Start month (included, e.g. 202302 for february 2023)',
-        title='Start',
+        description="Start month (included, e.g. 202302 for february 2023)",
+        title="Start",
     )
     end: constr(min_length=6, max_length=6) = Field(
         ...,
-        description='End month (included, e.g. 202312 for december 2023)',
-        title='End',
+        description="End month (included, e.g. 202312 for december 2023)",
+        title="End",
     )
 
 
 class AccountItemType(Enum):
-    bank = 'bank'
-    cash = 'cash'
-    other_financial = 'other_financial'
-    receivable = 'receivable'
-    payable = 'payable'
-    income = 'income'
-    expense = 'expense'
-    vat = 'vat'
-    other = 'other'
+    bank = "bank"
+    cash = "cash"
+    other_financial = "other_financial"
+    receivable = "receivable"
+    payable = "payable"
+    income = "income"
+    expense = "expense"
+    vat = "vat"
+    other = "other"
 
 
 class AccountToCreate(BaseModel):
-    account_number: constr(min_length=1) = Field(..., title='Account Number')
-    account_name: constr(min_length=1) = Field(..., title='Account Name')
+    account_number: constr(min_length=1) = Field(..., title="Account Number")
+    account_name: constr(min_length=1) = Field(..., title="Account Name")
 
 
 class AccountingCategoryItem(BaseModel):
     id: str = Field(
         ...,
-        description='Unique identifier of the accounting category',
-        example='371ca583-d218-4900-b236-397532cf0e2',
-        title='Id',
+        description="Unique identifier of the accounting category",
+        example="371ca583-d218-4900-b236-397532cf0e2",
+        title="Id",
     )
     name: str = Field(
         ...,
-        description='Name given to the accounting category',
-        example='Beverages',
-        title='Name',
+        description="Name given to the accounting category",
+        example="Beverages",
+        title="Name",
     )
     code: Optional[str] = Field(
         None,
-        description='Code assigned to the category',
-        example='123456',
-        title='Code',
+        description="Code assigned to the category",
+        example="123456",
+        title="Code",
     )
     ledger_account_code: Optional[str] = Field(
         None,
-        description='Ledger account code assigned to the category',
-        example='123456',
-        title='Ledger Account Code',
+        description="Ledger account code assigned to the category",
+        example="123456",
+        title="Ledger Account Code",
     )
     posting_account_code: Optional[str] = Field(
         None,
-        description='Posting account code assigned to the category',
-        example='123456',
-        title='Posting Account Code',
+        description="Posting account code assigned to the category",
+        example="123456",
+        title="Posting Account Code",
     )
 
 
 class AddressItem(BaseModel):
     address_type: Optional[str] = Field(
-        None, description='Type of the address', example='home', title='Address Type'
+        None, description="Type of the address", example="home", title="Address Type"
     )
     name: Optional[str] = Field(
         None,
         description="Name given to the address (e.g. 'home')",
-        example='Home',
-        title='Name',
+        example="Home",
+        title="Name",
     )
     street: Optional[str] = Field(
-        None, description='Street name', example='Main Street', title='Street'
+        None, description="Street name", example="Main Street", title="Street"
     )
     number: Optional[str] = Field(
-        None, description='Number of the address', example='123', title='Number'
+        None, description="Number of the address", example="123", title="Number"
     )
     box: Optional[str] = Field(
-        None, description='Box of the address', example='A', title='Box'
+        None, description="Box of the address", example="A", title="Box"
     )
     city: Optional[str] = Field(
-        None, description='City name', example='Paris', title='City'
+        None, description="City name", example="Paris", title="City"
     )
     postal_code: Optional[str] = Field(
         None,
-        description='Postal code of the address',
-        example='75000',
-        title='Postal Code',
+        description="Postal code of the address",
+        example="75000",
+        title="Postal Code",
     )
     country: Optional[str] = Field(
         None,
-        description='Country, format: ISO 3166-1 codes.',
-        example='FR',
-        title='Country',
+        description="Country, format: ISO 3166-1 codes.",
+        example="FR",
+        title="Country",
     )
 
 
 class AddressType(Enum):
-    main = 'main'
-    delivery = 'delivery'
-    invoice = 'invoice'
+    main = "main"
+    delivery = "delivery"
+    invoice = "invoice"
 
 
 class AddressTypeInvoicing(Enum):
-    main = 'main'
-    delivery = 'delivery'
-    invoice = 'invoice'
-    other = 'other'
+    main = "main"
+    delivery = "delivery"
+    invoice = "invoice"
+    other = "other"
 
 
 class AnalyticAccountItemIn(BaseModel):
-    active: Optional[bool] = Field(True, title='Active')
-    code: str = Field(..., title='Code')
-    name: str = Field(..., title='Name')
+    active: Optional[bool] = Field(True, title="Active")
+    code: str = Field(..., title="Code")
+    name: str = Field(..., title="Name")
     currency: str = Field(
         ...,
-        description='Indicates the currency of the analytic account (e.g. EUR).',
-        title='Currency',
+        description="Indicates the currency of the analytic account (e.g. EUR).",
+        title="Currency",
     )
 
 
 class AnalyticAccountItemOut(BaseModel):
-    id: str = Field(..., title='Id')
-    active: bool = Field(..., title='Active')
-    code: Optional[str] = Field(None, title='Code')
-    name: str = Field(..., title='Name')
+    id: str = Field(..., title="Id")
+    active: bool = Field(..., title="Active")
+    code: Optional[str] = Field(None, title="Code")
+    name: str = Field(..., title="Name")
     currency: Optional[str] = Field(
         None,
-        description='Indicates the currency of the analytic account (e.g. EUR).',
-        title='Currency',
+        description="Indicates the currency of the analytic account (e.g. EUR).",
+        title="Currency",
     )
-    balance: Optional[float] = Field(0, title='Balance')
-    credit: Optional[float] = Field(0, title='Credit')
-    debit: Optional[float] = Field(0, title='Debit')
+    balance: Optional[float] = Field(0, title="Balance")
+    credit: Optional[float] = Field(0, title="Credit")
+    debit: Optional[float] = Field(0, title="Debit")
 
 
 class AnalyticAccountItemOutMultiAnalyticPlans(BaseModel):
-    id: str = Field(..., title='Id')
-    active: bool = Field(..., title='Active')
-    code: Optional[str] = Field(None, title='Code')
-    name: str = Field(..., title='Name')
+    id: str = Field(..., title="Id")
+    active: bool = Field(..., title="Active")
+    code: Optional[str] = Field(None, title="Code")
+    name: str = Field(..., title="Name")
     currency: Optional[str] = Field(
         None,
-        description='Indicates the currency of the analytic account (e.g. EUR).',
-        title='Currency',
+        description="Indicates the currency of the analytic account (e.g. EUR).",
+        title="Currency",
     )
-    balance: Optional[float] = Field(0, title='Balance')
-    credit: Optional[float] = Field(0, title='Credit')
-    debit: Optional[float] = Field(0, title='Debit')
-    analytic_plan: str = Field(..., title='Analytic Plan')
+    balance: Optional[float] = Field(0, title="Balance")
+    credit: Optional[float] = Field(0, title="Credit")
+    debit: Optional[float] = Field(0, title="Debit")
+    analytic_plan: str = Field(..., title="Analytic Plan")
 
 
 class AnalyticAccountItemUpdate(BaseModel):
-    active: Optional[bool] = Field(True, title='Active')
-    code: Optional[str] = Field(None, title='Code')
-    name: Optional[str] = Field(None, title='Name')
+    active: Optional[bool] = Field(True, title="Active")
+    code: Optional[str] = Field(None, title="Code")
+    name: Optional[str] = Field(None, title="Name")
     currency: Optional[str] = Field(
         None,
-        description='Indicates the currency of the analytic account (e.g. EUR).',
-        title='Currency',
+        description="Indicates the currency of the analytic account (e.g. EUR).",
+        title="Currency",
     )
 
 
 class AnalyticDistributionDetail(BaseModel):
-    analytic_account: str = Field(..., title='Analytic Account')
+    analytic_account: str = Field(..., title="Analytic Account")
     percentage: float = Field(
         ...,
-        description='Indicates the percentage of the untaxed amount to attribute to the given analytic account (Only percentages without decimals are allowed).',
-        title='Percentage',
+        description="Indicates the percentage of the untaxed amount to attribute to the given analytic account (Only percentages without decimals are allowed).",
+        title="Percentage",
     )
 
 
 class AnalyticPlanItem(BaseModel):
-    id: str = Field(..., title='Id')
-    name: str = Field(..., title='Name')
-    active: Optional[bool] = Field(True, title='Active')
+    id: str = Field(..., title="Id")
+    name: str = Field(..., title="Name")
+    active: Optional[bool] = Field(True, title="Active")
 
 
 class Api(Enum):
-    Point_of_Sale = 'Point of Sale'
-    eCommerce = 'eCommerce'
-    Accounting = 'Accounting'
-    Invoicing = 'Invoicing'
-    Communication = 'Communication'
-    Banking = 'Banking'
-    Custom = 'Custom'
-    Payment = 'Payment'
-    Property_Management_System = 'Property Management System'
+    Point_of_Sale = "Point of Sale"
+    eCommerce = "eCommerce"
+    Accounting = "Accounting"
+    Invoicing = "Invoicing"
+    Communication = "Communication"
+    Banking = "Banking"
+    Custom = "Custom"
+    Payment = "Payment"
+    Property_Management_System = "Property Management System"
 
 
 class AttachmentItem(BaseModel):
-    base64_string: str = Field(..., title='Base64 String')
+    base64_string: str = Field(..., title="Base64 String")
 
 
 class AttachmentItemOut(BaseModel):
-    id: str = Field(..., title='Id')
-    base64_string: str = Field(..., title='Base64 String')
+    id: str = Field(..., title="Id")
+    base64_string: str = Field(..., title="Base64 String")
 
 
 class AuthItem(BaseModel):
-    clientId: str = Field(..., title='Clientid')
-    clientSecret: str = Field(..., title='Clientsecret')
-    accountId: UUID = Field(..., title='Accountid')
-    marketplaceId: Optional[UUID] = Field(None, title='Marketplaceid')
+    clientId: str = Field(..., title="Clientid")
+    clientSecret: str = Field(..., title="Clientsecret")
+    accountId: UUID = Field(..., title="Accountid")
+    marketplaceId: Optional[UUID] = Field(None, title="Marketplaceid")
 
 
 class BankingAccountItem(BaseModel):
     id: str = Field(
         ...,
-        description='Unique identifier of the account',
-        example='account-123',
-        title='Id',
+        description="Unique identifier of the account",
+        example="account-123",
+        title="Id",
     )
     currency: str = Field(
-        ..., description='Currency of the account', example='EUR', title='Currency'
+        ..., description="Currency of the account", example="EUR", title="Currency"
     )
     current_balance: float = Field(
         ...,
-        description='Current balance of the account',
+        description="Current balance of the account",
         example=1000,
-        title='Current Balance',
+        title="Current Balance",
     )
     current_balance_last_update_date: Optional[datetime] = Field(
         None,
-        description='Last update date of the current balance',
-        example='2025-01-01T00:00:00Z',
-        title='Current Balance Last Update Date',
+        description="Last update date of the current balance",
+        example="2025-01-01T00:00:00Z",
+        title="Current Balance Last Update Date",
     )
     available_balance: float = Field(
         ...,
-        description='Available balance of the account',
+        description="Available balance of the account",
         example=1000,
-        title='Available Balance',
+        title="Available Balance",
     )
     available_balance_last_update_date: Optional[datetime] = Field(
         None,
-        description='Last update date of the available balance',
-        example='2025-01-01T00:00:00Z',
-        title='Available Balance Last Update Date',
+        description="Last update date of the available balance",
+        example="2025-01-01T00:00:00Z",
+        title="Available Balance Last Update Date",
     )
     description: str = Field(
         ...,
-        description='Description of the account',
-        example='Chift account',
-        title='Description',
+        description="Description of the account",
+        example="Chift account",
+        title="Description",
     )
     reference: str = Field(
         ...,
-        description='Reference of the account',
-        example='FR76300040123456789012345678',
-        title='Reference',
+        description="Reference of the account",
+        example="FR76300040123456789012345678",
+        title="Reference",
     )
     reference_type: str = Field(
-        ..., description='Type of the reference', example='IBAN', title='Reference Type'
+        ..., description="Type of the reference", example="IBAN", title="Reference Type"
     )
     holder_name: Optional[str] = Field(
         None,
-        description='Name of the account holder',
-        example='John Doe',
-        title='Holder Name',
+        description="Name of the account holder",
+        example="John Doe",
+        title="Holder Name",
     )
 
 
 class BankingCounterPartItem(BaseModel):
     name: Optional[str] = Field(
-        None, description='Name of the counterpart', example='John Doe', title='Name'
+        None, description="Name of the counterpart", example="John Doe", title="Name"
     )
     reference: Optional[str] = Field(
         None,
-        description='Reference of the counterpart',
-        example='FR76300040123456789012345678',
-        title='Reference',
+        description="Reference of the counterpart",
+        example="FR76300040123456789012345678",
+        title="Reference",
     )
     details: Optional[str] = Field(
         None,
-        description='Details of the counterpart',
-        example='Chift counterpart',
-        title='Details',
+        description="Details of the counterpart",
+        example="Chift counterpart",
+        title="Details",
     )
 
 
 class BankingFinancialInstitutionItem(BaseModel):
     id: str = Field(
         ...,
-        description='Unique identifier of the financial institution',
-        example='financial-institution-123',
-        title='Id',
+        description="Unique identifier of the financial institution",
+        example="financial-institution-123",
+        title="Id",
     )
     bic: Optional[str] = Field(
         None,
-        description='BIC of the financial institution',
-        example='GEBABEBBXXX',
-        title='Bic',
+        description="BIC of the financial institution",
+        example="GEBABEBBXXX",
+        title="Bic",
     )
     country: Optional[str] = Field(
         None,
-        description='Country of the financial institution, format: ISO 3166-1 codes.',
-        example='FR',
-        title='Country',
+        description="Country of the financial institution, format: ISO 3166-1 codes.",
+        example="FR",
+        title="Country",
     )
     name: str = Field(
         ...,
-        description='Name of the financial institution',
-        example='BNP',
-        title='Name',
+        description="Name of the financial institution",
+        example="BNP",
+        title="Name",
     )
 
 
 class BankingTransactionItem(BaseModel):
     id: str = Field(
         ...,
-        description='Unique identifier of the transaction',
-        example='transaction-123',
-        title='Id',
+        description="Unique identifier of the transaction",
+        example="transaction-123",
+        title="Id",
     )
     amount: float = Field(
-        ..., description='Amount of the transaction', example=1000, title='Amount'
+        ..., description="Amount of the transaction", example=1000, title="Amount"
     )
     currency: str = Field(
-        ..., description='Currency of the transaction', example='EUR', title='Currency'
+        ..., description="Currency of the transaction", example="EUR", title="Currency"
     )
     description: Optional[str] = Field(
         None,
-        description='Description of the transaction',
-        example='Chift transaction',
-        title='Description',
+        description="Description of the transaction",
+        example="Chift transaction",
+        title="Description",
     )
     additional_information: Optional[str] = Field(
         None,
-        description='Additional information of the transaction',
-        example='Chift transaction',
-        title='Additional Information',
+        description="Additional information of the transaction",
+        example="Chift transaction",
+        title="Additional Information",
     )
     counterpart_name: Optional[str] = Field(
         None,
-        description='Name of the counterpart',
-        example='John Doe',
-        title='Counterpart Name',
+        description="Name of the counterpart",
+        example="John Doe",
+        title="Counterpart Name",
     )
     counterpart_reference: Optional[str] = Field(
         None,
-        description='Reference of the counterpart',
-        example='FR76300040123456789012345678',
-        title='Counterpart Reference',
+        description="Reference of the counterpart",
+        example="FR76300040123456789012345678",
+        title="Counterpart Reference",
     )
     remittance_information: Optional[str] = Field(
         None,
-        description='Remittance information of the transaction',
-        example='Chift transaction',
-        title='Remittance Information',
+        description="Remittance information of the transaction",
+        example="Chift transaction",
+        title="Remittance Information",
     )
     creation_date: datetime = Field(
         ...,
-        description='Creation date of the transaction',
-        example='2025-01-01T00:00:00Z',
-        title='Creation Date',
+        description="Creation date of the transaction",
+        example="2025-01-01T00:00:00Z",
+        title="Creation Date",
     )
     value_date: datetime = Field(
         ...,
-        description='Value date of the transaction',
-        example='2025-01-01T00:00:00Z',
-        title='Value Date',
+        description="Value date of the transaction",
+        example="2025-01-01T00:00:00Z",
+        title="Value Date",
     )
     execution_date: datetime = Field(
         ...,
-        description='Execution date of the transaction',
-        example='2025-01-01T00:00:00Z',
-        title='Execution Date',
+        description="Execution date of the transaction",
+        example="2025-01-01T00:00:00Z",
+        title="Execution Date",
     )
 
 
 class BookYear(BaseModel):
-    name: str = Field(..., title='Name')
-    start: date = Field(..., title='Start')
-    end: date = Field(..., title='End')
-    closed: bool = Field(..., title='Closed')
+    name: str = Field(..., title="Name")
+    start: date = Field(..., title="Start")
+    end: date = Field(..., title="End")
+    closed: bool = Field(..., title="Closed")
 
 
 class BoolParam(Enum):
-    true = 'true'
-    false = 'false'
+    true = "true"
+    false = "false"
 
 
 class ChainExecutionItem(BaseModel):
-    id: str = Field(..., title='Id')
-    start: datetime = Field(..., title='Start')
-    end: Optional[datetime] = Field(None, title='End')
-    status: str = Field(..., title='Status')
+    id: str = Field(..., title="Id")
+    start: datetime = Field(..., title="Start")
+    end: Optional[datetime] = Field(None, title="End")
+    status: str = Field(..., title="Status")
 
 
 class ChiftError(BaseModel):
-    message: str = Field(..., title='Message')
-    status: Optional[str] = Field('error', title='Status')
-    detail: Optional[str] = Field('', title='Detail')
+    message: str = Field(..., title="Message")
+    status: Optional[str] = Field("error", title="Status")
+    detail: Optional[str] = Field("", title="Detail")
 
 
 class ChiftPageAccountBalance(BaseModel):
-    items: List[AccountBalance] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[AccountBalance] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageAccountingCategoryItem(BaseModel):
-    items: List[AccountingCategoryItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[AccountingCategoryItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageAnalyticAccountItemOutMultiAnalyticPlans(BaseModel):
-    items: List[AnalyticAccountItemOutMultiAnalyticPlans] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[AnalyticAccountItemOutMultiAnalyticPlans] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageAnalyticAccountItemOut(BaseModel):
-    items: List[AnalyticAccountItemOut] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[AnalyticAccountItemOut] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageAnalyticPlanItem(BaseModel):
-    items: List[AnalyticPlanItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[AnalyticPlanItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageAttachmentItemOut(BaseModel):
-    items: List[AttachmentItemOut] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[AttachmentItemOut] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageBankingAccountItem(BaseModel):
-    items: List[BankingAccountItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[BankingAccountItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageBankingCounterPartItem(BaseModel):
-    items: List[BankingCounterPartItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[BankingCounterPartItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageBankingFinancialInstitutionItem(BaseModel):
-    items: List[BankingFinancialInstitutionItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[BankingFinancialInstitutionItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageBankingTransactionItem(BaseModel):
-    items: List[BankingTransactionItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[BankingTransactionItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageBookYear(BaseModel):
-    items: List[BookYear] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[BookYear] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ClosurePaymentItem(BaseModel):
     payment_method_id: Optional[str] = Field(
         None,
-        description='Unique identifier of the payment method used for the payment',
-        example='payment_method-1',
-        title='Payment Method Id',
+        description="Unique identifier of the payment method used for the payment",
+        example="payment_method-1",
+        title="Payment Method Id",
     )
     payment_method_name: Optional[str] = Field(
         None,
         description="Chift's name of the payment method used for the payment",
-        example='Cash',
-        title='Payment Method Name',
+        example="Cash",
+        title="Payment Method Name",
     )
     total: float = Field(
-        ..., description='Total amount including tax', example=11, title='Total'
+        ..., description="Total amount including tax", example=11, title="Total"
     )
 
 
 class ClosureStates(Enum):
-    open = 'open'
-    closed = 'closed'
+    open = "open"
+    closed = "closed"
 
 
 class CommerceLocationItem(BaseModel):
     id: str = Field(
-        ..., description='Technical id of the location in Chift', title='Id'
+        ..., description="Technical id of the location in Chift", title="Id"
     )
-    name: str = Field(..., title='Name')
+    name: str = Field(..., title="Name")
 
 
 class CommonAttributeItem(BaseModel):
-    name: str = Field(..., title='Name')
-    values: List[str] = Field(..., title='Values')
+    name: str = Field(..., title="Name")
+    values: List[str] = Field(..., title="Values")
 
 
 class ConsumerItem(BaseModel):
-    consumerid: UUID = Field(..., title='Consumerid')
-    name: constr(min_length=1) = Field(..., title='Name')
-    email: Optional[str] = Field(None, title='Email')
-    internal_reference: Optional[str] = Field(None, title='Internal Reference')
-    redirect_url: Optional[str] = Field(None, title='Redirect Url')
+    consumerid: UUID = Field(..., title="Consumerid")
+    name: constr(min_length=1) = Field(..., title="Name")
+    email: Optional[str] = Field(None, title="Email")
+    internal_reference: Optional[str] = Field(None, title="Internal Reference")
+    redirect_url: Optional[str] = Field(None, title="Redirect Url")
 
 
 class ContactGender(Enum):
-    H = 'H'
-    F = 'F'
-    N_A = 'N/A'
+    H = "H"
+    F = "F"
+    N_A = "N/A"
 
 
 class ContactType(Enum):
-    prospect = 'prospect'
-    customer = 'customer'
-    supplier = 'supplier'
-    all = 'all'
+    prospect = "prospect"
+    customer = "customer"
+    supplier = "supplier"
+    all = "all"
 
 
 class CountryItem(BaseModel):
-    code: str = Field(..., description='Country ISO Code', title='Code')
-    name: str = Field(..., title='Name')
+    code: str = Field(..., description="Country ISO Code", title="Code")
+    name: str = Field(..., title="Name")
 
 
 class CreateConsumerSyncItem(BaseModel):
-    syncid: UUID = Field(..., title='Syncid')
+    syncid: UUID = Field(..., title="Syncid")
     integrationids: Optional[List[str]] = Field(
         [],
-        description='[OPTIONAL] Can be used to specify maximum one integrationid for each One API that you want to highlight. If specified, only this connector will be displayed to your clients.',
-        title='Integrationids',
+        description="[OPTIONAL] Can be used to specify maximum one integrationid for each One API that you want to highlight. If specified, only this connector will be displayed to your clients.",
+        title="Integrationids",
     )
-    link_metadata: Optional[Dict[str, Any]] = Field(None, title='Link Metadata')
+    link_metadata: Optional[Dict[str, Any]] = Field(None, title="Link Metadata")
 
 
 class DataItem(BaseModel):
-    data: Dict[str, Any] = Field(..., title='Data')
+    data: Dict[str, Any] = Field(..., title="Data")
 
 
 class DataItemOut(BaseModel):
-    data: Dict[str, Any] = Field(..., title='Data')
-    id: str = Field(..., title='Id')
-    created_on: datetime = Field(..., title='Created On')
+    data: Dict[str, Any] = Field(..., title="Data")
+    id: str = Field(..., title="Id")
+    created_on: datetime = Field(..., title="Created On")
 
 
 class DatastoreColumn(BaseModel):
-    name: str = Field(..., title='Name')
-    title: str = Field(..., title='Title')
-    type: str = Field(..., title='Type')
-    optional: Optional[bool] = Field(False, title='Optional')
+    name: str = Field(..., title="Name")
+    title: str = Field(..., title="Title")
+    type: str = Field(..., title="Type")
+    optional: Optional[bool] = Field(False, title="Optional")
 
 
 class DatastoreDef(BaseModel):
-    columns: List[DatastoreColumn] = Field(..., title='Columns')
+    columns: List[DatastoreColumn] = Field(..., title="Columns")
     search_column: Optional[str] = Field(
         None,
-        description='Column name that will be indexed and used in search if any.',
-        title='Search Column',
+        description="Column name that will be indexed and used in search if any.",
+        title="Search Column",
     )
 
 
 class DiscountType(Enum):
-    OFFERED = 'OFFERED'
-    UNKNOWN = 'UNKNOWN'
-    LOSS = 'LOSS'
+    OFFERED = "OFFERED"
+    UNKNOWN = "UNKNOWN"
+    LOSS = "LOSS"
 
 
 class DocumentType(Enum):
-    invoice = 'invoice'
-    entry = 'entry'
+    invoice = "invoice"
+    entry = "entry"
 
 
 class EmployeeItem(BaseModel):
-    id: str = Field(..., title='Id')
-    name: str = Field(..., title='Name')
-    first_name: Optional[str] = Field(None, title='First Name')
-    last_name: Optional[str] = Field(None, title='Last Name')
-    function: Optional[str] = Field(None, title='Function')
-    phone: Optional[str] = Field(None, title='Phone')
-    mobile: Optional[str] = Field(None, title='Mobile')
-    email: Optional[str] = Field(None, title='Email')
-    active: Optional[bool] = Field(True, title='Active')
-    reference: Optional[str] = Field(None, title='Reference')
-    account_number: Optional[str] = Field(None, title='Account Number')
+    id: str = Field(..., title="Id")
+    name: str = Field(..., title="Name")
+    first_name: Optional[str] = Field(None, title="First Name")
+    last_name: Optional[str] = Field(None, title="Last Name")
+    function: Optional[str] = Field(None, title="Function")
+    phone: Optional[str] = Field(None, title="Phone")
+    mobile: Optional[str] = Field(None, title="Mobile")
+    email: Optional[str] = Field(None, title="Email")
+    active: Optional[bool] = Field(True, title="Active")
+    reference: Optional[str] = Field(None, title="Reference")
+    account_number: Optional[str] = Field(None, title="Account Number")
 
 
 class EnableFlowConsumer(BaseModel):
     integrationids: Optional[List[str]] = Field(
         [],
-        description='List of integrationids of the connections that will be used to enable the flow',
-        title='Integrationids',
+        description="List of integrationids of the connections that will be used to enable the flow",
+        title="Integrationids",
     )
-    triggerid: Optional[str] = Field('trigger-1', title='Triggerid')
-    cronschedule: Optional[str] = Field(None, title='Cronschedule')
+    triggerid: Optional[str] = Field("trigger-1", title="Triggerid")
+    cronschedule: Optional[str] = Field(None, title="Cronschedule")
     data: Optional[Dict[str, Any]] = Field(
         {},
-        description='Object containing the configuration of the flow for the consumer',
-        title='Data',
+        description="Object containing the configuration of the flow for the consumer",
+        title="Data",
     )
 
 
 class EntryLineType(Enum):
-    customer_account = 'customer_account'
-    supplier_account = 'supplier_account'
-    employee_account = 'employee_account'
-    general_account = 'general_account'
+    customer_account = "customer_account"
+    supplier_account = "supplier_account"
+    employee_account = "employee_account"
+    general_account = "general_account"
 
 
 class ErrorInfo(BaseModel):
-    error_code: str = Field(..., title='Error Code')
-    status: str = Field(..., title='Status')
-    title: str = Field(..., title='Title')
-    description: Optional[str] = Field(None, title='Description')
+    error_code: str = Field(..., title="Error Code")
+    status: str = Field(..., title="Status")
+    title: str = Field(..., title="Title")
+    description: Optional[str] = Field(None, title="Description")
 
 
 class ExecutionType(Enum):
-    code = 'code'
-    module = 'module'
+    code = "code"
+    module = "module"
 
 
 class FeesType(Enum):
-    shipping = 'shipping'
-    other = 'other'
+    shipping = "shipping"
+    other = "other"
 
 
 class FieldItemType(Enum):
-    fixed = 'fixed'
-    api = 'api'
+    fixed = "fixed"
+    api = "api"
 
 
 class FieldItemValue(BaseModel):
-    id: str = Field(..., title='Id')
-    label: str = Field(..., title='Label')
+    id: str = Field(..., title="Id")
+    label: str = Field(..., title="Label")
 
 
 class FieldRef(BaseModel):
     id: Optional[str] = Field(
-        None, description='Technical id in the target software', title='Id'
+        None, description="Technical id in the target software", title="Id"
     )
     model: Optional[str] = Field(
         None,
-        description='Name of the model/entity in the target software',
-        title='Model',
+        description="Name of the model/entity in the target software",
+        title="Model",
     )
     name: Optional[str] = Field(
-        None, description='Value the field in the target software', title='Name'
+        None, description="Value the field in the target software", title="Name"
     )
 
 
 class FinancialEntryLineItem(BaseModel):
     account_type: EntryLineType
-    account: constr(min_length=1) = Field(..., title='Account')
+    account: constr(min_length=1) = Field(..., title="Account")
     amount: float = Field(
         ...,
-        description='A positive amount represents funds transfered to the bank/cash account. In that case the bank/cash account is debited and the given account_number is credited.',
-        title='Amount',
+        description="A positive amount represents funds transfered to the bank/cash account. In that case the bank/cash account is debited and the given account_number is credited.",
+        title="Amount",
     )
-    description: Optional[str] = Field(None, title='Description')
+    description: Optional[str] = Field(None, title="Description")
 
 
 class FinancialEntryLineItemOld(BaseModel):
     type: EntryLineType
-    account_number: str = Field(..., title='Account Number')
+    account_number: str = Field(..., title="Account Number")
     partner_id: Optional[str] = Field(
         None,
         description="Must be filled in it is a 'customer_account', 'supplier_account' or 'employee_account' line type.",
-        title='Partner Id',
+        title="Partner Id",
     )
     amount: float = Field(
         ...,
-        description='A positive amount represents funds transfered to the bank/cash account. In that case the bank/cash account is debited and the given account_number is credited.',
-        title='Amount',
+        description="A positive amount represents funds transfered to the bank/cash account. In that case the bank/cash account is debited and the given account_number is credited.",
+        title="Amount",
     )
-    description: Optional[str] = Field(None, title='Description')
+    description: Optional[str] = Field(None, title="Description")
 
 
 class FinancialEntryLineItemOut(BaseModel):
     account_type: EntryLineType
-    account: constr(min_length=1) = Field(..., title='Account')
+    account: constr(min_length=1) = Field(..., title="Account")
     amount: float = Field(
         ...,
-        description='A positive amount represents funds transfered to the bank/cash account. In that case the bank/cash account is debited and the given account_number is credited.',
-        title='Amount',
+        description="A positive amount represents funds transfered to the bank/cash account. In that case the bank/cash account is debited and the given account_number is credited.",
+        title="Amount",
     )
-    description: Optional[str] = Field(None, title='Description')
-    counterpart_account: str = Field(..., title='Counterpart Account')
+    description: Optional[str] = Field(None, title="Description")
+    counterpart_account: str = Field(..., title="Counterpart Account")
 
 
 class FinancialEntryLineItemOutOld(BaseModel):
     type: EntryLineType
-    account_number: str = Field(..., title='Account Number')
+    account_number: str = Field(..., title="Account Number")
     partner_id: Optional[str] = Field(
         None,
         description="Must be filled in it is a 'customer_account', 'supplier_account' or 'employee_account' line type.",
-        title='Partner Id',
+        title="Partner Id",
     )
     amount: float = Field(
         ...,
-        description='A positive amount represents funds transfered to the bank/cash account. In that case the bank/cash account is debited and the given account_number is credited.',
-        title='Amount',
+        description="A positive amount represents funds transfered to the bank/cash account. In that case the bank/cash account is debited and the given account_number is credited.",
+        title="Amount",
     )
-    description: Optional[str] = Field(None, title='Description')
-    counterpart_account: str = Field(..., title='Counterpart Account')
+    description: Optional[str] = Field(None, title="Description")
+    counterpart_account: str = Field(..., title="Counterpart Account")
 
 
 class FlowExecutionChain(BaseModel):
-    name: str = Field(..., title='Name')
+    name: str = Field(..., title="Name")
 
 
 class FlowExecutionCode(BaseModel):
-    code: str = Field(..., title='Code')
+    code: str = Field(..., title="Code")
 
 
 class FolderItem(BaseModel):
-    id: str = Field(..., title='Id')
-    name: str = Field(..., title='Name')
-    selected: Optional[bool] = Field(True, title='Selected')
-    vat: Optional[str] = Field(None, title='Vat')
-    company_number: Optional[str] = Field(None, title='Company Number')
+    id: str = Field(..., title="Id")
+    name: str = Field(..., title="Name")
+    selected: Optional[bool] = Field(True, title="Selected")
+    vat: Optional[str] = Field(None, title="Vat")
+    company_number: Optional[str] = Field(None, title="Company Number")
 
 
 class ImageItem(BaseModel):
     id: str = Field(
-        ..., description='Technical id of the image in the target software', title='Id'
+        ..., description="Technical id of the image in the target software", title="Id"
     )
-    main_image: bool = Field(..., title='Main Image')
-    url: str = Field(..., title='Url')
+    main_image: bool = Field(..., title="Main Image")
+    url: str = Field(..., title="Url")
 
 
 class ImageType(Enum):
-    icon = 'icon'
-    logo = 'logo'
+    icon = "icon"
+    logo = "logo"
 
 
 class InventoryDetailsItem(BaseModel):
     location: CommerceLocationItem
-    available_quantity: float = Field(..., title='Available Quantity')
+    available_quantity: float = Field(..., title="Available Quantity")
 
 
 class InventoryDetailsUpdate(BaseModel):
     location_id: str = Field(
-        ..., description='Technical id of the location in Chift', title='Location Id'
+        ..., description="Technical id of the location in Chift", title="Location Id"
     )
-    available_quantity: confloat(ge=0.0) = Field(..., title='Available Quantity')
+    available_quantity: confloat(ge=0.0) = Field(..., title="Available Quantity")
 
 
 class InvoiceCorrection(BaseModel):
     sale_invoice_correction_tax_code: Optional[str] = Field(
-        None, title='Sale Invoice Correction Tax Code'
+        None, title="Sale Invoice Correction Tax Code"
     )
     purchase_invoice_correction_tax_code: Optional[str] = Field(
-        None, title='Purchase Invoice Correction Tax Code'
+        None, title="Purchase Invoice Correction Tax Code"
     )
     invoice_correction_credit_account_number: Optional[str] = Field(
-        None, title='Invoice Correction Credit Account Number'
+        None, title="Invoice Correction Credit Account Number"
     )
     invoice_correction_debit_account_number: Optional[str] = Field(
-        None, title='Invoice Correction Debit Account Number'
+        None, title="Invoice Correction Debit Account Number"
     )
 
 
 class InvoiceLineItem(BaseModel):
     description: Optional[str] = Field(
-        None, description='Line description', title='Description'
+        None, description="Line description", title="Description"
     )
     unit_price: float = Field(
-        ..., description='Unit price excl. taxes', title='Unit Price'
+        ..., description="Unit price excl. taxes", title="Unit Price"
     )
-    quantity: float = Field(..., description='Quantity', title='Quantity')
+    quantity: float = Field(..., description="Quantity", title="Quantity")
     discount_amount: Optional[float] = Field(
         0.0,
-        description='Line discount amount excl. taxes, (unit_price * quantity) - discount_amount = untaxed_amount',
-        title='Discount Amount',
+        description="Line discount amount excl. taxes, (unit_price * quantity) - discount_amount = untaxed_amount",
+        title="Discount Amount",
     )
     tax_amount: float = Field(
-        ..., description='Line total taxes amount', title='Tax Amount'
+        ..., description="Line total taxes amount", title="Tax Amount"
     )
     untaxed_amount: float = Field(
-        ..., description='Line total untaxed amount', title='Untaxed Amount'
+        ..., description="Line total untaxed amount", title="Untaxed Amount"
     )
     total: float = Field(
         ...,
-        description='Line total amount incl. taxes, total = tax_amount + untaxed_amount',
-        title='Total',
+        description="Line total amount incl. taxes, total = tax_amount + untaxed_amount",
+        title="Total",
     )
     tax_rate: Optional[float] = Field(
-        None, description='Tax rate (e.g. 21.0)', title='Tax Rate'
+        None, description="Tax rate (e.g. 21.0)", title="Tax Rate"
     )
     account_number: Optional[str] = Field(
         None,
-        description='Number of the accounting account used (e.g. 701000)',
-        title='Account Number',
+        description="Number of the accounting account used (e.g. 701000)",
+        title="Account Number",
     )
     tax_id: Optional[str] = Field(
-        None, description='Technical id of the tax in Chift', title='Tax Id'
+        None, description="Technical id of the tax in Chift", title="Tax Id"
     )
     tax_exemption_reason: Optional[str] = Field(
-        None, description='Tax exemption reason', title='Tax Exemption Reason'
+        None, description="Tax exemption reason", title="Tax Exemption Reason"
     )
     unit_of_measure: Optional[str] = Field(
         None,
-        description='Unit of measure matching target sofware name',
-        title='Unit Of Measure',
+        description="Unit of measure matching target sofware name",
+        title="Unit Of Measure",
     )
     product_id: Optional[str] = Field(
-        None, description='Technical id of the product in Chift', title='Product Id'
+        None, description="Technical id of the product in Chift", title="Product Id"
     )
     product_code: Optional[str] = Field(
-        None, description='Product reference', title='Product Code'
+        None, description="Product reference", title="Product Code"
     )
     product_name: Optional[str] = Field(
-        None, description='Product name', title='Product Name'
+        None, description="Product name", title="Product Name"
     )
 
 
 class InvoiceLineItemInMonoAnalyticPlan(BaseModel):
-    line_number: Optional[int] = Field(1, title='Line Number')
-    description: str = Field(..., title='Description')
-    unit_price: float = Field(..., title='Unit Price')
+    line_number: Optional[int] = Field(1, title="Line Number")
+    description: str = Field(..., title="Description")
+    unit_price: float = Field(..., title="Unit Price")
     unit_of_measure: Optional[str] = Field(
         None,
         description="A list of default units can be used for which an advanced mapping has been done (units: 'hour', 'day', 'cm', 'm2', 'm3', 'm', 'km', 'mile', 'g', 'kg', 'ton', 'box', 'pallet', 'roll', 'liter', 'unit'). Custom units of measure must have an identical name in the target software.",
-        title='Unit Of Measure',
+        title="Unit Of Measure",
     )
-    quantity: float = Field(..., title='Quantity')
-    untaxed_amount: float = Field(..., title='Untaxed Amount')
+    quantity: float = Field(..., title="Quantity")
+    untaxed_amount: float = Field(..., title="Untaxed Amount")
     tax_rate: float = Field(
         ...,
-        description='Indicates the tax rate used for the line (e.g. 21.0).',
-        title='Tax Rate',
+        description="Indicates the tax rate used for the line (e.g. 21.0).",
+        title="Tax Rate",
     )
-    tax_amount: float = Field(..., title='Tax Amount')
-    total: float = Field(..., title='Total')
+    tax_amount: float = Field(..., title="Tax Amount")
+    total: float = Field(..., title="Total")
     account_number: constr(min_length=1) = Field(
         ...,
-        description='Indicates the number of the account used for the line (e.g. 701000).',
-        title='Account Number',
+        description="Indicates the number of the account used for the line (e.g. 701000).",
+        title="Account Number",
     )
     tax_code: constr(min_length=1) = Field(
         ...,
-        description='Indicates the tax code used for the line. This is the ID of the Tax Code in the accounting software.',
-        title='Tax Code',
+        description="Indicates the tax code used for the line. This is the ID of the Tax Code in the accounting software.",
+        title="Tax Code",
     )
-    analytic_account: Optional[str] = Field(None, title='Analytic Account')
+    analytic_account: Optional[str] = Field(None, title="Analytic Account")
 
 
 class InvoiceLineItemOutMonoAnalyticPlan(BaseModel):
-    line_number: Optional[int] = Field(1, title='Line Number')
-    description: str = Field(..., title='Description')
-    unit_price: float = Field(..., title='Unit Price')
+    line_number: Optional[int] = Field(1, title="Line Number")
+    description: str = Field(..., title="Description")
+    unit_price: float = Field(..., title="Unit Price")
     unit_of_measure: Optional[str] = Field(
         None,
         description="A list of default units can be used for which an advanced mapping has been done (units: 'hour', 'day', 'cm', 'm2', 'm3', 'm', 'km', 'mile', 'g', 'kg', 'ton', 'box', 'pallet', 'roll', 'liter', 'unit'). Custom units of measure must have an identical name in the target software.",
-        title='Unit Of Measure',
+        title="Unit Of Measure",
     )
-    quantity: float = Field(..., title='Quantity')
-    untaxed_amount: float = Field(..., title='Untaxed Amount')
+    quantity: float = Field(..., title="Quantity")
+    untaxed_amount: float = Field(..., title="Untaxed Amount")
     tax_rate: float = Field(
         ...,
-        description='Indicates the tax rate used for the line (e.g. 21.0).',
-        title='Tax Rate',
+        description="Indicates the tax rate used for the line (e.g. 21.0).",
+        title="Tax Rate",
     )
-    tax_amount: float = Field(..., title='Tax Amount')
-    total: float = Field(..., title='Total')
+    tax_amount: float = Field(..., title="Tax Amount")
+    total: float = Field(..., title="Total")
     account_number: str = Field(
         ...,
-        description='Indicates the number of the account used for the line (e.g. 701000).',
-        title='Account Number',
+        description="Indicates the number of the account used for the line (e.g. 701000).",
+        title="Account Number",
     )
     tax_code: Optional[str] = Field(
         None,
-        description='Indicates the tax code used for the line. This is the ID of the Tax Code in the accounting software.',
-        title='Tax Code',
+        description="Indicates the tax code used for the line. This is the ID of the Tax Code in the accounting software.",
+        title="Tax Code",
     )
-    analytic_account: Optional[str] = Field(None, title='Analytic Account')
+    analytic_account: Optional[str] = Field(None, title="Analytic Account")
 
 
 class InvoiceStatus(Enum):
-    cancelled = 'cancelled'
-    draft = 'draft'
-    posted = 'posted'
-    paid = 'paid'
+    cancelled = "cancelled"
+    draft = "draft"
+    posted = "posted"
+    paid = "paid"
 
 
 class InvoiceStatusIn(Enum):
-    draft = 'draft'
-    posted = 'posted'
+    draft = "draft"
+    posted = "posted"
 
 
 class InvoiceStatusOut(Enum):
-    cancelled = 'cancelled'
-    draft = 'draft'
-    posted = 'posted'
-    paid = 'paid'
+    cancelled = "cancelled"
+    draft = "draft"
+    posted = "posted"
+    paid = "paid"
 
 
 class IssueItem(BaseModel):
-    id: str = Field(..., title='Id')
-    consumer_id: str = Field(..., title='Consumer Id')
-    connection_id: str = Field(..., title='Connection Id')
-    integration_id: int = Field(..., title='Integration Id')
-    integration_name: str = Field(..., title='Integration Name')
-    created_on: datetime = Field(..., title='Created On')
-    updated_on: datetime = Field(..., title='Updated On')
-    last_seen: datetime = Field(..., title='Last Seen')
+    id: str = Field(..., title="Id")
+    consumer_id: str = Field(..., title="Consumer Id")
+    connection_id: str = Field(..., title="Connection Id")
+    integration_id: int = Field(..., title="Integration Id")
+    integration_name: str = Field(..., title="Integration Name")
+    created_on: datetime = Field(..., title="Created On")
+    updated_on: datetime = Field(..., title="Updated On")
+    last_seen: datetime = Field(..., title="Last Seen")
     error: ErrorInfo
-    occurrences: int = Field(..., title='Occurrences')
+    occurrences: int = Field(..., title="Occurrences")
 
 
 class IssueStatus(Enum):
-    open = 'open'
-    closed = 'closed'
-    all = 'all'
+    open = "open"
+    closed = "closed"
+    all = "all"
 
 
 class JournalInType(Enum):
-    customer_invoice = 'customer_invoice'
-    customer_refund = 'customer_refund'
-    supplier_invoice = 'supplier_invoice'
-    supplier_refund = 'supplier_refund'
-    bank = 'bank'
-    cash = 'cash'
-    miscellaneous_operation = 'miscellaneous_operation'
+    customer_invoice = "customer_invoice"
+    customer_refund = "customer_refund"
+    supplier_invoice = "supplier_invoice"
+    supplier_refund = "supplier_refund"
+    bank = "bank"
+    cash = "cash"
+    miscellaneous_operation = "miscellaneous_operation"
 
 
 class JournalItemMonoAnalyticPlan(BaseModel):
-    account_number: constr(min_length=1) = Field(..., title='Account Number')
-    partner_id: Optional[str] = Field(None, title='Partner Id')
-    description: Optional[str] = Field(None, title='Description')
-    debit: float = Field(..., title='Debit')
-    credit: float = Field(..., title='Credit')
-    currency: constr(min_length=1) = Field(..., title='Currency')
-    currency_exchange_rate: Optional[float] = Field(1, title='Currency Exchange Rate')
-    id: str = Field(..., title='Id')
-    partner_name: Optional[str] = Field(None, title='Partner Name')
-    account_name: str = Field(..., title='Account Name')
-    matching_numbers: Optional[List[str]] = Field([], title='Matching Numbers')
-    analytic_account: Optional[str] = Field(None, title='Analytic Account')
-    analytic_account_name: Optional[str] = Field(None, title='Analytic Account Name')
+    account_number: constr(min_length=1) = Field(..., title="Account Number")
+    partner_id: Optional[str] = Field(None, title="Partner Id")
+    description: Optional[str] = Field(None, title="Description")
+    debit: float = Field(..., title="Debit")
+    credit: float = Field(..., title="Credit")
+    currency: constr(min_length=1) = Field(..., title="Currency")
+    currency_exchange_rate: Optional[float] = Field(1, title="Currency Exchange Rate")
+    id: str = Field(..., title="Id")
+    partner_name: Optional[str] = Field(None, title="Partner Name")
+    account_name: str = Field(..., title="Account Name")
+    matching_numbers: Optional[List[str]] = Field([], title="Matching Numbers")
+    analytic_account: Optional[str] = Field(None, title="Analytic Account")
+    analytic_account_name: Optional[str] = Field(None, title="Analytic Account Name")
 
 
 class JournalType(Enum):
-    customer_invoice = 'customer_invoice'
-    customer_refund = 'customer_refund'
-    supplier_invoice = 'supplier_invoice'
-    supplier_refund = 'supplier_refund'
-    financial_operation = 'financial_operation'
-    miscellaneous_operation = 'miscellaneous_operation'
-    unknown = 'unknown'
+    customer_invoice = "customer_invoice"
+    customer_refund = "customer_refund"
+    supplier_invoice = "supplier_invoice"
+    supplier_refund = "supplier_refund"
+    financial_operation = "financial_operation"
+    miscellaneous_operation = "miscellaneous_operation"
+    unknown = "unknown"
 
 
 class LedgerAccountItemIn(BaseModel):
-    name: constr(min_length=1) = Field(..., title='Name')
-    number: constr(min_length=3) = Field(..., title='Number')
+    name: constr(min_length=1) = Field(..., title="Name")
+    number: constr(min_length=3) = Field(..., title="Number")
 
 
 class LinkItem(BaseModel):
-    url: str = Field(..., title='Url')
+    url: str = Field(..., title="Url")
 
 
 class LinkSyncItem(BaseModel):
-    url: str = Field(..., title='Url')
+    url: str = Field(..., title="Url")
 
 
 class LocalAgentStatus(Enum):
-    up = 'up'
-    down = 'down'
+    up = "up"
+    down = "down"
 
 
 class LogoImage(BaseModel):
-    integrationid: str = Field(..., title='Integrationid')
-    data: str = Field(..., title='Data')
+    integrationid: str = Field(..., title="Integrationid")
+    data: str = Field(..., title="Data")
 
 
 class MatchingIn(BaseModel):
-    entries: List[str] = Field(..., title='Entries')
-    partner_id: str = Field(..., title='Partner Id')
+    entries: List[str] = Field(..., title="Entries")
+    partner_id: str = Field(..., title="Partner Id")
 
 
 class MatchingOut(BaseModel):
-    matching_number: str = Field(..., title='Matching Number')
-    balance: float = Field(..., title='Balance')
+    matching_number: str = Field(..., title="Matching Number")
+    balance: float = Field(..., title="Balance")
 
 
 class MiscellaneousOperationLineType(Enum):
-    customer_account = 'customer_account'
-    supplier_account = 'supplier_account'
-    general_account = 'general_account'
+    customer_account = "customer_account"
+    supplier_account = "supplier_account"
+    general_account = "general_account"
 
 
 class MiscellaneousOperationStatusIn(Enum):
-    draft = 'draft'
-    posted = 'posted'
+    draft = "draft"
+    posted = "posted"
 
 
 class MiscellaneousOperationStatusOut(Enum):
-    cancelled = 'cancelled'
-    draft = 'draft'
-    posted = 'posted'
-    matched = 'matched'
+    cancelled = "cancelled"
+    draft = "draft"
+    posted = "posted"
+    matched = "matched"
 
 
 class MultipleMatchingIn(BaseModel):
-    matchings: List[MatchingIn] = Field(..., title='Matchings')
+    matchings: List[MatchingIn] = Field(..., title="Matchings")
 
 
 class MultipleMatchingOut(BaseModel):
-    matching_number: Optional[str] = Field(None, title='Matching Number')
-    processed: bool = Field(..., title='Processed')
-    error_msg: Optional[Dict[str, Any]] = Field(None, title='Error Msg')
+    matching_number: Optional[str] = Field(None, title="Matching Number")
+    processed: bool = Field(..., title="Processed")
+    error_msg: Optional[Dict[str, Any]] = Field(None, title="Error Msg")
 
 
 class NextDocumentNumber(BaseModel):
-    bookyear_name: Optional[str] = Field(None, title='Bookyear Name')
-    next_document_number: Optional[str] = Field(None, title='Next Document Number')
-    start_date: Optional[date] = Field(None, title='Start Date')
-    end_date: Optional[date] = Field(None, title='End Date')
+    bookyear_name: Optional[str] = Field(None, title="Bookyear Name")
+    next_document_number: Optional[str] = Field(None, title="Next Document Number")
+    start_date: Optional[date] = Field(None, title="Start Date")
+    end_date: Optional[date] = Field(None, title="End Date")
 
 
 class ObjectivesItem(BaseModel):
     total: float = Field(
         ...,
-        description='Total amount including tax of the sales',
+        description="Total amount including tax of the sales",
         example=10,
-        title='Total',
+        title="Total",
     )
     tax_amount: float = Field(
-        ..., description='Total amount of the taxes', example=1, title='Tax Amount'
+        ..., description="Total amount of the taxes", example=1, title="Tax Amount"
     )
 
 
 class OpportunityStatus(Enum):
-    open = 'open'
-    won = 'won'
-    lost = 'lost'
-    cancelled = 'cancelled'
-    closed = 'closed'
+    open = "open"
+    won = "won"
+    lost = "lost"
+    cancelled = "cancelled"
+    closed = "closed"
 
 
 class OrderCustomerItem(BaseModel):
-    first_name: Optional[str] = Field(None, title='First Name')
-    last_name: Optional[str] = Field(None, title='Last Name')
-    phone: Optional[str] = Field(None, title='Phone')
-    internal_notes: Optional[str] = Field(None, title='Internal Notes')
-    email: str = Field(..., title='Email')
+    first_name: Optional[str] = Field(None, title="First Name")
+    last_name: Optional[str] = Field(None, title="Last Name")
+    phone: Optional[str] = Field(None, title="Phone")
+    internal_notes: Optional[str] = Field(None, title="Internal Notes")
+    email: str = Field(..., title="Email")
 
 
 class OrderCustomerItemOut(BaseModel):
-    first_name: Optional[str] = Field(None, title='First Name')
-    last_name: Optional[str] = Field(None, title='Last Name')
-    phone: Optional[str] = Field(None, title='Phone')
-    internal_notes: Optional[str] = Field(None, title='Internal Notes')
-    email: Optional[str] = Field(None, title='Email')
+    first_name: Optional[str] = Field(None, title="First Name")
+    last_name: Optional[str] = Field(None, title="Last Name")
+    phone: Optional[str] = Field(None, title="Phone")
+    internal_notes: Optional[str] = Field(None, title="Internal Notes")
+    email: Optional[str] = Field(None, title="Email")
     id: str = Field(
-        ..., description='Technical id of the customer in Chift', title='Id'
+        ..., description="Technical id of the customer in Chift", title="Id"
     )
 
 
 class OrderLineItemIn(BaseModel):
     variant_id: str = Field(
         ...,
-        description='Technical id of the product variant in Chift',
-        title='Variant Id',
+        description="Technical id of the product variant in Chift",
+        title="Variant Id",
     )
-    quantity: int = Field(..., title='Quantity')
+    quantity: int = Field(..., title="Quantity")
     tax_rate: float = Field(
         ...,
-        description='Indicates the tax rate used for the line (e.g. 21.0).',
-        title='Tax Rate',
+        description="Indicates the tax rate used for the line (e.g. 21.0).",
+        title="Tax Rate",
     )
     unit_price: float = Field(
-        ..., description='Unit price of the product without taxes.', title='Unit Price'
+        ..., description="Unit price of the product without taxes.", title="Unit Price"
     )
 
 
 class OrderPaymentMethods(BaseModel):
     id: str = Field(
         ...,
-        description='Technical id of the payment method in the eCommerce',
-        title='Id',
+        description="Technical id of the payment method in the eCommerce",
+        title="Id",
     )
     name: Optional[str] = Field(
-        None, description='Name of the payment method', title='Name'
+        None, description="Name of the payment method", title="Name"
     )
 
 
 class OrderStatus(Enum):
-    cancelled_unpaid = 'cancelled_unpaid'
-    cancelled = 'cancelled'
-    draft = 'draft'
-    confirmed = 'confirmed'
-    shipped = 'shipped'
-    refunded = 'refunded'
+    cancelled_unpaid = "cancelled_unpaid"
+    cancelled = "cancelled"
+    draft = "draft"
+    confirmed = "confirmed"
+    shipped = "shipped"
+    refunded = "refunded"
 
 
 class OriginalOutstandingItem(BaseModel):
-    id: Optional[str] = Field(None, title='Id')
-    number: Optional[str] = Field(None, title='Number')
-    journal_id: Optional[str] = Field(None, title='Journal Id')
+    id: Optional[str] = Field(None, title="Id")
+    number: Optional[str] = Field(None, title="Number")
+    journal_id: Optional[str] = Field(None, title="Journal Id")
     journal_type: Optional[JournalType] = None
-    date: Optional[date] = Field(None, title='Date')
-    due_date: Optional[date] = Field(None, title='Due Date')
-    reference: Optional[str] = Field(None, title='Reference')
+    date: Optional[date] = Field(None, title="Date")
+    due_date: Optional[date] = Field(None, title="Due Date")
+    reference: Optional[str] = Field(None, title="Reference")
 
 
 class OutstandingItem(BaseModel):
-    id: str = Field(..., title='Id')
-    number: Optional[str] = Field(None, title='Number')
-    journal_id: str = Field(..., title='Journal Id')
+    id: str = Field(..., title="Id")
+    number: Optional[str] = Field(None, title="Number")
+    journal_id: str = Field(..., title="Journal Id")
     journal_type: JournalType
-    date: date = Field(..., title='Date')
-    due_date: Optional[date] = Field(None, title='Due Date')
-    currency: str = Field(..., title='Currency')
-    currency_exchange_rate: float = Field(..., title='Currency Exchange Rate')
-    amount: float = Field(..., title='Amount')
-    open_amount: float = Field(..., title='Open Amount')
-    partner_id: str = Field(..., title='Partner Id')
-    account_number: str = Field(..., title='Account Number')
-    reference: Optional[str] = Field(None, title='Reference')
-    matching_numbers: Optional[List[str]] = Field([], title='Matching Numbers')
-    payment_communication: Optional[str] = Field(None, title='Payment Communication')
-    posted: bool = Field(..., title='Posted')
+    date: date = Field(..., title="Date")
+    due_date: Optional[date] = Field(None, title="Due Date")
+    currency: str = Field(..., title="Currency")
+    currency_exchange_rate: float = Field(..., title="Currency Exchange Rate")
+    amount: float = Field(..., title="Amount")
+    open_amount: float = Field(..., title="Open Amount")
+    partner_id: str = Field(..., title="Partner Id")
+    account_number: str = Field(..., title="Account Number")
+    reference: Optional[str] = Field(None, title="Reference")
+    matching_numbers: Optional[List[str]] = Field([], title="Matching Numbers")
+    payment_communication: Optional[str] = Field(None, title="Payment Communication")
+    posted: bool = Field(..., title="Posted")
     original_document: Optional[OriginalOutstandingItem] = None
 
 
 class OutstandingType(Enum):
-    client = 'client'
-    supplier = 'supplier'
+    client = "client"
+    supplier = "supplier"
 
 
 class PMSLocationItem(BaseModel):
     id: str = Field(
         ...,
-        description='Unique identifier of the location',
-        example='371ca583-d218-4900-b236-397532cf0e52',
-        title='Id',
+        description="Unique identifier of the location",
+        example="371ca583-d218-4900-b236-397532cf0e52",
+        title="Id",
     )
     name: str = Field(
         ...,
-        description='Name given to the location',
-        example='Restaurant de la Paix',
-        title='Name',
+        description="Name given to the location",
+        example="Restaurant de la Paix",
+        title="Name",
     )
     timezone: Optional[str] = Field(
         None,
-        description='Indicates the timezone of the location. TZ notation, e.g. Europe/Brussels .',
-        example='Europe/Paris',
-        title='Timezone',
+        description="Indicates the timezone of the location. TZ notation, e.g. Europe/Brussels .",
+        example="Europe/Paris",
+        title="Timezone",
     )
     address: Optional[AddressItem] = Field(
-        None, description='Address of the location', title='Address'
+        None, description="Address of the location", title="Address"
     )
 
 
 class PMSStates(Enum):
-    consumed = 'consumed'
-    closed = 'closed'
+    consumed = "consumed"
+    closed = "closed"
 
 
 class POSCustomerItem(BaseModel):
     id: str = Field(
         ...,
-        description='Unique identifier of the customer',
-        example='371ca583-d218-8000-b236-397532cf0e52',
-        title='Id',
+        description="Unique identifier of the customer",
+        example="371ca583-d218-8000-b236-397532cf0e52",
+        title="Id",
     )
     first_name: Optional[str] = Field(
         None,
-        description='First name of the customer',
-        example='John',
-        title='First Name',
+        description="First name of the customer",
+        example="John",
+        title="First Name",
     )
     last_name: Optional[str] = Field(
-        None, description='Last name of the customer', example='Doe', title='Last Name'
+        None, description="Last name of the customer", example="Doe", title="Last Name"
     )
     name: str = Field(
         ...,
-        description='Name (first name + last name) of the customer',
-        example='John Doe',
-        title='Name',
+        description="Name (first name + last name) of the customer",
+        example="John Doe",
+        title="Name",
     )
     phone: Optional[str] = Field(
         None,
-        description='Phone number (mobile, home, work, ...) of the customer',
-        example='+32475123456',
-        title='Phone',
+        description="Phone number (mobile, home, work, ...) of the customer",
+        example="+32475123456",
+        title="Phone",
     )
     email: Optional[str] = Field(
         None,
-        description='Email address of the customer',
-        example='john.doe@gmail.com',
-        title='Email',
+        description="Email address of the customer",
+        example="john.doe@gmail.com",
+        title="Email",
     )
     created_on: Optional[datetime] = Field(
         None,
-        description='Date and time when the customer was created',
-        example='2025-01-01T00:00:00Z',
-        title='Created On',
+        description="Date and time when the customer was created",
+        example="2025-01-01T00:00:00Z",
+        title="Created On",
     )
     addresses: Optional[List[AddressItem]] = Field(
-        [], description='List of addresses of the customer', title='Addresses'
+        [], description="List of addresses of the customer", title="Addresses"
     )
     loyalty: Optional[int] = Field(
-        None, description='Loyalty points of the customer', example=100, title='Loyalty'
+        None, description="Loyalty points of the customer", example=100, title="Loyalty"
     )
     birthdate: Optional[date] = Field(
         None,
-        description='Birthdate of the customer',
-        example='1990-01-01',
-        title='Birthdate',
+        description="Birthdate of the customer",
+        example="1990-01-01",
+        title="Birthdate",
     )
 
 
 class POSLineItemType(Enum):
-    menu = 'menu'
-    product = 'product'
+    menu = "menu"
+    product = "product"
 
 
 class POSLocationItem(BaseModel):
     id: str = Field(
         ...,
-        description='Unique identifier of the location',
-        example='371ca583-d218-4900-b236-397532cf0e52',
-        title='Id',
+        description="Unique identifier of the location",
+        example="371ca583-d218-4900-b236-397532cf0e52",
+        title="Id",
     )
     name: str = Field(
         ...,
-        description='Name given to the location',
-        example='Restaurant de la Paix',
-        title='Name',
+        description="Name given to the location",
+        example="Restaurant de la Paix",
+        title="Name",
     )
     timezone: Optional[str] = Field(
         None,
-        description='Indicates the timezone of the location. TZ notation, e.g. Europe/Brussels .',
-        example='Europe/Paris',
-        title='Timezone',
+        description="Indicates the timezone of the location. TZ notation, e.g. Europe/Brussels .",
+        example="Europe/Paris",
+        title="Timezone",
     )
     address: Optional[AddressItem] = Field(
-        None, description='Address of the location', title='Address'
+        None, description="Address of the location", title="Address"
     )
 
 
 class PartnerType(Enum):
-    owner = 'owner'
-    account = 'account'
+    owner = "owner"
+    account = "account"
 
 
 class Payment(BaseModel):
-    id: str = Field(..., title='Id')
-    name: str = Field(..., title='Name')
-    currency: str = Field(..., title='Currency')
+    id: str = Field(..., title="Id")
+    name: str = Field(..., title="Name")
+    currency: str = Field(..., title="Currency")
     amount: float = Field(
         ...,
-        description='Total amount of the payment. A part of this amount could be reconciled with another invoice.',
-        title='Amount',
+        description="Total amount of the payment. A part of this amount could be reconciled with another invoice.",
+        title="Amount",
     )
     dedicated_amount: Optional[float] = Field(
         0,
         description="Amount of the payment dedicated to the invoice. Zero the accounting software doesn't provide the information.",
-        title='Dedicated Amount',
+        title="Dedicated Amount",
     )
-    payment_date: date = Field(..., title='Payment Date')
+    payment_date: date = Field(..., title="Payment Date")
     journal_type: JournalType
-    journal_id: str = Field(..., title='Journal Id')
-    journal_name: str = Field(..., title='Journal Name')
-    reconciled: Optional[bool] = Field(False, title='Reconciled')
-    communication: Optional[str] = Field(None, title='Communication')
-    matching_number: Optional[str] = Field(None, title='Matching Number')
+    journal_id: str = Field(..., title="Journal Id")
+    journal_name: str = Field(..., title="Journal Name")
+    reconciled: Optional[bool] = Field(False, title="Reconciled")
+    communication: Optional[str] = Field(None, title="Communication")
+    matching_number: Optional[str] = Field(None, title="Matching Number")
 
 
 class PaymentMethods(BaseModel):
     id: str = Field(
         ...,
-        description='Unique identifier of the payment method',
-        example='371ca583-d218-4900-b236-397532cf0e52',
-        title='Id',
+        description="Unique identifier of the payment method",
+        example="371ca583-d218-4900-b236-397532cf0e52",
+        title="Id",
     )
     name: str = Field(
         ...,
         description="Chift's name of the payment method (e.g. 'Cash', 'Card', 'Transfer', ...)",
-        example='Cash',
-        title='Name',
+        example="Cash",
+        title="Name",
     )
     extra: Optional[str] = Field(
         None,
-        description='Original name of the payment method',
-        example='Espèces',
-        title='Extra',
+        description="Original name of the payment method",
+        example="Espèces",
+        title="Extra",
     )
 
 
 class PaymentReportingConditions(Enum):
-    TP01 = 'TP01'
-    TP02 = 'TP02'
-    TP03 = 'TP03'
+    TP01 = "TP01"
+    TP02 = "TP02"
+    TP03 = "TP03"
 
 
 class PaymentReportingMethod(Enum):
-    MP01 = 'MP01'
-    MP02 = 'MP02'
-    MP03 = 'MP03'
-    MP04 = 'MP04'
-    MP05 = 'MP05'
-    MP06 = 'MP06'
-    MP07 = 'MP07'
-    MP08 = 'MP08'
-    MP09 = 'MP09'
-    MP10 = 'MP10'
-    MP11 = 'MP11'
-    MP12 = 'MP12'
-    MP13 = 'MP13'
-    MP14 = 'MP14'
-    MP15 = 'MP15'
-    MP16 = 'MP16'
-    MP17 = 'MP17'
-    MP18 = 'MP18'
-    MP19 = 'MP19'
-    MP20 = 'MP20'
-    MP21 = 'MP21'
-    MP22 = 'MP22'
-    MP23 = 'MP23'
+    MP01 = "MP01"
+    MP02 = "MP02"
+    MP03 = "MP03"
+    MP04 = "MP04"
+    MP05 = "MP05"
+    MP06 = "MP06"
+    MP07 = "MP07"
+    MP08 = "MP08"
+    MP09 = "MP09"
+    MP10 = "MP10"
+    MP11 = "MP11"
+    MP12 = "MP12"
+    MP13 = "MP13"
+    MP14 = "MP14"
+    MP15 = "MP15"
+    MP16 = "MP16"
+    MP17 = "MP17"
+    MP18 = "MP18"
+    MP19 = "MP19"
+    MP20 = "MP20"
+    MP21 = "MP21"
+    MP22 = "MP22"
+    MP23 = "MP23"
 
 
 class PaymentTermAccountInfo(BaseModel):
-    amount: float = Field(..., title='Amount')
-    iban: str = Field(..., title='Iban')
+    amount: float = Field(..., title="Amount")
+    iban: str = Field(..., title="Iban")
 
 
 class PostAddressItem(BaseModel):
     name: constr(min_length=1) = Field(
         ...,
         description="Name given to the address (e.g. 'home')",
-        example='home',
-        title='Name',
+        example="home",
+        title="Name",
     )
     street: Optional[str] = Field(
         None,
-        description='Street name',
-        example='Avenue de la République',
-        title='Street',
+        description="Street name",
+        example="Avenue de la République",
+        title="Street",
     )
     number: Optional[str] = Field(
-        None, description='Number of the address', example='123', title='Number'
+        None, description="Number of the address", example="123", title="Number"
     )
     box: Optional[str] = Field(
-        None, description='Box of the address', example='A', title='Box'
+        None, description="Box of the address", example="A", title="Box"
     )
     city: constr(min_length=1) = Field(
-        ..., description='City name', example='Paris', title='City'
+        ..., description="City name", example="Paris", title="City"
     )
     postal_code: constr(min_length=1) = Field(
         ...,
-        description='Postal code of the address',
-        example='75000',
-        title='Postal Code',
+        description="Postal code of the address",
+        example="75000",
+        title="Postal Code",
     )
     country: Optional[str] = Field(
         None,
-        description='Country, format: ISO 3166-1 codes.',
-        example='FR',
-        title='Country',
+        description="Country, format: ISO 3166-1 codes.",
+        example="FR",
+        title="Country",
     )
 
 
 class PostConsumerItem(BaseModel):
-    name: constr(min_length=1, max_length=255) = Field(..., title='Name')
-    email: Optional[constr(max_length=80)] = Field(None, title='Email')
+    name: constr(min_length=1, max_length=255) = Field(..., title="Name")
+    email: Optional[constr(max_length=80)] = Field(None, title="Email")
     internal_reference: Optional[constr(max_length=255)] = Field(
-        None, title='Internal Reference'
+        None, title="Internal Reference"
     )
-    redirect_url: Optional[constr(max_length=255)] = Field(None, title='Redirect Url')
+    redirect_url: Optional[constr(max_length=255)] = Field(None, title="Redirect Url")
 
 
 class PostSyncFlowEvent(BaseModel):
-    consumers: Optional[List[UUID]] = Field([], title='Consumers')
-    data: Optional[Dict[str, Any]] = Field({}, title='Data')
+    consumers: Optional[List[UUID]] = Field([], title="Consumers")
+    data: Optional[Dict[str, Any]] = Field({}, title="Data")
 
 
 class ProductCostItem(BaseModel):
-    amount: float = Field(..., title='Amount')
-    currency: str = Field(..., title='Currency')
+    amount: float = Field(..., title="Amount")
+    currency: str = Field(..., title="Currency")
 
 
 class ProductStatus(Enum):
-    unknown = 'unknown'
-    archived = 'archived'
-    unpublished = 'unpublished'
-    published = 'published'
+    unknown = "unknown"
+    archived = "archived"
+    unpublished = "unpublished"
+    published = "published"
 
 
 class ReadMappingItem(BaseModel):
-    source_id: str = Field(..., title='Source Id')
-    target_id: str = Field(..., title='Target Id')
+    source_id: str = Field(..., title="Source Id")
+    target_id: str = Field(..., title="Target Id")
 
 
 class ReadSyncMappingItem(BaseModel):
-    name: str = Field(..., title='Name')
-    description: Optional[str] = Field(None, title='Description')
-    display_order: Optional[int] = Field(0, title='Display Order')
-    challenge_question: Optional[str] = Field(None, title='Challenge Question')
-    values: List[ReadMappingItem] = Field(..., title='Values')
-    sub_mapping_name: str = Field(..., title='Sub Mapping Name')
+    name: str = Field(..., title="Name")
+    description: Optional[str] = Field(None, title="Description")
+    display_order: Optional[int] = Field(0, title="Display Order")
+    challenge_question: Optional[str] = Field(None, title="Challenge Question")
+    values: List[ReadMappingItem] = Field(..., title="Values")
+    sub_mapping_name: str = Field(..., title="Sub Mapping Name")
     sub_mapping_description: Optional[str] = Field(
-        None, title='Sub Mapping Description'
+        None, title="Sub Mapping Description"
     )
 
 
 class Ref(BaseModel):
     id: Optional[str] = Field(
-        None, description='Technical id in the target software', title='Id'
+        None, description="Technical id in the target software", title="Id"
     )
     model: Optional[str] = Field(
         None,
-        description='Name of the model/entity in the target software',
-        title='Model',
+        description="Name of the model/entity in the target software",
+        title="Model",
     )
 
 
 class RefundFeesItem(BaseModel):
-    id: str = Field(..., description='Technical id of the fee in Chift', title='Id')
+    id: str = Field(..., description="Technical id of the fee in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
     type: FeesType
-    untaxed_amount: float = Field(..., title='Untaxed Amount')
-    tax_amount: float = Field(..., title='Tax Amount')
-    total: float = Field(..., title='Total')
+    untaxed_amount: float = Field(..., title="Untaxed Amount")
+    tax_amount: float = Field(..., title="Tax Amount")
+    total: float = Field(..., title="Total")
 
 
 class ReturnFeesItem(BaseModel):
-    id: str = Field(..., description='Technical id of the fee in Chift', title='Id')
+    id: str = Field(..., description="Technical id of the fee in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
     type: FeesType
-    untaxed_amount: float = Field(..., title='Untaxed Amount')
-    tax_amount: float = Field(..., title='Tax Amount')
-    total: float = Field(..., title='Total')
+    untaxed_amount: float = Field(..., title="Untaxed Amount")
+    tax_amount: float = Field(..., title="Tax Amount")
+    total: float = Field(..., title="Total")
 
 
 class ShippingRefund(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
     untaxed_amount: float = Field(
         ...,
-        description='Untaxed amount refunded (after discount).',
-        title='Untaxed Amount',
+        description="Untaxed amount refunded (after discount).",
+        title="Untaxed Amount",
     )
     tax_amount: float = Field(
-        ..., description='Total taxes refunded (after discount).', title='Tax Amount'
+        ..., description="Total taxes refunded (after discount).", title="Tax Amount"
     )
     total: float = Field(
-        ..., description='Total refunded (after discount).', title='Total'
+        ..., description="Total refunded (after discount).", title="Total"
     )
 
 
 class States(Enum):
-    open = 'open'
-    closed = 'closed'
-    all = 'all'
+    open = "open"
+    closed = "closed"
+    all = "all"
 
 
 class SyncConsumerStatus(Enum):
-    active = 'active'
-    inactive = 'inactive'
+    active = "active"
+    inactive = "inactive"
 
 
 class TaxRateItem(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
-    label: str = Field(..., title='Label')
-    rate: float = Field(..., title='Rate')
-    country: Optional[str] = Field(None, title='Country')
+    label: str = Field(..., title="Label")
+    rate: float = Field(..., title="Rate")
+    country: Optional[str] = Field(None, title="Country")
 
 
 class Token(BaseModel):
-    access_token: str = Field(..., title='Access Token')
-    token_type: str = Field(..., title='Token Type')
-    expires_in: int = Field(..., title='Expires In')
-    expires_on: int = Field(..., title='Expires On')
+    access_token: str = Field(..., title="Access Token")
+    token_type: str = Field(..., title="Token Type")
+    expires_in: int = Field(..., title="Expires In")
+    expires_on: int = Field(..., title="Expires On")
 
 
 class TotalTaxItem(BaseModel):
-    tax_rate: float = Field(..., description='Tax rate', example='10', title='Tax Rate')
+    tax_rate: float = Field(..., description="Tax rate", example="10", title="Tax Rate")
     tax_amount: float = Field(
-        ..., description='Tax amount', example='1', title='Tax Amount'
+        ..., description="Tax amount", example="1", title="Tax Amount"
     )
     total: float = Field(
-        ..., description='Total amount including tax', example='11', title='Total'
+        ..., description="Total amount including tax", example="11", title="Total"
     )
 
 
 class TransactionAccountingCategory(Enum):
-    all = 'all'
-    unknown = 'unknown'
-    payout = 'payout'
-    payout_cancel = 'payout_cancel'
-    payment = 'payment'
-    payment_cancel = 'payment_cancel'
-    fee = 'fee'
-    fee_cancel = 'fee_cancel'
-    invoice = 'invoice'
+    all = "all"
+    unknown = "unknown"
+    payout = "payout"
+    payout_cancel = "payout_cancel"
+    payment = "payment"
+    payment_cancel = "payment_cancel"
+    fee = "fee"
+    fee_cancel = "fee_cancel"
+    invoice = "invoice"
 
 
 class TransactionFilterDateType(Enum):
-    value_date = 'value_date'
-    execution_date = 'execution_date'
+    value_date = "value_date"
+    execution_date = "execution_date"
 
 
 class TransactionItemOut(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
-    total: float = Field(..., description='Total amount incl. fee', title='Total')
-    fee: float = Field(..., description='Total fee', title='Fee')
-    currency: str = Field(..., description='Currency', title='Currency')
+    total: float = Field(..., description="Total amount incl. fee", title="Total")
+    fee: float = Field(..., description="Total fee", title="Fee")
+    currency: str = Field(..., description="Currency", title="Currency")
     exchange_rate: float = Field(
-        ..., description='Exchange rate', title='Exchange Rate'
+        ..., description="Exchange rate", title="Exchange Rate"
     )
-    create_date: datetime = Field(..., description='Create Date', title='Create Date')
+    create_date: datetime = Field(..., description="Create Date", title="Create Date")
     application_type: str = Field(
         ...,
-        description='Type of the transaction as recorded in the target software',
-        title='Application Type',
+        description="Type of the transaction as recorded in the target software",
+        title="Application Type",
     )
     accounting_category: TransactionAccountingCategory = Field(
-        ..., description='Accounting category'
+        ..., description="Accounting category"
     )
-    refund_id: Optional[str] = Field(None, title='Refund Id')
-    payment_id: Optional[str] = Field(None, title='Payment Id')
+    refund_id: Optional[str] = Field(None, title="Refund Id")
+    payment_id: Optional[str] = Field(None, title="Payment Id")
 
 
 class TransactionStatus(Enum):
-    failed = 'failed'
-    pending = 'pending'
-    success = 'success'
+    failed = "failed"
+    pending = "pending"
+    success = "success"
 
 
 class TriggerResponse(BaseModel):
-    status: str = Field(..., title='Status')
-    message: str = Field(..., title='Message')
-    data: Optional[Dict[str, Any]] = Field(None, title='Data')
+    status: str = Field(..., title="Status")
+    message: str = Field(..., title="Message")
+    data: Optional[Dict[str, Any]] = Field(None, title="Data")
 
 
 class TriggerType(Enum):
-    timer = 'timer'
-    event = 'event'
+    timer = "timer"
+    event = "event"
 
 
 class UpdateConsumerItem(BaseModel):
-    name: Optional[constr(max_length=255)] = Field(None, title='Name')
-    email: Optional[constr(max_length=80)] = Field(None, title='Email')
+    name: Optional[constr(max_length=255)] = Field(None, title="Name")
+    email: Optional[constr(max_length=80)] = Field(None, title="Email")
     internal_reference: Optional[constr(max_length=255)] = Field(
-        None, title='Internal Reference'
+        None, title="Internal Reference"
     )
-    redirect_url: Optional[constr(max_length=255)] = Field(None, title='Redirect Url')
+    redirect_url: Optional[constr(max_length=255)] = Field(None, title="Redirect Url")
 
 
 class UpdateFlowConsumer(BaseModel):
-    triggerid: Optional[str] = Field('trigger-1', title='Triggerid')
+    triggerid: Optional[str] = Field("trigger-1", title="Triggerid")
     data: Optional[Dict[str, Any]] = Field(
         {},
-        description='Object containing the configuration of the flow for the consumer',
-        title='Data',
+        description="Object containing the configuration of the flow for the consumer",
+        title="Data",
     )
 
 
 class UpdateOrderItem(BaseModel):
     customer_id: Optional[str] = Field(
         None,
-        description='Unique identifier of the customer',
-        example='371ca583-d218-4900-b236-397532cf0e52',
-        title='Customer Id',
+        description="Unique identifier of the customer",
+        example="371ca583-d218-4900-b236-397532cf0e52",
+        title="Customer Id",
     )
 
 
 class ValidationError(BaseModel):
-    loc: List[Union[str, int]] = Field(..., title='Location')
-    msg: str = Field(..., title='Message')
-    type: str = Field(..., title='Error Type')
+    loc: List[Union[str, int]] = Field(..., title="Location")
+    msg: str = Field(..., title="Message")
+    type: str = Field(..., title="Error Type")
 
 
 class VariantAttributeItem(BaseModel):
-    name: str = Field(..., title='Name')
-    value: str = Field(..., title='Value')
+    name: str = Field(..., title="Name")
+    value: str = Field(..., title="Value")
 
 
 class VariantAttributeOptionItem(BaseModel):
-    name: str = Field(..., title='Name')
-    values: List[str] = Field(..., title='Values')
+    name: str = Field(..., title="Name")
+    values: List[str] = Field(..., title="Values")
 
 
 class WebhookInstancePostItem(BaseModel):
-    event: constr(max_length=80) = Field(..., title='Event')
-    url: constr(max_length=500) = Field(..., title='Url')
-    signingsecret: Optional[constr(max_length=100)] = Field(None, title='Signingsecret')
+    event: constr(max_length=80) = Field(..., title="Event")
+    url: constr(max_length=500) = Field(..., title="Url")
+    signingsecret: Optional[constr(max_length=100)] = Field(None, title="Signingsecret")
     integrationid: Optional[int] = Field(
         None,
-        description='Can be used to specify the integration code of a specific connector. This is mandatory in case you create a webhook related to a specific One API.',
-        title='Integrationid',
+        description="Can be used to specify the integration code of a specific connector. This is mandatory in case you create a webhook related to a specific One API.",
+        title="Integrationid",
     )
 
 
 class WebhookItem(BaseModel):
-    event: str = Field(..., title='Event')
-    api: Optional[str] = Field(None, title='Api')
+    event: str = Field(..., title="Event")
+    api: Optional[str] = Field(None, title="Api")
 
 
 class WebhookLogItem(BaseModel):
-    webhooklogid: UUID = Field(..., title='Webhooklogid')
-    webhookid: UUID = Field(..., title='Webhookid')
-    event: str = Field(..., title='Event')
-    url: str = Field(..., title='Url')
-    accountid: str = Field(..., title='Accountid')
-    createdon: datetime = Field(..., title='Createdon')
-    httpstatus: int = Field(..., title='Httpstatus')
-    integrationid: Optional[int] = Field(None, title='Integrationid')
+    webhooklogid: UUID = Field(..., title="Webhooklogid")
+    webhookid: UUID = Field(..., title="Webhookid")
+    event: str = Field(..., title="Event")
+    url: str = Field(..., title="Url")
+    accountid: str = Field(..., title="Accountid")
+    createdon: datetime = Field(..., title="Createdon")
+    httpstatus: int = Field(..., title="Httpstatus")
+    integrationid: Optional[int] = Field(None, title="Integrationid")
 
 
 class WelfareFundType(Enum):
-    TC01 = 'TC01'
-    TC02 = 'TC02'
-    TC03 = 'TC03'
-    TC04 = 'TC04'
-    TC05 = 'TC05'
-    TC06 = 'TC06'
-    TC07 = 'TC07'
-    TC08 = 'TC08'
-    TC09 = 'TC09'
-    TC10 = 'TC10'
-    TC11 = 'TC11'
-    TC12 = 'TC12'
-    TC13 = 'TC13'
-    TC14 = 'TC14'
-    TC15 = 'TC15'
-    TC16 = 'TC16'
-    TC17 = 'TC17'
-    TC18 = 'TC18'
-    TC19 = 'TC19'
-    TC20 = 'TC20'
-    TC21 = 'TC21'
-    TC22 = 'TC22'
+    TC01 = "TC01"
+    TC02 = "TC02"
+    TC03 = "TC03"
+    TC04 = "TC04"
+    TC05 = "TC05"
+    TC06 = "TC06"
+    TC07 = "TC07"
+    TC08 = "TC08"
+    TC09 = "TC09"
+    TC10 = "TC10"
+    TC11 = "TC11"
+    TC12 = "TC12"
+    TC13 = "TC13"
+    TC14 = "TC14"
+    TC15 = "TC15"
+    TC16 = "TC16"
+    TC17 = "TC17"
+    TC18 = "TC18"
+    TC19 = "TC19"
+    TC20 = "TC20"
+    TC21 = "TC21"
+    TC22 = "TC22"
 
 
 class WithholdingTaxPaymentReason(Enum):
-    A = 'A'
-    U = 'U'
-    R = 'R'
-    Q = 'Q'
-    H = 'H'
-    V = 'V'
-    V2 = 'V2'
-    I = 'I'
-    J = 'J'
-    K = 'K'
-    P = 'P'
-    S = 'S'
-    T = 'T'
-    W = 'W'
-    X = 'X'
-    Y = 'Y'
-    B = 'B'
-    C = 'C'
-    D = 'D'
-    E = 'E'
-    F = 'F'
-    G = 'G'
-    L = 'L'
-    L1 = 'L1'
-    M = 'M'
-    M1 = 'M1'
-    M2 = 'M2'
-    IN = 'IN'
-    O = 'O'
-    O1 = 'O1'
-    V1 = 'V1'
+    A = "A"
+    U = "U"
+    R = "R"
+    Q = "Q"
+    H = "H"
+    V = "V"
+    V2 = "V2"
+    I = "I"
+    J = "J"
+    K = "K"
+    P = "P"
+    S = "S"
+    T = "T"
+    W = "W"
+    X = "X"
+    Y = "Y"
+    B = "B"
+    C = "C"
+    D = "D"
+    E = "E"
+    F = "F"
+    G = "G"
+    L = "L"
+    L1 = "L1"
+    M = "M"
+    M1 = "M1"
+    M2 = "M2"
+    IN = "IN"
+    O = "O"
+    O1 = "O1"
+    V1 = "V1"
 
 
 class WithholdingTaxReason(Enum):
-    RT01 = 'RT01'
-    RT02 = 'RT02'
-    RT03 = 'RT03'
-    RT04 = 'RT04'
-    RT05 = 'RT05'
-    RT06 = 'RT06'
+    RT01 = "RT01"
+    RT02 = "RT02"
+    RT03 = "RT03"
+    RT04 = "RT04"
+    RT05 = "RT05"
+    RT06 = "RT06"
 
 
 class BackboneApiAppRoutersConnectionsCredentialItem(BaseModel):
-    key: str = Field(..., title='Key')
-    value: str = Field(..., title='Value')
+    key: str = Field(..., title="Key")
+    value: str = Field(..., title="Value")
 
 
 class BackboneApiAppRoutersConnectionsPostConnectionItem(BaseModel):
     integrationid: Optional[int] = Field(
         None,
-        description='Can be used to specify the integration code of a specific connector. If specified, the url will will point directly to the connection page of the connector and will redirect on save to the redirect url of the consumer if specified.',
-        title='Integrationid',
+        description="Can be used to specify the integration code of a specific connector. If specified, the url will will point directly to the connection page of the connector and will redirect on save to the redirect url of the consumer if specified.",
+        title="Integrationid",
     )
     name: Optional[str] = Field(
         None,
-        description='Can be used to specify the name of the connection. Must be used in combination with an integrationid.',
-        title='Name',
+        description="Can be used to specify the name of the connection. Must be used in combination with an integrationid.",
+        title="Name",
     )
     credentials: Optional[List[BackboneApiAppRoutersConnectionsCredentialItem]] = Field(
         None,
-        description='Can be used to specify the credentials of your connection. Must be used in combination with an integrationid and a name. Please use the getIntegrations route to see the available credentials for each integration',
-        title='Credentials',
+        description="Can be used to specify the credentials of your connection. Must be used in combination with an integrationid and a name. Please use the getIntegrations route to see the available credentials for each integration",
+        title="Credentials",
     )
 
 
 class BackboneApiAppRoutersConnectionsStatus(Enum):
-    active = 'active'
-    inactive = 'inactive'
+    active = "active"
+    inactive = "inactive"
 
 
 class BackboneApiAppRoutersDatastoresStatus(Enum):
-    active = 'active'
-    inactive = 'inactive'
+    active = "active"
+    inactive = "inactive"
 
 
 class BackboneApiAppRoutersIntegrationsCredentialItem(BaseModel):
-    name: str = Field(..., title='Name')
-    optional: Optional[bool] = Field(False, title='Optional')
+    name: str = Field(..., title="Name")
+    optional: Optional[bool] = Field(False, title="Optional")
 
 
 class BackboneApiAppRoutersIntegrationsPostConnectionItem(BaseModel):
-    title: str = Field(..., title='Title')
-    optional: bool = Field(..., title='Optional')
-    resource: str = Field(..., title='Resource')
+    title: str = Field(..., title="Title")
+    optional: bool = Field(..., title="Optional")
+    resource: str = Field(..., title="Resource")
 
 
 class BackboneApiAppRoutersIntegrationsStatus(Enum):
-    active = 'active'
-    inactive = 'inactive'
+    active = "active"
+    inactive = "inactive"
 
 
 class BackboneApiAppRoutersSyncsConnectionItem(BaseModel):
-    one_api: Optional[int] = Field(None, title='One Api')
-    connection_type: Optional[int] = Field(None, title='Connection Type')
-    display_order: Optional[int] = Field(0, title='Display Order')
-    display_hidden: Optional[bool] = Field(False, title='Display Hidden')
+    one_api: Optional[int] = Field(None, title="One Api")
+    connection_type: Optional[int] = Field(None, title="Connection Type")
+    display_order: Optional[int] = Field(0, title="Display Order")
+    display_hidden: Optional[bool] = Field(False, title="Display Hidden")
 
 
 class BackboneApiAppRoutersWebhooksStatus(Enum):
-    active = 'active'
-    inactive = 'inactive'
+    active = "active"
+    inactive = "inactive"
 
 
 class BackboneCommonModelsAccountingCommonInvoiceType(Enum):
-    customer_invoice = 'customer_invoice'
-    customer_refund = 'customer_refund'
-    supplier_invoice = 'supplier_invoice'
-    supplier_refund = 'supplier_refund'
+    customer_invoice = "customer_invoice"
+    customer_refund = "customer_refund"
+    supplier_invoice = "supplier_invoice"
+    supplier_refund = "supplier_refund"
 
 
 class BackboneCommonModelsAccountingCommonVatCodeScope(Enum):
-    nat = 'nat'
-    eu = 'eu'
-    int = 'int'
-    unknown = 'unknown'
+    nat = "nat"
+    eu = "eu"
+    int = "int"
+    unknown = "unknown"
 
 
 class BackboneCommonModelsAccountingCommonVatCodeType(Enum):
-    sale = 'sale'
-    purchase = 'purchase'
-    both = 'both'
-    unknown = 'unknown'
+    sale = "sale"
+    purchase = "purchase"
+    both = "both"
+    unknown = "unknown"
 
 
 class BackboneCommonModelsCommerceCommonAddressItemIn(BaseModel):
-    first_name: str = Field(..., title='First Name')
-    last_name: str = Field(..., title='Last Name')
-    street: str = Field(..., title='Street')
-    number: str = Field(..., title='Number')
-    box: Optional[str] = Field(None, title='Box')
-    city: str = Field(..., title='City')
-    postal_code: Optional[str] = Field(None, title='Postal Code')
-    country: str = Field(..., description='Format: ISO 3166-1 codes.', title='Country')
-    phone: Optional[str] = Field(None, title='Phone')
-    email: Optional[str] = Field(None, title='Email')
+    first_name: str = Field(..., title="First Name")
+    last_name: str = Field(..., title="Last Name")
+    street: str = Field(..., title="Street")
+    number: str = Field(..., title="Number")
+    box: Optional[str] = Field(None, title="Box")
+    city: str = Field(..., title="City")
+    postal_code: Optional[str] = Field(None, title="Postal Code")
+    country: str = Field(..., description="Format: ISO 3166-1 codes.", title="Country")
+    phone: Optional[str] = Field(None, title="Phone")
+    email: Optional[str] = Field(None, title="Email")
 
 
 class BackboneCommonModelsCommerceCommonAddressItemOut(BaseModel):
     address_type: AddressType
-    company_name: Optional[str] = Field(None, title='Company Name')
-    first_name: Optional[str] = Field(None, title='First Name')
-    last_name: Optional[str] = Field(None, title='Last Name')
-    street: Optional[str] = Field(None, title='Street')
-    number: Optional[str] = Field(None, title='Number')
-    box: Optional[str] = Field(None, title='Box')
-    city: Optional[str] = Field(None, title='City')
-    postal_code: Optional[str] = Field(None, title='Postal Code')
+    company_name: Optional[str] = Field(None, title="Company Name")
+    first_name: Optional[str] = Field(None, title="First Name")
+    last_name: Optional[str] = Field(None, title="Last Name")
+    street: Optional[str] = Field(None, title="Street")
+    number: Optional[str] = Field(None, title="Number")
+    box: Optional[str] = Field(None, title="Box")
+    city: Optional[str] = Field(None, title="City")
+    postal_code: Optional[str] = Field(None, title="Postal Code")
     country: Optional[str] = Field(
-        None, description='Format: ISO 3166-1 codes.', title='Country'
+        None, description="Format: ISO 3166-1 codes.", title="Country"
     )
-    phone: Optional[str] = Field(None, title='Phone')
-    email: Optional[str] = Field(None, title='Email')
+    phone: Optional[str] = Field(None, title="Phone")
+    email: Optional[str] = Field(None, title="Email")
 
 
 class BackboneCommonModelsCommerceCommonDiscountItem(BaseModel):
-    name: str = Field(..., title='Name')
-    description: str = Field(..., title='Description')
-    amount: float = Field(..., title='Amount')
+    name: str = Field(..., title="Name")
+    description: str = Field(..., title="Description")
+    amount: float = Field(..., title="Amount")
 
 
 class BackboneCommonModelsCommerceCommonProductCategoryItem(BaseModel):
     id: str = Field(
-        ..., description='Technical id of the category in Chift', title='Id'
+        ..., description="Technical id of the category in Chift", title="Id"
     )
-    name: str = Field(..., title='Name')
+    name: str = Field(..., title="Name")
 
 
 class BackboneCommonModelsCommerceCommonProductPriceItem(BaseModel):
-    currency: str = Field(..., title='Currency')
-    price: Optional[float] = Field(0, title='Price')
+    currency: str = Field(..., title="Currency")
+    price: Optional[float] = Field(0, title="Price")
 
 
 class BackboneCommonModelsCommonAddressItemIn(BaseModel):
     address_type: AddressType
-    name: Optional[str] = Field(None, title='Name')
-    number: Optional[str] = Field(None, title='Number')
-    box: Optional[str] = Field(None, title='Box')
-    phone: Optional[str] = Field(None, title='Phone')
-    mobile: Optional[str] = Field(None, title='Mobile')
-    email: Optional[str] = Field(None, title='Email')
-    street: str = Field(..., title='Street')
-    city: str = Field(..., title='City')
-    postal_code: str = Field(..., title='Postal Code')
-    country: str = Field(..., description='Format: ISO 3166-1 codes.', title='Country')
+    name: Optional[str] = Field(None, title="Name")
+    number: Optional[str] = Field(None, title="Number")
+    box: Optional[str] = Field(None, title="Box")
+    phone: Optional[str] = Field(None, title="Phone")
+    mobile: Optional[str] = Field(None, title="Mobile")
+    email: Optional[str] = Field(None, title="Email")
+    street: str = Field(..., title="Street")
+    city: str = Field(..., title="City")
+    postal_code: str = Field(..., title="Postal Code")
+    country: str = Field(..., description="Format: ISO 3166-1 codes.", title="Country")
 
 
 class BackboneCommonModelsCommonAddressItemOut(BaseModel):
     address_type: AddressType
-    name: Optional[str] = Field(None, title='Name')
-    number: Optional[str] = Field(None, title='Number')
-    box: Optional[str] = Field(None, title='Box')
-    phone: Optional[str] = Field(None, title='Phone')
-    mobile: Optional[str] = Field(None, title='Mobile')
-    email: Optional[str] = Field(None, title='Email')
-    street: Optional[str] = Field(None, title='Street')
-    city: Optional[str] = Field(None, title='City')
-    postal_code: Optional[str] = Field(None, title='Postal Code')
+    name: Optional[str] = Field(None, title="Name")
+    number: Optional[str] = Field(None, title="Number")
+    box: Optional[str] = Field(None, title="Box")
+    phone: Optional[str] = Field(None, title="Phone")
+    mobile: Optional[str] = Field(None, title="Mobile")
+    email: Optional[str] = Field(None, title="Email")
+    street: Optional[str] = Field(None, title="Street")
+    city: Optional[str] = Field(None, title="City")
+    postal_code: Optional[str] = Field(None, title="Postal Code")
     country: Optional[str] = Field(
-        None, description='Format: ISO 3166-1 codes.', title='Country'
+        None, description="Format: ISO 3166-1 codes.", title="Country"
     )
 
 
 class BackboneCommonModelsCommonPaymentStatus(Enum):
-    all = 'all'
-    unpaid = 'unpaid'
-    paid = 'paid'
+    all = "all"
+    unpaid = "unpaid"
+    paid = "paid"
 
 
 class BackboneCommonModelsInvoicingCommonInvoiceType(Enum):
-    customer_invoice = 'customer_invoice'
-    customer_refund = 'customer_refund'
-    supplier_invoice = 'supplier_invoice'
-    supplier_refund = 'supplier_refund'
-    all = 'all'
+    customer_invoice = "customer_invoice"
+    customer_refund = "customer_refund"
+    supplier_invoice = "supplier_invoice"
+    supplier_refund = "supplier_refund"
+    all = "all"
 
 
 class BackboneCommonModelsInvoicingCommonProductItem(BaseModel):
-    name: str = Field(..., description='Name', title='Name')
+    name: str = Field(..., description="Name", title="Name")
     unit_price: Optional[float] = Field(
-        None, description='Unit price', title='Unit Price'
+        None, description="Unit price", title="Unit Price"
     )
     tax_id: Optional[str] = Field(
-        None, description='Technical id of the tax in Chift', title='Tax Id'
+        None, description="Technical id of the tax in Chift", title="Tax Id"
     )
-    code: Optional[str] = Field(None, description='Reference/code', title='Code')
+    code: Optional[str] = Field(None, description="Reference/code", title="Code")
     unit: Optional[str] = Field(
-        None, description='Unit of measure matching target sofware name', title='Unit'
+        None, description="Unit of measure matching target sofware name", title="Unit"
     )
     category: Optional[str] = Field(
-        None, description='Category matching target sofware name', title='Category'
+        None, description="Category matching target sofware name", title="Category"
     )
     currency: Optional[str] = Field(
-        None, description='Currency matching target sofware name', title='Currency'
+        None, description="Currency matching target sofware name", title="Currency"
     )
     description: Optional[str] = Field(
-        None, description='Description', title='Description'
+        None, description="Description", title="Description"
     )
 
 
 class BackboneCommonModelsInvoicingCommonVatCodeScope(Enum):
-    nat = 'nat'
-    eu = 'eu'
-    int = 'int'
-    unknown = 'unknown'
+    nat = "nat"
+    eu = "eu"
+    int = "int"
+    unknown = "unknown"
 
 
 class BackboneCommonModelsInvoicingCommonVatCodeType(Enum):
-    sale = 'sale'
-    purchase = 'purchase'
-    both = 'both'
-    unknown = 'unknown'
+    sale = "sale"
+    purchase = "purchase"
+    both = "both"
+    unknown = "unknown"
 
 
 class BackboneCommonModelsPaymentCommonPaymentStatus(Enum):
-    pending = 'pending'
-    completed = 'completed'
-    canceled = 'canceled'
-    failed = 'failed'
-    unknown = 'unknown'
-    authorized = 'authorized'
+    pending = "pending"
+    completed = "completed"
+    canceled = "canceled"
+    failed = "failed"
+    unknown = "unknown"
+    authorized = "authorized"
 
 
 class BackboneCommonModelsPosCommonProductCategoryItem(BaseModel):
     id: str = Field(
         ...,
-        description='Unique identifier of the category',
-        example='371ca583-d218-4900-b236-397532cf0e52',
-        title='Id',
+        description="Unique identifier of the category",
+        example="371ca583-d218-4900-b236-397532cf0e52",
+        title="Id",
     )
     name: str = Field(
-        ..., description='Name given to the category', example='Pizza', title='Name'
+        ..., description="Name given to the category", example="Pizza", title="Name"
     )
     description: Optional[str] = Field(
         None,
-        description='Description of the category',
-        example='Delicious pizza',
-        title='Description',
+        description="Description of the category",
+        example="Delicious pizza",
+        title="Description",
     )
     id_parent: Optional[str] = Field(
         None,
-        description='Indicates if the category belongs to a parent category',
-        example='371ca583-d218-4900-b236-397532cf0e55',
-        title='Id Parent',
+        description="Indicates if the category belongs to a parent category",
+        example="371ca583-d218-4900-b236-397532cf0e55",
+        title="Id Parent",
     )
 
 
 class BackboneCommonModelsPosCommonProductPriceItem(BaseModel):
     unit_price: float = Field(
         ...,
-        description='Unit price (without tax) of the product',
+        description="Unit price (without tax) of the product",
         example=10,
-        title='Unit Price',
+        title="Unit Price",
     )
     tax_rate: Optional[float] = Field(
         None,
-        description='Tax rate applied to the product',
+        description="Tax rate applied to the product",
         example=10,
-        title='Tax Rate',
+        title="Tax Rate",
     )
 
 
 class BackboneCommonModelsPosPmsDiscountItem(BaseModel):
     name: Optional[str] = Field(
         None,
-        description='Name of the discount',
-        example='Percentage discount',
-        title='Name',
+        description="Name of the discount",
+        example="Percentage discount",
+        title="Name",
     )
     total: float = Field(
-        ..., description='Total amount of the discount', example=10, title='Total'
+        ..., description="Total amount of the discount", example=10, title="Total"
     )
     type: Optional[DiscountType] = Field(
-        'UNKNOWN', description='Type of the discount', example='offered'
+        "UNKNOWN", description="Type of the discount", example="offered"
     )
 
 
 class BackboneCommonModelsPosPmsPaymentStatus(Enum):
-    Pending = 'Pending'
-    Completed = 'Completed'
-    Canceled = 'Canceled'
-    Failed = 'Failed'
-    Unknown = 'Unknown'
-    Authorised = 'Authorised'
+    Pending = "Pending"
+    Completed = "Completed"
+    Canceled = "Canceled"
+    Failed = "Failed"
+    Unknown = "Unknown"
+    Authorised = "Authorised"
 
 
 class AccountItem(BaseModel):
-    number: str = Field(..., title='Number')
-    name: str = Field(..., title='Name')
-    active: Optional[bool] = Field(True, title='Active')
+    number: str = Field(..., title="Number")
+    name: str = Field(..., title="Name")
+    active: Optional[bool] = Field(True, title="Active")
     type: Optional[AccountItemType] = None
 
 
 class AccountingVatCode(BaseModel):
-    id: str = Field(..., title='Id')
-    code: Optional[str] = Field(None, title='Code')
-    label: str = Field(..., title='Label')
-    scope: Optional[BackboneCommonModelsAccountingCommonVatCodeScope] = 'unknown'
-    rate: float = Field(..., title='Rate')
+    id: str = Field(..., title="Id")
+    code: Optional[str] = Field(None, title="Code")
+    label: str = Field(..., title="Label")
+    scope: Optional[BackboneCommonModelsAccountingCommonVatCodeScope] = "unknown"
+    rate: float = Field(..., title="Rate")
     type: BackboneCommonModelsAccountingCommonVatCodeType
-    deductible_account: Optional[str] = Field(None, title='Deductible Account')
-    payable_account: Optional[str] = Field(None, title='Payable Account')
+    deductible_account: Optional[str] = Field(None, title="Deductible Account")
+    payable_account: Optional[str] = Field(None, title="Payable Account")
 
 
 class AddressItemInInvoicing(BaseModel):
     address_type: AddressTypeInvoicing
-    name: Optional[str] = Field(None, title='Name')
-    number: Optional[str] = Field(None, title='Number')
-    box: Optional[str] = Field(None, title='Box')
-    phone: Optional[str] = Field(None, title='Phone')
-    mobile: Optional[str] = Field(None, title='Mobile')
-    email: Optional[str] = Field(None, title='Email')
-    street: str = Field(..., title='Street')
-    city: str = Field(..., title='City')
-    postal_code: str = Field(..., title='Postal Code')
-    country: str = Field(..., description='Format: ISO 3166-1 codes.', title='Country')
+    name: Optional[str] = Field(None, title="Name")
+    number: Optional[str] = Field(None, title="Number")
+    box: Optional[str] = Field(None, title="Box")
+    phone: Optional[str] = Field(None, title="Phone")
+    mobile: Optional[str] = Field(None, title="Mobile")
+    email: Optional[str] = Field(None, title="Email")
+    street: str = Field(..., title="Street")
+    city: str = Field(..., title="City")
+    postal_code: str = Field(..., title="Postal Code")
+    country: str = Field(..., description="Format: ISO 3166-1 codes.", title="Country")
 
 
 class AddressItemOutInvoicing(BaseModel):
     address_type: AddressTypeInvoicing
-    name: Optional[str] = Field(None, title='Name')
-    number: Optional[str] = Field(None, title='Number')
-    box: Optional[str] = Field(None, title='Box')
-    phone: Optional[str] = Field(None, title='Phone')
-    mobile: Optional[str] = Field(None, title='Mobile')
-    email: Optional[str] = Field(None, title='Email')
-    street: Optional[str] = Field(None, title='Street')
-    city: Optional[str] = Field(None, title='City')
-    postal_code: Optional[str] = Field(None, title='Postal Code')
+    name: Optional[str] = Field(None, title="Name")
+    number: Optional[str] = Field(None, title="Number")
+    box: Optional[str] = Field(None, title="Box")
+    phone: Optional[str] = Field(None, title="Phone")
+    mobile: Optional[str] = Field(None, title="Mobile")
+    email: Optional[str] = Field(None, title="Email")
+    street: Optional[str] = Field(None, title="Street")
+    city: Optional[str] = Field(None, title="City")
+    postal_code: Optional[str] = Field(None, title="Postal Code")
     country: Optional[str] = Field(
-        None, description='Format: ISO 3166-1 codes.', title='Country'
+        None, description="Format: ISO 3166-1 codes.", title="Country"
     )
 
 
 class AnalyticDistribution(BaseModel):
-    analytic_plan: str = Field(..., title='Analytic Plan')
+    analytic_plan: str = Field(..., title="Analytic Plan")
     analytic_accounts: List[AnalyticDistributionDetail] = Field(
-        ..., title='Analytic Accounts'
+        ..., title="Analytic Accounts"
     )
 
 
 class BalanceItemOut(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
     available_amount: float = Field(
-        ..., description='Total amount available', title='Available Amount'
+        ..., description="Total amount available", title="Available Amount"
     )
-    currency: str = Field(..., description='Currency', title='Currency')
-    create_date: datetime = Field(..., description='Create Date', title='Create Date')
+    currency: str = Field(..., description="Currency", title="Currency")
+    create_date: datetime = Field(..., description="Create Date", title="Create Date")
 
 
 class CategoryItem(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
-    name: str = Field(..., title='Name')
+    name: str = Field(..., title="Name")
     parent_id: Optional[str] = Field(
         None,
-        description='Technical id of the parent category in the target software',
-        title='Parent Id',
+        description="Technical id of the parent category in the target software",
+        title="Parent Id",
     )
 
 
 class ChiftId(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
 
 
 class ChiftPageAccountItem(BaseModel):
-    items: List[AccountItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[AccountItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageAccountingVatCode(BaseModel):
-    items: List[AccountingVatCode] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[AccountingVatCode] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageBalanceItemOut(BaseModel):
-    items: List[BalanceItemOut] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[BalanceItemOut] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageCategoryItem(BaseModel):
-    items: List[CategoryItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[CategoryItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageCountryItem(BaseModel):
-    items: List[CountryItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[CountryItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageEmployeeItem(BaseModel):
-    items: List[EmployeeItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[EmployeeItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageOutstandingItem(BaseModel):
-    items: List[OutstandingItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[OutstandingItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPagePMSLocationItem(BaseModel):
-    items: List[PMSLocationItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[PMSLocationItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPagePOSCustomerItem(BaseModel):
-    items: List[POSCustomerItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[POSCustomerItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPagePOSLocationItem(BaseModel):
-    items: List[POSLocationItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[POSLocationItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPagePaymentMethods(BaseModel):
-    items: List[PaymentMethods] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[PaymentMethods] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPagePayment(BaseModel):
-    items: List[Payment] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[Payment] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageProductCategoryItem(BaseModel):
     items: List[BackboneCommonModelsPosCommonProductCategoryItem] = Field(
-        ..., title='Items'
+        ..., title="Items"
     )
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageTaxRateItem(BaseModel):
-    items: List[TaxRateItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[TaxRateItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageTransactionItemOut(BaseModel):
-    items: List[TransactionItemOut] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[TransactionItemOut] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ClientItemIn(BaseModel):
-    external_reference: Optional[str] = Field(None, title='External Reference')
+    external_reference: Optional[str] = Field(None, title="External Reference")
     first_name: Optional[str] = Field(
         None,
-        description='Only used when the client is an individual (is_company=false). Indicates the first name of the client.',
-        title='First Name',
+        description="Only used when the client is an individual (is_company=false). Indicates the first name of the client.",
+        title="First Name",
     )
     last_name: Optional[str] = Field(
         None,
-        description='Only used when the client is an individual (is_company=false). Indicates the last name of the client.',
-        title='Last Name',
+        description="Only used when the client is an individual (is_company=false). Indicates the last name of the client.",
+        title="Last Name",
     )
-    name: constr(min_length=1) = Field(..., title='Name')
+    name: constr(min_length=1) = Field(..., title="Name")
     function: Optional[str] = Field(
         None,
-        description='Only used when the client is an individual (is_company=false). Indicates the function of the client.',
-        title='Function',
+        description="Only used when the client is an individual (is_company=false). Indicates the function of the client.",
+        title="Function",
     )
     is_company: Optional[bool] = Field(
         True,
-        description='Indicates if the client is an individual or a company.',
-        title='Is Company',
+        description="Indicates if the client is an individual or a company.",
+        title="Is Company",
     )
     company_id: Optional[str] = Field(
         None,
-        description='Only used when the client is an individual (is_company=false). Indicates the id of the company linked to the client.',
-        title='Company Id',
+        description="Only used when the client is an individual (is_company=false). Indicates the id of the company linked to the client.",
+        title="Company Id",
     )
-    phone: Optional[str] = Field(None, title='Phone')
-    mobile: Optional[str] = Field(None, title='Mobile')
-    email: Optional[str] = Field(None, title='Email')
+    phone: Optional[str] = Field(None, title="Phone")
+    mobile: Optional[str] = Field(None, title="Mobile")
+    email: Optional[str] = Field(None, title="Email")
     language: Optional[str] = Field(
-        None, description='Format: ISO 639-1 codes.', title='Language'
+        None, description="Format: ISO 639-1 codes.", title="Language"
     )
-    internal_notes: Optional[str] = Field(None, title='Internal Notes')
-    website: Optional[str] = Field(None, title='Website')
-    vat: Optional[str] = Field(None, title='Vat')
+    internal_notes: Optional[str] = Field(None, title="Internal Notes")
+    website: Optional[str] = Field(None, title="Website")
+    vat: Optional[str] = Field(None, title="Vat")
     iban: Optional[str] = Field(
-        None, description='IBAN Account number of the client.', title='Iban'
+        None, description="IBAN Account number of the client.", title="Iban"
     )
     bank_account: Optional[str] = Field(
-        None, description='Bank account number of the client.', title='Bank Account'
+        None, description="Bank account number of the client.", title="Bank Account"
     )
     currency: Optional[str] = Field(
         None,
-        description='Indicates the currency of the client (e.g. EUR).',
-        title='Currency',
+        description="Indicates the currency of the client (e.g. EUR).",
+        title="Currency",
     )
-    active: Optional[bool] = Field(True, title='Active')
+    active: Optional[bool] = Field(True, title="Active")
     addresses: List[BackboneCommonModelsCommonAddressItemIn] = Field(
-        ..., title='Addresses'
+        ..., title="Addresses"
     )
-    account_number: Optional[str] = Field(None, title='Account Number')
+    account_number: Optional[str] = Field(None, title="Account Number")
 
 
 class ClientItemOut(BaseModel):
-    external_reference: Optional[str] = Field(None, title='External Reference')
+    external_reference: Optional[str] = Field(None, title="External Reference")
     first_name: Optional[str] = Field(
         None,
-        description='Only used when the client is an individual (is_company=false). Indicates the first name of the client.',
-        title='First Name',
+        description="Only used when the client is an individual (is_company=false). Indicates the first name of the client.",
+        title="First Name",
     )
     last_name: Optional[str] = Field(
         None,
-        description='Only used when the client is an individual (is_company=false). Indicates the last name of the client.',
-        title='Last Name',
+        description="Only used when the client is an individual (is_company=false). Indicates the last name of the client.",
+        title="Last Name",
     )
-    name: Optional[str] = Field(None, title='Name')
+    name: Optional[str] = Field(None, title="Name")
     function: Optional[str] = Field(
         None,
-        description='Only used when the client is an individual (is_company=false). Indicates the function of the client.',
-        title='Function',
+        description="Only used when the client is an individual (is_company=false). Indicates the function of the client.",
+        title="Function",
     )
     is_company: Optional[bool] = Field(
         True,
-        description='Indicates if the client is an individual or a company.',
-        title='Is Company',
+        description="Indicates if the client is an individual or a company.",
+        title="Is Company",
     )
     company_id: Optional[str] = Field(
         None,
-        description='Only used when the client is an individual (is_company=false). Indicates the id of the company linked to the client.',
-        title='Company Id',
+        description="Only used when the client is an individual (is_company=false). Indicates the id of the company linked to the client.",
+        title="Company Id",
     )
-    phone: Optional[str] = Field(None, title='Phone')
-    mobile: Optional[str] = Field(None, title='Mobile')
-    email: Optional[str] = Field(None, title='Email')
+    phone: Optional[str] = Field(None, title="Phone")
+    mobile: Optional[str] = Field(None, title="Mobile")
+    email: Optional[str] = Field(None, title="Email")
     language: Optional[str] = Field(
-        None, description='Format: ISO 639-1 codes.', title='Language'
+        None, description="Format: ISO 639-1 codes.", title="Language"
     )
-    internal_notes: Optional[str] = Field(None, title='Internal Notes')
-    website: Optional[str] = Field(None, title='Website')
-    vat: Optional[str] = Field(None, title='Vat')
+    internal_notes: Optional[str] = Field(None, title="Internal Notes")
+    website: Optional[str] = Field(None, title="Website")
+    vat: Optional[str] = Field(None, title="Vat")
     iban: Optional[str] = Field(
-        None, description='IBAN Account number of the client.', title='Iban'
+        None, description="IBAN Account number of the client.", title="Iban"
     )
     bank_account: Optional[str] = Field(
-        None, description='Bank account number of the client.', title='Bank Account'
+        None, description="Bank account number of the client.", title="Bank Account"
     )
     currency: Optional[str] = Field(
         None,
-        description='Indicates the currency of the client (e.g. EUR).',
-        title='Currency',
+        description="Indicates the currency of the client (e.g. EUR).",
+        title="Currency",
     )
-    active: Optional[bool] = Field(True, title='Active')
+    active: Optional[bool] = Field(True, title="Active")
     addresses: Optional[List[BackboneCommonModelsCommonAddressItemOut]] = Field(
-        [], title='Addresses'
+        [], title="Addresses"
     )
-    account_number: Optional[str] = Field(None, title='Account Number')
-    company_number: Optional[str] = Field(None, title='Company Number')
-    id: Optional[str] = Field(None, title='Id')
+    account_number: Optional[str] = Field(None, title="Account Number")
+    company_number: Optional[str] = Field(None, title="Company Number")
+    id: Optional[str] = Field(None, title="Id")
     last_updated_on: Optional[datetime] = Field(
         None,
-        description='The last time the client has been updated.',
-        title='Last Updated On',
+        description="The last time the client has been updated.",
+        title="Last Updated On",
     )
 
 
 class ClientItemUpdate(BaseModel):
-    external_reference: Optional[str] = Field(None, title='External Reference')
+    external_reference: Optional[str] = Field(None, title="External Reference")
     first_name: Optional[str] = Field(
         None,
-        description='Only used when the client is an individual (is_company=false). Indicates the first name of the client.',
-        title='First Name',
+        description="Only used when the client is an individual (is_company=false). Indicates the first name of the client.",
+        title="First Name",
     )
     last_name: Optional[str] = Field(
         None,
-        description='Only used when the client is an individual (is_company=false). Indicates the last name of the client.',
-        title='Last Name',
+        description="Only used when the client is an individual (is_company=false). Indicates the last name of the client.",
+        title="Last Name",
     )
-    name: Optional[str] = Field(None, title='Name')
+    name: Optional[str] = Field(None, title="Name")
     function: Optional[str] = Field(
         None,
-        description='Only used when the client is an individual (is_company=false). Indicates the function of the client.',
-        title='Function',
+        description="Only used when the client is an individual (is_company=false). Indicates the function of the client.",
+        title="Function",
     )
     is_company: Optional[bool] = Field(
         True,
-        description='Indicates if the client is an individual or a company.',
-        title='Is Company',
+        description="Indicates if the client is an individual or a company.",
+        title="Is Company",
     )
     company_id: Optional[str] = Field(
         None,
-        description='Only used when the client is an individual (is_company=false). Indicates the id of the company linked to the client.',
-        title='Company Id',
+        description="Only used when the client is an individual (is_company=false). Indicates the id of the company linked to the client.",
+        title="Company Id",
     )
-    phone: Optional[str] = Field(None, title='Phone')
-    mobile: Optional[str] = Field(None, title='Mobile')
-    email: Optional[str] = Field(None, title='Email')
+    phone: Optional[str] = Field(None, title="Phone")
+    mobile: Optional[str] = Field(None, title="Mobile")
+    email: Optional[str] = Field(None, title="Email")
     language: Optional[str] = Field(
-        None, description='Format: ISO 639-1 codes.', title='Language'
+        None, description="Format: ISO 639-1 codes.", title="Language"
     )
-    internal_notes: Optional[str] = Field(None, title='Internal Notes')
-    website: Optional[str] = Field(None, title='Website')
-    vat: Optional[str] = Field(None, title='Vat')
+    internal_notes: Optional[str] = Field(None, title="Internal Notes")
+    website: Optional[str] = Field(None, title="Website")
+    vat: Optional[str] = Field(None, title="Vat")
     iban: Optional[str] = Field(
-        None, description='IBAN Account number of the client.', title='Iban'
+        None, description="IBAN Account number of the client.", title="Iban"
     )
     bank_account: Optional[str] = Field(
-        None, description='Bank account number of the client.', title='Bank Account'
+        None, description="Bank account number of the client.", title="Bank Account"
     )
     currency: Optional[str] = Field(
         None,
-        description='Indicates the currency of the client (e.g. EUR).',
-        title='Currency',
+        description="Indicates the currency of the client (e.g. EUR).",
+        title="Currency",
     )
-    active: Optional[bool] = Field(True, title='Active')
+    active: Optional[bool] = Field(True, title="Active")
     addresses: Optional[List[BackboneCommonModelsCommonAddressItemOut]] = Field(
-        [], title='Addresses'
+        [], title="Addresses"
     )
 
 
 class CommerceCustomerItem(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
-    first_name: Optional[str] = Field(None, title='First Name')
-    last_name: Optional[str] = Field(None, title='Last Name')
-    phone: Optional[str] = Field(None, title='Phone')
-    email: Optional[str] = Field(None, title='Email')
+    first_name: Optional[str] = Field(None, title="First Name")
+    last_name: Optional[str] = Field(None, title="Last Name")
+    phone: Optional[str] = Field(None, title="Phone")
+    email: Optional[str] = Field(None, title="Email")
     language: Optional[str] = Field(
-        None, description='Format: ISO 639-1 codes.', title='Language'
+        None, description="Format: ISO 639-1 codes.", title="Language"
     )
-    internal_notes: Optional[str] = Field(None, title='Internal Notes')
+    internal_notes: Optional[str] = Field(None, title="Internal Notes")
     currency: Optional[str] = Field(
         None,
-        description='Indicates the currency of the client (e.g. EUR).',
-        title='Currency',
+        description="Indicates the currency of the client (e.g. EUR).",
+        title="Currency",
     )
     addresses: Optional[List[BackboneCommonModelsCommerceCommonAddressItemOut]] = Field(
-        [], title='Addresses'
+        [], title="Addresses"
     )
-    created_on: Optional[datetime] = Field(None, title='Created On')
+    created_on: Optional[datetime] = Field(None, title="Created On")
 
 
 class CommerceLocationItemOut(BaseModel):
     id: str = Field(
-        ..., description='Technical id of the location in Chift', title='Id'
+        ..., description="Technical id of the location in Chift", title="Id"
     )
-    name: str = Field(..., title='Name')
+    name: str = Field(..., title="Name")
     source_ref: Optional[Ref] = Field(
         None,
-        description='Technical id of the location in the target software',
-        title='Source Ref',
+        description="Technical id of the location in the target software",
+        title="Source Ref",
     )
 
 
 class ContactItemIn(BaseModel):
     is_prospect: Optional[bool] = Field(
-        None, description='Is a prospect?', title='Is Prospect'
+        None, description="Is a prospect?", title="Is Prospect"
     )
     is_customer: Optional[bool] = Field(
-        None, description='Is a customer?', title='Is Customer'
+        None, description="Is a customer?", title="Is Customer"
     )
     is_supplier: Optional[bool] = Field(
-        None, description='Is a supplier?', title='Is Supplier'
+        None, description="Is a supplier?", title="Is Supplier"
     )
     is_company: Optional[bool] = Field(
-        None, description='Is a company?', title='Is Company'
+        None, description="Is a company?", title="Is Company"
     )
     company_name: Optional[str] = Field(
-        None, description='Name of the company', title='Company Name'
+        None, description="Name of the company", title="Company Name"
     )
-    first_name: Optional[str] = Field(None, description='Firstname', title='First Name')
-    last_name: Optional[str] = Field(None, description='Lastname', title='Last Name')
-    email: Optional[str] = Field(None, description='Email', title='Email')
-    phone: Optional[str] = Field(None, description='Phone', title='Phone')
-    mobile: Optional[str] = Field(None, description='Mobile', title='Mobile')
+    first_name: Optional[str] = Field(None, description="Firstname", title="First Name")
+    last_name: Optional[str] = Field(None, description="Lastname", title="Last Name")
+    email: Optional[str] = Field(None, description="Email", title="Email")
+    phone: Optional[str] = Field(None, description="Phone", title="Phone")
+    mobile: Optional[str] = Field(None, description="Mobile", title="Mobile")
     company_id: Optional[str] = Field(
         None,
         description="Technical id of the contact' company in Chift",
-        title='Company Id',
+        title="Company Id",
     )
-    vat: Optional[str] = Field(None, description='VAT number', title='Vat')
+    vat: Optional[str] = Field(None, description="VAT number", title="Vat")
     company_number: Optional[str] = Field(
         None,
-        description='Company number (identification number different than the VAT (e.g. siret))',
-        title='Company Number',
+        description="Company number (identification number different than the VAT (e.g. siret))",
+        title="Company Number",
     )
     currency: Optional[str] = Field(
-        None, description='Currency matching target sofware name', title='Currency'
+        None, description="Currency matching target sofware name", title="Currency"
     )
     language: Optional[str] = Field(
-        None, description='Language matching target sofware name', title='Language'
+        None, description="Language matching target sofware name", title="Language"
     )
-    comment: Optional[str] = Field(None, description='Comment', title='Comment')
+    comment: Optional[str] = Field(None, description="Comment", title="Comment")
     customer_account_number: Optional[str] = Field(
         None,
-        description='Number of the accounting account used for sales (e.g. 701000)',
-        title='Customer Account Number',
+        description="Number of the accounting account used for sales (e.g. 701000)",
+        title="Customer Account Number",
     )
     supplier_account_number: Optional[str] = Field(
         None,
-        description='Number of the accounting account used for purchases (e.g. 601000)',
-        title='Supplier Account Number',
+        description="Number of the accounting account used for purchases (e.g. 601000)",
+        title="Supplier Account Number",
     )
-    birthdate: Optional[date] = Field(None, description='Birthdate', title='Birthdate')
-    gender: Optional[ContactGender] = Field(None, description='Gender')
+    birthdate: Optional[date] = Field(None, description="Birthdate", title="Birthdate")
+    gender: Optional[ContactGender] = Field(None, description="Gender")
     addresses: Optional[List[AddressItemInInvoicing]] = Field(
-        [], description='Addresses', title='Addresses'
+        [], description="Addresses", title="Addresses"
     )
 
 
 class ContactItemOut(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
     is_prospect: Optional[bool] = Field(
-        None, description='Is a prospect?', title='Is Prospect'
+        None, description="Is a prospect?", title="Is Prospect"
     )
     is_customer: Optional[bool] = Field(
-        None, description='Is a customer?', title='Is Customer'
+        None, description="Is a customer?", title="Is Customer"
     )
     is_supplier: Optional[bool] = Field(
-        None, description='Is a supplier?', title='Is Supplier'
+        None, description="Is a supplier?", title="Is Supplier"
     )
     is_company: Optional[bool] = Field(
-        None, description='Is a company?', title='Is Company'
+        None, description="Is a company?", title="Is Company"
     )
     company_name: Optional[str] = Field(
-        None, description='Name of the company', title='Company Name'
+        None, description="Name of the company", title="Company Name"
     )
-    first_name: Optional[str] = Field(None, description='Firstname', title='First Name')
-    last_name: Optional[str] = Field(None, description='Lastname', title='Last Name')
-    email: Optional[str] = Field(None, description='Email', title='Email')
-    phone: Optional[str] = Field(None, description='Phone', title='Phone')
-    mobile: Optional[str] = Field(None, description='Mobile', title='Mobile')
+    first_name: Optional[str] = Field(None, description="Firstname", title="First Name")
+    last_name: Optional[str] = Field(None, description="Lastname", title="Last Name")
+    email: Optional[str] = Field(None, description="Email", title="Email")
+    phone: Optional[str] = Field(None, description="Phone", title="Phone")
+    mobile: Optional[str] = Field(None, description="Mobile", title="Mobile")
     company_id: Optional[str] = Field(
         None,
         description="Technical id of the contact' company in Chift",
-        title='Company Id',
+        title="Company Id",
     )
-    vat: Optional[str] = Field(None, description='VAT number', title='Vat')
+    vat: Optional[str] = Field(None, description="VAT number", title="Vat")
     company_number: Optional[str] = Field(
         None,
-        description='Company number (identification number different than the VAT (e.g. siret))',
-        title='Company Number',
+        description="Company number (identification number different than the VAT (e.g. siret))",
+        title="Company Number",
     )
     currency: Optional[str] = Field(
-        None, description='Currency matching target sofware name', title='Currency'
+        None, description="Currency matching target sofware name", title="Currency"
     )
     language: Optional[str] = Field(
-        None, description='Language matching target sofware name', title='Language'
+        None, description="Language matching target sofware name", title="Language"
     )
-    comment: Optional[str] = Field(None, description='Comment', title='Comment')
+    comment: Optional[str] = Field(None, description="Comment", title="Comment")
     customer_account_number: Optional[str] = Field(
         None,
-        description='Number of the accounting account used for sales (e.g. 701000)',
-        title='Customer Account Number',
+        description="Number of the accounting account used for sales (e.g. 701000)",
+        title="Customer Account Number",
     )
     supplier_account_number: Optional[str] = Field(
         None,
-        description='Number of the accounting account used for purchases (e.g. 601000)',
-        title='Supplier Account Number',
+        description="Number of the accounting account used for purchases (e.g. 601000)",
+        title="Supplier Account Number",
     )
-    birthdate: Optional[date] = Field(None, description='Birthdate', title='Birthdate')
-    gender: Optional[ContactGender] = Field(None, description='Gender')
+    birthdate: Optional[date] = Field(None, description="Birthdate", title="Birthdate")
+    gender: Optional[ContactGender] = Field(None, description="Gender")
     addresses: Optional[List[AddressItemOutInvoicing]] = Field(
-        [], description='Addresses', title='Addresses'
+        [], description="Addresses", title="Addresses"
     )
     external_reference: Optional[str] = Field(
         None,
-        description='External reference of the contact in the invoicing system',
-        title='External Reference',
+        description="External reference of the contact in the invoicing system",
+        title="External Reference",
     )
 
 
 class DataStoreItem(BaseModel):
-    id: str = Field(..., title='Id')
-    name: str = Field(..., title='Name')
-    status: Optional[BackboneApiAppRoutersDatastoresStatus] = 'active'
+    id: str = Field(..., title="Id")
+    name: str = Field(..., title="Name")
+    status: Optional[BackboneApiAppRoutersDatastoresStatus] = "active"
     definition: DatastoreDef
 
 
 class FeesItem(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
-    created_on: Optional[datetime] = Field(None, title='Created On')
+    created_on: Optional[datetime] = Field(None, title="Created On")
     type: FeesType
     removed: Optional[bool] = Field(
         False,
-        description='Indicates if the fee has been removed from the order',
-        title='Removed',
+        description="Indicates if the fee has been removed from the order",
+        title="Removed",
     )
-    tax_rate: float = Field(..., title='Tax Rate')
+    tax_rate: float = Field(..., title="Tax Rate")
     tax_id: Optional[str] = Field(
-        None, description='Technical id of the tax rate in Chift', title='Tax Id'
+        None, description="Technical id of the tax rate in Chift", title="Tax Id"
     )
     discounts: Optional[List[BackboneCommonModelsCommerceCommonDiscountItem]] = Field(
-        [], title='Discounts'
+        [], title="Discounts"
     )
-    untaxed_amount: float = Field(..., title='Untaxed Amount')
-    tax_amount: float = Field(..., title='Tax Amount')
-    total: float = Field(..., title='Total')
+    untaxed_amount: float = Field(..., title="Untaxed Amount")
+    tax_amount: float = Field(..., title="Tax Amount")
+    total: float = Field(..., title="Total")
 
 
 class FieldItem(BaseModel):
-    name: str = Field(..., title='Name')
+    name: str = Field(..., title="Name")
     type: FieldItemType
-    display_condition: Optional[Dict[str, Any]] = Field(None, title='Display Condition')
-    values: Optional[List[FieldItemValue]] = Field([], title='Values')
-    api_route: Optional[str] = Field(None, title='Api Route')
-    connection_type: Optional[int] = Field(None, title='Connection Type')
+    display_condition: Optional[Dict[str, Any]] = Field(None, title="Display Condition")
+    values: Optional[List[FieldItemValue]] = Field([], title="Values")
+    api_route: Optional[str] = Field(None, title="Api Route")
+    connection_type: Optional[int] = Field(None, title="Connection Type")
 
 
 class FinancialEntryItemIn(BaseModel):
-    date: date = Field(..., title='Date')
+    date: date = Field(..., title="Date")
     journal_id: str = Field(
         ...,
-        description='Indicates the journal used in for the operation.',
-        title='Journal Id',
+        description="Indicates the journal used in for the operation.",
+        title="Journal Id",
     )
     currency: str = Field(
         ...,
-        description='Indicates the currency of the operation (e.g. EUR).',
-        title='Currency',
+        description="Indicates the currency of the operation (e.g. EUR).",
+        title="Currency",
     )
     currency_exchange_rate: Optional[float] = Field(
         1,
-        description='Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.',
-        title='Currency Exchange Rate',
+        description="Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.",
+        title="Currency Exchange Rate",
     )
-    reference: Optional[str] = Field(None, title='Reference')
-    number: Optional[str] = Field(None, title='Number')
-    items: List[FinancialEntryLineItem] = Field(..., title='Items')
+    reference: Optional[str] = Field(None, title="Reference")
+    number: Optional[str] = Field(None, title="Number")
+    items: List[FinancialEntryLineItem] = Field(..., title="Items")
     pdf: Optional[str] = Field(
         None,
-        description='Base 64 string representing the PDF attached to the sale/purchase entry.',
-        title='Pdf',
+        description="Base 64 string representing the PDF attached to the sale/purchase entry.",
+        title="Pdf",
     )
 
 
 class FinancialEntryItemInOld(BaseModel):
-    date: date = Field(..., title='Date')
+    date: date = Field(..., title="Date")
     journal_id: str = Field(
         ...,
-        description='Indicates the journal used in for the operation.',
-        title='Journal Id',
+        description="Indicates the journal used in for the operation.",
+        title="Journal Id",
     )
     currency: str = Field(
         ...,
-        description='Indicates the currency of the operation (e.g. EUR).',
-        title='Currency',
+        description="Indicates the currency of the operation (e.g. EUR).",
+        title="Currency",
     )
     currency_exchange_rate: Optional[float] = Field(
         1,
-        description='Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.',
-        title='Currency Exchange Rate',
+        description="Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.",
+        title="Currency Exchange Rate",
     )
-    reference: Optional[str] = Field(None, title='Reference')
-    number: Optional[str] = Field(None, title='Number')
-    items: List[FinancialEntryLineItemOld] = Field(..., title='Items')
+    reference: Optional[str] = Field(None, title="Reference")
+    number: Optional[str] = Field(None, title="Number")
+    items: List[FinancialEntryLineItemOld] = Field(..., title="Items")
     pdf: Optional[str] = Field(
         None,
-        description='Base 64 string representing the PDF attached to the sale/purchase entry.',
-        title='Pdf',
+        description="Base 64 string representing the PDF attached to the sale/purchase entry.",
+        title="Pdf",
     )
 
 
 class FinancialEntryItemOut(BaseModel):
-    date: date = Field(..., title='Date')
+    date: date = Field(..., title="Date")
     journal_id: str = Field(
         ...,
-        description='Indicates the journal used in for the operation.',
-        title='Journal Id',
+        description="Indicates the journal used in for the operation.",
+        title="Journal Id",
     )
     currency: str = Field(
         ...,
-        description='Indicates the currency of the operation (e.g. EUR).',
-        title='Currency',
+        description="Indicates the currency of the operation (e.g. EUR).",
+        title="Currency",
     )
     currency_exchange_rate: Optional[float] = Field(
         1,
-        description='Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.',
-        title='Currency Exchange Rate',
+        description="Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.",
+        title="Currency Exchange Rate",
     )
-    reference: Optional[str] = Field(None, title='Reference')
-    id: str = Field(..., title='Id')
-    number: str = Field(..., title='Number')
-    items: List[FinancialEntryLineItemOut] = Field(..., title='Items')
+    reference: Optional[str] = Field(None, title="Reference")
+    id: str = Field(..., title="Id")
+    number: str = Field(..., title="Number")
+    items: List[FinancialEntryLineItemOut] = Field(..., title="Items")
 
 
 class FinancialEntryItemOutOld(BaseModel):
-    date: date = Field(..., title='Date')
+    date: date = Field(..., title="Date")
     journal_id: str = Field(
         ...,
-        description='Indicates the journal used in for the operation.',
-        title='Journal Id',
+        description="Indicates the journal used in for the operation.",
+        title="Journal Id",
     )
     currency: str = Field(
         ...,
-        description='Indicates the currency of the operation (e.g. EUR).',
-        title='Currency',
+        description="Indicates the currency of the operation (e.g. EUR).",
+        title="Currency",
     )
     currency_exchange_rate: Optional[float] = Field(
         1,
-        description='Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.',
-        title='Currency Exchange Rate',
+        description="Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.",
+        title="Currency Exchange Rate",
     )
-    reference: Optional[str] = Field(None, title='Reference')
-    id: str = Field(..., title='Id')
-    number: str = Field(..., title='Number')
-    items: List[FinancialEntryLineItemOutOld] = Field(..., title='Items')
+    reference: Optional[str] = Field(None, title="Reference")
+    id: str = Field(..., title="Id")
+    number: str = Field(..., title="Number")
+    items: List[FinancialEntryLineItemOutOld] = Field(..., title="Items")
 
 
 class FlowDataStoreItem(BaseModel):
-    id: Optional[str] = Field(None, title='Id')
-    name: str = Field(..., title='Name')
-    status: Optional[BackboneApiAppRoutersDatastoresStatus] = 'active'
+    id: Optional[str] = Field(None, title="Id")
+    name: str = Field(..., title="Name")
+    status: Optional[BackboneApiAppRoutersDatastoresStatus] = "active"
     definition: DatastoreDef
 
 
 class FlowExecution(BaseModel):
     type: ExecutionType
     data: Optional[Union[FlowExecutionChain, FlowExecutionCode]] = Field(
-        None, title='Data'
+        None, title="Data"
     )
 
 
 class FlowTrigger(BaseModel):
-    id: str = Field(..., title='Id')
+    id: str = Field(..., title="Id")
     type: TriggerType
-    cronschedules: Optional[List[str]] = Field(None, title='Cronschedules')
-    visible: Optional[bool] = Field(True, title='Visible')
+    cronschedules: Optional[List[str]] = Field(None, title="Cronschedules")
+    visible: Optional[bool] = Field(True, title="Visible")
     definitionFields: Optional[List[Dict[str, Any]]] = Field(
-        None, title='Definitionfields'
+        None, title="Definitionfields"
     )
-    options: Optional[Dict[str, Any]] = Field(None, title='Options')
+    options: Optional[Dict[str, Any]] = Field(None, title="Options")
 
 
 class GenericJournalItem(BaseModel):
     account_type: EntryLineType
-    account: constr(min_length=1) = Field(..., title='Account')
+    account: constr(min_length=1) = Field(..., title="Account")
     force_general_account: Optional[str] = Field(
         None,
-        description='For ustomer/supplier/employee accounts we determine the general account based on the configurations in the accounting system. The general account can also be forced by specifying the value in this field.',
-        title='Force General Account',
+        description="For ustomer/supplier/employee accounts we determine the general account based on the configurations in the accounting system. The general account can also be forced by specifying the value in this field.",
+        title="Force General Account",
     )
     prioritise_thirdparty_account: Optional[bool] = Field(
         False,
-        description='Indicate if we need to prioritise the information from thirdparty accounts when forcing the general account in a software where only 1 account is accepted.',
-        title='Prioritise Thirdparty Account',
+        description="Indicate if we need to prioritise the information from thirdparty accounts when forcing the general account in a software where only 1 account is accepted.",
+        title="Prioritise Thirdparty Account",
     )
-    description: Optional[str] = Field(None, title='Description')
-    debit: float = Field(..., title='Debit')
-    credit: float = Field(..., title='Credit')
+    description: Optional[str] = Field(None, title="Description")
+    debit: float = Field(..., title="Debit")
+    credit: float = Field(..., title="Credit")
     analytic_distribution: Optional[List[AnalyticDistribution]] = Field(
-        [], title='Analytic Distribution'
+        [], title="Analytic Distribution"
     )
     tax_code: Optional[str] = Field(
         None,
-        description='Indicates the tax code used for the entry item. This is the ID of the Tax Code in the accounting software.',
-        title='Tax Code',
+        description="Indicates the tax code used for the entry item. This is the ID of the Tax Code in the accounting software.",
+        title="Tax Code",
     )
 
 
 class HTTPValidationError(BaseModel):
-    message: str = Field(..., title='Message')
-    status: Optional[str] = Field('error', title='Status')
-    detail: Optional[List[ValidationError]] = Field(None, title='Detail')
+    message: str = Field(..., title="Message")
+    status: Optional[str] = Field("error", title="Status")
+    detail: Optional[List[ValidationError]] = Field(None, title="Detail")
 
 
 class IntegrationItem(BaseModel):
-    integrationid: int = Field(..., title='Integrationid')
-    name: str = Field(..., title='Name')
+    integrationid: int = Field(..., title="Integrationid")
+    name: str = Field(..., title="Name")
     status: BackboneApiAppRoutersIntegrationsStatus
     api: Api
-    logo_url: str = Field(..., title='Logo Url')
-    icon_url: str = Field(..., title='Icon Url')
+    logo_url: str = Field(..., title="Logo Url")
+    icon_url: str = Field(..., title="Icon Url")
     post_connections: Optional[
         List[BackboneApiAppRoutersIntegrationsPostConnectionItem]
     ] = Field(
         [],
-        description='List of post-connections that can be activated for this integration.',
-        title='Post Connections',
+        description="List of post-connections that can be activated for this integration.",
+        title="Post Connections",
     )
-    credentials: Optional[
-        List[BackboneApiAppRoutersIntegrationsCredentialItem]
-    ] = Field(
-        [],
-        description='List of credentials that must be specified to create a connection. Can be used if you want to pass credentials on connection creation. Not compatible with oAuth2 routes.',
-        title='Credentials',
+    credentials: Optional[List[BackboneApiAppRoutersIntegrationsCredentialItem]] = (
+        Field(
+            [],
+            description="List of credentials that must be specified to create a connection. Can be used if you want to pass credentials on connection creation. Not compatible with oAuth2 routes.",
+            title="Credentials",
+        )
     )
 
 
@@ -2780,260 +2780,260 @@ class InvoiceItemOutMonoAnalyticPlan(BaseModel):
     invoice_type: BackboneCommonModelsAccountingCommonInvoiceType
     invoice_number: Optional[str] = Field(
         None,
-        description='Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.',
-        title='Invoice Number',
+        description="Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.",
+        title="Invoice Number",
     )
     currency: str = Field(
         ...,
-        description='Indicates the currency of the invoice (e.g. EUR).',
-        title='Currency',
+        description="Indicates the currency of the invoice (e.g. EUR).",
+        title="Currency",
     )
-    untaxed_amount: float = Field(..., title='Untaxed Amount')
-    tax_amount: float = Field(..., title='Tax Amount')
-    total: float = Field(..., title='Total')
-    reference: Optional[str] = Field(None, title='Reference')
-    payment_communication: Optional[str] = Field(None, title='Payment Communication')
-    customer_memo: Optional[str] = Field(None, title='Customer Memo')
-    id: Optional[str] = Field(None, title='Id')
+    untaxed_amount: float = Field(..., title="Untaxed Amount")
+    tax_amount: float = Field(..., title="Tax Amount")
+    total: float = Field(..., title="Total")
+    reference: Optional[str] = Field(None, title="Reference")
+    payment_communication: Optional[str] = Field(None, title="Payment Communication")
+    customer_memo: Optional[str] = Field(None, title="Customer Memo")
+    id: Optional[str] = Field(None, title="Id")
     invoice_date: date = Field(
         ...,
         description="Accounting invoice date. It is automatically set to '1970-01-01' if the value is empty in the accounting system.",
-        title='Invoice Date',
+        title="Invoice Date",
     )
     due_date: date = Field(
         ...,
-        description='Due date of the invoice. We use the value of the invoice date if the value is not available/empty in the accounting system.',
-        title='Due Date',
+        description="Due date of the invoice. We use the value of the invoice date if the value is not available/empty in the accounting system.",
+        title="Due Date",
     )
-    partner_id: str = Field(..., title='Partner Id')
+    partner_id: str = Field(..., title="Partner Id")
     journal_id: str = Field(
         ...,
-        description='Indicates the journal used in for the invoice. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.',
-        title='Journal Id',
+        description="Indicates the journal used in for the invoice. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.",
+        title="Journal Id",
     )
-    payments: Optional[List[Payment]] = Field(None, title='Payments')
-    status: Optional[InvoiceStatusOut] = 'posted'
+    payments: Optional[List[Payment]] = Field(None, title="Payments")
+    status: Optional[InvoiceStatusOut] = "posted"
     last_updated_on: Optional[datetime] = Field(
         None,
-        description='The last time the invoice has been updated.',
-        title='Last Updated On',
+        description="The last time the invoice has been updated.",
+        title="Last Updated On",
     )
-    lines: List[InvoiceLineItemOutMonoAnalyticPlan] = Field(..., title='Lines')
+    lines: List[InvoiceLineItemOutMonoAnalyticPlan] = Field(..., title="Lines")
 
 
 class InvoiceLineItemInMultiAnalyticPlans(BaseModel):
-    line_number: Optional[int] = Field(1, title='Line Number')
-    description: str = Field(..., title='Description')
-    unit_price: float = Field(..., title='Unit Price')
+    line_number: Optional[int] = Field(1, title="Line Number")
+    description: str = Field(..., title="Description")
+    unit_price: float = Field(..., title="Unit Price")
     unit_of_measure: Optional[str] = Field(
         None,
         description="A list of default units can be used for which an advanced mapping has been done (units: 'hour', 'day', 'cm', 'm2', 'm3', 'm', 'km', 'mile', 'g', 'kg', 'ton', 'box', 'pallet', 'roll', 'liter', 'unit'). Custom units of measure must have an identical name in the target software.",
-        title='Unit Of Measure',
+        title="Unit Of Measure",
     )
-    quantity: float = Field(..., title='Quantity')
-    untaxed_amount: float = Field(..., title='Untaxed Amount')
+    quantity: float = Field(..., title="Quantity")
+    untaxed_amount: float = Field(..., title="Untaxed Amount")
     tax_rate: float = Field(
         ...,
-        description='Indicates the tax rate used for the line (e.g. 21.0).',
-        title='Tax Rate',
+        description="Indicates the tax rate used for the line (e.g. 21.0).",
+        title="Tax Rate",
     )
-    tax_amount: float = Field(..., title='Tax Amount')
-    total: float = Field(..., title='Total')
+    tax_amount: float = Field(..., title="Tax Amount")
+    total: float = Field(..., title="Total")
     account_number: constr(min_length=1) = Field(
         ...,
-        description='Indicates the number of the account used for the line (e.g. 701000).',
-        title='Account Number',
+        description="Indicates the number of the account used for the line (e.g. 701000).",
+        title="Account Number",
     )
     tax_code: constr(min_length=1) = Field(
         ...,
-        description='Indicates the tax code used for the line. This is the ID of the Tax Code in the accounting software.',
-        title='Tax Code',
+        description="Indicates the tax code used for the line. This is the ID of the Tax Code in the accounting software.",
+        title="Tax Code",
     )
     analytic_distribution: Optional[List[AnalyticDistribution]] = Field(
-        [], title='Analytic Distribution'
+        [], title="Analytic Distribution"
     )
 
 
 class InvoiceLineItemOutMultiAnalyticPlans(BaseModel):
-    line_number: Optional[int] = Field(1, title='Line Number')
-    description: str = Field(..., title='Description')
-    unit_price: float = Field(..., title='Unit Price')
+    line_number: Optional[int] = Field(1, title="Line Number")
+    description: str = Field(..., title="Description")
+    unit_price: float = Field(..., title="Unit Price")
     unit_of_measure: Optional[str] = Field(
         None,
         description="A list of default units can be used for which an advanced mapping has been done (units: 'hour', 'day', 'cm', 'm2', 'm3', 'm', 'km', 'mile', 'g', 'kg', 'ton', 'box', 'pallet', 'roll', 'liter', 'unit'). Custom units of measure must have an identical name in the target software.",
-        title='Unit Of Measure',
+        title="Unit Of Measure",
     )
-    quantity: float = Field(..., title='Quantity')
-    untaxed_amount: float = Field(..., title='Untaxed Amount')
+    quantity: float = Field(..., title="Quantity")
+    untaxed_amount: float = Field(..., title="Untaxed Amount")
     tax_rate: float = Field(
         ...,
-        description='Indicates the tax rate used for the line (e.g. 21.0).',
-        title='Tax Rate',
+        description="Indicates the tax rate used for the line (e.g. 21.0).",
+        title="Tax Rate",
     )
-    tax_amount: float = Field(..., title='Tax Amount')
-    total: float = Field(..., title='Total')
+    tax_amount: float = Field(..., title="Tax Amount")
+    total: float = Field(..., title="Total")
     account_number: str = Field(
         ...,
-        description='Indicates the number of the account used for the line (e.g. 701000).',
-        title='Account Number',
+        description="Indicates the number of the account used for the line (e.g. 701000).",
+        title="Account Number",
     )
     tax_code: Optional[str] = Field(
         None,
-        description='Indicates the tax code used for the line. This is the ID of the Tax Code in the accounting software.',
-        title='Tax Code',
+        description="Indicates the tax code used for the line. This is the ID of the Tax Code in the accounting software.",
+        title="Tax Code",
     )
     analytic_distribution: Optional[List[AnalyticDistribution]] = Field(
-        [], title='Analytic Distribution'
+        [], title="Analytic Distribution"
     )
 
 
 class InvoicePartnerItem(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
-    type: PartnerType = Field(..., description='Type of the partner', example='account')
+    type: PartnerType = Field(..., description="Type of the partner", example="account")
     address: Optional[AddressItem] = Field(
-        None, description='Address of the partner', title='Address'
+        None, description="Address of the partner", title="Address"
     )
     first_name: Optional[str] = Field(
         None,
-        description='First name of the partner. In case the partner is an individual.',
-        example='John',
-        title='First Name',
+        description="First name of the partner. In case the partner is an individual.",
+        example="John",
+        title="First Name",
     )
     last_name: Optional[str] = Field(
         None,
-        description='Last name of the partner. In case the partner is an individual.',
-        example='Doe',
-        title='Last Name',
+        description="Last name of the partner. In case the partner is an individual.",
+        example="Doe",
+        title="Last Name",
     )
     company_name: Optional[str] = Field(
         None,
-        description='Company name of the partner. In case the partner is a company.',
-        example='Acme Corp',
-        title='Company Name',
+        description="Company name of the partner. In case the partner is a company.",
+        example="Acme Corp",
+        title="Company Name",
     )
 
 
 class InvoicingPaymentItem(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
     status: BackboneCommonModelsPaymentCommonPaymentStatus = Field(
-        ..., description='Payment status'
+        ..., description="Payment status"
     )
-    description: str = Field(..., description='Description', title='Description')
-    amount: float = Field(..., description='Amount', title='Amount')
-    currency: str = Field(..., description='Currency', title='Currency')
+    description: str = Field(..., description="Description", title="Description")
+    amount: float = Field(..., description="Amount", title="Amount")
+    currency: str = Field(..., description="Currency", title="Currency")
     payment_date: datetime = Field(
-        ..., description='Date of creation', title='Payment Date'
+        ..., description="Date of creation", title="Payment Date"
     )
     partner_id: Optional[str] = Field(
-        None, description='Partner ID', title='Partner Id'
+        None, description="Partner ID", title="Partner Id"
     )
     payment_method_id: Optional[str] = Field(
         None,
-        description='Technical id of the payment method in Chift',
-        title='Payment Method Id',
+        description="Technical id of the payment method in Chift",
+        title="Payment Method Id",
     )
     payment_method_name: Optional[str] = Field(
-        None, description='Payment method name', title='Payment Method Name'
+        None, description="Payment method name", title="Payment Method Name"
     )
     invoice_id: Optional[str] = Field(
-        None, description='Technical id of the invoice in Chift', title='Invoice Id'
+        None, description="Technical id of the invoice in Chift", title="Invoice Id"
     )
     invoice_number: Optional[str] = Field(
-        None, description='Invoice number', title='Invoice Number'
+        None, description="Invoice number", title="Invoice Number"
     )
 
 
 class InvoicingPaymentMethodItem(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
-    name: str = Field(..., description='Payment method name', title='Name')
+    name: str = Field(..., description="Payment method name", title="Name")
 
 
 class InvoicingVatCode(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
-    label: str = Field(..., description='Label', title='Label')
-    rate: float = Field(..., description='Tax rate (e.g. 21.0)', title='Rate')
+    label: str = Field(..., description="Label", title="Label")
+    rate: float = Field(..., description="Tax rate (e.g. 21.0)", title="Rate")
     type: BackboneCommonModelsInvoicingCommonVatCodeType = Field(
-        ..., description='Type'
+        ..., description="Type"
     )
-    code: Optional[str] = Field(None, description='Code', title='Code')
+    code: Optional[str] = Field(None, description="Code", title="Code")
     scope: Optional[BackboneCommonModelsInvoicingCommonVatCodeScope] = Field(
-        'unknown', description='Scope'
+        "unknown", description="Scope"
     )
 
 
 class Journal(BaseModel):
-    id: str = Field(..., title='Id')
-    code: Optional[str] = Field(None, title='Code')
-    name: str = Field(..., title='Name')
+    id: str = Field(..., title="Id")
+    code: Optional[str] = Field(None, title="Code")
+    name: str = Field(..., title="Name")
     journal_type: JournalType
-    counterpart_account: Optional[str] = Field(None, title='Counterpart Account')
+    counterpart_account: Optional[str] = Field(None, title="Counterpart Account")
     next_document_numbers: Optional[List[NextDocumentNumber]] = Field(
-        [], title='Next Document Numbers'
+        [], title="Next Document Numbers"
     )
 
 
 class JournalEntryMonoAnalyticPlan(BaseModel):
-    reference: Optional[str] = Field(None, title='Reference')
-    due_date: Optional[date] = Field(None, title='Due Date')
-    journal_id: str = Field(..., title='Journal Id')
-    name: Optional[str] = Field(None, title='Name')
-    journal_name: str = Field(..., title='Journal Name')
+    reference: Optional[str] = Field(None, title="Reference")
+    due_date: Optional[date] = Field(None, title="Due Date")
+    journal_id: str = Field(..., title="Journal Id")
+    name: Optional[str] = Field(None, title="Name")
+    journal_name: str = Field(..., title="Journal Name")
     date: Optional[date] = Field(
-        '1970-01-01',
+        "1970-01-01",
         description="Accounting date of the journal entry. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.",
-        title='Date',
+        title="Date",
     )
-    posted: Optional[bool] = Field(False, title='Posted')
-    id: str = Field(..., title='Id')
-    items: Optional[List[JournalItemMonoAnalyticPlan]] = Field([], title='Items')
+    posted: Optional[bool] = Field(False, title="Posted")
+    id: str = Field(..., title="Id")
+    items: Optional[List[JournalItemMonoAnalyticPlan]] = Field([], title="Items")
 
 
 class JournalIn(BaseModel):
-    code: constr(min_length=2) = Field(..., title='Code')
-    name: constr(min_length=1) = Field(..., title='Name')
+    code: constr(min_length=2) = Field(..., title="Code")
+    name: constr(min_length=1) = Field(..., title="Name")
     journal_type: JournalInType
-    counterpart_account: Optional[str] = Field(None, title='Counterpart Account')
+    counterpart_account: Optional[str] = Field(None, title="Counterpart Account")
 
 
 class JournalItemIn(BaseModel):
-    account_number: constr(min_length=1) = Field(..., title='Account Number')
-    partner_id: Optional[str] = Field(None, title='Partner Id')
-    description: Optional[str] = Field(None, title='Description')
-    debit: float = Field(..., title='Debit')
-    credit: float = Field(..., title='Credit')
-    currency: constr(min_length=1) = Field(..., title='Currency')
-    currency_exchange_rate: Optional[float] = Field(1, title='Currency Exchange Rate')
+    account_number: constr(min_length=1) = Field(..., title="Account Number")
+    partner_id: Optional[str] = Field(None, title="Partner Id")
+    description: Optional[str] = Field(None, title="Description")
+    debit: float = Field(..., title="Debit")
+    credit: float = Field(..., title="Credit")
+    currency: constr(min_length=1) = Field(..., title="Currency")
+    currency_exchange_rate: Optional[float] = Field(1, title="Currency Exchange Rate")
     analytic_distribution: Optional[List[AnalyticDistribution]] = Field(
-        [], title='Analytic Distribution'
+        [], title="Analytic Distribution"
     )
 
 
 class JournalItemMultiAnalyticPlan(BaseModel):
-    account_number: constr(min_length=1) = Field(..., title='Account Number')
-    partner_id: Optional[str] = Field(None, title='Partner Id')
-    description: Optional[str] = Field(None, title='Description')
-    debit: float = Field(..., title='Debit')
-    credit: float = Field(..., title='Credit')
-    currency: constr(min_length=1) = Field(..., title='Currency')
-    currency_exchange_rate: Optional[float] = Field(1, title='Currency Exchange Rate')
-    id: str = Field(..., title='Id')
-    partner_name: Optional[str] = Field(None, title='Partner Name')
-    account_name: str = Field(..., title='Account Name')
-    matching_numbers: Optional[List[str]] = Field([], title='Matching Numbers')
+    account_number: constr(min_length=1) = Field(..., title="Account Number")
+    partner_id: Optional[str] = Field(None, title="Partner Id")
+    description: Optional[str] = Field(None, title="Description")
+    debit: float = Field(..., title="Debit")
+    credit: float = Field(..., title="Credit")
+    currency: constr(min_length=1) = Field(..., title="Currency")
+    currency_exchange_rate: Optional[float] = Field(1, title="Currency Exchange Rate")
+    id: str = Field(..., title="Id")
+    partner_name: Optional[str] = Field(None, title="Partner Name")
+    account_name: str = Field(..., title="Account Name")
+    matching_numbers: Optional[List[str]] = Field([], title="Matching Numbers")
     analytic_distribution: Optional[List[AnalyticDistribution]] = Field(
-        [], title='Analytic Distribution'
+        [], title="Analytic Distribution"
     )
 
 
@@ -3042,46 +3042,46 @@ class LocalAgentInfo(BaseModel):
 
 
 class MiscellaneousOperationLine(BaseModel):
-    line_number: Optional[int] = Field(1, title='Line Number')
-    description: Optional[str] = Field(None, title='Description')
+    line_number: Optional[int] = Field(1, title="Line Number")
+    description: Optional[str] = Field(None, title="Description")
     amount: float = Field(
-        ..., description='Positive for Credit and negative for Debit.', title='Amount'
+        ..., description="Positive for Credit and negative for Debit.", title="Amount"
     )
     type: MiscellaneousOperationLineType
-    account_number: str = Field(..., title='Account Number')
+    account_number: str = Field(..., title="Account Number")
     partner_id: Optional[str] = Field(
         None,
         description="Must be filled in it is a 'customer_account' or 'supplier_account' line type.",
-        title='Partner Id',
+        title="Partner Id",
     )
-    analytic_account: Optional[str] = Field(None, title='Analytic Account')
+    analytic_account: Optional[str] = Field(None, title="Analytic Account")
 
 
 class MiscellaneousOperationOut(BaseModel):
-    operation_number: Optional[str] = Field(None, title='Operation Number')
+    operation_number: Optional[str] = Field(None, title="Operation Number")
     currency: str = Field(
         ...,
-        description='Indicates the currency of the operation (e.g. EUR).',
-        title='Currency',
+        description="Indicates the currency of the operation (e.g. EUR).",
+        title="Currency",
     )
     currency_exchange_rate: Optional[float] = Field(
         1,
-        description='Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.',
-        title='Currency Exchange Rate',
+        description="Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.",
+        title="Currency Exchange Rate",
     )
-    lines: List[MiscellaneousOperationLine] = Field(..., title='Lines')
+    lines: List[MiscellaneousOperationLine] = Field(..., title="Lines")
     operation_date: Optional[date] = Field(
-        '1970-01-01',
+        "1970-01-01",
         description="Accounting date of the miscellaneous operation. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.",
-        title='Operation Date',
+        title="Operation Date",
     )
     journal_id: str = Field(
         ...,
-        description='Indicates the journal used in for the operation.',
-        title='Journal Id',
+        description="Indicates the journal used in for the operation.",
+        title="Journal Id",
     )
     status: MiscellaneousOperationStatusOut
-    id: str = Field(..., title='Id')
+    id: str = Field(..., title="Id")
 
 
 class NlPaymentTermsSplit(BaseModel):
@@ -3090,40 +3090,40 @@ class NlPaymentTermsSplit(BaseModel):
 
 
 class OpportunityItem(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
-    name: str = Field(..., description='Name', title='Name')
-    total: float = Field(..., description='Total', title='Total')
+    name: str = Field(..., description="Name", title="Name")
+    total: float = Field(..., description="Total", title="Total")
     probability: float = Field(
-        ..., description='Probability of success', title='Probability'
+        ..., description="Probability of success", title="Probability"
     )
-    status: OpportunityStatus = Field(..., description='Status')
+    status: OpportunityStatus = Field(..., description="Status")
     partner_id: Optional[str] = Field(
-        None, description='Technical id of the customer in Chift', title='Partner Id'
+        None, description="Technical id of the customer in Chift", title="Partner Id"
     )
-    comment: Optional[str] = Field(None, description='Comment', title='Comment')
+    comment: Optional[str] = Field(None, description="Comment", title="Comment")
     currency: Optional[str] = Field(
-        None, description='Currency matching target sofware name', title='Currency'
+        None, description="Currency matching target sofware name", title="Currency"
     )
     description: Optional[str] = Field(
-        None, description='Description', title='Description'
+        None, description="Description", title="Description"
     )
     pipe_status: Optional[str] = Field(
-        None, description='Current stage in pipeline', title='Pipe Status'
+        None, description="Current stage in pipeline", title="Pipe Status"
     )
     pipe_name: Optional[str] = Field(
-        None, description='Pipeline name', title='Pipe Name'
+        None, description="Pipeline name", title="Pipe Name"
     )
     created_date: Optional[date] = Field(
-        None, description='Date creation', title='Created Date'
+        None, description="Date creation", title="Created Date"
     )
-    due_date: Optional[date] = Field(None, description='Due Date', title='Due Date')
-    end_date: Optional[date] = Field(None, description='End Date', title='End Date')
-    is_won: Optional[bool] = Field(None, description='Is won?', title='Is Won')
+    due_date: Optional[date] = Field(None, description="Due Date", title="Due Date")
+    end_date: Optional[date] = Field(None, description="End Date", title="End Date")
+    is_won: Optional[bool] = Field(None, description="Is won?", title="Is Won")
     owner_ref: Optional[FieldRef] = Field(
-        None, description='Employee/User', title='Owner Ref'
+        None, description="Employee/User", title="Owner Ref"
     )
 
 
@@ -3133,485 +3133,485 @@ class OrderItemIn(BaseModel):
     shipping_address: BackboneCommonModelsCommerceCommonAddressItemIn
     currency: str = Field(
         ...,
-        description='Indicates the currency of the order (e.g. EUR).',
-        title='Currency',
+        description="Indicates the currency of the order (e.g. EUR).",
+        title="Currency",
     )
-    note: Optional[str] = Field(None, title='Note')
-    lines: List[OrderLineItemIn] = Field(..., title='Lines')
+    note: Optional[str] = Field(None, title="Note")
+    lines: List[OrderLineItemIn] = Field(..., title="Lines")
     payment_method: Optional[str] = Field(
         None,
-        description='If filled in the order will be marked as paid and processed by this payment method.',
-        title='Payment Method',
+        description="If filled in the order will be marked as paid and processed by this payment method.",
+        title="Payment Method",
     )
 
 
 class OrderLineProductVariantItem(BaseModel):
     id: str = Field(
-        ..., description='Technical id of the product variant in Chift', title='Id'
+        ..., description="Technical id of the product variant in Chift", title="Id"
     )
-    sku: Optional[str] = Field(None, title='Sku')
-    name: str = Field(..., title='Name')
+    sku: Optional[str] = Field(None, title="Sku")
+    name: str = Field(..., title="Name")
     categories: Optional[
         List[BackboneCommonModelsCommerceCommonProductCategoryItem]
-    ] = Field([], title='Categories')
+    ] = Field([], title="Categories")
 
 
 class OrderTransactions(BaseModel):
     id: str = Field(
-        ..., description='Technical id of the transaction in the eCommerce', title='Id'
+        ..., description="Technical id of the transaction in the eCommerce", title="Id"
     )
-    created_on: Optional[datetime] = Field(None, title='Created On')
+    created_on: Optional[datetime] = Field(None, title="Created On")
     payment_method_id: Optional[str] = Field(
         None,
-        description='Technical id of the payment method in the eCommerce',
-        title='Payment Method Id',
+        description="Technical id of the payment method in the eCommerce",
+        title="Payment Method Id",
     )
     payment_method_name: Optional[str] = Field(
-        None, description='Name of the payment method', title='Payment Method Name'
+        None, description="Name of the payment method", title="Payment Method Name"
     )
-    amount: float = Field(..., title='Amount')
+    amount: float = Field(..., title="Amount")
     status: TransactionStatus
 
 
 class PMSAccountingCategoryItem(BaseModel):
     id: str = Field(
         ...,
-        description='Unique identifier of the accounting category',
-        example='371ca583-d218-4900-b236-397532cf0e2',
-        title='Id',
+        description="Unique identifier of the accounting category",
+        example="371ca583-d218-4900-b236-397532cf0e2",
+        title="Id",
     )
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
     name: str = Field(
         ...,
-        description='Name given to the accounting category',
-        example='Beverages',
-        title='Name',
+        description="Name given to the accounting category",
+        example="Beverages",
+        title="Name",
     )
     code: Optional[str] = Field(
         None,
-        description='Code assigned to the category',
-        example='123456',
-        title='Code',
+        description="Code assigned to the category",
+        example="123456",
+        title="Code",
     )
     ledger_account_code: Optional[str] = Field(
         None,
-        description='Ledger account code assigned to the category',
-        example='123456',
-        title='Ledger Account Code',
+        description="Ledger account code assigned to the category",
+        example="123456",
+        title="Ledger Account Code",
     )
     posting_account_code: Optional[str] = Field(
         None,
-        description='Posting account code assigned to the category',
-        example='123456',
-        title='Posting Account Code',
+        description="Posting account code assigned to the category",
+        example="123456",
+        title="Posting Account Code",
     )
 
 
 class PMSCustomerItem(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
     first_name: Optional[str] = Field(
         None,
-        description='First name of the customer. In case the customer is an individual.',
-        example='John',
-        title='First Name',
+        description="First name of the customer. In case the customer is an individual.",
+        example="John",
+        title="First Name",
     )
     last_name: Optional[str] = Field(
         None,
-        description='Last name of the customer. In case the customer is an individual.',
-        example='Doe',
-        title='Last Name',
+        description="Last name of the customer. In case the customer is an individual.",
+        example="Doe",
+        title="Last Name",
     )
     company_name: Optional[str] = Field(
         None,
-        description='Company name of the customer. In case the customer is a company.',
-        example='Acme Corp',
-        title='Company Name',
+        description="Company name of the customer. In case the customer is a company.",
+        example="Acme Corp",
+        title="Company Name",
     )
     phone: Optional[str] = Field(
         None,
-        description='Phone number of the customer',
-        example='+1234567890',
-        title='Phone',
+        description="Phone number of the customer",
+        example="+1234567890",
+        title="Phone",
     )
     email: Optional[str] = Field(
         None,
-        description='Email address of the customer',
-        example='john.doe@example.com',
-        title='Email',
+        description="Email address of the customer",
+        example="john.doe@example.com",
+        title="Email",
     )
     account_number: Optional[str] = Field(
         None,
-        description='Number of the accounting account used (e.g. 701000)',
-        example='701000',
-        title='Account Number',
+        description="Number of the accounting account used (e.g. 701000)",
+        example="701000",
+        title="Account Number",
     )
     created_on: Optional[datetime] = Field(
         None,
-        description='Creation date of the customer',
-        example='2023-09-25T12:00:00',
-        title='Created On',
+        description="Creation date of the customer",
+        example="2023-09-25T12:00:00",
+        title="Created On",
     )
     addresses: Optional[List[AddressItem]] = Field(
-        None, description='List of addresses related to the customer', title='Addresses'
+        None, description="List of addresses related to the customer", title="Addresses"
     )
 
 
 class PMSOrderLineItem(BaseModel):
     id: str = Field(
         ...,
-        description='Unique identifier of the order line item',
-        example='123',
-        title='Id',
+        description="Unique identifier of the order line item",
+        example="123",
+        title="Id",
     )
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
     type: Optional[POSLineItemType] = Field(
-        None, description='Type of the order line item', example='product'
+        None, description="Type of the order line item", example="product"
     )
     menu_id: Optional[str] = Field(
         None,
-        description='Unique identifier of the menu',
-        example='456',
-        title='Menu Id',
+        description="Unique identifier of the menu",
+        example="456",
+        title="Menu Id",
     )
     quantity: float = Field(
-        ..., description='Quantity of the order line item', example=1, title='Quantity'
+        ..., description="Quantity of the order line item", example=1, title="Quantity"
     )
     unit_price: float = Field(
         ...,
-        description='Unit price (without tax) of the order line item',
+        description="Unit price (without tax) of the order line item",
         example=10,
-        title='Unit Price',
+        title="Unit Price",
     )
     total: float = Field(
         ...,
-        description='Total amount including tax of the order line item',
+        description="Total amount including tax of the order line item",
         example=11,
-        title='Total',
+        title="Total",
     )
     tax_amount: float = Field(
         ...,
-        description='Total amount of the taxes of the order line item',
+        description="Total amount of the taxes of the order line item",
         example=1,
-        title='Tax Amount',
+        title="Tax Amount",
     )
     tax_rate: Optional[float] = Field(
         None,
-        description='Tax rate of the order line item',
+        description="Tax rate of the order line item",
         example=10,
-        title='Tax Rate',
+        title="Tax Rate",
     )
     description: Optional[str] = Field(
         None,
-        description='Description of the order line item',
-        example='Pizza',
-        title='Description',
+        description="Description of the order line item",
+        example="Pizza",
+        title="Description",
     )
     discounts: Optional[List[BackboneCommonModelsPosPmsDiscountItem]] = Field(
         [],
-        description='List of discounts of the order line item. Discounts of items are always part of the total discount of the order',
+        description="List of discounts of the order line item. Discounts of items are always part of the total discount of the order",
         example=[],
-        title='Discounts',
+        title="Discounts",
     )
     product_id: Optional[str] = Field(
         None,
-        description='Reference to the product related to this item',
-        example='789',
-        title='Product Id',
+        description="Reference to the product related to this item",
+        example="789",
+        title="Product Id",
     )
     accounting_category_id: Optional[str] = Field(
         None,
-        description='Sometimes used by a POS to give a specific accounting category to an order item',
-        example='123',
-        title='Accounting Category Id',
+        description="Sometimes used by a POS to give a specific accounting category to an order item",
+        example="123",
+        title="Accounting Category Id",
     )
 
 
 class PMSPaymentItem(BaseModel):
     id: Optional[str] = Field(
         None,
-        description='Unique identifier of the payment',
-        example='payment-123',
-        title='Id',
+        description="Unique identifier of the payment",
+        example="payment-123",
+        title="Id",
     )
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
     payment_method_id: Optional[str] = Field(
         None,
-        description='Unique identifier of the payment method used for the payment',
-        example='payment-method-123',
-        title='Payment Method Id',
+        description="Unique identifier of the payment method used for the payment",
+        example="payment-method-123",
+        title="Payment Method Id",
     )
     payment_method_name: Optional[str] = Field(
         None,
         description="Chift's name of the payment method used for the payment",
-        example='Cash',
-        title='Payment Method Name',
+        example="Cash",
+        title="Payment Method Name",
     )
     total: float = Field(
-        ..., description='Total amount of the payment', example=11, title='Total'
+        ..., description="Total amount of the payment", example=11, title="Total"
     )
     tip: Optional[float] = Field(
         0,
-        description='Total amount of the tips of the payment. Tips are not part of the total of the payment',
+        description="Total amount of the tips of the payment. Tips are not part of the total of the payment",
         example=1,
-        title='Tip',
+        title="Tip",
     )
     status: Optional[BackboneCommonModelsPosPmsPaymentStatus] = Field(
-        'Unknown', description='Status of the payment', example='Completed'
+        "Unknown", description="Status of the payment", example="Completed"
     )
     currency: Optional[str] = Field(
-        None, description='Currency of the payment', example='EUR', title='Currency'
+        None, description="Currency of the payment", example="EUR", title="Currency"
     )
     date: Optional[datetime] = Field(
         None,
-        description='Date of the payment',
-        example='2025-01-01T00:00:00Z',
-        title='Date',
+        description="Date of the payment",
+        example="2025-01-01T00:00:00Z",
+        title="Date",
     )
     partner_id: Optional[ChiftId] = Field(
         None,
-        description='Reference to the customer related to this payment',
-        title='Partner Id',
+        description="Reference to the customer related to this payment",
+        title="Partner Id",
     )
 
 
 class PMSPaymentMethods(BaseModel):
     id: str = Field(
         ...,
-        description='Unique identifier of the payment method',
-        example='371ca583-d218-4900-b236-397532cf0e52',
-        title='Id',
+        description="Unique identifier of the payment method",
+        example="371ca583-d218-4900-b236-397532cf0e52",
+        title="Id",
     )
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
     name: str = Field(
         ...,
         description="Chift's name of the payment method (e.g. 'Cash', 'Card', 'Transfer', ...)",
-        example='Cash',
-        title='Name',
+        example="Cash",
+        title="Name",
     )
     extra: Optional[str] = Field(
         None,
-        description='Original name of the payment method',
-        example='Espèces',
-        title='Extra',
+        description="Original name of the payment method",
+        example="Espèces",
+        title="Extra",
     )
     ledger_account_code: Optional[str] = Field(
         None,
-        description='Ledger account code assigned to the category',
-        example='4000',
-        title='Ledger Account Code',
+        description="Ledger account code assigned to the category",
+        example="4000",
+        title="Ledger Account Code",
     )
 
 
 class PMSTaxRateItem(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
     label: Optional[str] = Field(
-        None, description='Label of the tax rate', example='VAT 21%', title='Label'
+        None, description="Label of the tax rate", example="VAT 21%", title="Label"
     )
     rate: Optional[float] = Field(
-        None, description='Percentage of the tax rate', example=21.0, title='Rate'
+        None, description="Percentage of the tax rate", example=21.0, title="Rate"
     )
 
 
 class POSClosureInformationItem(BaseModel):
-    id: str = Field(..., title='Id')
+    id: str = Field(..., title="Id")
     total: float = Field(
         ...,
-        description='Total amount of the payments in current closure',
-        title='Total',
+        description="Total amount of the payments in current closure",
+        title="Total",
     )
     tax_amount: float = Field(
-        ..., description='Total tax amount the in current closure', title='Tax Amount'
+        ..., description="Total tax amount the in current closure", title="Tax Amount"
     )
     payments: Optional[List[ClosurePaymentItem]] = Field(
-        [], description='List of payments related to current closure', title='Payments'
+        [], description="List of payments related to current closure", title="Payments"
     )
     taxes: Optional[List[TotalTaxItem]] = Field(
-        [], description='List of taxes related to current closure', title='Taxes'
+        [], description="List of taxes related to current closure", title="Taxes"
     )
 
 
 class POSCreateCustomerItem(BaseModel):
     first_name: constr(min_length=1) = Field(
         ...,
-        description='First name of the customer',
-        example='John',
-        title='First Name',
+        description="First name of the customer",
+        example="John",
+        title="First Name",
     )
     last_name: constr(min_length=1) = Field(
-        ..., description='Last name of the customer', example='Doe', title='Last Name'
+        ..., description="Last name of the customer", example="Doe", title="Last Name"
     )
     phone: Optional[str] = Field(
         None,
-        description='Phone number (mobile, home, work, ...) of the customer',
-        example='+32475123456',
-        title='Phone',
+        description="Phone number (mobile, home, work, ...) of the customer",
+        example="+32475123456",
+        title="Phone",
     )
     email: Optional[str] = Field(
         None,
-        description='Email address of the customer',
-        example='john.doe@gmail.com',
-        title='Email',
+        description="Email address of the customer",
+        example="john.doe@gmail.com",
+        title="Email",
     )
     address: Optional[PostAddressItem] = Field(
-        None, description='Address of the customer', title='Address'
+        None, description="Address of the customer", title="Address"
     )
 
 
 class POSItem(BaseModel):
     id: str = Field(
         ...,
-        description='Unique identifier of the order line item',
-        example='123',
-        title='Id',
+        description="Unique identifier of the order line item",
+        example="123",
+        title="Id",
     )
     type: Optional[POSLineItemType] = Field(
-        None, description='Type of the order line item', example='product'
+        None, description="Type of the order line item", example="product"
     )
     menu_id: Optional[str] = Field(
         None,
-        description='Unique identifier of the menu',
-        example='456',
-        title='Menu Id',
+        description="Unique identifier of the menu",
+        example="456",
+        title="Menu Id",
     )
     quantity: float = Field(
-        ..., description='Quantity of the order line item', example=1, title='Quantity'
+        ..., description="Quantity of the order line item", example=1, title="Quantity"
     )
     unit_price: float = Field(
         ...,
-        description='Unit price (without tax) of the order line item',
+        description="Unit price (without tax) of the order line item",
         example=10,
-        title='Unit Price',
+        title="Unit Price",
     )
     total: float = Field(
         ...,
-        description='Total amount including tax of the order line item',
+        description="Total amount including tax of the order line item",
         example=11,
-        title='Total',
+        title="Total",
     )
     tax_amount: float = Field(
         ...,
-        description='Total amount of the taxes of the order line item',
+        description="Total amount of the taxes of the order line item",
         example=1,
-        title='Tax Amount',
+        title="Tax Amount",
     )
     tax_rate: Optional[float] = Field(
         None,
-        description='Tax rate of the order line item',
+        description="Tax rate of the order line item",
         example=10,
-        title='Tax Rate',
+        title="Tax Rate",
     )
     description: Optional[str] = Field(
         None,
-        description='Description of the order line item',
-        example='Pizza',
-        title='Description',
+        description="Description of the order line item",
+        example="Pizza",
+        title="Description",
     )
     discounts: Optional[List[BackboneCommonModelsPosPmsDiscountItem]] = Field(
         [],
-        description='List of discounts of the order line item. Discounts of items are always part of the total discount of the order',
+        description="List of discounts of the order line item. Discounts of items are always part of the total discount of the order",
         example=[],
-        title='Discounts',
+        title="Discounts",
     )
     product_id: Optional[str] = Field(
         None,
-        description='Reference to the product related to this item',
-        example='789',
-        title='Product Id',
+        description="Reference to the product related to this item",
+        example="789",
+        title="Product Id",
     )
     accounting_category_id: Optional[str] = Field(
         None,
-        description='Sometimes used by a POS to give a specific accounting category to an order item',
-        example='123',
-        title='Accounting Category Id',
+        description="Sometimes used by a POS to give a specific accounting category to an order item",
+        example="123",
+        title="Accounting Category Id",
     )
 
 
 class POSPaymentItem(BaseModel):
     id: Optional[str] = Field(
         None,
-        description='Unique identifier of the payment',
-        example='payment-123',
-        title='Id',
+        description="Unique identifier of the payment",
+        example="payment-123",
+        title="Id",
     )
     payment_method_id: Optional[str] = Field(
         None,
-        description='Unique identifier of the payment method used for the payment',
-        example='payment-method-123',
-        title='Payment Method Id',
+        description="Unique identifier of the payment method used for the payment",
+        example="payment-method-123",
+        title="Payment Method Id",
     )
     payment_method_name: Optional[str] = Field(
         None,
         description="Chift's name of the payment method used for the payment",
-        example='Cash',
-        title='Payment Method Name',
+        example="Cash",
+        title="Payment Method Name",
     )
     total: float = Field(
-        ..., description='Total amount of the payment', example=11, title='Total'
+        ..., description="Total amount of the payment", example=11, title="Total"
     )
     tip: Optional[float] = Field(
         0,
-        description='Total amount of the tips of the payment. Tips are not part of the total of the payment',
+        description="Total amount of the tips of the payment. Tips are not part of the total of the payment",
         example=1,
-        title='Tip',
+        title="Tip",
     )
     status: Optional[BackboneCommonModelsPosPmsPaymentStatus] = Field(
-        'Unknown', description='Status of the payment', example='Completed'
+        "Unknown", description="Status of the payment", example="Completed"
     )
     currency: Optional[str] = Field(
-        None, description='Currency of the payment', example='EUR', title='Currency'
+        None, description="Currency of the payment", example="EUR", title="Currency"
     )
     date: Optional[datetime] = Field(
         None,
-        description='Date of the payment',
-        example='2025-01-01T00:00:00Z',
-        title='Date',
+        description="Date of the payment",
+        example="2025-01-01T00:00:00Z",
+        title="Date",
     )
 
 
 class POSProductItem(BaseModel):
     id: str = Field(
         ...,
-        description='Unique identifier of the product',
-        example='371ca583-d218-4900-b236-397532cf0e39',
-        title='Id',
+        description="Unique identifier of the product",
+        example="371ca583-d218-4900-b236-397532cf0e39",
+        title="Id",
     )
     categories: Optional[List[str]] = Field(
         [],
-        description='List of categories the product belongs to',
-        example='371ca583-d218-4900-b236-397532cf0e52',
-        title='Categories',
+        description="List of categories the product belongs to",
+        example="371ca583-d218-4900-b236-397532cf0e52",
+        title="Categories",
     )
     name: str = Field(
-        ..., description='Name ofthe product', example='Pizza margheritta', title='Name'
+        ..., description="Name ofthe product", example="Pizza margheritta", title="Name"
     )
     description: Optional[str] = Field(
         None,
-        description='Description of the product',
-        example='Pizza margheritta',
-        title='Description',
+        description="Description of the product",
+        example="Pizza margheritta",
+        title="Description",
     )
     prices: List[BackboneCommonModelsPosCommonProductPriceItem] = Field(
-        ..., description='List of prices for the product', title='Prices'
+        ..., description="List of prices for the product", title="Prices"
     )
     accounting_category_ids: Optional[List[str]] = Field(
         None,
-        description='Used by a POS to give one or more specific accounting categories to a product item. If not available it will use the category ids',
-        example='371ca583-d218-4900-b236-397532cf0e2',
-        title='Accounting Category Ids',
+        description="Used by a POS to give one or more specific accounting categories to a product item. If not available it will use the category ids",
+        example="371ca583-d218-4900-b236-397532cf0e2",
+        title="Accounting Category Ids",
     )
 
 
@@ -3619,1782 +3619,1782 @@ class PatchConnectionItem(BaseModel):
     redirect: Optional[bool] = Field(
         False,
         description="Indicates whether you want to return to the consumer's redirectUrl after update (true) or whether you want to return on the connection page (false)",
-        title='Redirect',
+        title="Redirect",
     )
     name: Optional[str] = Field(
         None,
-        description='Can be used to update the name of an existing connection',
-        title='Name',
+        description="Can be used to update the name of an existing connection",
+        title="Name",
     )
     credentials: Optional[List[BackboneApiAppRoutersConnectionsCredentialItem]] = Field(
         None,
-        description='Can be used to update the credentials of an existing connection. Please use the getIntegrations route to see the available credentials for each integration',
-        title='Credentials',
+        description="Can be used to update the credentials of an existing connection. Please use the getIntegrations route to see the available credentials for each integration",
+        title="Credentials",
     )
 
 
 class PaymentItemOut(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
     status: BackboneCommonModelsPaymentCommonPaymentStatus = Field(
-        ..., description='Payment status'
+        ..., description="Payment status"
     )
-    description: str = Field(..., description='Description', title='Description')
-    amount: float = Field(..., description='Amount', title='Amount')
-    currency: str = Field(..., description='Currency', title='Currency')
+    description: str = Field(..., description="Description", title="Description")
+    amount: float = Field(..., description="Amount", title="Amount")
+    currency: str = Field(..., description="Currency", title="Currency")
     payment_date: datetime = Field(
-        ..., description='Date of creation', title='Payment Date'
+        ..., description="Date of creation", title="Payment Date"
     )
     partner_id: Optional[str] = Field(
-        None, description='Partner ID', title='Partner Id'
+        None, description="Partner ID", title="Partner Id"
     )
 
 
 class PaymentMethodItem(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
-    name: str = Field(..., title='Name')
-    active: bool = Field(..., title='Active')
+    name: str = Field(..., title="Name")
+    active: bool = Field(..., title="Active")
 
 
 class PaymentReporting(BaseModel):
-    method: Optional[PaymentReportingMethod] = Field(None, description='Payment method')
+    method: Optional[PaymentReportingMethod] = Field(None, description="Payment method")
     conditions: Optional[PaymentReportingConditions] = Field(
-        None, description='Payment conditions'
+        None, description="Payment conditions"
     )
 
 
 class ProductItemOut(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
-    name: str = Field(..., description='Name', title='Name')
+    name: str = Field(..., description="Name", title="Name")
     unit_price: Optional[float] = Field(
-        None, description='Unit price', title='Unit Price'
+        None, description="Unit price", title="Unit Price"
     )
     tax_id: Optional[str] = Field(
-        None, description='Technical id of the tax in Chift', title='Tax Id'
+        None, description="Technical id of the tax in Chift", title="Tax Id"
     )
-    code: Optional[str] = Field(None, description='Reference/code', title='Code')
+    code: Optional[str] = Field(None, description="Reference/code", title="Code")
     unit: Optional[str] = Field(
-        None, description='Unit of measure matching target sofware name', title='Unit'
+        None, description="Unit of measure matching target sofware name", title="Unit"
     )
     category: Optional[str] = Field(
-        None, description='Category matching target sofware name', title='Category'
+        None, description="Category matching target sofware name", title="Category"
     )
     currency: Optional[str] = Field(
-        None, description='Currency matching target sofware name', title='Currency'
+        None, description="Currency matching target sofware name", title="Currency"
     )
     description: Optional[str] = Field(
-        None, description='Description', title='Description'
+        None, description="Description", title="Description"
     )
     available_quantity: Optional[float] = Field(
         0,
-        description='Available quanity of the product in stock. Will only be used for products that have an inventory (services will always be 0)',
-        title='Available Quantity',
+        description="Available quanity of the product in stock. Will only be used for products that have an inventory (services will always be 0)",
+        title="Available Quantity",
     )
-    cost: Optional[float] = Field(0, description='Cost of the product', title='Cost')
+    cost: Optional[float] = Field(0, description="Cost of the product", title="Cost")
 
 
 class ProductVariantItem(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
     parent_id: str = Field(
         ...,
-        description='Technical id of the parent product in Chift',
-        title='Parent Id',
+        description="Technical id of the parent product in Chift",
+        title="Parent Id",
     )
-    name: str = Field(..., title='Name')
-    description: Optional[str] = Field(None, title='Description')
-    description_html: Optional[str] = Field(None, title='Description Html')
+    name: str = Field(..., title="Name")
+    description: Optional[str] = Field(None, title="Description")
+    description_html: Optional[str] = Field(None, title="Description Html")
     categories: Optional[
         List[BackboneCommonModelsCommerceCommonProductCategoryItem]
-    ] = Field([], title='Categories')
-    created_on: Optional[datetime] = Field(None, title='Created On')
-    sku: Optional[str] = Field(None, title='Sku')
-    barcode: Optional[str] = Field(None, title='Barcode')
-    available_quantity: Optional[float] = Field(0, title='Available Quantity')
+    ] = Field([], title="Categories")
+    created_on: Optional[datetime] = Field(None, title="Created On")
+    sku: Optional[str] = Field(None, title="Sku")
+    barcode: Optional[str] = Field(None, title="Barcode")
+    available_quantity: Optional[float] = Field(0, title="Available Quantity")
     prices: Optional[List[BackboneCommonModelsCommerceCommonProductPriceItem]] = Field(
-        [], title='Prices'
+        [], title="Prices"
     )
     unit_cost: Optional[ProductCostItem] = None
-    unit_of_measure: Optional[str] = Field(None, title='Unit Of Measure')
-    weight: Optional[float] = Field(0, title='Weight')
-    weight_unit: Optional[str] = Field(None, title='Weight Unit')
+    unit_of_measure: Optional[str] = Field(None, title="Unit Of Measure")
+    weight: Optional[float] = Field(0, title="Weight")
+    weight_unit: Optional[str] = Field(None, title="Weight Unit")
     status: Optional[ProductStatus] = None
     variant_attributes: Optional[List[VariantAttributeItem]] = Field(
         [],
-        description='List of attributes that are specific to the variant of the product.',
-        title='Variant Attributes',
+        description="List of attributes that are specific to the variant of the product.",
+        title="Variant Attributes",
     )
     variant_images: Optional[List[ImageItem]] = Field(
         [],
-        description='List of images that are specific to the variant of the product.',
-        title='Variant Images',
+        description="List of images that are specific to the variant of the product.",
+        title="Variant Images",
     )
 
 
 class ReadFlowTrigger(BaseModel):
-    id: str = Field(..., title='Id')
+    id: str = Field(..., title="Id")
     type: TriggerType
-    cronschedule: Optional[str] = Field(None, title='Cronschedule')
+    cronschedule: Optional[str] = Field(None, title="Cronschedule")
 
 
 class RefundItemOut(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
     status: BackboneCommonModelsPaymentCommonPaymentStatus = Field(
-        ..., description='Payment status'
+        ..., description="Payment status"
     )
-    description: str = Field(..., description='Description', title='Description')
-    amount: float = Field(..., description='Amount', title='Amount')
-    currency: str = Field(..., description='Currency', title='Currency')
+    description: str = Field(..., description="Description", title="Description")
+    amount: float = Field(..., description="Amount", title="Amount")
+    currency: str = Field(..., description="Currency", title="Currency")
     refund_date: datetime = Field(
-        ..., description='Date of creation', title='Refund Date'
+        ..., description="Date of creation", title="Refund Date"
     )
     payment_id: Optional[str] = Field(
-        None, description='ID of the payment being refunded', title='Payment Id'
+        None, description="ID of the payment being refunded", title="Payment Id"
     )
 
 
 class RefundOrderLineItem(BaseModel):
     id: str = Field(
-        ..., description='Technical id of the order line in Chift', title='Id'
+        ..., description="Technical id of the order line in Chift", title="Id"
     )
     variant: Optional[OrderLineProductVariantItem] = Field(
-        None, description='Product variant', title='Variant'
+        None, description="Product variant", title="Variant"
     )
-    quantity: int = Field(..., title='Quantity')
+    quantity: int = Field(..., title="Quantity")
     untaxed_amount: float = Field(
         ...,
-        description='Untaxed amount refunded (after discount).',
-        title='Untaxed Amount',
+        description="Untaxed amount refunded (after discount).",
+        title="Untaxed Amount",
     )
     tax_amount: float = Field(
-        ..., description='Total taxes refunded (after discount).', title='Tax Amount'
+        ..., description="Total taxes refunded (after discount).", title="Tax Amount"
     )
     total: float = Field(
-        ..., description='Total refunded (after discount).', title='Total'
+        ..., description="Total refunded (after discount).", title="Total"
     )
 
 
 class ReservationItem(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
     start_date: Optional[datetime] = Field(
         None,
-        description='Start date of the reservation',
-        example='2024-10-01T12:00:00',
-        title='Start Date',
+        description="Start date of the reservation",
+        example="2024-10-01T12:00:00",
+        title="Start Date",
     )
     end_date: Optional[datetime] = Field(
         None,
-        description='End date of the reservation',
-        example='2024-10-10T12:00:00',
-        title='End Date',
+        description="End date of the reservation",
+        example="2024-10-10T12:00:00",
+        title="End Date",
     )
     creation_date: Optional[datetime] = Field(
         None,
-        description='Creation date of the reservation',
-        example='2024-09-25T12:00:00',
-        title='Creation Date',
+        description="Creation date of the reservation",
+        example="2024-09-25T12:00:00",
+        title="Creation Date",
     )
     resource_id: Optional[ChiftId] = Field(
         None,
-        description='Unique reference to the resource related to the reservation',
-        title='Resource Id',
+        description="Unique reference to the resource related to the reservation",
+        title="Resource Id",
     )
     resource_name: Optional[str] = Field(
         None,
-        description='Name of the resource related to the reservation',
-        example='Room 101',
-        title='Resource Name',
+        description="Name of the resource related to the reservation",
+        example="Room 101",
+        title="Resource Name",
     )
     resource_identifier: Optional[str] = Field(
         None,
-        description='Identifier of the resource related to the reservation',
-        example='R101',
-        title='Resource Identifier',
+        description="Identifier of the resource related to the reservation",
+        example="R101",
+        title="Resource Identifier",
     )
 
 
 class ReturnOrderLineItem(BaseModel):
     id: str = Field(
-        ..., description='Technical id of the order line in Chift', title='Id'
+        ..., description="Technical id of the order line in Chift", title="Id"
     )
     variant: Optional[OrderLineProductVariantItem] = Field(
-        None, description='Product variant', title='Variant'
+        None, description="Product variant", title="Variant"
     )
-    quantity: int = Field(..., title='Quantity')
+    quantity: int = Field(..., title="Quantity")
     untaxed_amount: float = Field(
         ...,
-        description='Untaxed amount refunded (after discount).',
-        title='Untaxed Amount',
+        description="Untaxed amount refunded (after discount).",
+        title="Untaxed Amount",
     )
     tax_amount: float = Field(
-        ..., description='Total taxes refunded (after discount).', title='Tax Amount'
+        ..., description="Total taxes refunded (after discount).", title="Tax Amount"
     )
     total: float = Field(
-        ..., description='Total refunded (after discount).', title='Total'
+        ..., description="Total refunded (after discount).", title="Total"
     )
 
 
 class SalesItem(BaseModel):
     total: float = Field(
         ...,
-        description='Total amount including tax of the sales',
+        description="Total amount including tax of the sales",
         example=10,
-        title='Total',
+        title="Total",
     )
     tax_amount: float = Field(
-        ..., description='Total amount of the taxes', example=1, title='Tax Amount'
+        ..., description="Total amount of the taxes", example=1, title="Tax Amount"
     )
     taxes: Optional[List[TotalTaxItem]] = Field(
         [],
-        description='List of taxes grouped by tax rateapplied to the sales',
-        title='Taxes',
+        description="List of taxes grouped by tax rateapplied to the sales",
+        title="Taxes",
     )
 
 
 class SupplierItemIn(BaseModel):
-    external_reference: Optional[str] = Field(None, title='External Reference')
+    external_reference: Optional[str] = Field(None, title="External Reference")
     first_name: Optional[str] = Field(
         None,
-        description='Only used when the supplier is an individual (is_company=false). Indicates the first name of the supplier.',
-        title='First Name',
+        description="Only used when the supplier is an individual (is_company=false). Indicates the first name of the supplier.",
+        title="First Name",
     )
     last_name: Optional[str] = Field(
         None,
-        description='Only used when the supplier is an individual (is_company=false). Indicates the last name of the supplier.',
-        title='Last Name',
+        description="Only used when the supplier is an individual (is_company=false). Indicates the last name of the supplier.",
+        title="Last Name",
     )
-    name: constr(min_length=1) = Field(..., title='Name')
+    name: constr(min_length=1) = Field(..., title="Name")
     function: Optional[str] = Field(
         None,
-        description='Only used when the supplier is an individual (is_company=false). Indicates the function of the supplier.',
-        title='Function',
+        description="Only used when the supplier is an individual (is_company=false). Indicates the function of the supplier.",
+        title="Function",
     )
     is_company: Optional[bool] = Field(
         True,
-        description='Indicates if the supplier is an individual or a company.',
-        title='Is Company',
+        description="Indicates if the supplier is an individual or a company.",
+        title="Is Company",
     )
     company_id: Optional[str] = Field(
         None,
-        description='Only used when the supplier is an individual (is_company=false). Indicates the id of the company linked to the supplier.',
-        title='Company Id',
+        description="Only used when the supplier is an individual (is_company=false). Indicates the id of the company linked to the supplier.",
+        title="Company Id",
     )
-    phone: Optional[str] = Field(None, title='Phone')
-    mobile: Optional[str] = Field(None, title='Mobile')
-    email: Optional[str] = Field(None, title='Email')
+    phone: Optional[str] = Field(None, title="Phone")
+    mobile: Optional[str] = Field(None, title="Mobile")
+    email: Optional[str] = Field(None, title="Email")
     language: Optional[str] = Field(
-        None, description='Format: ISO 639-1 codes.', title='Language'
+        None, description="Format: ISO 639-1 codes.", title="Language"
     )
-    internal_notes: Optional[str] = Field(None, title='Internal Notes')
-    website: Optional[str] = Field(None, title='Website')
-    vat: Optional[str] = Field(None, title='Vat')
+    internal_notes: Optional[str] = Field(None, title="Internal Notes")
+    website: Optional[str] = Field(None, title="Website")
+    vat: Optional[str] = Field(None, title="Vat")
     iban: Optional[str] = Field(
-        None, description='IBAN Account number of the supplier.', title='Iban'
+        None, description="IBAN Account number of the supplier.", title="Iban"
     )
     bank_account: Optional[str] = Field(
-        None, description='Bank account number of the supplier.', title='Bank Account'
+        None, description="Bank account number of the supplier.", title="Bank Account"
     )
     currency: Optional[str] = Field(
         None,
-        description='Indicates the currency of the supplier (e.g. EUR).',
-        title='Currency',
+        description="Indicates the currency of the supplier (e.g. EUR).",
+        title="Currency",
     )
-    active: Optional[bool] = Field(True, title='Active')
+    active: Optional[bool] = Field(True, title="Active")
     addresses: List[BackboneCommonModelsCommonAddressItemIn] = Field(
-        ..., title='Addresses'
+        ..., title="Addresses"
     )
-    account_number: Optional[str] = Field(None, title='Account Number')
+    account_number: Optional[str] = Field(None, title="Account Number")
 
 
 class SupplierItemOut(BaseModel):
-    external_reference: Optional[str] = Field(None, title='External Reference')
+    external_reference: Optional[str] = Field(None, title="External Reference")
     first_name: Optional[str] = Field(
         None,
-        description='Only used when the supplier is an individual (is_company=false). Indicates the first name of the supplier.',
-        title='First Name',
+        description="Only used when the supplier is an individual (is_company=false). Indicates the first name of the supplier.",
+        title="First Name",
     )
     last_name: Optional[str] = Field(
         None,
-        description='Only used when the supplier is an individual (is_company=false). Indicates the last name of the supplier.',
-        title='Last Name',
+        description="Only used when the supplier is an individual (is_company=false). Indicates the last name of the supplier.",
+        title="Last Name",
     )
-    name: Optional[str] = Field(None, title='Name')
+    name: Optional[str] = Field(None, title="Name")
     function: Optional[str] = Field(
         None,
-        description='Only used when the supplier is an individual (is_company=false). Indicates the function of the supplier.',
-        title='Function',
+        description="Only used when the supplier is an individual (is_company=false). Indicates the function of the supplier.",
+        title="Function",
     )
     is_company: Optional[bool] = Field(
         True,
-        description='Indicates if the supplier is an individual or a company.',
-        title='Is Company',
+        description="Indicates if the supplier is an individual or a company.",
+        title="Is Company",
     )
     company_id: Optional[str] = Field(
         None,
-        description='Only used when the supplier is an individual (is_company=false). Indicates the id of the company linked to the supplier.',
-        title='Company Id',
+        description="Only used when the supplier is an individual (is_company=false). Indicates the id of the company linked to the supplier.",
+        title="Company Id",
     )
-    phone: Optional[str] = Field(None, title='Phone')
-    mobile: Optional[str] = Field(None, title='Mobile')
-    email: Optional[str] = Field(None, title='Email')
+    phone: Optional[str] = Field(None, title="Phone")
+    mobile: Optional[str] = Field(None, title="Mobile")
+    email: Optional[str] = Field(None, title="Email")
     language: Optional[str] = Field(
-        None, description='Format: ISO 639-1 codes.', title='Language'
+        None, description="Format: ISO 639-1 codes.", title="Language"
     )
-    internal_notes: Optional[str] = Field(None, title='Internal Notes')
-    website: Optional[str] = Field(None, title='Website')
-    vat: Optional[str] = Field(None, title='Vat')
+    internal_notes: Optional[str] = Field(None, title="Internal Notes")
+    website: Optional[str] = Field(None, title="Website")
+    vat: Optional[str] = Field(None, title="Vat")
     iban: Optional[str] = Field(
-        None, description='IBAN Account number of the supplier.', title='Iban'
+        None, description="IBAN Account number of the supplier.", title="Iban"
     )
     bank_account: Optional[str] = Field(
-        None, description='Bank account number of the supplier.', title='Bank Account'
+        None, description="Bank account number of the supplier.", title="Bank Account"
     )
     currency: Optional[str] = Field(
         None,
-        description='Indicates the currency of the supplier (e.g. EUR).',
-        title='Currency',
+        description="Indicates the currency of the supplier (e.g. EUR).",
+        title="Currency",
     )
-    active: Optional[bool] = Field(True, title='Active')
+    active: Optional[bool] = Field(True, title="Active")
     addresses: Optional[List[BackboneCommonModelsCommonAddressItemOut]] = Field(
-        [], title='Addresses'
+        [], title="Addresses"
     )
-    account_number: Optional[str] = Field(None, title='Account Number')
-    company_number: Optional[str] = Field(None, title='Company Number')
-    id: Optional[str] = Field(None, title='Id')
+    account_number: Optional[str] = Field(None, title="Account Number")
+    company_number: Optional[str] = Field(None, title="Company Number")
+    id: Optional[str] = Field(None, title="Id")
     last_updated_on: Optional[datetime] = Field(
         None,
-        description='The last time the supplier has been updated.',
-        title='Last Updated On',
+        description="The last time the supplier has been updated.",
+        title="Last Updated On",
     )
 
 
 class SupplierItemUpdate(BaseModel):
-    external_reference: Optional[str] = Field(None, title='External Reference')
+    external_reference: Optional[str] = Field(None, title="External Reference")
     first_name: Optional[str] = Field(
         None,
-        description='Only used when the supplier is an individual (is_company=false). Indicates the first name of the supplier.',
-        title='First Name',
+        description="Only used when the supplier is an individual (is_company=false). Indicates the first name of the supplier.",
+        title="First Name",
     )
     last_name: Optional[str] = Field(
         None,
-        description='Only used when the supplier is an individual (is_company=false). Indicates the last name of the supplier.',
-        title='Last Name',
+        description="Only used when the supplier is an individual (is_company=false). Indicates the last name of the supplier.",
+        title="Last Name",
     )
-    name: Optional[str] = Field(None, title='Name')
+    name: Optional[str] = Field(None, title="Name")
     function: Optional[str] = Field(
         None,
-        description='Only used when the supplier is an individual (is_company=false). Indicates the function of the supplier.',
-        title='Function',
+        description="Only used when the supplier is an individual (is_company=false). Indicates the function of the supplier.",
+        title="Function",
     )
     is_company: Optional[bool] = Field(
         True,
-        description='Indicates if the supplier is an individual or a company.',
-        title='Is Company',
+        description="Indicates if the supplier is an individual or a company.",
+        title="Is Company",
     )
     company_id: Optional[str] = Field(
         None,
-        description='Only used when the supplier is an individual (is_company=false). Indicates the id of the company linked to the supplier.',
-        title='Company Id',
+        description="Only used when the supplier is an individual (is_company=false). Indicates the id of the company linked to the supplier.",
+        title="Company Id",
     )
-    phone: Optional[str] = Field(None, title='Phone')
-    mobile: Optional[str] = Field(None, title='Mobile')
-    email: Optional[str] = Field(None, title='Email')
+    phone: Optional[str] = Field(None, title="Phone")
+    mobile: Optional[str] = Field(None, title="Mobile")
+    email: Optional[str] = Field(None, title="Email")
     language: Optional[str] = Field(
-        None, description='Format: ISO 639-1 codes.', title='Language'
+        None, description="Format: ISO 639-1 codes.", title="Language"
     )
-    internal_notes: Optional[str] = Field(None, title='Internal Notes')
-    website: Optional[str] = Field(None, title='Website')
-    vat: Optional[str] = Field(None, title='Vat')
+    internal_notes: Optional[str] = Field(None, title="Internal Notes")
+    website: Optional[str] = Field(None, title="Website")
+    vat: Optional[str] = Field(None, title="Vat")
     iban: Optional[str] = Field(
-        None, description='IBAN Account number of the supplier.', title='Iban'
+        None, description="IBAN Account number of the supplier.", title="Iban"
     )
     bank_account: Optional[str] = Field(
-        None, description='Bank account number of the supplier.', title='Bank Account'
+        None, description="Bank account number of the supplier.", title="Bank Account"
     )
     currency: Optional[str] = Field(
         None,
-        description='Indicates the currency of the supplier (e.g. EUR).',
-        title='Currency',
+        description="Indicates the currency of the supplier (e.g. EUR).",
+        title="Currency",
     )
-    active: Optional[bool] = Field(True, title='Active')
+    active: Optional[bool] = Field(True, title="Active")
     addresses: Optional[List[BackboneCommonModelsCommonAddressItemOut]] = Field(
-        [], title='Addresses'
+        [], title="Addresses"
     )
 
 
 class VariantItem(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
     parent_id: str = Field(
         ...,
-        description='Technical id of the parent product in Chift',
-        title='Parent Id',
+        description="Technical id of the parent product in Chift",
+        title="Parent Id",
     )
-    name: str = Field(..., title='Name')
-    description: Optional[str] = Field(None, title='Description')
-    description_html: Optional[str] = Field(None, title='Description Html')
+    name: str = Field(..., title="Name")
+    description: Optional[str] = Field(None, title="Description")
+    description_html: Optional[str] = Field(None, title="Description Html")
     categories: Optional[
         List[BackboneCommonModelsCommerceCommonProductCategoryItem]
-    ] = Field([], title='Categories')
-    created_on: Optional[datetime] = Field(None, title='Created On')
-    sku: Optional[str] = Field(None, title='Sku')
-    barcode: Optional[str] = Field(None, title='Barcode')
-    available_quantity: Optional[float] = Field(0, title='Available Quantity')
+    ] = Field([], title="Categories")
+    created_on: Optional[datetime] = Field(None, title="Created On")
+    sku: Optional[str] = Field(None, title="Sku")
+    barcode: Optional[str] = Field(None, title="Barcode")
+    available_quantity: Optional[float] = Field(0, title="Available Quantity")
     prices: Optional[List[BackboneCommonModelsCommerceCommonProductPriceItem]] = Field(
-        [], title='Prices'
+        [], title="Prices"
     )
-    unit_cost: Optional[ProductCostItem] = Field({}, title='Unit Cost')
-    unit_of_measure: Optional[str] = Field(None, title='Unit Of Measure')
-    weight: Optional[float] = Field(0, title='Weight')
-    weight_unit: Optional[str] = Field(None, title='Weight Unit')
+    unit_cost: Optional[ProductCostItem] = Field({}, title="Unit Cost")
+    unit_of_measure: Optional[str] = Field(None, title="Unit Of Measure")
+    weight: Optional[float] = Field(0, title="Weight")
+    weight_unit: Optional[str] = Field(None, title="Weight Unit")
     status: Optional[ProductStatus] = None
     inventory_details: Optional[List[InventoryDetailsItem]] = Field(
-        [], title='Inventory Details'
+        [], title="Inventory Details"
     )
     common_attributes: Optional[List[CommonAttributeItem]] = Field(
         [],
-        description='List of attributes that are shared by all variants of the product.',
-        title='Common Attributes',
+        description="List of attributes that are shared by all variants of the product.",
+        title="Common Attributes",
     )
     variant_attributes: Optional[List[VariantAttributeItem]] = Field(
         [],
-        description='List of attributes that are specific to the variant of the product.',
-        title='Variant Attributes',
+        description="List of attributes that are specific to the variant of the product.",
+        title="Variant Attributes",
     )
     common_images: Optional[List[ImageItem]] = Field(
         [],
-        description='List of images that are shared by all variants of the product.',
-        title='Common Images',
+        description="List of images that are shared by all variants of the product.",
+        title="Common Images",
     )
     variant_images: Optional[List[ImageItem]] = Field(
         [],
-        description='List of images that are specific to the variant of the product.',
-        title='Variant Images',
+        description="List of images that are specific to the variant of the product.",
+        title="Variant Images",
     )
 
 
 class WebhookInstanceGetItem(BaseModel):
-    webhookid: UUID = Field(..., title='Webhookid')
-    accountid: UUID = Field(..., title='Accountid')
-    createdby: Optional[UUID] = Field(None, title='Createdby')
-    createdon: datetime = Field(..., title='Createdon')
-    event: str = Field(..., title='Event')
-    url: str = Field(..., title='Url')
+    webhookid: UUID = Field(..., title="Webhookid")
+    accountid: UUID = Field(..., title="Accountid")
+    createdby: Optional[UUID] = Field(None, title="Createdby")
+    createdon: datetime = Field(..., title="Createdon")
+    event: str = Field(..., title="Event")
+    url: str = Field(..., title="Url")
     status: BackboneApiAppRoutersWebhooksStatus
-    integrationid: Optional[int] = Field(None, title='Integrationid')
+    integrationid: Optional[int] = Field(None, title="Integrationid")
 
 
 class WebhookInstancePatchItem(BaseModel):
     status: Optional[BackboneApiAppRoutersWebhooksStatus] = None
-    url: Optional[constr(max_length=500)] = Field(None, title='Url')
-    signingsecret: Optional[constr(max_length=100)] = Field(None, title='Signingsecret')
+    url: Optional[constr(max_length=500)] = Field(None, title="Url")
+    signingsecret: Optional[constr(max_length=100)] = Field(None, title="Signingsecret")
 
 
 class WelfareFund(BaseModel):
-    rate: float = Field(..., description='Rate', title='Rate')
-    amount: float = Field(..., description='Amount', title='Amount')
-    type: Optional[WelfareFundType] = Field(None, description='Type')
+    rate: float = Field(..., description="Rate", title="Rate")
+    amount: float = Field(..., description="Amount", title="Amount")
+    type: Optional[WelfareFundType] = Field(None, description="Type")
 
 
 class WithholdingTax(BaseModel):
-    rate: float = Field(..., description='Rate', title='Rate')
-    amount: float = Field(..., description='Amount', title='Amount')
-    reason: Optional[WithholdingTaxReason] = Field(None, description='Reason')
+    rate: float = Field(..., description="Rate", title="Rate")
+    amount: float = Field(..., description="Amount", title="Amount")
+    reason: Optional[WithholdingTaxReason] = Field(None, description="Reason")
     payment_reason: Optional[WithholdingTaxPaymentReason] = Field(
-        None, description='Payment reason'
+        None, description="Payment reason"
     )
 
 
 class BackboneApiAppRoutersConnectionsConnectionItem(BaseModel):
-    connectionid: UUID = Field(..., title='Connectionid')
-    name: str = Field(..., title='Name')
-    integration: str = Field(..., title='Integration')
-    integrationid: int = Field(..., title='Integrationid')
-    api: str = Field(..., title='Api')
-    data: Optional[Dict[str, Any]] = Field(None, title='Data')
+    connectionid: UUID = Field(..., title="Connectionid")
+    name: str = Field(..., title="Name")
+    integration: str = Field(..., title="Integration")
+    integrationid: int = Field(..., title="Integrationid")
+    api: str = Field(..., title="Api")
+    data: Optional[Dict[str, Any]] = Field(None, title="Data")
     status: BackboneApiAppRoutersConnectionsStatus
     agent: Optional[LocalAgentInfo] = Field(
         None,
-        description='For local agent only. Indicates whether the local agent is up and running',
-        title='Agent',
+        description="For local agent only. Indicates whether the local agent is up and running",
+        title="Agent",
     )
 
 
 class BackboneCommonModelsCommerceCommonProductItem(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
-    name: str = Field(..., title='Name')
-    description: Optional[str] = Field(None, title='Description')
-    description_html: Optional[str] = Field(None, title='Description Html')
+    name: str = Field(..., title="Name")
+    description: Optional[str] = Field(None, title="Description")
+    description_html: Optional[str] = Field(None, title="Description Html")
     categories: Optional[
         List[BackboneCommonModelsCommerceCommonProductCategoryItem]
-    ] = Field([], title='Categories')
-    created_on: Optional[datetime] = Field(None, title='Created On')
-    variants: Optional[List[ProductVariantItem]] = Field([], title='Variants')
+    ] = Field([], title="Categories")
+    created_on: Optional[datetime] = Field(None, title="Created On")
+    variants: Optional[List[ProductVariantItem]] = Field([], title="Variants")
     status: Optional[ProductStatus] = None
     common_attributes: Optional[List[CommonAttributeItem]] = Field(
         [],
-        description='List of attributes that are shared by all variants of the product.',
-        title='Common Attributes',
+        description="List of attributes that are shared by all variants of the product.",
+        title="Common Attributes",
     )
     variant_attributes_options: Optional[List[VariantAttributeOptionItem]] = Field(
-        [], title='Variant Attributes Options'
+        [], title="Variant Attributes Options"
     )
     common_images: Optional[List[ImageItem]] = Field(
         [],
-        description='List of images that are shared by all variants of the product.',
-        title='Common Images',
+        description="List of images that are shared by all variants of the product.",
+        title="Common Images",
     )
 
 
 class BackboneCommonModelsPmsCommonInvoiceItem(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
     invoice_number: Optional[str] = Field(
-        None, description='Number/sequence', example='INV-12345', title='Invoice Number'
+        None, description="Number/sequence", example="INV-12345", title="Invoice Number"
     )
     creation_date: Optional[datetime] = Field(
         None,
-        description='Creation date of the invoice',
-        example='2023-10-01T12:00:00',
-        title='Creation Date',
+        description="Creation date of the invoice",
+        example="2023-10-01T12:00:00",
+        title="Creation Date",
     )
     closing_date: Optional[datetime] = Field(
         None,
-        description='Closing date of the invoice',
-        example='2023-10-10T12:00:00',
-        title='Closing Date',
+        description="Closing date of the invoice",
+        example="2023-10-10T12:00:00",
+        title="Closing Date",
     )
     partners: Optional[List[InvoicePartnerItem]] = Field(
-        None, description='List of partners related to the invoice', title='Partners'
+        None, description="List of partners related to the invoice", title="Partners"
     )
 
 
 class ChiftPageClientItemOut(BaseModel):
-    items: List[ClientItemOut] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[ClientItemOut] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageCommerceCustomerItem(BaseModel):
-    items: List[CommerceCustomerItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[CommerceCustomerItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageCommerceLocationItemOut(BaseModel):
-    items: List[CommerceLocationItemOut] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[CommerceLocationItemOut] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageContactItemOut(BaseModel):
-    items: List[ContactItemOut] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[ContactItemOut] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageInvoiceItemOutMonoAnalyticPlan(BaseModel):
-    items: List[InvoiceItemOutMonoAnalyticPlan] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[InvoiceItemOutMonoAnalyticPlan] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageInvoicingPaymentItem(BaseModel):
-    items: List[InvoicingPaymentItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[InvoicingPaymentItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageInvoicingPaymentMethodItem(BaseModel):
-    items: List[InvoicingPaymentMethodItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[InvoicingPaymentMethodItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageInvoicingVatCode(BaseModel):
-    items: List[InvoicingVatCode] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[InvoicingVatCode] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageJournalEntryMonoAnalyticPlan(BaseModel):
-    items: List[JournalEntryMonoAnalyticPlan] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[JournalEntryMonoAnalyticPlan] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageJournal(BaseModel):
-    items: List[Journal] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[Journal] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageMiscellaneousOperationOut(BaseModel):
-    items: List[MiscellaneousOperationOut] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[MiscellaneousOperationOut] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageOpportunityItem(BaseModel):
-    items: List[OpportunityItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[OpportunityItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPagePMSAccountingCategoryItem(BaseModel):
-    items: List[PMSAccountingCategoryItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[PMSAccountingCategoryItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPagePMSCustomerItem(BaseModel):
-    items: List[PMSCustomerItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[PMSCustomerItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPagePMSPaymentItem(BaseModel):
-    items: List[PMSPaymentItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[PMSPaymentItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPagePMSPaymentMethods(BaseModel):
-    items: List[PMSPaymentMethods] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[PMSPaymentMethods] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPagePMSTaxRateItem(BaseModel):
-    items: List[PMSTaxRateItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[PMSTaxRateItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPagePOSPaymentItem(BaseModel):
-    items: List[POSPaymentItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[POSPaymentItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPagePOSProductItem(BaseModel):
-    items: List[POSProductItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[POSProductItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPagePaymentItemOut(BaseModel):
-    items: List[PaymentItemOut] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[PaymentItemOut] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPagePaymentMethodItem(BaseModel):
-    items: List[PaymentMethodItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[PaymentMethodItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageProductItemOut(BaseModel):
-    items: List[ProductItemOut] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[ProductItemOut] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageProductItem(BaseModel):
     items: List[BackboneCommonModelsCommerceCommonProductItem] = Field(
-        ..., title='Items'
+        ..., title="Items"
     )
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageRefundItemOut(BaseModel):
-    items: List[RefundItemOut] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[RefundItemOut] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageSupplierItemOut(BaseModel):
-    items: List[SupplierItemOut] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[SupplierItemOut] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ClosureItem(BaseModel):
     date: date = Field(
-        ..., description='Date of the closure', example='2025-01-01', title='Date'
+        ..., description="Date of the closure", example="2025-01-01", title="Date"
     )
     status: ClosureStates = Field(
-        ..., description='Status of the closure', example='closed'
+        ..., description="Status of the closure", example="closed"
     )
     closures: Optional[List[POSClosureInformationItem]] = Field(
-        [], description='Info about closures related to specific day', title='Closures'
+        [], description="Info about closures related to specific day", title="Closures"
     )
 
 
 class CreateSyncMappingToFieldItem(BaseModel):
-    name: str = Field(..., title='Name')
-    description: Optional[str] = Field(None, title='Description')
-    display_order: Optional[int] = Field(0, title='Display Order')
-    challenge_question: Optional[str] = Field(None, title='Challenge Question')
+    name: str = Field(..., title="Name")
+    description: Optional[str] = Field(None, title="Description")
+    display_order: Optional[int] = Field(0, title="Display Order")
+    challenge_question: Optional[str] = Field(None, title="Challenge Question")
     source_field: FieldItem
     target_field: FieldItem
-    display_delete: Optional[bool] = Field(False, title='Display Delete')
-    logic: Optional[Dict[str, Any]] = Field(None, title='Logic')
+    display_delete: Optional[bool] = Field(False, title="Display Delete")
+    logic: Optional[Dict[str, Any]] = Field(None, title="Logic")
 
 
 class FlowConfig(BaseModel):
     definitionFields: Optional[List[Dict[str, Any]]] = Field(
-        None, title='Definitionfields'
+        None, title="Definitionfields"
     )
-    doorkeyFields: Optional[List[Dict[str, Any]]] = Field(None, title='Doorkeyfields')
-    customFields: Optional[List[Dict[str, Any]]] = Field(None, title='Customfields')
-    datastores: Optional[List[FlowDataStoreItem]] = Field([], title='Datastores')
+    doorkeyFields: Optional[List[Dict[str, Any]]] = Field(None, title="Doorkeyfields")
+    customFields: Optional[List[Dict[str, Any]]] = Field(None, title="Customfields")
+    datastores: Optional[List[FlowDataStoreItem]] = Field([], title="Datastores")
 
 
 class GenericJournalEntry(BaseModel):
-    reference: Optional[str] = Field(None, title='Reference')
-    due_date: Optional[date] = Field(None, title='Due Date')
-    journal_id: str = Field(..., title='Journal Id')
-    number: constr(min_length=1) = Field(..., title='Number')
-    currency: constr(min_length=1) = Field(..., title='Currency')
-    currency_exchange_rate: Optional[float] = Field(1, title='Currency Exchange Rate')
-    date: date = Field(..., title='Date')
-    items: List[GenericJournalItem] = Field(..., title='Items')
+    reference: Optional[str] = Field(None, title="Reference")
+    due_date: Optional[date] = Field(None, title="Due Date")
+    journal_id: str = Field(..., title="Journal Id")
+    number: constr(min_length=1) = Field(..., title="Number")
+    currency: constr(min_length=1) = Field(..., title="Currency")
+    currency_exchange_rate: Optional[float] = Field(1, title="Currency Exchange Rate")
+    date: date = Field(..., title="Date")
+    items: List[GenericJournalItem] = Field(..., title="Items")
     pdf: Optional[str] = Field(
         None,
-        description='Base 64 string representing the PDF attached to the item.',
-        title='Pdf',
+        description="Base 64 string representing the PDF attached to the item.",
+        title="Pdf",
     )
-    posted: Optional[bool] = Field(True, title='Posted')
-    start_date: Optional[date] = Field(None, title='Start Date')
-    end_date: Optional[date] = Field(None, title='End Date')
+    posted: Optional[bool] = Field(True, title="Posted")
+    start_date: Optional[date] = Field(None, title="Start Date")
+    end_date: Optional[date] = Field(None, title="End Date")
 
 
 class InvoiceItemInMonoAnalyticPlan(BaseModel):
     invoice_type: BackboneCommonModelsAccountingCommonInvoiceType
     invoice_number: Optional[str] = Field(
         None,
-        description='Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.',
-        title='Invoice Number',
+        description="Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.",
+        title="Invoice Number",
     )
     currency: str = Field(
         ...,
-        description='Indicates the currency of the invoice (e.g. EUR).',
-        title='Currency',
+        description="Indicates the currency of the invoice (e.g. EUR).",
+        title="Currency",
     )
-    untaxed_amount: float = Field(..., title='Untaxed Amount')
-    tax_amount: float = Field(..., title='Tax Amount')
-    total: float = Field(..., title='Total')
-    reference: Optional[str] = Field(None, title='Reference')
-    payment_communication: Optional[str] = Field(None, title='Payment Communication')
-    customer_memo: Optional[str] = Field(None, title='Customer Memo')
-    invoice_date: date = Field(..., title='Invoice Date')
-    due_date: date = Field(..., title='Due Date')
-    partner_id: constr(min_length=1) = Field(..., title='Partner Id')
+    untaxed_amount: float = Field(..., title="Untaxed Amount")
+    tax_amount: float = Field(..., title="Tax Amount")
+    total: float = Field(..., title="Total")
+    reference: Optional[str] = Field(None, title="Reference")
+    payment_communication: Optional[str] = Field(None, title="Payment Communication")
+    customer_memo: Optional[str] = Field(None, title="Customer Memo")
+    invoice_date: date = Field(..., title="Invoice Date")
+    due_date: date = Field(..., title="Due Date")
+    partner_id: constr(min_length=1) = Field(..., title="Partner Id")
     journal_id: Optional[str] = Field(
         None,
-        description='Indicates the journal used in for the invoice. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.',
-        title='Journal Id',
+        description="Indicates the journal used in for the invoice. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.",
+        title="Journal Id",
     )
-    status: Optional[InvoiceStatusIn] = 'posted'
+    status: Optional[InvoiceStatusIn] = "posted"
     pdf: Optional[str] = Field(
         None,
-        description='Base 64 string representing the PDF attached to the sale/purchase entry.',
-        title='Pdf',
+        description="Base 64 string representing the PDF attached to the sale/purchase entry.",
+        title="Pdf",
     )
     currency_exchange_rate: Optional[float] = Field(
         1,
-        description='Indicates the exchange rate at the date of the invoice. Must be filled in when creating the invoice in another currency from the default currency of the accounting system.',
-        title='Currency Exchange Rate',
+        description="Indicates the exchange rate at the date of the invoice. Must be filled in when creating the invoice in another currency from the default currency of the accounting system.",
+        title="Currency Exchange Rate",
     )
     invoice_correction: Optional[InvoiceCorrection] = Field(
         None,
-        description='Information used to add a correction line when roundings have an impact on the total amount of the invoice.',
-        title='Invoice Correction',
+        description="Information used to add a correction line when roundings have an impact on the total amount of the invoice.",
+        title="Invoice Correction",
     )
     nl_payment_terms_split: Optional[NlPaymentTermsSplit] = None
-    shipping_country: Optional[str] = Field(None, title='Shipping Country')
-    lines: List[InvoiceLineItemInMonoAnalyticPlan] = Field(..., title='Lines')
+    shipping_country: Optional[str] = Field(None, title="Shipping Country")
+    lines: List[InvoiceLineItemInMonoAnalyticPlan] = Field(..., title="Lines")
 
 
 class InvoiceItemInMultiAnalyticPlans(BaseModel):
     invoice_type: BackboneCommonModelsAccountingCommonInvoiceType
     invoice_number: Optional[str] = Field(
         None,
-        description='Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.',
-        title='Invoice Number',
+        description="Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.",
+        title="Invoice Number",
     )
     currency: str = Field(
         ...,
-        description='Indicates the currency of the invoice (e.g. EUR).',
-        title='Currency',
+        description="Indicates the currency of the invoice (e.g. EUR).",
+        title="Currency",
     )
-    untaxed_amount: float = Field(..., title='Untaxed Amount')
-    tax_amount: float = Field(..., title='Tax Amount')
-    total: float = Field(..., title='Total')
-    reference: Optional[str] = Field(None, title='Reference')
-    payment_communication: Optional[str] = Field(None, title='Payment Communication')
-    customer_memo: Optional[str] = Field(None, title='Customer Memo')
-    invoice_date: date = Field(..., title='Invoice Date')
-    due_date: date = Field(..., title='Due Date')
-    partner_id: constr(min_length=1) = Field(..., title='Partner Id')
+    untaxed_amount: float = Field(..., title="Untaxed Amount")
+    tax_amount: float = Field(..., title="Tax Amount")
+    total: float = Field(..., title="Total")
+    reference: Optional[str] = Field(None, title="Reference")
+    payment_communication: Optional[str] = Field(None, title="Payment Communication")
+    customer_memo: Optional[str] = Field(None, title="Customer Memo")
+    invoice_date: date = Field(..., title="Invoice Date")
+    due_date: date = Field(..., title="Due Date")
+    partner_id: constr(min_length=1) = Field(..., title="Partner Id")
     journal_id: Optional[str] = Field(
         None,
-        description='Indicates the journal used in for the invoice. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.',
-        title='Journal Id',
+        description="Indicates the journal used in for the invoice. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.",
+        title="Journal Id",
     )
-    status: Optional[InvoiceStatusIn] = 'posted'
+    status: Optional[InvoiceStatusIn] = "posted"
     pdf: Optional[str] = Field(
         None,
-        description='Base 64 string representing the PDF attached to the sale/purchase entry.',
-        title='Pdf',
+        description="Base 64 string representing the PDF attached to the sale/purchase entry.",
+        title="Pdf",
     )
     currency_exchange_rate: Optional[float] = Field(
         1,
-        description='Indicates the exchange rate at the date of the invoice. Must be filled in when creating the invoice in another currency from the default currency of the accounting system.',
-        title='Currency Exchange Rate',
+        description="Indicates the exchange rate at the date of the invoice. Must be filled in when creating the invoice in another currency from the default currency of the accounting system.",
+        title="Currency Exchange Rate",
     )
     invoice_correction: Optional[InvoiceCorrection] = Field(
         None,
-        description='Information used to add a correction line when roundings have an impact on the total amount of the invoice.',
-        title='Invoice Correction',
+        description="Information used to add a correction line when roundings have an impact on the total amount of the invoice.",
+        title="Invoice Correction",
     )
     nl_payment_terms_split: Optional[NlPaymentTermsSplit] = None
-    shipping_country: Optional[str] = Field(None, title='Shipping Country')
-    lines: List[InvoiceLineItemInMultiAnalyticPlans] = Field(..., title='Lines')
+    shipping_country: Optional[str] = Field(None, title="Shipping Country")
+    lines: List[InvoiceLineItemInMultiAnalyticPlans] = Field(..., title="Lines")
 
 
 class InvoiceItemOutMultiAnalyticPlans(BaseModel):
     invoice_type: BackboneCommonModelsAccountingCommonInvoiceType
     invoice_number: Optional[str] = Field(
         None,
-        description='Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.',
-        title='Invoice Number',
+        description="Number of the invoice. If left empty, will be automatically generated by the accounting system at creation.",
+        title="Invoice Number",
     )
     currency: str = Field(
         ...,
-        description='Indicates the currency of the invoice (e.g. EUR).',
-        title='Currency',
+        description="Indicates the currency of the invoice (e.g. EUR).",
+        title="Currency",
     )
-    untaxed_amount: float = Field(..., title='Untaxed Amount')
-    tax_amount: float = Field(..., title='Tax Amount')
-    total: float = Field(..., title='Total')
-    reference: Optional[str] = Field(None, title='Reference')
-    payment_communication: Optional[str] = Field(None, title='Payment Communication')
-    customer_memo: Optional[str] = Field(None, title='Customer Memo')
-    id: Optional[str] = Field(None, title='Id')
+    untaxed_amount: float = Field(..., title="Untaxed Amount")
+    tax_amount: float = Field(..., title="Tax Amount")
+    total: float = Field(..., title="Total")
+    reference: Optional[str] = Field(None, title="Reference")
+    payment_communication: Optional[str] = Field(None, title="Payment Communication")
+    customer_memo: Optional[str] = Field(None, title="Customer Memo")
+    id: Optional[str] = Field(None, title="Id")
     invoice_date: date = Field(
         ...,
         description="Accounting invoice date. It is automatically set to '1970-01-01' if the value is empty in the accounting system.",
-        title='Invoice Date',
+        title="Invoice Date",
     )
     due_date: date = Field(
         ...,
-        description='Due date of the invoice. We use the value of the invoice date if the value is not available/empty in the accounting system.',
-        title='Due Date',
+        description="Due date of the invoice. We use the value of the invoice date if the value is not available/empty in the accounting system.",
+        title="Due Date",
     )
-    partner_id: str = Field(..., title='Partner Id')
+    partner_id: str = Field(..., title="Partner Id")
     journal_id: str = Field(
         ...,
-        description='Indicates the journal used in for the invoice. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.',
-        title='Journal Id',
+        description="Indicates the journal used in for the invoice. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.",
+        title="Journal Id",
     )
-    payments: Optional[List[Payment]] = Field(None, title='Payments')
-    status: Optional[InvoiceStatusOut] = 'posted'
+    payments: Optional[List[Payment]] = Field(None, title="Payments")
+    status: Optional[InvoiceStatusOut] = "posted"
     last_updated_on: Optional[datetime] = Field(
         None,
-        description='The last time the invoice has been updated.',
-        title='Last Updated On',
+        description="The last time the invoice has been updated.",
+        title="Last Updated On",
     )
-    lines: List[InvoiceLineItemOutMultiAnalyticPlans] = Field(..., title='Lines')
+    lines: List[InvoiceLineItemOutMultiAnalyticPlans] = Field(..., title="Lines")
 
 
 class ItalianSpecificities(BaseModel):
     stamp_duty_amount: Optional[float] = Field(
         None,
-        description='Documentary stamp tax (specific to Italy)',
-        title='Stamp Duty Amount',
+        description="Documentary stamp tax (specific to Italy)",
+        title="Stamp Duty Amount",
     )
     withholding_tax: Optional[WithholdingTax] = Field(
-        None, description='Withholding tax (specific to Italy)', title='Withholding Tax'
+        None, description="Withholding tax (specific to Italy)", title="Withholding Tax"
     )
     welfare_fund: Optional[WelfareFund] = Field(
-        None, description='Welfare fund (specific to Italy)', title='Welfare Fund'
+        None, description="Welfare fund (specific to Italy)", title="Welfare Fund"
     )
     payment_reporting: Optional[PaymentReporting] = Field(
         None,
-        description='Payment reporting (specific to Italy)',
-        title='Payment Reporting',
+        description="Payment reporting (specific to Italy)",
+        title="Payment Reporting",
     )
 
 
 class JournalEntryIn(BaseModel):
-    reference: Optional[str] = Field(None, title='Reference')
-    due_date: Optional[date] = Field(None, title='Due Date')
-    journal_id: str = Field(..., title='Journal Id')
-    name: str = Field(..., title='Name')
-    date: date = Field(..., title='Date')
-    items: List[JournalItemIn] = Field(..., title='Items')
+    reference: Optional[str] = Field(None, title="Reference")
+    due_date: Optional[date] = Field(None, title="Due Date")
+    journal_id: str = Field(..., title="Journal Id")
+    name: str = Field(..., title="Name")
+    date: date = Field(..., title="Date")
+    items: List[JournalItemIn] = Field(..., title="Items")
     pdf: Optional[str] = Field(
         None,
-        description='Base 64 string representing the PDF attached to the item.',
-        title='Pdf',
+        description="Base 64 string representing the PDF attached to the item.",
+        title="Pdf",
     )
 
 
 class JournalEntryMultiAnalyticPlan(BaseModel):
-    reference: Optional[str] = Field(None, title='Reference')
-    due_date: Optional[date] = Field(None, title='Due Date')
-    journal_id: str = Field(..., title='Journal Id')
-    name: Optional[str] = Field(None, title='Name')
-    journal_name: str = Field(..., title='Journal Name')
+    reference: Optional[str] = Field(None, title="Reference")
+    due_date: Optional[date] = Field(None, title="Due Date")
+    journal_id: str = Field(..., title="Journal Id")
+    name: Optional[str] = Field(None, title="Name")
+    journal_name: str = Field(..., title="Journal Name")
     date: Optional[date] = Field(
-        '1970-01-01',
+        "1970-01-01",
         description="Accounting date of the journal entry. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.",
-        title='Date',
+        title="Date",
     )
-    posted: Optional[bool] = Field(False, title='Posted')
-    id: str = Field(..., title='Id')
-    items: Optional[List[JournalItemMultiAnalyticPlan]] = Field([], title='Items')
+    posted: Optional[bool] = Field(False, title="Posted")
+    id: str = Field(..., title="Id")
+    items: Optional[List[JournalItemMultiAnalyticPlan]] = Field([], title="Items")
 
 
 class MiscellaneousOperationIn(BaseModel):
-    operation_number: Optional[str] = Field(None, title='Operation Number')
+    operation_number: Optional[str] = Field(None, title="Operation Number")
     currency: str = Field(
         ...,
-        description='Indicates the currency of the operation (e.g. EUR).',
-        title='Currency',
+        description="Indicates the currency of the operation (e.g. EUR).",
+        title="Currency",
     )
     currency_exchange_rate: Optional[float] = Field(
         1,
-        description='Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.',
-        title='Currency Exchange Rate',
+        description="Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the default currency of the accounting system.",
+        title="Currency Exchange Rate",
     )
-    lines: List[MiscellaneousOperationLine] = Field(..., title='Lines')
-    operation_date: date = Field(..., title='Operation Date')
+    lines: List[MiscellaneousOperationLine] = Field(..., title="Lines")
+    operation_date: date = Field(..., title="Operation Date")
     journal_id: Optional[str] = Field(
         None,
-        description='Indicates the journal used in for the operation. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.',
-        title='Journal Id',
+        description="Indicates the journal used in for the operation. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.",
+        title="Journal Id",
     )
-    status: Optional[MiscellaneousOperationStatusIn] = 'posted'
+    status: Optional[MiscellaneousOperationStatusIn] = "posted"
 
 
 class OrderLineItemOut(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
-    created_on: Optional[datetime] = Field(None, title='Created On')
+    created_on: Optional[datetime] = Field(None, title="Created On")
     variant: Optional[OrderLineProductVariantItem] = Field(
-        None, description='Product variant', title='Variant'
+        None, description="Product variant", title="Variant"
     )
-    quantity: int = Field(..., title='Quantity')
+    quantity: int = Field(..., title="Quantity")
     current_quantity: int = Field(
         ...,
-        description='Quantity without refunds and returns.',
-        title='Current Quantity',
+        description="Quantity without refunds and returns.",
+        title="Current Quantity",
     )
     unit_price: float = Field(
-        ..., description='Unit price of the product without taxes.', title='Unit Price'
+        ..., description="Unit price of the product without taxes.", title="Unit Price"
     )
-    description: str = Field(..., title='Description')
+    description: str = Field(..., title="Description")
     tax_id: Optional[str] = Field(
-        None, description='Technical id of the tax rate in Chift', title='Tax Id'
+        None, description="Technical id of the tax rate in Chift", title="Tax Id"
     )
     tax_rate: float = Field(
         ...,
-        description='Indicates the tax rate used for the line (e.g. 21.0).',
-        title='Tax Rate',
+        description="Indicates the tax rate used for the line (e.g. 21.0).",
+        title="Tax Rate",
     )
     untaxed_amount: float = Field(
         ...,
-        description='Untaxed amount of the order line with discount.',
-        title='Untaxed Amount',
+        description="Untaxed amount of the order line with discount.",
+        title="Untaxed Amount",
     )
     tax_amount: float = Field(
-        ..., description='Total taxes applied to the order line.', title='Tax Amount'
+        ..., description="Total taxes applied to the order line.", title="Tax Amount"
     )
     total: float = Field(
-        ..., description='Total of the order line with discount.', title='Total'
+        ..., description="Total of the order line with discount.", title="Total"
     )
     discounts: Optional[List[BackboneCommonModelsCommerceCommonDiscountItem]] = Field(
-        [], title='Discounts'
+        [], title="Discounts"
     )
-    gift_card: Optional[bool] = Field(False, title='Gift Card')
+    gift_card: Optional[bool] = Field(False, title="Gift Card")
 
 
 class OrderRefundItem(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
-    created_on: Optional[datetime] = Field(None, title='Created On')
-    total: float = Field(..., title='Total')
-    reason: Optional[str] = Field(None, title='Reason')
-    order_lines: Optional[List[RefundOrderLineItem]] = Field([], title='Order Lines')
-    other: Optional[float] = Field(0, title='Other')
+    created_on: Optional[datetime] = Field(None, title="Created On")
+    total: float = Field(..., title="Total")
+    reason: Optional[str] = Field(None, title="Reason")
+    order_lines: Optional[List[RefundOrderLineItem]] = Field([], title="Order Lines")
+    other: Optional[float] = Field(0, title="Other")
     shipping_refunds: Optional[List[ShippingRefund]] = Field(
-        [], title='Shipping Refunds'
+        [], title="Shipping Refunds"
     )
-    other_fees: Optional[List[RefundFeesItem]] = Field([], title='Other Fees')
-    transactions: Optional[List[OrderTransactions]] = Field([], title='Transactions')
+    other_fees: Optional[List[RefundFeesItem]] = Field([], title="Other Fees")
+    transactions: Optional[List[OrderTransactions]] = Field([], title="Transactions")
 
 
 class OrderReturnItem(BaseModel):
-    id: str = Field(..., description='Technical id of the return in Chift', title='Id')
+    id: str = Field(..., description="Technical id of the return in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
-    created_on: Optional[datetime] = Field(None, title='Created On')
-    order_lines: Optional[List[ReturnOrderLineItem]] = Field([], title='Order Lines')
-    new_lines: Optional[List[ReturnOrderLineItem]] = Field([], title='New Lines')
-    linked_fees: Optional[List[ReturnFeesItem]] = Field([], title='Linked Fees')
+    created_on: Optional[datetime] = Field(None, title="Created On")
+    order_lines: Optional[List[ReturnOrderLineItem]] = Field([], title="Order Lines")
+    new_lines: Optional[List[ReturnOrderLineItem]] = Field([], title="New Lines")
+    linked_fees: Optional[List[ReturnFeesItem]] = Field([], title="Linked Fees")
 
 
 class PMSClosureItem(BaseModel):
     date: date = Field(
-        ..., description='Date of the closure', example='2025-01-01', title='Date'
+        ..., description="Date of the closure", example="2025-01-01", title="Date"
     )
     status: ClosureStates = Field(
-        ..., description='Status of the closure', example='closed'
+        ..., description="Status of the closure", example="closed"
     )
     closures: Optional[List[POSClosureInformationItem]] = Field(
-        [], description='Info about closures related to specific day', title='Closures'
+        [], description="Info about closures related to specific day", title="Closures"
     )
 
 
 class PMSInvoiceFullItem(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
     invoice_number: Optional[str] = Field(
-        None, description='Number/sequence', example='INV-12345', title='Invoice Number'
+        None, description="Number/sequence", example="INV-12345", title="Invoice Number"
     )
     creation_date: Optional[datetime] = Field(
         None,
-        description='Creation date of the invoice',
-        example='2023-10-01T12:00:00',
-        title='Creation Date',
+        description="Creation date of the invoice",
+        example="2023-10-01T12:00:00",
+        title="Creation Date",
     )
     closing_date: Optional[datetime] = Field(
         None,
-        description='Closing date of the invoice',
-        example='2023-10-10T12:00:00',
-        title='Closing Date',
+        description="Closing date of the invoice",
+        example="2023-10-10T12:00:00",
+        title="Closing Date",
     )
     partners: Optional[List[InvoicePartnerItem]] = Field(
-        None, description='List of partners related to the invoice', title='Partners'
+        None, description="List of partners related to the invoice", title="Partners"
     )
     items: List[PMSOrderLineItem] = Field(
-        ..., description='List of items related to the invoice', title='Items'
+        ..., description="List of items related to the invoice", title="Items"
     )
     payments: List[PMSPaymentItem] = Field(
-        ..., description='List of payments related to the invoice', title='Payments'
+        ..., description="List of payments related to the invoice", title="Payments"
     )
     service_id: Optional[str] = Field(
         None,
-        description='Reference to the service related to this order',
-        title='Service Id',
+        description="Reference to the service related to this order",
+        title="Service Id",
     )
     reservation: Optional[ReservationItem] = Field(
         None,
-        description='Reference to the reservation related to this order',
-        title='Reservation',
+        description="Reference to the reservation related to this order",
+        title="Reservation",
     )
     tax_amount: float = Field(
-        ..., description='Taxes amount', example=21.0, title='Tax Amount'
+        ..., description="Taxes amount", example=21.0, title="Tax Amount"
     )
     untaxed_amount: float = Field(
-        ..., description='Untaxed amount', example=100.0, title='Untaxed Amount'
+        ..., description="Untaxed amount", example=100.0, title="Untaxed Amount"
     )
     total: float = Field(
-        ..., description='Total amount incl. taxes', example=121.0, title='Total'
+        ..., description="Total amount incl. taxes", example=121.0, title="Total"
     )
 
 
 class PMSOrderItem(BaseModel):
     id: str = Field(
-        ..., description='Unique identifier of the order', example='123', title='Id'
+        ..., description="Unique identifier of the order", example="123", title="Id"
     )
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
     order_number: Optional[str] = Field(
         None,
-        description='Order number (often unique reference during the day)',
-        example='1',
-        title='Order Number',
+        description="Order number (often unique reference during the day)",
+        example="1",
+        title="Order Number",
     )
     creation_date: datetime = Field(
         ...,
-        description='Creation date of the order',
-        example='2025-01-01T00:00:00Z',
-        title='Creation Date',
+        description="Creation date of the order",
+        example="2025-01-01T00:00:00Z",
+        title="Creation Date",
     )
     closing_date: Optional[datetime] = Field(
         None,
-        description='Closing date of the order',
-        example='2025-01-01T00:00:00Z',
-        title='Closing Date',
+        description="Closing date of the order",
+        example="2025-01-01T00:00:00Z",
+        title="Closing Date",
     )
     service_date: Optional[datetime] = Field(
         None,
-        description='Indicates the date of the service to which the order belongs (can be used to group orders by closure date)',
-        example='2025-01-01T00:00:00Z',
-        title='Service Date',
+        description="Indicates the date of the service to which the order belongs (can be used to group orders by closure date)",
+        example="2025-01-01T00:00:00Z",
+        title="Service Date",
     )
     device_id: Optional[str] = Field(
         None,
-        description='ID of device that created the order',
-        example='device-123',
-        title='Device Id',
+        description="ID of device that created the order",
+        example="device-123",
+        title="Device Id",
     )
     total: float = Field(
         ...,
-        description='Total amount including tax of the order',
+        description="Total amount including tax of the order",
         example=11,
-        title='Total',
+        title="Total",
     )
     tax_amount: float = Field(
         ...,
-        description='Total amount of the taxes of the order',
+        description="Total amount of the taxes of the order",
         example=1,
-        title='Tax Amount',
+        title="Tax Amount",
     )
     total_discount: Optional[float] = Field(
         0,
-        description='Total amount of the discounts of the order',
+        description="Total amount of the discounts of the order",
         example=10,
-        title='Total Discount',
+        title="Total Discount",
     )
     total_refund: Optional[float] = Field(
         0,
-        description='Total amount of the refunds of the order',
+        description="Total amount of the refunds of the order",
         example=5,
-        title='Total Refund',
+        title="Total Refund",
     )
     total_tip: Optional[float] = Field(
         0,
-        description='Total amount of the tips of the order. Tips are not part of the total of the order',
+        description="Total amount of the tips of the order. Tips are not part of the total of the order",
         example=1,
-        title='Total Tip',
+        title="Total Tip",
     )
     delivery_fee: Optional[float] = Field(
         0,
-        description='Total amount of the delivery fees of the order',
+        description="Total amount of the delivery fees of the order",
         example=1,
-        title='Delivery Fee',
+        title="Delivery Fee",
     )
     currency: Optional[str] = Field(
-        None, description='Currency of the order', example='EUR', title='Currency'
+        None, description="Currency of the order", example="EUR", title="Currency"
     )
     country: Optional[str] = Field(
         None,
-        description='Country of the order, format: ISO 3166-1 codes.',
-        example='FR',
-        title='Country',
+        description="Country of the order, format: ISO 3166-1 codes.",
+        example="FR",
+        title="Country",
     )
     loyalty: Optional[int] = Field(
-        None, description='Loyalty points of the order', example=100, title='Loyalty'
+        None, description="Loyalty points of the order", example=100, title="Loyalty"
     )
     customer_id: Optional[str] = Field(
         None,
-        description='Unique identifier of the customer',
-        example='customer-123',
-        title='Customer Id',
+        description="Unique identifier of the customer",
+        example="customer-123",
+        title="Customer Id",
     )
     location_id: Optional[str] = Field(
         None,
-        description='Unique identifier of the location',
-        example='location-123',
-        title='Location Id',
+        description="Unique identifier of the location",
+        example="location-123",
+        title="Location Id",
     )
     taxes: Optional[List[TotalTaxItem]] = Field(
-        [], description='List of taxes of the order', title='Taxes'
+        [], description="List of taxes of the order", title="Taxes"
     )
     guests: Optional[int] = Field(
         None,
-        description='Number of guests linked to the order',
+        description="Number of guests linked to the order",
         example=1,
-        title='Guests',
+        title="Guests",
     )
     items: List[PMSOrderLineItem] = Field(
-        ..., description='List of items related to the order', title='Items'
+        ..., description="List of items related to the order", title="Items"
     )
     service_id: Optional[str] = Field(
         None,
-        description='Reference to the service related to this order',
-        title='Service Id',
+        description="Reference to the service related to this order",
+        title="Service Id",
     )
     reservation: Optional[ReservationItem] = Field(
         None,
-        description='Reference to the reservation related to this order',
-        title='Reservation',
+        description="Reference to the reservation related to this order",
+        title="Reservation",
     )
     bills: Optional[List[BackboneCommonModelsPmsCommonInvoiceItem]] = Field(
-        None, description='Reference to the bills related to this order', title='Bills'
+        None, description="Reference to the bills related to this order", title="Bills"
     )
 
 
 class POSOrderItem(BaseModel):
     id: str = Field(
         ...,
-        description='Unique identifier of the order',
-        example='371ca583-d218-4900-b236-397532cf0e52',
-        title='Id',
+        description="Unique identifier of the order",
+        example="371ca583-d218-4900-b236-397532cf0e52",
+        title="Id",
     )
     order_number: Optional[str] = Field(
         None,
-        description='Order number (often unique reference during the day)',
-        example='1',
-        title='Order Number',
+        description="Order number (often unique reference during the day)",
+        example="1",
+        title="Order Number",
     )
     creation_date: datetime = Field(
         ...,
-        description='Creation date of the order',
-        example='2025-01-01T00:00:00Z',
-        title='Creation Date',
+        description="Creation date of the order",
+        example="2025-01-01T00:00:00Z",
+        title="Creation Date",
     )
     closing_date: Optional[datetime] = Field(
         None,
-        description='Closing date of the order',
-        example='2025-01-01T00:00:00Z',
-        title='Closing Date',
+        description="Closing date of the order",
+        example="2025-01-01T00:00:00Z",
+        title="Closing Date",
     )
     service_date: Optional[datetime] = Field(
         None,
-        description='Indicates the date of the service to which the order belongs (can be used to group orders by closure date)',
-        example='2025-01-01T00:00:00Z',
-        title='Service Date',
+        description="Indicates the date of the service to which the order belongs (can be used to group orders by closure date)",
+        example="2025-01-01T00:00:00Z",
+        title="Service Date",
     )
     device_id: Optional[str] = Field(
         None,
-        description='ID of device that created the order',
-        example='device-123',
-        title='Device Id',
+        description="ID of device that created the order",
+        example="device-123",
+        title="Device Id",
     )
     total: float = Field(
         ...,
-        description='Total amount including tax of the order',
+        description="Total amount including tax of the order",
         example=11,
-        title='Total',
+        title="Total",
     )
     tax_amount: float = Field(
         ...,
-        description='Total amount of the taxes of the order',
+        description="Total amount of the taxes of the order",
         example=1,
-        title='Tax Amount',
+        title="Tax Amount",
     )
     total_discount: Optional[float] = Field(
         0,
-        description='Total amount of the discounts of the order',
+        description="Total amount of the discounts of the order",
         example=10,
-        title='Total Discount',
+        title="Total Discount",
     )
     total_refund: Optional[float] = Field(
         0,
-        description='Total amount of the refunds of the order',
+        description="Total amount of the refunds of the order",
         example=5,
-        title='Total Refund',
+        title="Total Refund",
     )
     total_tip: Optional[float] = Field(
         0,
-        description='Total amount of the tips of the order. Tips are not part of the total of the order',
+        description="Total amount of the tips of the order. Tips are not part of the total of the order",
         example=1,
-        title='Total Tip',
+        title="Total Tip",
     )
     delivery_fee: Optional[float] = Field(
         0,
-        description='Total amount of the delivery fees of the order',
+        description="Total amount of the delivery fees of the order",
         example=1,
-        title='Delivery Fee',
+        title="Delivery Fee",
     )
     currency: Optional[str] = Field(
-        None, description='Currency of the order', example='EUR', title='Currency'
+        None, description="Currency of the order", example="EUR", title="Currency"
     )
     country: Optional[str] = Field(
         None,
-        description='Country of the order, format: ISO 3166-1 codes.',
-        example='FR',
-        title='Country',
+        description="Country of the order, format: ISO 3166-1 codes.",
+        example="FR",
+        title="Country",
     )
     loyalty: Optional[int] = Field(
-        None, description='Loyalty points of the order', example=100, title='Loyalty'
+        None, description="Loyalty points of the order", example=100, title="Loyalty"
     )
     customer_id: Optional[str] = Field(
         None,
-        description='Unique identifier of the customer',
-        example='customer-123',
-        title='Customer Id',
+        description="Unique identifier of the customer",
+        example="customer-123",
+        title="Customer Id",
     )
     location_id: Optional[str] = Field(
         None,
-        description='Unique identifier of the location',
-        example='location-123',
-        title='Location Id',
+        description="Unique identifier of the location",
+        example="location-123",
+        title="Location Id",
     )
     taxes: Optional[List[TotalTaxItem]] = Field(
-        [], description='List of taxes of the order', title='Taxes'
+        [], description="List of taxes of the order", title="Taxes"
     )
     guests: Optional[int] = Field(
         None,
-        description='Number of guests linked to the order',
+        description="Number of guests linked to the order",
         example=1,
-        title='Guests',
+        title="Guests",
     )
     payments: List[POSPaymentItem] = Field(
-        ..., description='List of payments made for the order', title='Payments'
+        ..., description="List of payments made for the order", title="Payments"
     )
     items: List[POSItem] = Field(
-        ..., description='List of item lines in the order', title='Items'
+        ..., description="List of item lines in the order", title="Items"
     )
 
 
 class ReadFlowConsumerItem(BaseModel):
-    name: str = Field(..., title='Name')
-    description: Optional[str] = Field(None, title='Description')
-    id: str = Field(..., title='Id')
+    name: str = Field(..., title="Name")
+    description: Optional[str] = Field(None, title="Description")
+    id: str = Field(..., title="Id")
     config: Optional[FlowConfig] = None
-    values: Dict[str, Any] = Field(..., title='Values')
+    values: Dict[str, Any] = Field(..., title="Values")
     enabled_on: Optional[datetime] = Field(
         None,
-        description='Date on which the flow was enabled for this consumer',
-        title='Enabled On',
+        description="Date on which the flow was enabled for this consumer",
+        title="Enabled On",
     )
     trigger: ReadFlowTrigger
 
 
 class ReadFlowItem(BaseModel):
-    name: str = Field(..., title='Name')
-    description: Optional[str] = Field(None, title='Description')
-    id: str = Field(..., title='Id')
+    name: str = Field(..., title="Name")
+    description: Optional[str] = Field(None, title="Description")
+    id: str = Field(..., title="Id")
     execution: Optional[FlowExecution] = None
     config: Optional[FlowConfig] = Field(
-        default_factory=lambda: FlowConfig.parse_obj({'datastores': []}), title='Config'
+        default_factory=lambda: FlowConfig.parse_obj({"datastores": []}), title="Config"
     )
-    triggers: Optional[List[FlowTrigger]] = Field(None, title='Triggers')
+    triggers: Optional[List[FlowTrigger]] = Field(None, title="Triggers")
 
 
 class SyncConsumerItem(BaseModel):
-    syncid: UUID = Field(..., title='Syncid')
-    sync_name: str = Field(..., description='Name of the sync', title='Sync Name')
+    syncid: UUID = Field(..., title="Syncid")
+    sync_name: str = Field(..., description="Name of the sync", title="Sync Name")
     status: Optional[SyncConsumerStatus] = Field(
-        'inactive',
+        "inactive",
         description="Indicates whether the consumer has setup the sync. If the setup is complete, it will return 'active'. Otherwise 'inactive'.",
     )
     status_details: Optional[str] = Field(
         None,
-        description='Gives additional information if the status is inactive',
-        title='Status Details',
+        description="Gives additional information if the status is inactive",
+        title="Status Details",
     )
     link_createdon: datetime = Field(
         ...,
-        description='Date on which the consumer first navigated to the link to setup the sync',
-        title='Link Createdon',
+        description="Date on which the consumer first navigated to the link to setup the sync",
+        title="Link Createdon",
     )
     link_mappings: Optional[List[ReadSyncMappingItem]] = Field(
         None,
-        description='Values of the mappings requested for the sync for the specific consumer',
-        title='Link Mappings',
+        description="Values of the mappings requested for the sync for the specific consumer",
+        title="Link Mappings",
     )
     link_metadata: Optional[Dict[str, Any]] = Field(
-        None, description='Metadata passed during creation', title='Link Metadata'
+        None, description="Metadata passed during creation", title="Link Metadata"
     )
     enabled_flows: Optional[List[ReadFlowConsumerItem]] = Field(
         None,
-        description='List of flows that the consumer has enabled',
-        title='Enabled Flows',
+        description="List of flows that the consumer has enabled",
+        title="Enabled Flows",
     )
 
 
 class BackboneCommonModelsInvoicingCommonInvoiceItem(BaseModel):
     currency: str = Field(
-        ..., description='Currency matching target sofware name', title='Currency'
+        ..., description="Currency matching target sofware name", title="Currency"
     )
     invoice_type: BackboneCommonModelsInvoicingCommonInvoiceType = Field(
-        ..., description='Invoice type'
+        ..., description="Invoice type"
     )
-    status: InvoiceStatus = Field(..., description='Status')
-    invoice_date: date = Field(..., description='Invoicing date', title='Invoice Date')
-    tax_amount: float = Field(..., description='Taxes amount', title='Tax Amount')
+    status: InvoiceStatus = Field(..., description="Status")
+    invoice_date: date = Field(..., description="Invoicing date", title="Invoice Date")
+    tax_amount: float = Field(..., description="Taxes amount", title="Tax Amount")
     untaxed_amount: float = Field(
-        ..., description='Untaxed amount', title='Untaxed Amount'
+        ..., description="Untaxed amount", title="Untaxed Amount"
     )
-    total: float = Field(..., description='Total amount incl. taxes', title='Total')
+    total: float = Field(..., description="Total amount incl. taxes", title="Total")
     lines: Optional[List[InvoiceLineItem]] = Field(
-        [], description='Invoice lines', title='Lines'
+        [], description="Invoice lines", title="Lines"
     )
     partner_id: Optional[str] = Field(
         None,
-        description='Technical id of the vendor/customer in Chift',
-        title='Partner Id',
+        description="Technical id of the vendor/customer in Chift",
+        title="Partner Id",
     )
     invoice_number: Optional[str] = Field(
-        None, description='Number/sequence', title='Invoice Number'
+        None, description="Number/sequence", title="Invoice Number"
     )
-    due_date: Optional[date] = Field(None, description='Due date', title='Due Date')
-    reference: Optional[str] = Field(None, description='Reference', title='Reference')
+    due_date: Optional[date] = Field(None, description="Due date", title="Due Date")
+    reference: Optional[str] = Field(None, description="Reference", title="Reference")
     payment_communication: Optional[str] = Field(
-        None, description='Payment communication', title='Payment Communication'
+        None, description="Payment communication", title="Payment Communication"
     )
     customer_memo: Optional[str] = Field(
-        None, description='Customer note/memo', title='Customer Memo'
+        None, description="Customer note/memo", title="Customer Memo"
     )
     journal_ref: Optional[FieldRef] = Field(
-        None, description='Journal', title='Journal Ref'
+        None, description="Journal", title="Journal Ref"
     )
     italian_specificities: Optional[ItalianSpecificities] = Field(
-        None, description='Specificities for Italy', title='Italian Specificities'
+        None, description="Specificities for Italy", title="Italian Specificities"
     )
 
 
 class ChiftPageInvoiceItemOutMultiAnalyticPlans(BaseModel):
-    items: List[InvoiceItemOutMultiAnalyticPlans] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[InvoiceItemOutMultiAnalyticPlans] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageJournalEntryMultiAnalyticPlan(BaseModel):
-    items: List[JournalEntryMultiAnalyticPlan] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[JournalEntryMultiAnalyticPlan] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPagePMSInvoiceFullItem(BaseModel):
-    items: List[PMSInvoiceFullItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[PMSInvoiceFullItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPagePMSOrderItem(BaseModel):
-    items: List[PMSOrderItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[PMSOrderItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPagePOSOrderItem(BaseModel):
-    items: List[POSOrderItem] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[POSOrderItem] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class CreateFlowItem(BaseModel):
-    name: str = Field(..., title='Name')
-    description: Optional[str] = Field(None, title='Description')
+    name: str = Field(..., title="Name")
+    description: Optional[str] = Field(None, title="Description")
     execution: FlowExecution
     config: Optional[FlowConfig] = Field(
-        default_factory=lambda: FlowConfig.parse_obj({'datastores': []}), title='Config'
+        default_factory=lambda: FlowConfig.parse_obj({"datastores": []}), title="Config"
     )
-    triggers: List[FlowTrigger] = Field(..., title='Triggers')
+    triggers: List[FlowTrigger] = Field(..., title="Triggers")
 
 
 class CreateSyncMappingItem(BaseModel):
-    name: str = Field(..., title='Name')
-    description: Optional[str] = Field(None, title='Description')
-    display_order: Optional[int] = Field(0, title='Display Order')
-    challenge_question: Optional[str] = Field(None, title='Challenge Question')
+    name: str = Field(..., title="Name")
+    description: Optional[str] = Field(None, title="Description")
+    display_order: Optional[int] = Field(0, title="Display Order")
+    challenge_question: Optional[str] = Field(None, title="Challenge Question")
     sub_mappings: Optional[List[CreateSyncMappingToFieldItem]] = Field(
-        [], title='Sub Mappings'
+        [], title="Sub Mappings"
     )
 
 
 class InvoiceItemOut(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
     currency: str = Field(
-        ..., description='Currency matching target sofware name', title='Currency'
+        ..., description="Currency matching target sofware name", title="Currency"
     )
     invoice_type: BackboneCommonModelsInvoicingCommonInvoiceType = Field(
-        ..., description='Invoice type'
+        ..., description="Invoice type"
     )
-    status: InvoiceStatus = Field(..., description='Status')
-    invoice_date: date = Field(..., description='Invoicing date', title='Invoice Date')
-    tax_amount: float = Field(..., description='Taxes amount', title='Tax Amount')
+    status: InvoiceStatus = Field(..., description="Status")
+    invoice_date: date = Field(..., description="Invoicing date", title="Invoice Date")
+    tax_amount: float = Field(..., description="Taxes amount", title="Tax Amount")
     untaxed_amount: float = Field(
-        ..., description='Untaxed amount', title='Untaxed Amount'
+        ..., description="Untaxed amount", title="Untaxed Amount"
     )
-    total: float = Field(..., description='Total amount incl. taxes', title='Total')
+    total: float = Field(..., description="Total amount incl. taxes", title="Total")
     lines: Optional[List[InvoiceLineItem]] = Field(
-        [], description='Invoice lines', title='Lines'
+        [], description="Invoice lines", title="Lines"
     )
     partner_id: Optional[str] = Field(
         None,
-        description='Technical id of the vendor/customer in Chift',
-        title='Partner Id',
+        description="Technical id of the vendor/customer in Chift",
+        title="Partner Id",
     )
     invoice_number: Optional[str] = Field(
-        None, description='Number/sequence', title='Invoice Number'
+        None, description="Number/sequence", title="Invoice Number"
     )
-    due_date: Optional[date] = Field(None, description='Due date', title='Due Date')
-    reference: Optional[str] = Field(None, description='Reference', title='Reference')
+    due_date: Optional[date] = Field(None, description="Due date", title="Due Date")
+    reference: Optional[str] = Field(None, description="Reference", title="Reference")
     payment_communication: Optional[str] = Field(
-        None, description='Payment communication', title='Payment Communication'
+        None, description="Payment communication", title="Payment Communication"
     )
     customer_memo: Optional[str] = Field(
-        None, description='Customer note/memo', title='Customer Memo'
+        None, description="Customer note/memo", title="Customer Memo"
     )
     journal_ref: Optional[FieldRef] = Field(
-        None, description='Journal', title='Journal Ref'
+        None, description="Journal", title="Journal Ref"
     )
     italian_specificities: Optional[ItalianSpecificities] = Field(
-        None, description='Specificities for Italy', title='Italian Specificities'
+        None, description="Specificities for Italy", title="Italian Specificities"
     )
-    last_updated_on: Optional[datetime] = Field(None, title='Last Updated On')
+    last_updated_on: Optional[datetime] = Field(None, title="Last Updated On")
     outstanding_amount: Optional[float] = Field(
-        None, description='Amount left to be paid', title='Outstanding Amount'
+        None, description="Amount left to be paid", title="Outstanding Amount"
     )
     accounting_date: Optional[date] = Field(
-        None, description='Accounting date', title='Accounting Date'
+        None, description="Accounting date", title="Accounting Date"
     )
     payment_method_id: Optional[str] = Field(
         None,
-        description='Technical id of the payment method in Chift',
-        title='Payment Method Id',
+        description="Technical id of the payment method in Chift",
+        title="Payment Method Id",
     )
     currency_exchange_rate: Optional[float] = Field(
         1,
-        description='Indicates the exchange rate at the date of the invoice.',
-        title='Currency Exchange Rate',
+        description="Indicates the exchange rate at the date of the invoice.",
+        title="Currency Exchange Rate",
     )
 
 
 class InvoiceItemOutSingle(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
     currency: str = Field(
-        ..., description='Currency matching target sofware name', title='Currency'
+        ..., description="Currency matching target sofware name", title="Currency"
     )
     invoice_type: BackboneCommonModelsInvoicingCommonInvoiceType = Field(
-        ..., description='Invoice type'
+        ..., description="Invoice type"
     )
-    status: InvoiceStatus = Field(..., description='Status')
-    invoice_date: date = Field(..., description='Invoicing date', title='Invoice Date')
-    tax_amount: float = Field(..., description='Taxes amount', title='Tax Amount')
+    status: InvoiceStatus = Field(..., description="Status")
+    invoice_date: date = Field(..., description="Invoicing date", title="Invoice Date")
+    tax_amount: float = Field(..., description="Taxes amount", title="Tax Amount")
     untaxed_amount: float = Field(
-        ..., description='Untaxed amount', title='Untaxed Amount'
+        ..., description="Untaxed amount", title="Untaxed Amount"
     )
-    total: float = Field(..., description='Total amount incl. taxes', title='Total')
+    total: float = Field(..., description="Total amount incl. taxes", title="Total")
     lines: Optional[List[InvoiceLineItem]] = Field(
-        [], description='Invoice lines', title='Lines'
+        [], description="Invoice lines", title="Lines"
     )
     partner_id: Optional[str] = Field(
         None,
-        description='Technical id of the vendor/customer in Chift',
-        title='Partner Id',
+        description="Technical id of the vendor/customer in Chift",
+        title="Partner Id",
     )
     invoice_number: Optional[str] = Field(
-        None, description='Number/sequence', title='Invoice Number'
+        None, description="Number/sequence", title="Invoice Number"
     )
-    due_date: Optional[date] = Field(None, description='Due date', title='Due Date')
-    reference: Optional[str] = Field(None, description='Reference', title='Reference')
+    due_date: Optional[date] = Field(None, description="Due date", title="Due Date")
+    reference: Optional[str] = Field(None, description="Reference", title="Reference")
     payment_communication: Optional[str] = Field(
-        None, description='Payment communication', title='Payment Communication'
+        None, description="Payment communication", title="Payment Communication"
     )
     customer_memo: Optional[str] = Field(
-        None, description='Customer note/memo', title='Customer Memo'
+        None, description="Customer note/memo", title="Customer Memo"
     )
     journal_ref: Optional[FieldRef] = Field(
-        None, description='Journal', title='Journal Ref'
+        None, description="Journal", title="Journal Ref"
     )
     italian_specificities: Optional[ItalianSpecificities] = Field(
-        None, description='Specificities for Italy', title='Italian Specificities'
+        None, description="Specificities for Italy", title="Italian Specificities"
     )
-    last_updated_on: Optional[datetime] = Field(None, title='Last Updated On')
+    last_updated_on: Optional[datetime] = Field(None, title="Last Updated On")
     outstanding_amount: Optional[float] = Field(
-        None, description='Amount left to be paid', title='Outstanding Amount'
+        None, description="Amount left to be paid", title="Outstanding Amount"
     )
     accounting_date: Optional[date] = Field(
-        None, description='Accounting date', title='Accounting Date'
+        None, description="Accounting date", title="Accounting Date"
     )
     payment_method_id: Optional[str] = Field(
         None,
-        description='Technical id of the payment method in Chift',
-        title='Payment Method Id',
+        description="Technical id of the payment method in Chift",
+        title="Payment Method Id",
     )
     currency_exchange_rate: Optional[float] = Field(
         1,
-        description='Indicates the exchange rate at the date of the invoice.',
-        title='Currency Exchange Rate',
+        description="Indicates the exchange rate at the date of the invoice.",
+        title="Currency Exchange Rate",
     )
-    pdf: Optional[str] = Field(None, description='PDF document in base64', title='Pdf')
+    pdf: Optional[str] = Field(None, description="PDF document in base64", title="Pdf")
 
 
 class OrderItemOut(BaseModel):
-    id: str = Field(..., description='Technical id in Chift', title='Id')
+    id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(
-        ..., description='Technical id in the target software', title='Source Ref'
+        ..., description="Technical id in the target software", title="Source Ref"
     )
-    order_number: Optional[str] = Field(None, title='Order Number')
+    order_number: Optional[str] = Field(None, title="Order Number")
     customer: Optional[OrderCustomerItemOut] = None
     billing_address: Optional[BackboneCommonModelsCommerceCommonAddressItemOut] = None
     shipping_address: Optional[BackboneCommonModelsCommerceCommonAddressItemOut] = None
-    created_on: Optional[datetime] = Field(None, title='Created On')
-    last_updated_on: Optional[datetime] = Field(None, title='Last Updated On')
-    confirmed_on: Optional[datetime] = Field(None, title='Confirmed On')
-    delivery_date: Optional[datetime] = Field(None, title='Delivery Date')
-    cancelled_on: Optional[datetime] = Field(None, title='Cancelled On')
+    created_on: Optional[datetime] = Field(None, title="Created On")
+    last_updated_on: Optional[datetime] = Field(None, title="Last Updated On")
+    confirmed_on: Optional[datetime] = Field(None, title="Confirmed On")
+    delivery_date: Optional[datetime] = Field(None, title="Delivery Date")
+    cancelled_on: Optional[datetime] = Field(None, title="Cancelled On")
     status: OrderStatus
-    discount_amount: float = Field(..., title='Discount Amount')
+    discount_amount: float = Field(..., title="Discount Amount")
     untaxed_amount_without_fees: float = Field(
         ...,
-        description='Untaxed amount without fees (e.g. shipping) but with discout. Refunds and returns are not included.',
-        title='Untaxed Amount Without Fees',
+        description="Untaxed amount without fees (e.g. shipping) but with discout. Refunds and returns are not included.",
+        title="Untaxed Amount Without Fees",
     )
     tax_amount_without_fees: float = Field(
         ...,
-        description='Total taxes applied to the order without taxes linked to fees (e.g. shipping).',
-        title='Tax Amount Without Fees',
+        description="Total taxes applied to the order without taxes linked to fees (e.g. shipping).",
+        title="Tax Amount Without Fees",
     )
     total_without_fees: float = Field(
         ...,
-        description='Total of the order without fees (e.g. shipping) but with discount. Refunds and returns are not included.',
-        title='Total Without Fees',
+        description="Total of the order without fees (e.g. shipping) but with discount. Refunds and returns are not included.",
+        title="Total Without Fees",
     )
     current_untaxed_amount: float = Field(
         ...,
-        description='Untaxed amount with discout and any kind of fee (e.g. shipping). After returns, removes and returns.',
-        title='Current Untaxed Amount',
+        description="Untaxed amount with discout and any kind of fee (e.g. shipping). After returns, removes and returns.",
+        title="Current Untaxed Amount",
     )
     current_tax_amount: float = Field(
         ...,
-        description='Total taxes applied to the order. After returns, removes and returns.',
-        title='Current Tax Amount',
+        description="Total taxes applied to the order. After returns, removes and returns.",
+        title="Current Tax Amount",
     )
     current_total: float = Field(
         ...,
-        description='Current total of the order with discount. After returns, removes and returns.',
-        title='Current Total',
+        description="Current total of the order with discount. After returns, removes and returns.",
+        title="Current Total",
     )
     untaxed_amount: float = Field(
         ...,
-        description='Untaxed amount with discout and any kind of fee (e.g. shipping). Refunds and returns are not included.',
-        title='Untaxed Amount',
+        description="Untaxed amount with discout and any kind of fee (e.g. shipping). Refunds and returns are not included.",
+        title="Untaxed Amount",
     )
     tax_amount: float = Field(
         ...,
-        description='Total taxes applied to the order. Refunds and returns are not included.',
-        title='Tax Amount',
+        description="Total taxes applied to the order. Refunds and returns are not included.",
+        title="Tax Amount",
     )
     total: float = Field(
         ...,
-        description='Total of the order with discount. Refunds and returns are not included.',
-        title='Total',
+        description="Total of the order with discount. Refunds and returns are not included.",
+        title="Total",
     )
-    refunded_amount: Optional[float] = Field(0, title='Refunded Amount')
+    refunded_amount: Optional[float] = Field(0, title="Refunded Amount")
     currency: str = Field(
         ...,
-        description='Indicates the currency of the order (e.g. EUR).',
-        title='Currency',
+        description="Indicates the currency of the order (e.g. EUR).",
+        title="Currency",
     )
-    note: Optional[str] = Field(None, title='Note')
-    tags: Optional[List[str]] = Field([], title='Tags')
-    lines: List[OrderLineItemOut] = Field(..., title='Lines')
-    other_fees: Optional[List[FeesItem]] = Field([], title='Other Fees')
+    note: Optional[str] = Field(None, title="Note")
+    tags: Optional[List[str]] = Field([], title="Tags")
+    lines: List[OrderLineItemOut] = Field(..., title="Lines")
+    other_fees: Optional[List[FeesItem]] = Field([], title="Other Fees")
     payment_method_id: Optional[str] = Field(
         None,
-        description='Technical id of the payment method in the eCommerce',
-        title='Payment Method Id',
+        description="Technical id of the payment method in the eCommerce",
+        title="Payment Method Id",
     )
-    transactions: Optional[List[OrderTransactions]] = Field([], title='Transactions')
+    transactions: Optional[List[OrderTransactions]] = Field([], title="Transactions")
     payment_methods: Optional[List[OrderPaymentMethods]] = Field(
-        [], title='Payment Methods'
+        [], title="Payment Methods"
     )
     detailed_refunds: Optional[List[OrderRefundItem]] = Field(
-        None, title='Detailed Refunds'
+        None, title="Detailed Refunds"
     )
-    returns: Optional[List[OrderReturnItem]] = Field([], title='Returns')
+    returns: Optional[List[OrderReturnItem]] = Field([], title="Returns")
 
 
 class ReadSyncItem(BaseModel):
-    name: constr(min_length=1) = Field(..., title='Name')
+    name: constr(min_length=1) = Field(..., title="Name")
     connections: List[BackboneApiAppRoutersSyncsConnectionItem] = Field(
-        ..., title='Connections'
+        ..., title="Connections"
     )
-    mappings: Optional[List[CreateSyncMappingItem]] = Field([], title='Mappings')
-    syncid: UUID = Field(..., title='Syncid')
-    consumers: List[str] = Field(..., title='Consumers')
-    flows: List[ReadFlowItem] = Field(..., title='Flows')
+    mappings: Optional[List[CreateSyncMappingItem]] = Field([], title="Mappings")
+    syncid: UUID = Field(..., title="Syncid")
+    consumers: List[str] = Field(..., title="Consumers")
+    flows: List[ReadFlowItem] = Field(..., title="Flows")
 
 
 class ChiftPageInvoiceItemOut(BaseModel):
-    items: List[InvoiceItemOut] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[InvoiceItemOut] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class ChiftPageOrderItemOut(BaseModel):
-    items: List[OrderItemOut] = Field(..., title='Items')
-    total: conint(ge=0) = Field(..., title='Total')
-    page: conint(ge=1) = Field(..., title='Page')
-    size: conint(ge=1) = Field(..., title='Size')
+    items: List[OrderItemOut] = Field(..., title="Items")
+    total: conint(ge=0) = Field(..., title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
 
 
 class CreateSyncItem(BaseModel):
-    name: constr(min_length=1) = Field(..., title='Name')
+    name: constr(min_length=1) = Field(..., title="Name")
     connections: List[BackboneApiAppRoutersSyncsConnectionItem] = Field(
-        ..., title='Connections'
+        ..., title="Connections"
     )
-    mappings: Optional[List[CreateSyncMappingItem]] = Field([], title='Mappings')
-    flows: Optional[List[CreateFlowItem]] = Field([], title='Flows')
+    mappings: Optional[List[CreateSyncMappingItem]] = Field([], title="Mappings")
+    flows: Optional[List[CreateFlowItem]] = Field([], title="Flows")

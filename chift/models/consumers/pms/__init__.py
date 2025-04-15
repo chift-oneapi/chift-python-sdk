@@ -11,6 +11,7 @@ from chift.openapi.models import PMSPayment as PaymentModel
 from chift.openapi.models import PMSPaymentMethods as PaymentMethodsModel
 from chift.openapi.models import PMSTax as TaxModel
 
+
 class PmsRouter:
     def __init__(self, consumer_id, connection_id):
         self.PaymentMethod = PaymentMethod(consumer_id, connection_id)
@@ -22,6 +23,7 @@ class PmsRouter:
         self.Invoice = Invoice(consumer_id, connection_id)
         self.Customer = Customer(consumer_id, connection_id)
         self.Tax = Tax(consumer_id, connection_id)
+
 
 class PaymentMethod(PaginationMixin[PaymentMethodsModel]):
     chift_vertical: ClassVar = "pms"
