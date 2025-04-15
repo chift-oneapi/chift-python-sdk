@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.89 - 2025-04-15
+* add route get taxes (PMS)
+
 ## 0.1.88 - 2025-04-01
 * internal: add ignored error codes
 
