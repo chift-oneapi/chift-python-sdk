@@ -12,7 +12,6 @@ from .openapi import (
     AnalyticPlanItem,
     AttachmentItemOut,
     BackboneApiAppRoutersConnectionsConnectionItem,
-    BackboneCommonModelsCommerceCommonProductItem,
     BackboneCommonModelsPosCommonProductCategoryItem,
     BalanceItemOut,
     CategoryItem,
@@ -60,6 +59,7 @@ from .openapi import (
     POSPaymentItem,
     POSProductItem,
     ProductItemOut,
+    ProductItemOutput,
     ReadFlowItem,
     ReadSyncItem,
     RefundItemOut,
@@ -464,7 +464,7 @@ class CommerceCustomer(CommerceCustomerItem):
     pass
 
 
-class CommerceProduct(BackboneCommonModelsCommerceCommonProductItem):
+class CommerceProduct(ProductItemOutput):
     pass
 
 
