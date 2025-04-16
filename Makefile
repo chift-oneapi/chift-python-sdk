@@ -1,34 +1,32 @@
-VENV_NAME?=venv
+.PHONY: install config test fmt fmtcheck coveralls clean publish
 
-venv: $(VENV_NAME)/bin/activate
+config:
+	@poetry config virtualenvs.in-project true --local
 
-$(VENV_NAME)/bin/activate: setup.py
-	python3 -m pip install --upgrade pip virtualenv
-	@test -d $(VENV_NAME) || python3 -m virtualenv --clear $(VENV_NAME)
-	${VENV_NAME}/bin/python -m pip install -e .[dev]
-	@touch $(VENV_NAME)/bin/activate
+install: config
+	@poetry install --no-interaction
 
-test: venv
-	@${VENV_NAME}/bin/python -m pytest --cov
+test: install
+	@poetry run python -m pytest --cov
 
-fmt: venv
-	@${VENV_NAME}/bin/python -m isort .
-	@${VENV_NAME}/bin/python -m autoflake --remove-all-unused-imports --ignore-init-module-imports -r --in-place .
-	@${VENV_NAME}/bin/python -m black ./
+fmt: install
+	@poetry run python -m isort .
+	@poetry run python -m autoflake --remove-all-unused-imports --ignore-init-module-imports -r --in-place .
+	@poetry run python -m black ./
 
-fmtcheck: venv
-	@${VENV_NAME}/bin/python -m black ./ --check
+fmtcheck: install
+	@poetry run python -m black ./ --check
 
-coveralls: venv
-	${VENV_NAME}/bin/python -m pip install -U coveralls
-	${VENV_NAME}/bin/coveralls
+coveralls: install
+	@poetry run pip install -U coveralls
+	@poetry run python -m coveralls
 
 clean:
-	@rm -rf $(VENV_NAME) build/ dist/
+	@rm -rf build/ dist/ .coverage .pytest_cache .venv
+	@find . -type d -name __pycache__ -exec rm -rf {} +
+	@find . -type d -name "*.egg-info" -exec rm -rf {} +
 
-publish: clean venv
-	${VENV_NAME}/bin/python -m build
-	${VENV_NAME}/bin/python -m twine check dist/*
-	${VENV_NAME}/bin/python -m twine upload dist/*
-
-.PHONY: venv test clean
+publish: clean install
+	@poetry build
+	@poetry run python -m twine check dist/*
+	@poetry run python -m twine upload dist/*

@@ -2,7 +2,7 @@ import datetime
 from enum import Enum
 from typing import List, Optional
 
-from pydantic import BaseModel, Extra
+from pydantic.v1 import BaseModel
 
 from .openapi import (
     AccountingCategoryItem,
@@ -12,7 +12,6 @@ from .openapi import (
     AnalyticPlanItem,
     AttachmentItemOut,
     BackboneApiAppRoutersConnectionsConnectionItem,
-    BackboneCommonModelsCommerceCommonProductItem,
     BackboneCommonModelsPosCommonProductCategoryItem,
     BalanceItemOut,
     CategoryItem,
@@ -60,6 +59,7 @@ from .openapi import (
     POSPaymentItem,
     POSProductItem,
     ProductItemOut,
+    ProductItemOutput,
     ReadFlowItem,
     ReadSyncItem,
     RefundItemOut,
@@ -131,20 +131,20 @@ class FlowTriggerTimer(BaseModel):
 
 class FlowTrigger(BaseModel):
     type: TriggerType
-    data: Optional[FlowTriggerTimer]
+    data: Optional[FlowTriggerTimer] = None
 
 
 class FlowConfig(BaseModel):
-    definitionFields: Optional[List[dict]]
-    doorkeyFields: Optional[List[dict]]
-    customFields: Optional[List[dict]]
+    definitionFields: Optional[List[dict]] = None
+    doorkeyFields: Optional[List[dict]] = None
+    customFields: Optional[List[dict]] = None
     datastores: Optional[List[Datastore]] = []
 
 
 # consumers
 
 
-class Consumer(ConsumerItem, extra=Extra.allow):
+class Consumer(ConsumerItem, extra="allow"):
     connectionid: str = None
 
     @property
@@ -464,7 +464,7 @@ class CommerceCustomer(CommerceCustomerItem):
     pass
 
 
-class CommerceProduct(BackboneCommonModelsCommerceCommonProductItem):
+class CommerceProduct(ProductItemOutput):
     pass
 
 
