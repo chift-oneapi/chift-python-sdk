@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.90 - 2025-04-16
+* migrate to Pydantic 2.0
+
 ## 0.1.89 - 2025-04-15
 * add route get taxes (PMS)
 
