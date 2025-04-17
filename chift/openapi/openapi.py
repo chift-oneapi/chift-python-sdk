@@ -542,7 +542,7 @@ class ClosurePaymentItem(BaseModel):
         examples=["Cash"],
         title="Payment Method Name",
     )
-    total: str = Field(
+    total: float = Field(  # Changed from str to float
         ..., description="Total amount including tax", examples=[11], title="Total"
     )
 
@@ -1102,13 +1102,13 @@ class NextDocumentNumber(BaseModel):
 
 
 class ObjectivesItem(BaseModel):
-    total: str = Field(
+    total: float = Field(  # Changed from str to float
         ...,
         description="Total amount including tax of the sales",
         examples=[10],
         title="Total",
     )
-    tax_amount: str = Field(
+    tax_amount: float = Field(  # Changed from str to float
         ..., description="Total amount of the taxes", examples=[1], title="Tax Amount"
     )
 
@@ -1639,13 +1639,13 @@ class Token(BaseModel):
 
 
 class TotalTaxItem(BaseModel):
-    tax_rate: str = Field(
+    tax_rate: float = Field(  # Changed from str to float
         ..., description="Tax rate", examples=["10"], title="Tax Rate"
     )
-    tax_amount: str = Field(
+    tax_amount: float = Field(  # Changed from str to float
         ..., description="Tax amount", examples=["1"], title="Tax Amount"
     )
-    total: str = Field(
+    total: float = Field(  # Changed from str to float
         ..., description="Total amount including tax", examples=["11"], title="Total"
     )
 
@@ -2009,13 +2009,13 @@ class BackboneCommonModelsPosCommonProductCategoryItem(BaseModel):
 
 
 class BackboneCommonModelsPosCommonProductPriceItem(BaseModel):
-    unit_price: str = Field(
+    unit_price: float = Field(  # Changed from str to float
         ...,
         description="Unit price (without tax) of the product",
         examples=[10],
         title="Unit Price",
     )
-    tax_rate: Optional[str] = Field(
+    tax_rate: Optional[float] = Field(  # Changed from str to float
         None,
         description="Tax rate applied to the product",
         examples=[10],
@@ -2030,7 +2030,7 @@ class BackboneCommonModelsPosPmsDiscountItem(BaseModel):
         examples=["Percentage discount"],
         title="Name",
     )
-    total: str = Field(
+    total: float = Field(  # Changed from str to float
         ..., description="Total amount of the discount", examples=[10], title="Total"
     )
     type: Optional[DiscountType] = Field(
@@ -3272,25 +3272,25 @@ class PMSOrderLineItem(BaseModel):
         examples=["456"],
         title="Menu Id",
     )
-    quantity: str = Field(
+    quantity: float = Field(  # Changed from str to float
         ...,
         description="Quantity of the order line item",
         examples=[1],
         title="Quantity",
     )
-    unit_price: str = Field(
+    unit_price: float = Field(  # Changed from str to float
         ...,
         description="Unit price (without tax) of the order line item",
         examples=[10],
         title="Unit Price",
     )
-    total: str = Field(
+    total: float = Field(  # Changed from str to float
         ...,
         description="Total amount including tax of the order line item",
         examples=[11],
         title="Total",
     )
-    tax_amount: str = Field(
+    tax_amount: float = Field(  # Changed from str to float
         ...,
         description="Total amount of the taxes of the order line item",
         examples=[1],
@@ -3348,10 +3348,10 @@ class PMSPaymentItem(BaseModel):
         examples=["Cash"],
         title="Payment Method Name",
     )
-    total: str = Field(
+    total: float = Field(  # Changed from str to float
         ..., description="Total amount of the payment", examples=[11], title="Total"
     )
-    tip: Optional[str] = Field(
+    tip: Optional[float] = Field(  # Changed from str to float
         0,
         description="Total amount of the tips of the payment. Tips are not part of the total of the payment",
         examples=[1],
@@ -3415,12 +3415,12 @@ class PMSTaxRateItem(BaseModel):
 
 class POSClosureInformationItem(BaseModel):
     id: str = Field(..., title="Id")
-    total: str = Field(
+    total: float = Field(  # Changed from str to float
         ...,
         description="Total amount of the payments in current closure",
         title="Total",
     )
-    tax_amount: str = Field(
+    tax_amount: float = Field(  # Changed from str to float
         ..., description="Total tax amount the in current closure", title="Tax Amount"
     )
     payments: Optional[List[ClosurePaymentItem]] = Field(
@@ -3477,25 +3477,25 @@ class POSItem(BaseModel):
         examples=["456"],
         title="Menu Id",
     )
-    quantity: str = Field(
+    quantity: float = Field(  # Changed from str to float
         ...,
         description="Quantity of the order line item",
         examples=[1],
         title="Quantity",
     )
-    unit_price: str = Field(
+    unit_price: float = Field(  # Changed from str to float
         ...,
         description="Unit price (without tax) of the order line item",
         examples=[10],
         title="Unit Price",
     )
-    total: str = Field(
+    total: float = Field(  # Changed from str to float
         ...,
         description="Total amount including tax of the order line item",
         examples=[11],
         title="Total",
     )
-    tax_amount: str = Field(
+    tax_amount: float = Field(  # Changed from str to float
         ...,
         description="Total amount of the taxes of the order line item",
         examples=[1],
@@ -3552,10 +3552,10 @@ class POSPaymentItem(BaseModel):
         examples=["Cash"],
         title="Payment Method Name",
     )
-    total: str = Field(
+    total: float = Field(  # Changed from str to float
         ..., description="Total amount of the payment", examples=[11], title="Total"
     )
-    tip: Optional[str] = Field(
+    tip: Optional[float] = Field(  # Changed from str to float
         0,
         description="Total amount of the tips of the payment. Tips are not part of the total of the payment",
         examples=[1],
@@ -3813,13 +3813,13 @@ class ReturnOrderLineItem(BaseModel):
 
 
 class SalesItem(BaseModel):
-    total: str = Field(
+    total: float = Field(  # Changed from str to float
         ...,
         description="Total amount including tax of the sales",
         examples=[10],
         title="Total",
     )
-    tax_amount: str = Field(
+    tax_amount: float = Field(  # Changed from str to float
         ..., description="Total amount of the taxes", examples=[1], title="Tax Amount"
     )
     taxes: Optional[List[TotalTaxItem]] = Field(
@@ -4724,37 +4724,37 @@ class PMSOrderItem(BaseModel):
         examples=["device-123"],
         title="Device Id",
     )
-    total: str = Field(
+    total: float = Field(  # Changed from str to float
         ...,
         description="Total amount including tax of the order",
         examples=[11],
         title="Total",
     )
-    tax_amount: str = Field(
+    tax_amount: float = Field(  # Changed from str to float
         ...,
         description="Total amount of the taxes of the order",
         examples=[1],
         title="Tax Amount",
     )
-    total_discount: Optional[str] = Field(
+    total_discount: Optional[float] = Field(  # Changed from str to float
         0,
         description="Total amount of the discounts of the order",
         examples=[10],
         title="Total Discount",
     )
-    total_refund: Optional[str] = Field(
+    total_refund: Optional[float] = Field(  # Changed from str to float
         0,
         description="Total amount of the refunds of the order",
         examples=[5],
         title="Total Refund",
     )
-    total_tip: Optional[str] = Field(
+    total_tip: Optional[float] = Field(  # Changed from str to float
         0,
         description="Total amount of the tips of the order. Tips are not part of the total of the order",
         examples=[1],
         title="Total Tip",
     )
-    delivery_fee: Optional[str] = Field(
+    delivery_fee: Optional[float] = Field(  # Changed from str to float
         0,
         description="Total amount of the delivery fees of the order",
         examples=[1],
@@ -4846,37 +4846,37 @@ class POSOrderItem(BaseModel):
         examples=["device-123"],
         title="Device Id",
     )
-    total: str = Field(
+    total: float = Field(  # Changed from str to float
         ...,
         description="Total amount including tax of the order",
         examples=[11],
         title="Total",
     )
-    tax_amount: str = Field(
+    tax_amount: float = Field(  # Changed from str to float
         ...,
         description="Total amount of the taxes of the order",
         examples=[1],
         title="Tax Amount",
     )
-    total_discount: Optional[str] = Field(
+    total_discount: Optional[float] = Field(  # Changed from str to float
         0,
         description="Total amount of the discounts of the order",
         examples=[10],
         title="Total Discount",
     )
-    total_refund: Optional[str] = Field(
+    total_refund: Optional[float] = Field(  # Changed from str to float
         0,
         description="Total amount of the refunds of the order",
         examples=[5],
         title="Total Refund",
     )
-    total_tip: Optional[str] = Field(
+    total_tip: Optional[float] = Field(  # Changed from str to float
         0,
         description="Total amount of the tips of the order. Tips are not part of the total of the order",
         examples=[1],
         title="Total Tip",
     )
-    delivery_fee: Optional[str] = Field(
+    delivery_fee: Optional[float] = Field(  # Changed from str to float
         0,
         description="Total amount of the delivery fees of the order",
         examples=[1],
