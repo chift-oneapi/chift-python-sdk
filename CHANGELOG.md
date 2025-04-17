@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.91 - 2025-04-17
+* fix float field in models
+
 ## 0.1.90 - 2025-04-16
 * migrate to Pydantic 2.0
 
