@@ -19864,7 +19864,7 @@
             ]
           },
           "total": {
-            "type": "string",
+            "type": "number",
             "title": "Total",
             "description": "Total amount including tax",
             "examples": [
@@ -26620,7 +26620,7 @@
       "ObjectivesItem": {
         "properties": {
           "total": {
-            "type": "string",
+            "type": "number",
             "title": "Total",
             "description": "Total amount including tax of the sales",
             "examples": [
@@ -26628,7 +26628,7 @@
             ]
           },
           "tax_amount": {
-            "type": "string",
+            "type": "number",
             "title": "Tax Amount",
             "description": "Total amount of the taxes",
             "examples": [
@@ -28575,7 +28575,7 @@
             ]
           },
           "total": {
-            "type": "string",
+            "type": "number",
             "title": "Total",
             "description": "Total amount including tax of the order",
             "examples": [
@@ -28583,7 +28583,7 @@
             ]
           },
           "tax_amount": {
-            "type": "string",
+            "type": "number",
             "title": "Tax Amount",
             "description": "Total amount of the taxes of the order",
             "examples": [
@@ -28593,7 +28593,7 @@
           "total_discount": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "number"
               },
               {
                 "type": "null"
@@ -28609,7 +28609,7 @@
           "total_refund": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "number"
               },
               {
                 "type": "null"
@@ -28625,7 +28625,7 @@
           "total_tip": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "number"
               },
               {
                 "type": "null"
@@ -28641,7 +28641,7 @@
           "delivery_fee": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "number"
               },
               {
                 "type": "null"
@@ -28862,7 +28862,7 @@
             ]
           },
           "quantity": {
-            "type": "string",
+            "type": "number",
             "title": "Quantity",
             "description": "Quantity of the order line item",
             "examples": [
@@ -28870,7 +28870,7 @@
             ]
           },
           "unit_price": {
-            "type": "string",
+            "type": "number",
             "title": "Unit Price",
             "description": "Unit price (without tax) of the order line item",
             "examples": [
@@ -28878,7 +28878,7 @@
             ]
           },
           "total": {
-            "type": "string",
+            "type": "number",
             "title": "Total",
             "description": "Total amount including tax of the order line item",
             "examples": [
@@ -28886,7 +28886,7 @@
             ]
           },
           "tax_amount": {
-            "type": "string",
+            "type": "number",
             "title": "Tax Amount",
             "description": "Total amount of the taxes of the order line item",
             "examples": [
@@ -29036,7 +29036,7 @@
             ]
           },
           "total": {
-            "type": "string",
+            "type": "number",
             "title": "Total",
             "description": "Total amount of the payment",
             "examples": [
@@ -29046,7 +29046,7 @@
           "tip": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "number"
               },
               {
                 "type": "null"
@@ -29243,12 +29243,12 @@
             "title": "Id"
           },
           "total": {
-            "type": "string",
+            "type": "number",
             "title": "Total",
             "description": "Total amount of the payments in current closure"
           },
           "tax_amount": {
-            "type": "string",
+            "type": "number",
             "title": "Tax Amount",
             "description": "Total tax amount the in current closure"
           },
@@ -29551,7 +29551,7 @@
             ]
           },
           "quantity": {
-            "type": "string",
+            "type": "number",
             "title": "Quantity",
             "description": "Quantity of the order line item",
             "examples": [
@@ -29559,7 +29559,7 @@
             ]
           },
           "unit_price": {
-            "type": "string",
+            "type": "number",
             "title": "Unit Price",
             "description": "Unit price (without tax) of the order line item",
             "examples": [
@@ -29567,7 +29567,7 @@
             ]
           },
           "total": {
-            "type": "string",
+            "type": "number",
             "title": "Total",
             "description": "Total amount including tax of the order line item",
             "examples": [
@@ -29575,7 +29575,7 @@
             ]
           },
           "tax_amount": {
-            "type": "string",
+            "type": "number",
             "title": "Tax Amount",
             "description": "Total amount of the taxes of the order line item",
             "examples": [
@@ -29814,7 +29814,7 @@
             ]
           },
           "total": {
-            "type": "string",
+            "type": "number",
             "title": "Total",
             "description": "Total amount including tax of the order",
             "examples": [
@@ -29822,7 +29822,7 @@
             ]
           },
           "tax_amount": {
-            "type": "string",
+            "type": "number",
             "title": "Tax Amount",
             "description": "Total amount of the taxes of the order",
             "examples": [
@@ -29832,7 +29832,7 @@
           "total_discount": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "number"
               },
               {
                 "type": "null"
@@ -29848,7 +29848,7 @@
           "total_refund": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "number"
               },
               {
                 "type": "null"
@@ -29864,7 +29864,7 @@
           "total_tip": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "number"
               },
               {
                 "type": "null"
@@ -29880,7 +29880,7 @@
           "delivery_fee": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "number"
               },
               {
                 "type": "null"
@@ -30075,7 +30075,7 @@
             ]
           },
           "total": {
-            "type": "string",
+            "type": "number",
             "title": "Total",
             "description": "Total amount of the payment",
             "examples": [
@@ -30085,7 +30085,7 @@
           "tip": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "number"
               },
               {
                 "type": "null"
@@ -32132,7 +32132,7 @@
       "SalesItem": {
         "properties": {
           "total": {
-            "type": "string",
+            "type": "number",
             "title": "Total",
             "description": "Total amount including tax of the sales",
             "examples": [
@@ -32140,7 +32140,7 @@
             ]
           },
           "tax_amount": {
-            "type": "string",
+            "type": "number",
             "title": "Tax Amount",
             "description": "Total amount of the taxes",
             "examples": [
@@ -33128,7 +33128,7 @@
       "TotalTaxItem": {
         "properties": {
           "tax_rate": {
-            "type": "string",
+            "type": "number",
             "title": "Tax Rate",
             "description": "Tax rate",
             "examples": [
@@ -33136,7 +33136,7 @@
             ]
           },
           "tax_amount": {
-            "type": "string",
+            "type": "number",
             "title": "Tax Amount",
             "description": "Tax amount",
             "examples": [
@@ -33144,7 +33144,7 @@
             ]
           },
           "total": {
-            "type": "string",
+            "type": "number",
             "title": "Total",
             "description": "Total amount including tax",
             "examples": [
@@ -34849,7 +34849,7 @@
       "backbone_common__models__pos__common__ProductPriceItem": {
         "properties": {
           "unit_price": {
-            "type": "string",
+            "type": "number",
             "title": "Unit Price",
             "description": "Unit price (without tax) of the product",
             "examples": [
@@ -34859,7 +34859,7 @@
           "tax_rate": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "number"
               },
               {
                 "type": "null"
@@ -34896,7 +34896,7 @@
             ]
           },
           "total": {
-            "type": "string",
+            "type": "number",
             "title": "Total",
             "description": "Total amount of the discount",
             "examples": [
