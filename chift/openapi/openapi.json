@@ -23994,7 +23994,14 @@
             "title": "Partner Id"
           },
           "journal_id": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Journal Id",
             "description": "Indicates the journal used in for the invoice. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown."
           },
@@ -24054,7 +24061,6 @@
           "invoice_date",
           "due_date",
           "partner_id",
-          "journal_id",
           "lines"
         ],
         "title": "InvoiceItemOutMonoAnalyticPlan"
@@ -24154,7 +24160,14 @@
             "title": "Partner Id"
           },
           "journal_id": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Journal Id",
             "description": "Indicates the journal used in for the invoice. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown."
           },
@@ -24214,7 +24227,6 @@
           "invoice_date",
           "due_date",
           "partner_id",
-          "journal_id",
           "lines"
         ],
         "title": "InvoiceItemOutMultiAnalyticPlans"
@@ -24856,12 +24868,26 @@
             "title": "Total"
           },
           "account_number": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Account Number",
             "description": "Indicates the number of the account used for the line (e.g. 701000)."
           },
           "tax_code": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Tax Code",
             "description": "Indicates the tax code used for the line. This is the ID of the Tax Code in the accounting software."
           },
@@ -24885,8 +24911,7 @@
           "untaxed_amount",
           "tax_rate",
           "tax_amount",
-          "total",
-          "account_number"
+          "total"
         ],
         "title": "InvoiceLineItemOutMonoAnalyticPlan"
       },
@@ -24946,12 +24971,26 @@
             "title": "Total"
           },
           "account_number": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Account Number",
             "description": "Indicates the number of the account used for the line (e.g. 701000)."
           },
           "tax_code": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Tax Code",
             "description": "Indicates the tax code used for the line. This is the ID of the Tax Code in the accounting software."
           },
@@ -24979,8 +25018,7 @@
           "untaxed_amount",
           "tax_rate",
           "tax_amount",
-          "total",
-          "account_number"
+          "total"
         ],
         "title": "InvoiceLineItemOutMultiAnalyticPlans"
       },
@@ -25596,7 +25634,14 @@
             "title": "Name"
           },
           "journal_name": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Journal Name"
           },
           "date": {
@@ -25648,7 +25693,6 @@
         "type": "object",
         "required": [
           "journal_id",
-          "journal_name",
           "id"
         ],
         "title": "JournalEntryMonoAnalyticPlan"
@@ -25694,7 +25738,14 @@
             "title": "Name"
           },
           "journal_name": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Journal Name"
           },
           "date": {
@@ -25746,7 +25797,6 @@
         "type": "object",
         "required": [
           "journal_id",
-          "journal_name",
           "id"
         ],
         "title": "JournalEntryMultiAnalyticPlan"
@@ -26197,7 +26247,7 @@
       "LogoImage": {
         "properties": {
           "integrationid": {
-            "type": "string",
+            "type": "integer",
             "title": "Integrationid"
           },
           "data": {

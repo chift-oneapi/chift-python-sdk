@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.92 - 2025-04-18
+* changed fields to optional `account_number`, `journal_id`, `journal_name`
+* updated `integrationid` data type from `str` to `int`
+
 ## 0.1.91 - 2025-04-17
 * fix float field in models
 
