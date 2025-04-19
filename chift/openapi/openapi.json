@@ -25174,22 +25174,50 @@
             "description": "Partner ID"
           },
           "payment_method_id": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Payment Method Id",
             "description": "Technical id of the payment method in Chift"
           },
           "payment_method_name": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Payment Method Name",
             "description": "Payment method name"
           },
           "invoice_id": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Invoice Id",
             "description": "Technical id of the invoice in Chift"
           },
           "invoice_number": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Invoice Number",
             "description": "Invoice number"
           }
@@ -25203,11 +25231,7 @@
           "amount",
           "currency",
           "payment_date",
-          "partner_id",
-          "payment_method_id",
-          "payment_method_name",
-          "invoice_id",
-          "invoice_number"
+          "partner_id"
         ],
         "title": "InvoicingPaymentItem"
       },

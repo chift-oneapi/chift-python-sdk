@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.93 - 2025-04-19
+* update `InvoicingPaymentItem` with optional fields: `payment_method_id`, `payment_method_name`, `invoice_id`, `invoice_number`
+
 ## 0.1.92 - 2025-04-18
 * changed fields to optional `account_number`, `journal_id`, `journal_name`
 * updated `integrationid` data type from `str` to `int`
