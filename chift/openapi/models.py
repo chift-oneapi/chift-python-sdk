@@ -53,6 +53,7 @@ from .openapi import (
     PMSOrderItem,
     PMSPaymentItem,
     PMSPaymentMethods,
+    PMSTaxRateItem,
     POSCustomerItem,
     POSLocationItem,
     POSOrderItem,
@@ -458,6 +459,8 @@ class PMSInvoiceFull(PMSInvoiceFullItem):
 class PMSCustomer(PMSCustomerItem):
     pass
 
+class PMSTax(PMSTaxRateItem):
+    pass
 
 # e-commerce
 class CommerceCustomer(CommerceCustomerItem):
