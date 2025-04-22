@@ -4,7 +4,8 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime
+from datetime import datetime
+from datetime import date as Date
 from enum import Enum
 from typing import Any, Dict, List, Optional, Union
 from uuid import UUID
@@ -429,8 +430,8 @@ class BankingTransactionItem(BaseModel):
 
 class BookYear(BaseModel):
     name: str = Field(..., title="Name")
-    start: date = Field(..., title="Start")
-    end: date = Field(..., title="End")
+    start: Date = Field(..., title="Start")
+    end: Date = Field(..., title="End")
     closed: bool = Field(..., title="Closed")
 
 
@@ -1097,8 +1098,8 @@ class MultipleMatchingOut(BaseModel):
 class NextDocumentNumber(BaseModel):
     bookyear_name: Optional[str] = Field(None, title="Bookyear Name")
     next_document_number: Optional[str] = Field(None, title="Next Document Number")
-    start_date: Optional[date] = Field(None, title="Start Date")
-    end_date: Optional[date] = Field(None, title="End Date")
+    start_date: Optional[Date] = Field(None, title="Start Date")
+    end_date: Optional[Date] = Field(None, title="End Date")
 
 
 class ObjectivesItem(BaseModel):
@@ -1182,8 +1183,8 @@ class OriginalOutstandingItem(BaseModel):
     number: Optional[str] = Field(None, title="Number")
     journal_id: Optional[str] = Field(None, title="Journal Id")
     journal_type: Optional[JournalType] = None
-    date: Optional[date] = Field(None, title="Date")
-    due_date: Optional[date] = Field(None, title="Due Date")
+    date: Optional[Date] = Field(None, title="Date")
+    due_date: Optional[Date] = Field(None, title="Due Date")
     reference: Optional[str] = Field(None, title="Reference")
 
 
@@ -1192,8 +1193,8 @@ class OutstandingItem(BaseModel):
     number: Optional[str] = Field(None, title="Number")
     journal_id: str = Field(..., title="Journal Id")
     journal_type: JournalType
-    date: date = Field(..., title="Date")
-    due_date: Optional[date] = Field(None, title="Due Date")
+    date: Date = Field(..., title="Date")
+    due_date: Optional[Date] = Field(None, title="Due Date")
     currency: str = Field(..., title="Currency")
     currency_exchange_rate: float = Field(..., title="Currency Exchange Rate")
     amount: float = Field(..., title="Amount")
@@ -1291,7 +1292,7 @@ class POSCustomerItem(BaseModel):
         examples=[100],
         title="Loyalty",
     )
-    birthdate: Optional[date] = Field(
+    birthdate: Optional[Date] = Field(
         None,
         description="Birthdate of the customer",
         examples=["1990-01-01"],
@@ -1363,7 +1364,7 @@ class Payment(BaseModel):
         description="Amount of the payment dedicated to the invoice. Zero the accounting software doesn't provide the information.",
         title="Dedicated Amount",
     )
-    payment_date: date = Field(..., title="Payment Date")
+    payment_date: Date = Field(..., title="Payment Date")
     journal_type: JournalType
     journal_id: str = Field(..., title="Journal Id")
     journal_name: str = Field(..., title="Journal Name")
@@ -2501,7 +2502,7 @@ class ContactItemIn(BaseModel):
         description="Number of the accounting account used for purchases (e.g. 601000)",
         title="Supplier Account Number",
     )
-    birthdate: Optional[date] = Field(None, description="Birthdate", title="Birthdate")
+    birthdate: Optional[Date] = Field(None, description="Birthdate", title="Birthdate")
     gender: Optional[ContactGender] = Field(None, description="Gender")
     addresses: Optional[List[AddressItemInInvoicing]] = Field(
         [], description="Addresses", title="Addresses"
@@ -2559,7 +2560,7 @@ class ContactItemOut(BaseModel):
         description="Number of the accounting account used for purchases (e.g. 601000)",
         title="Supplier Account Number",
     )
-    birthdate: Optional[date] = Field(None, description="Birthdate", title="Birthdate")
+    birthdate: Optional[Date] = Field(None, description="Birthdate", title="Birthdate")
     gender: Optional[ContactGender] = Field(None, description="Gender")
     addresses: Optional[List[AddressItemOutInvoicing]] = Field(
         [], description="Addresses", title="Addresses"
@@ -2610,7 +2611,7 @@ class FieldItem(BaseModel):
 
 
 class FinancialEntryItemIn(BaseModel):
-    date: date = Field(..., title="Date")
+    date: Date = Field(..., title="Date")
     journal_id: str = Field(
         ...,
         description="Indicates the journal used in for the operation.",
@@ -2637,7 +2638,7 @@ class FinancialEntryItemIn(BaseModel):
 
 
 class FinancialEntryItemInOld(BaseModel):
-    date: date = Field(..., title="Date")
+    date: Date = Field(..., title="Date")
     journal_id: str = Field(
         ...,
         description="Indicates the journal used in for the operation.",
@@ -2664,7 +2665,7 @@ class FinancialEntryItemInOld(BaseModel):
 
 
 class FinancialEntryItemOut(BaseModel):
-    date: date = Field(..., title="Date")
+    date: Date = Field(..., title="Date")
     journal_id: str = Field(
         ...,
         description="Indicates the journal used in for the operation.",
@@ -2687,7 +2688,7 @@ class FinancialEntryItemOut(BaseModel):
 
 
 class FinancialEntryItemOutOld(BaseModel):
-    date: date = Field(..., title="Date")
+    date: Date = Field(..., title="Date")
     journal_id: str = Field(
         ...,
         description="Indicates the journal used in for the operation.",
@@ -2813,12 +2814,12 @@ class InvoiceItemOutMonoAnalyticPlan(BaseModel):
     payment_communication: Optional[str] = Field(None, title="Payment Communication")
     customer_memo: Optional[str] = Field(None, title="Customer Memo")
     id: Optional[str] = Field(None, title="Id")
-    invoice_date: date = Field(
+    invoice_date: Date = Field(
         ...,
         description="Accounting invoice date. It is automatically set to '1970-01-01' if the value is empty in the accounting system.",
         title="Invoice Date",
     )
-    due_date: date = Field(
+    due_date: Date = Field(
         ...,
         description="Due date of the invoice. We use the value of the invoice date if the value is not available/empty in the accounting system.",
         title="Due Date",
@@ -2990,11 +2991,11 @@ class Journal(BaseModel):
 
 class JournalEntryMonoAnalyticPlan(BaseModel):
     reference: Optional[str] = Field(None, title="Reference")
-    due_date: Optional[date] = Field(None, title="Due Date")
+    due_date: Optional[Date] = Field(None, title="Due Date")
     journal_id: str = Field(..., title="Journal Id")
     name: Optional[str] = Field(None, title="Name")
     journal_name: Optional[str] = Field(None, title="Journal Name")
-    date: Optional[date] = Field(
+    date: Optional[Date] = Field(
         "1970-01-01",
         description="Accounting date of the journal entry. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.",
         title="Date",
@@ -3074,7 +3075,7 @@ class MiscellaneousOperationOut(BaseModel):
         title="Currency Exchange Rate",
     )
     lines: List[MiscellaneousOperationLine] = Field(..., title="Lines")
-    operation_date: Optional[date] = Field(
+    operation_date: Optional[Date] = Field(
         "1970-01-01",
         description="Accounting date of the miscellaneous operation. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.",
         title="Operation Date",
@@ -3118,11 +3119,11 @@ class OpportunityItem(BaseModel):
     pipe_name: Optional[str] = Field(
         None, description="Pipeline name", title="Pipe Name"
     )
-    created_date: Optional[date] = Field(
+    created_date: Optional[Date] = Field(
         None, description="Date creation", title="Created Date"
     )
-    due_date: Optional[date] = Field(None, description="Due Date", title="Due Date")
-    end_date: Optional[date] = Field(None, description="End Date", title="End Date")
+    due_date: Optional[Date] = Field(None, description="Due Date", title="Due Date")
+    end_date: Optional[Date] = Field(None, description="End Date", title="End Date")
     is_won: Optional[bool] = Field(None, description="Is won?", title="Is Won")
     owner_ref: Optional[FieldRef] = Field(None, description="Employee/User")
 
@@ -4249,7 +4250,7 @@ class ChiftPageSupplierItemOut(BaseModel):
 
 
 class ClosureItem(BaseModel):
-    date: date = Field(
+    date: Date = Field(
         ..., description="Date of the closure", examples=["2025-01-01"], title="Date"
     )
     status: ClosureStates = Field(
@@ -4302,12 +4303,12 @@ class FlowConfigOutput(BaseModel):
 
 class GenericJournalEntry(BaseModel):
     reference: Optional[str] = Field(None, title="Reference")
-    due_date: Optional[date] = Field(None, title="Due Date")
+    due_date: Optional[Date] = Field(None, title="Due Date")
     journal_id: str = Field(..., title="Journal Id")
     number: constr(min_length=1) = Field(..., title="Number")
     currency: constr(min_length=1) = Field(..., title="Currency")
     currency_exchange_rate: Optional[float] = Field(1, title="Currency Exchange Rate")
-    date: date = Field(..., title="Date")
+    date: Date = Field(..., title="Date")
     items: List[GenericJournalItem] = Field(..., title="Items")
     pdf: Optional[str] = Field(
         None,
@@ -4315,8 +4316,8 @@ class GenericJournalEntry(BaseModel):
         title="Pdf",
     )
     posted: Optional[bool] = Field(True, title="Posted")
-    start_date: Optional[date] = Field(None, title="Start Date")
-    end_date: Optional[date] = Field(None, title="End Date")
+    start_date: Optional[Date] = Field(None, title="Start Date")
+    end_date: Optional[Date] = Field(None, title="End Date")
 
 
 class InvoiceItemOutput(BaseModel):
@@ -4363,8 +4364,8 @@ class InvoiceItemInMonoAnalyticPlan(BaseModel):
     reference: Optional[str] = Field(None, title="Reference")
     payment_communication: Optional[str] = Field(None, title="Payment Communication")
     customer_memo: Optional[str] = Field(None, title="Customer Memo")
-    invoice_date: date = Field(..., title="Invoice Date")
-    due_date: date = Field(..., title="Due Date")
+    invoice_date: Date = Field(..., title="Invoice Date")
+    due_date: Date = Field(..., title="Due Date")
     partner_id: constr(min_length=1) = Field(..., title="Partner Id")
     journal_id: Optional[str] = Field(
         None,
@@ -4410,8 +4411,8 @@ class InvoiceItemInMultiAnalyticPlans(BaseModel):
     reference: Optional[str] = Field(None, title="Reference")
     payment_communication: Optional[str] = Field(None, title="Payment Communication")
     customer_memo: Optional[str] = Field(None, title="Customer Memo")
-    invoice_date: date = Field(..., title="Invoice Date")
-    due_date: date = Field(..., title="Due Date")
+    invoice_date: Date = Field(..., title="Invoice Date")
+    due_date: Date = Field(..., title="Due Date")
     partner_id: constr(min_length=1) = Field(..., title="Partner Id")
     journal_id: Optional[str] = Field(
         None,
@@ -4458,12 +4459,12 @@ class InvoiceItemOutMultiAnalyticPlans(BaseModel):
     payment_communication: Optional[str] = Field(None, title="Payment Communication")
     customer_memo: Optional[str] = Field(None, title="Customer Memo")
     id: Optional[str] = Field(None, title="Id")
-    invoice_date: date = Field(
+    invoice_date: Date = Field(
         ...,
         description="Accounting invoice date. It is automatically set to '1970-01-01' if the value is empty in the accounting system.",
         title="Invoice Date",
     )
-    due_date: date = Field(
+    due_date: Date = Field(
         ...,
         description="Due date of the invoice. We use the value of the invoice date if the value is not available/empty in the accounting system.",
         title="Due Date",
@@ -4520,10 +4521,10 @@ class ItalianSpecificitiesOutput(BaseModel):
 
 class JournalEntryIn(BaseModel):
     reference: Optional[str] = Field(None, title="Reference")
-    due_date: Optional[date] = Field(None, title="Due Date")
+    due_date: Optional[Date] = Field(None, title="Due Date")
     journal_id: str = Field(..., title="Journal Id")
     name: str = Field(..., title="Name")
-    date: date = Field(..., title="Date")
+    date: Date = Field(..., title="Date")
     items: List[JournalItemIn] = Field(..., title="Items")
     pdf: Optional[str] = Field(
         None,
@@ -4534,11 +4535,11 @@ class JournalEntryIn(BaseModel):
 
 class JournalEntryMultiAnalyticPlan(BaseModel):
     reference: Optional[str] = Field(None, title="Reference")
-    due_date: Optional[date] = Field(None, title="Due Date")
+    due_date: Optional[Date] = Field(None, title="Due Date")
     journal_id: str = Field(..., title="Journal Id")
     name: Optional[str] = Field(None, title="Name")
     journal_name: Optional[str] = Field(None, title="Journal Name")
-    date: Optional[date] = Field(
+    date: Optional[Date] = Field(
         "1970-01-01",
         description="Accounting date of the journal entry. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.",
         title="Date",
@@ -4561,7 +4562,7 @@ class MiscellaneousOperationIn(BaseModel):
         title="Currency Exchange Rate",
     )
     lines: List[MiscellaneousOperationLine] = Field(..., title="Lines")
-    operation_date: date = Field(..., title="Operation Date")
+    operation_date: Date = Field(..., title="Operation Date")
     journal_id: Optional[str] = Field(
         None,
         description="Indicates the journal used in for the operation. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown.",
@@ -4637,7 +4638,7 @@ class OrderReturnItem(BaseModel):
 
 
 class PMSClosureItem(BaseModel):
-    date: date = Field(
+    date: Date = Field(
         ..., description="Date of the closure", examples=["2025-01-01"], title="Date"
     )
     status: ClosureStates = Field(
@@ -5091,7 +5092,7 @@ class InvoiceItemInput(BaseModel):
         ..., description="Invoice type"
     )
     status: InvoiceStatus = Field(..., description="Status")
-    invoice_date: date = Field(..., description="Invoicing date", title="Invoice Date")
+    invoice_date: Date = Field(..., description="Invoicing date", title="Invoice Date")
     tax_amount: float = Field(..., description="Taxes amount", title="Tax Amount")
     untaxed_amount: float = Field(
         ..., description="Untaxed amount", title="Untaxed Amount"
@@ -5108,7 +5109,7 @@ class InvoiceItemInput(BaseModel):
     invoice_number: Optional[str] = Field(
         None, description="Number/sequence", title="Invoice Number"
     )
-    due_date: Optional[date] = Field(None, description="Due date", title="Due Date")
+    due_date: Optional[Date] = Field(None, description="Due date", title="Due Date")
     reference: Optional[str] = Field(None, description="Reference", title="Reference")
     payment_communication: Optional[str] = Field(
         None, description="Payment communication", title="Payment Communication"
@@ -5132,7 +5133,7 @@ class InvoiceItemOut(BaseModel):
         ..., description="Invoice type"
     )
     status: InvoiceStatus = Field(..., description="Status")
-    invoice_date: date = Field(..., description="Invoicing date", title="Invoice Date")
+    invoice_date: Date = Field(..., description="Invoicing date", title="Invoice Date")
     tax_amount: float = Field(..., description="Taxes amount", title="Tax Amount")
     untaxed_amount: float = Field(
         ..., description="Untaxed amount", title="Untaxed Amount"
@@ -5149,7 +5150,7 @@ class InvoiceItemOut(BaseModel):
     invoice_number: Optional[str] = Field(
         None, description="Number/sequence", title="Invoice Number"
     )
-    due_date: Optional[date] = Field(None, description="Due date", title="Due Date")
+    due_date: Optional[Date] = Field(None, description="Due date", title="Due Date")
     reference: Optional[str] = Field(None, description="Reference", title="Reference")
     payment_communication: Optional[str] = Field(
         None, description="Payment communication", title="Payment Communication"
@@ -5165,7 +5166,7 @@ class InvoiceItemOut(BaseModel):
     outstanding_amount: Optional[float] = Field(
         None, description="Amount left to be paid", title="Outstanding Amount"
     )
-    accounting_date: Optional[date] = Field(
+    accounting_date: Optional[Date] = Field(
         None, description="Accounting date", title="Accounting Date"
     )
     payment_method_id: Optional[str] = Field(
@@ -5190,7 +5191,7 @@ class InvoiceItemOutSingle(BaseModel):
         ..., description="Invoice type"
     )
     status: InvoiceStatus = Field(..., description="Status")
-    invoice_date: date = Field(..., description="Invoicing date", title="Invoice Date")
+    invoice_date: Date = Field(..., description="Invoicing date", title="Invoice Date")
     tax_amount: float = Field(..., description="Taxes amount", title="Tax Amount")
     untaxed_amount: float = Field(
         ..., description="Untaxed amount", title="Untaxed Amount"
@@ -5207,7 +5208,7 @@ class InvoiceItemOutSingle(BaseModel):
     invoice_number: Optional[str] = Field(
         None, description="Number/sequence", title="Invoice Number"
     )
-    due_date: Optional[date] = Field(None, description="Due date", title="Due Date")
+    due_date: Optional[Date] = Field(None, description="Due date", title="Due Date")
     reference: Optional[str] = Field(None, description="Reference", title="Reference")
     payment_communication: Optional[str] = Field(
         None, description="Payment communication", title="Payment Communication"
@@ -5223,7 +5224,7 @@ class InvoiceItemOutSingle(BaseModel):
     outstanding_amount: Optional[float] = Field(
         None, description="Amount left to be paid", title="Outstanding Amount"
     )
-    accounting_date: Optional[date] = Field(
+    accounting_date: Optional[Date] = Field(
         None, description="Accounting date", title="Accounting Date"
     )
     payment_method_id: Optional[str] = Field(

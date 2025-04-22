@@ -1,7 +1,10 @@
 import datetime
 from uuid import uuid4
 
-# Mock data for contacts
+today = datetime.date.today().strftime("%Y-%m-%d")
+new_invoice_id = f"invoice-{uuid4().hex[:8]}"
+new_invoice_number = f"INV-{datetime.date.today().strftime('%Y%m')}-TEST"
+
 CONTACT_ALL = {
     "items": [
         {
@@ -126,8 +129,6 @@ CONTACT_CREATE = {
 }
 
 CONTACT_GET = CONTACT_CREATE
-
-# Mock data for invoices
 INVOICE_ALL = {
     "items": [
         {
@@ -208,10 +209,6 @@ INVOICE_ALL = {
     "size": 10,
 }
 
-# Create a template for invoice create
-today = datetime.date.today().strftime("%Y-%m-%d")
-new_invoice_id = f"invoice-{uuid4().hex[:8]}"
-new_invoice_number = f"INV-{datetime.date.today().strftime('%Y%m')}-TEST"
 
 INVOICE_CREATE = {
     "id": new_invoice_id,
@@ -256,8 +253,6 @@ INVOICE_CREATE = {
 }
 
 INVOICE_GET = INVOICE_CREATE
-
-# Mock data for products
 PRODUCT_ALL = {
     "items": [
         {
@@ -310,8 +305,6 @@ PRODUCT_CREATE = {
 }
 
 PRODUCT_GET = PRODUCT_CREATE
-
-# Mock data for taxes
 TAX_ALL = {
     "items": [
         {
@@ -348,8 +341,6 @@ TAX_ALL = {
 }
 
 TAX_GET = TAX_ALL["items"][0]
-
-# Mock data for payment methods
 PAYMENT_METHOD_ALL = {
     "items": [
         {
@@ -370,7 +361,6 @@ PAYMENT_METHOD_ALL = {
     "size": 10,
 }
 
-# Mock data for payments
 PAYMENT_ALL = {
     "items": [
         {
@@ -406,8 +396,6 @@ PAYMENT_ALL = {
     "page": 1,
     "size": 10,
 }
-
-# Mock data for "custom" endpoints
 CUSTOM_CASHES = {
     "items": [
         {
