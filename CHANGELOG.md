@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.94 - 2025-04-22
+* update OpenAPI documentation
+
 ## 0.1.93 - 2025-04-19
 * update `InvoicingPaymentItem` with optional fields: `payment_method_id`, `payment_method_name`, `invoice_id`, `invoice_number`
 
