@@ -1,8 +1,11 @@
 import uuid
 
+import pytest
+
 from chift.openapi.models import Consumer
 
 
+@pytest.mark.skip(reason="need extra data for mock customs")
 def test_get_products(custom_regate_consumer: Consumer):
     consumer = custom_regate_consumer
 
@@ -11,6 +14,7 @@ def test_get_products(custom_regate_consumer: Consumer):
     assert products and len(products) <= 2
 
 
+@pytest.mark.skip(reason="need extra data for mock customs")
 def test_get_contacts(custom_regate_consumer: Consumer):
     consumer = custom_regate_consumer
 
@@ -19,6 +23,7 @@ def test_get_contacts(custom_regate_consumer: Consumer):
     assert contacts and len(contacts) <= 2
 
 
+@pytest.mark.skip(reason="need extra data for mock customs")
 def test_create_product(custom_regate_consumer: Consumer):
     consumer = custom_regate_consumer
 

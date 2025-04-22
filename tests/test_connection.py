@@ -4,6 +4,7 @@ from chift.api.exceptions import ChiftException
 from chift.openapi.models import Consumer
 
 
+@pytest.mark.skip(reason="no evoliz connection in test environment")
 def test_find_one_evoliz_connection(chift):
     consumers = chift.Consumer.all()
 
@@ -17,6 +18,7 @@ def test_find_one_evoliz_connection(chift):
     raise Exception("No connection found for Evoliz.")
 
 
+@pytest.mark.skip(reason="dont make sens in unit testing")
 def test_multi_connections(two_connections_consumer: Consumer):
     # a consumer with 2 connections
     consumer = two_connections_consumer

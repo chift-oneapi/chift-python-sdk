@@ -1,7 +1,11 @@
+import pytest
+
 from chift.api.client import ChiftClient
 from chift.openapi.models import Consumer
+from tests.fixtures import client
 
 
+@pytest.mark.mock_chift_response(client.CONSUMER_ALL, client.CONSUMER_ALL[0])
 def test_client_consumer_id(chift):
     chift_client = ChiftClient(
         client_id=chift.client_id,
