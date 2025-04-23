@@ -480,6 +480,12 @@ class BankingAccountItem(BaseModel):
         examples=["John Doe"],
         title="Holder Name",
     )
+    active: Optional[bool] = Field(
+        ...,
+        description="Indicates if the account is active",
+        examples=[True],
+        title="Active",
+    )
 
 
 class BankingCounterPartItem(BaseModel):
@@ -524,72 +530,6 @@ class BankingFinancialInstitutionItem(BaseModel):
         description="Name of the financial institution",
         examples=["BNP"],
         title="Name",
-    )
-
-
-class BankingTransactionItem(BaseModel):
-    id: str = Field(
-        ...,
-        description="Unique identifier of the transaction",
-        examples=["transaction-123"],
-        title="Id",
-    )
-    amount: float = Field(
-        ..., description="Amount of the transaction", examples=[1000], title="Amount"
-    )
-    currency: str = Field(
-        ...,
-        description="Currency of the transaction",
-        examples=["EUR"],
-        title="Currency",
-    )
-    description: Optional[str] = Field(
-        None,
-        description="Description of the transaction",
-        examples=["Chift transaction"],
-        title="Description",
-    )
-    additional_information: Optional[str] = Field(
-        None,
-        description="Additional information of the transaction",
-        examples=["Chift transaction"],
-        title="Additional Information",
-    )
-    counterpart_name: Optional[str] = Field(
-        None,
-        description="Name of the counterpart",
-        examples=["John Doe"],
-        title="Counterpart Name",
-    )
-    counterpart_reference: Optional[str] = Field(
-        None,
-        description="Reference of the counterpart",
-        examples=["FR76300040123456789012345678"],
-        title="Counterpart Reference",
-    )
-    remittance_information: Optional[str] = Field(
-        None,
-        description="Remittance information of the transaction",
-        examples=["Chift transaction"],
-        title="Remittance Information",
-    )
-    creation_date: DateTime = Field(
-        ...,
-        description="Creation date of the transaction",
-        examples=["2025-01-01T00:00:00Z"],
-        title="Creation Date",
-    )
-    value_date: DateTime = Field(
-        ...,
-        description="Value date of the transaction",
-        examples=["2025-01-01T00:00:00Z"],
-        title="Value Date",
-    )
-    execution_date: DateTime = Field(
-        ...,
-        description="Execution date of the transaction",
-        examples=["2025-01-01T00:00:00Z"],
-        title="Execution Date",
     )
 
 
@@ -692,13 +632,6 @@ class ChiftPageBankingCounterPartItem(BaseModel):
 
 class ChiftPageBankingFinancialInstitutionItem(BaseModel):
     items: List[BankingFinancialInstitutionItem] = Field(..., title="Items")
-    total: Optional[conint(ge=0)] = Field(None, title="Total")
-    page: conint(ge=1) = Field(..., title="Page")
-    size: conint(ge=1) = Field(..., title="Size")
-
-
-class ChiftPageBankingTransactionItem(BaseModel):
-    items: List[BankingTransactionItem] = Field(..., title="Items")
     total: Optional[conint(ge=0)] = Field(None, title="Total")
     page: conint(ge=1) = Field(..., title="Page")
     size: conint(ge=1) = Field(..., title="Size")
@@ -1578,6 +1511,22 @@ class ObjectivesItem(BaseModel):
     date: Date = Field(
         ..., description="Date of the objective", examples=["2025-01-01"], title="Date"
     )
+
+
+class OperationType(Enum):
+    income = "income"
+    transfer = "transfer"
+    card = "card"
+    direct_debit = "direct_debit"
+    direct_debit_collection = "direct_debit_collection"
+    direct_debit_hold = "direct_debit_hold"
+    fee = "fee"
+    cheque = "cheque"
+    recall = "recall"
+    swift_income = "swift_income"
+    pay_later = "pay_later"
+    financing_installment = "financing_installment"
+    other = "other"
 
 
 class OpportunityStatus(Enum):
@@ -2478,6 +2427,12 @@ class BackboneCommonModelsAccountingCommonInvoiceType(Enum):
     supplier_refund = "supplier_refund"
 
 
+class BackboneCommonModelsBankingCommonTransactionStatus(Enum):
+    pending = "pending"
+    declined = "declined"
+    completed = "completed"
+
+
 class BackboneCommonModelsCommerceCommonAddressItemIn(BaseModel):
     first_name: str = Field(..., title="First Name")
     last_name: str = Field(..., title="Last Name")
@@ -2524,6 +2479,12 @@ class BackboneCommonModelsCommerceCommonProductCategoryItem(BaseModel):
 class BackboneCommonModelsCommerceCommonProductPriceItem(BaseModel):
     currency: str = Field(..., title="Currency")
     price: Optional[float] = Field(0, title="Price")
+
+
+class BackboneCommonModelsCommerceCommonTransactionStatus(Enum):
+    failed = "failed"
+    pending = "pending"
+    success = "success"
 
 
 class BackboneCommonModelsCommonAddressItemIn(BaseModel):
@@ -2774,6 +2735,90 @@ class BalanceItemOut(BaseModel):
     create_date: DateTime = Field(..., description="Create Date", title="Create Date")
 
 
+class BankingTransactionItem(BaseModel):
+    id: str = Field(
+        ...,
+        description="Unique identifier of the transaction",
+        examples=["transaction-123"],
+        title="Id",
+    )
+    amount: float = Field(
+        ..., description="Amount of the transaction", examples=[1000], title="Amount"
+    )
+    currency: str = Field(
+        ...,
+        description="Currency of the transaction",
+        examples=["EUR"],
+        title="Currency",
+    )
+    description: Optional[str] = Field(
+        None,
+        description="Description of the transaction",
+        examples=["Chift transaction"],
+        title="Description",
+    )
+    additional_information: Optional[str] = Field(
+        None,
+        description="Additional information of the transaction",
+        examples=["Chift transaction"],
+        title="Additional Information",
+    )
+    counterpart_name: Optional[str] = Field(
+        None,
+        description="Name of the counterpart",
+        examples=["John Doe"],
+        title="Counterpart Name",
+    )
+    counterpart_reference: Optional[str] = Field(
+        None,
+        description="Reference of the counterpart",
+        examples=["FR76300040123456789012345678"],
+        title="Counterpart Reference",
+    )
+    remittance_information: Optional[str] = Field(
+        None,
+        description="Remittance information of the transaction",
+        examples=["Chift transaction"],
+        title="Remittance Information",
+    )
+    creation_date: DateTime = Field(
+        ...,
+        description="Creation date of the transaction",
+        examples=["2025-01-01T00:00:00Z"],
+        title="Creation Date",
+    )
+    value_date: DateTime = Field(
+        ...,
+        description="Value date of the transaction",
+        examples=["2025-01-01T00:00:00Z"],
+        title="Value Date",
+    )
+    execution_date: DateTime = Field(
+        ...,
+        description="Execution date of the transaction",
+        examples=["2025-01-01T00:00:00Z"],
+        title="Execution Date",
+    )
+    internal_transaction: Optional[bool] = Field(
+        ...,
+        description="Indicates if the transaction is internal",
+        examples=[False],
+        title="Internal Transaction",
+    )
+    operation_type: OperationType = Field(
+        ..., description="Type of the operation", examples=["income"]
+    )
+    last_update_on: Optional[DateTime] = Field(
+        ...,
+        description="Last update date of the transaction",
+        examples=["2025-01-01T00:00:00Z"],
+        title="Last Update On",
+    )
+    status: Optional[BackboneCommonModelsBankingCommonTransactionStatus] = Field(
+        ..., description="Status of the transaction", examples=["pending"]
+    )
+
+
 class CategoryItem(BaseModel):
     id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(..., description="Technical id in the target software")
@@ -2806,6 +2851,13 @@ class ChiftPageAccountingVatCode(BaseModel):
 
 class ChiftPageBalanceItemOut(BaseModel):
     items: List[BalanceItemOut] = Field(..., title="Items")
+    total: Optional[conint(ge=0)] = Field(None, title="Total")
+    page: conint(ge=1) = Field(..., title="Page")
+    size: conint(ge=1) = Field(..., title="Size")
+
+
+class ChiftPageBankingTransactionItem(BaseModel):
+    items: List[BankingTransactionItem] = Field(..., title="Items")
     total: Optional[conint(ge=0)] = Field(None, title="Total")
     page: conint(ge=1) = Field(..., title="Page")
     size: conint(ge=1) = Field(..., title="Size")
@@ -4200,7 +4252,7 @@ class OrderTransactions(BaseModel):
         None, description="Name of the payment method", title="Payment Method Name"
     )
     amount: float = Field(..., title="Amount")
-    status: TransactionStatus
+    status: BackboneCommonModelsCommerceCommonTransactionStatus
 
 
 class PMSAccountingCategoryItem(BaseModel):
