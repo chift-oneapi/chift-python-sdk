@@ -1,4 +1,6 @@
 # Changelog
+## 0.1.96 - 2025-04-23
+* add banking vertical
 
 ## 0.1.95 - 2025-04-22
 * migrate from pydantic.v1 BaseModel to pydantic.BaseModel
