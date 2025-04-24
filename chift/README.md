@@ -28,3 +28,34 @@ If there is a new route, here are the needed changes:
 ## A route is changed in chift
 
 - Find the exising model under `/models` and update its definition
+
+## Testing
+
+When writing or updating tests, we mock all Chift client calls by replacing responses with fixtures. Adding a new model typically requires only to:
+
+ - Write tests under the /tests directory (e.g., tests/test_<resource>.py), using pytest.
+
+ - Add fixtures in tests/fixtures/<resource>.py, containing example JSON responses. Fixtures can be:
+
+   - Real responses captured from the Chift backend.
+
+   - Manually generated sample objects following the OpenAPI schema.
+
+Decorate the test with @pytest.mark.mock_chift_response(...), passing the fixture constants in the order of client calls:
+```python
+from tests.fixtures import <resource> as fixtures
+
+@pytest.mark.mock_chift_response(
+    fixtures.<RESOURCE_CREATE>,
+    fixtures.<RESOURCE_GET>
+)
+def test_<resource>(<resource>_consumer):
+    # Create
+    created = <resource>_consumer.<domain>.<Resource>.create(data)
+    assert created.id
+
+    # Retrieve
+    fetched = <resource>_consumer.<domain>.<Resource>.get(str(created.id))
+    assert fetched == created
+```
+- Run and verify that the test passes and no real HTTP calls are made.
