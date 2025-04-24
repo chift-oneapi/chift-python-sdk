@@ -8,7 +8,7 @@ As models are kept in sync thanks to openapi, you need to regenerate `openapi.py
 We generate the models used in this SDK thanks to  [datamodel-code-generator](https://github.com/koxudaxi/datamodel-code-generator/)
 
 ```bash
-datamodel-codegen --input ./openapi.json --output openapi.py --output-model-type pydantic_v2.BaseModel --custom-formatters chift_formatter
+PYTHONPATH=. datamodel-codegen --input ./openapi.json --output openapi.py --output-model-type pydantic_v2.BaseModel --custom-formatters chift_formatter
 ```
 
 Then, those models are mapped to the one used in the python SDK in ```models.py```
