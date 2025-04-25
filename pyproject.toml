@@ -12,15 +12,15 @@ pydantic = ">=2.7.2,<3.0.0"
 requests = ">=2.20"
 
 [tool.poetry.group.dev.dependencies]
-pytest = ">=8.3.5,<9"
-pytest-cov = "*"
-black = "*"
-isort = "*"
-autoflake = "*"
+pytest = "8.3.5"
+pytest-cov = "5.0.0"
+black = "25.1.0"
+isort = "6.0.1"
+autoflake = "2.3.1"
 coverage = "6.5.0"
 build = "*"
-twine = "*"
-datamodel-code-generator = "^0.28.5"
+twine = "6.1.0"
+datamodel-code-generator = "0.28.5"
 
 [build-system]
 requires = ["poetry-core"]
