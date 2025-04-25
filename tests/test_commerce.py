@@ -1,6 +1,14 @@
+import pytest
+
 from chift.openapi.models import Consumer
+from tests.fixtures import ecommerce
 
 
+@pytest.mark.mock_chift_response(
+    ecommerce.CUSTOMER_ALL,
+    ecommerce.CUSTOMER_ALL["items"][0],
+    ecommerce.CUSTOMER_ALL["items"][1],
+)
 def test_contact(ecommerce_consumer: Consumer):
     consumer = ecommerce_consumer
 
@@ -13,6 +21,13 @@ def test_contact(ecommerce_consumer: Consumer):
         assert contact == expected_contact
 
 
+@pytest.mark.mock_chift_response(
+    ecommerce.PRODUCT_ALL,
+    ecommerce.PRODUCT_ALL["items"][0],
+    ecommerce.PRODUCT_ALL["items"][0]["variants"][0],
+    ecommerce.PRODUCT_ALL["items"][1],
+    ecommerce.PRODUCT_ALL["items"][1]["variants"][0],
+)
 def test_product(ecommerce_consumer: Consumer):
     consumer = ecommerce_consumer
 
@@ -31,6 +46,9 @@ def test_product(ecommerce_consumer: Consumer):
             assert variant.available_quantity == variant_expected.available_quantity
 
 
+@pytest.mark.mock_chift_response(
+    ecommerce.LOCATION_ALL,
+)
 def test_location(ecommerce_consumer: Consumer):
     consumer = ecommerce_consumer
 
@@ -39,6 +57,9 @@ def test_location(ecommerce_consumer: Consumer):
     assert locations
 
 
+@pytest.mark.mock_chift_response(
+    ecommerce.PAYMENT_METHOD_ALL,
+)
 def test_payment_method(ecommerce_consumer: Consumer):
     consumer = ecommerce_consumer
 
@@ -47,6 +68,9 @@ def test_payment_method(ecommerce_consumer: Consumer):
     assert payment_methods
 
 
+@pytest.mark.mock_chift_response(
+    ecommerce.PRODUCT_CATEGORY_ALL,
+)
 def test_product_categories(ecommerce_consumer: Consumer):
     consumer = ecommerce_consumer
 
@@ -55,6 +79,9 @@ def test_product_categories(ecommerce_consumer: Consumer):
     assert product_categories
 
 
+@pytest.mark.mock_chift_response(
+    ecommerce.TAX_ALL,
+)
 def test_taxes(ecommerce_consumer: Consumer):
     consumer = ecommerce_consumer
 
@@ -62,6 +89,11 @@ def test_taxes(ecommerce_consumer: Consumer):
     assert taxes
 
 
+@pytest.mark.mock_chift_response(
+    ecommerce.ORDER_ALL,
+    ecommerce.ORDER_ALL["items"][0],
+    ecommerce.ORDER_ALL["items"][1],
+)
 def test_order(ecommerce_consumer: Consumer):
     consumer = ecommerce_consumer
     # TODO: test create()

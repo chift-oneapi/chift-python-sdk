@@ -1,8 +1,12 @@
 import random
 
+import pytest
+
 from chift.openapi.models import Consumer
+from tests.fixtures import payment
 
 
+@pytest.mark.mock_chift_response(payment.TRANSACTIONS_ALL)
 def test_transactions(payment_consumer: Consumer):
     consumer = payment_consumer
 
@@ -15,6 +19,7 @@ def test_transactions(payment_consumer: Consumer):
         assert transaction.id
 
 
+@pytest.mark.mock_chift_response(payment.BALANCES_ALL)
 def test_balances(payment_consumer: Consumer):
     consumer = payment_consumer
 
@@ -26,6 +31,7 @@ def test_balances(payment_consumer: Consumer):
         assert balance.id
 
 
+@pytest.mark.mock_chift_response(payment.PAYMENTS_ALL, payment.PAYMENT_GET)
 def test_payments(payment_consumer: Consumer):
     consumer = payment_consumer
 
@@ -42,11 +48,15 @@ def test_payments(payment_consumer: Consumer):
     assert payment.id
 
 
+@pytest.mark.mock_chift_response(
+    payment.REFUNDS_ALL,
+    payment.PAYMENTS_ALL["items"][0],
+    payment.PAYMENTS_ALL["items"][1],
+)
 def test_refunds(payment_consumer: Consumer):
     consumer = payment_consumer
 
     refunds = consumer.payment.Refund.all(limit=2)
-
     for refund in refunds:
         assert refund.id
         assert refund.payment_id

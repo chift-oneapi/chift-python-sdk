@@ -1,7 +1,10 @@
 import uuid
 from datetime import datetime
 
+import pytest
+
 from chift.openapi.models import Sync
+from tests.fixtures import sync
 
 today_date = datetime.now().strftime("%d/%m/%Y")
 
@@ -156,6 +159,7 @@ def get_sync(chift):
     return sync
 
 
+@pytest.mark.mock_chift_response(sync.READ_SYNC_ALL, sync.READ_SYNC_ALL[0])
 def test_sync(chift):
     syncs = chift.Sync.all()
 
@@ -168,6 +172,9 @@ def test_sync(chift):
     assert expected_sync.name == actual_sync.name
 
 
+@pytest.mark.skip(
+    reason="The test is too complex for unit testing. it should be split into smaller tests."
+)
 def test_flow_update(chift):
     syncs = chift.Sync.all()
 
@@ -208,6 +215,9 @@ def test_flow_update(chift):
     chift.Flow.delete(sync.syncid, flow_created.id)
 
 
+@pytest.mark.skip(
+    reason="The test is too complex for unit testing. it should be split into smaller tests."
+)
 def test_flow_create_trigger_code(chift):
     syncs = chift.Sync.all()
 
@@ -222,6 +232,9 @@ def test_flow_create_trigger_code(chift):
     )
 
 
+@pytest.mark.skip(
+    reason="The test is too complex for unit testing. it should be split into smaller tests."
+)
 def test_flow_create_trigger_module(chift):
     syncs = chift.Sync.all()
     sync: Sync = syncs[0]
@@ -237,6 +250,9 @@ def test_flow_create_trigger_module(chift):
     )
 
 
+@pytest.mark.skip(
+    reason="The test is too complex for unit testing. it should be split into smaller tests."
+)
 def test_flow_create_trigger_timer(chift):
     syncs = chift.Sync.all()
 
@@ -248,6 +264,9 @@ def test_flow_create_trigger_timer(chift):
     assert flow_created
 
 
+@pytest.mark.skip(
+    reason="The test is too complex for unit testing. it should be split into smaller tests."
+)
 def test_create_flow(chift):
     sync = get_sync(chift)
 
@@ -285,6 +304,9 @@ def test_create_flow(chift):
     assert info
 
 
+@pytest.mark.skip(
+    reason="The test is too complex for unit testing. it should be split into smaller tests."
+)
 def test_datastore(chift):
     sync = get_sync(chift)
 

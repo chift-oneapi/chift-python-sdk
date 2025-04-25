@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.95 - 2025-04-22
+* migrate from pydantic.v1 BaseModel to pydantic.BaseModel
+* added unit tests
+
 ## 0.1.94 - 2025-04-22
 * update OpenAPI documentation
 

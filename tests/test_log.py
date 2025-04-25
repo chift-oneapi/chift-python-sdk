@@ -4,6 +4,9 @@ from chift.api.exceptions import ChiftException
 from chift.openapi.models import Consumer
 
 
+@pytest.mark.mock_chift_response(
+    ChiftException("The chainexecutionid needs to be passed in the headers")
+)
 def test_log(two_connections_consumer: Consumer):
     consumer = two_connections_consumer
 
