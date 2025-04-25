@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.96 - 2024-04-5
+* fix models
+
 ## 0.1.95 - 2025-04-22
 * migrate from pydantic.v1 BaseModel to pydantic.BaseModel
 * added unit tests

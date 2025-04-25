@@ -2,7 +2,7 @@ import datetime
 from enum import Enum
 from typing import List, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from .openapi import (
     AccountingCategoryItem,
@@ -106,6 +106,8 @@ class ConsumerLog(BaseModel):
     message: str
     when: datetime.datetime
     context: Optional[dict] = None
+
+    model_config = ConfigDict(coerce_numbers_to_str=True)
 
 
 class ExecutionType(str, Enum):
