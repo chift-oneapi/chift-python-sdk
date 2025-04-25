@@ -1,4 +1,6 @@
 # Changelog
+## 0.1.96 - 2025-04-24
+* added optionnal fields `is_deposit`, `linked_deposits` list and its optionnal fields `id` and `amount` for InvoicesItem on a Sellsy case
 
 ## 0.1.95 - 2025-04-22
 * migrate from pydantic.v1 BaseModel to pydantic.BaseModel
