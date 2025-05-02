@@ -2,6 +2,7 @@ from typing import ClassVar
 
 from chift.api.mixins import CreateMixin, DeleteMixin, ListMixin, UpdateMixin
 from chift.openapi.models import Data as DataModel
+from chift.openapi.models import BatchUpdate as BatchUpdateModel
 
 
 class Data(
@@ -32,6 +33,12 @@ class Data(
     ) -> DataModel:
         self.extra_path = f"{datastore_id}/data/{datastoredata_id}"
         return super().update(None, data, client=client, params=params)
+
+    def update_batch(
+        self, datastore_id, data, client=None, params=None
+    ) -> BatchUpdateModel:
+        self.extra_path = f"{datastore_id}/data"
+        return super().update_batch(None, data, client=client, params=params)
 
     def delete(self, datastore_id, datastoredata_id, client=None, params=None):
         self.extra_path = f"{datastore_id}/data/{datastoredata_id}"
