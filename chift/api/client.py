@@ -311,5 +311,21 @@ class ChiftClient:
 
         return self.patch(url_path, data=data, params=params)
 
+    def update_batch(
+        self, chift_vertical, chift_model, chift_id, data, extra_path=None, params=None
+    ):
+        url_path = self.path_builder(
+            [
+                "consumers" if self.consumer_id else None,
+                self.consumer_id,
+                chift_vertical,
+                chift_model,
+                chift_id,
+                extra_path,
+            ]
+        )
+
+        return self.patch(url_path, data=data, params=params)
+
     def set_ignored_error_codes(self, ignored_error_codes=[]):
         self.ignored_error_codes = ignored_error_codes

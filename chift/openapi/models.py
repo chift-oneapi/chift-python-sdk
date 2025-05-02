@@ -72,6 +72,7 @@ from .openapi import (
     VariantItem,
     WebhookInstanceGetItem,
     WebhookItem,
+    BatchUpdateResponse,
 )
 
 # UNPUBLISHED MODELS
@@ -259,6 +260,9 @@ class DataIn(DataItem):
 class Data(DataItemOut):
     id: Optional[str] = None
 
+
+class BatchUpdate(BatchUpdateResponse):
+    pass
 
 # webhook
 
