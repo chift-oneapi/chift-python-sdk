@@ -14,7 +14,7 @@ class Data(
     chift_model: ClassVar = ""
     model = DataModel
 
-    def get(self, datastore_id, params=None, client=None) -> DataModel:
+    def get(self, datastore_id, params=None, client=None) -> list[DataModel]:
         self.extra_path = f"{datastore_id}/data"
         return super().all(params=params, client=client)
 
