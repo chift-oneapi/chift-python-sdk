@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.96 - 2025-05-21
+## 0.1.97 - 2025-05-21
 * add IssueLevel enum with "error" and "warning" values
 * add "general_discount" option to POSLineItemType
 * add `cost` field to ProductItemInput
