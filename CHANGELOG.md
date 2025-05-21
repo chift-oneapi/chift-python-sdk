@@ -1,4 +1,6 @@
 # Changelog
+## 0.1.96 - 2025-04-23
+* add banking vertical
 
 ## 0.1.96 - 2024-04-5
 * fix models
