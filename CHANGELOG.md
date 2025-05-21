@@ -1,6 +1,17 @@
 # Changelog
 
-## 0.1.96 - 2024-04-5
+## 0.1.96 - 2025-05-21
+* add IssueLevel enum with "error" and "warning" values
+* add "general_discount" option to POSLineItemType
+* add `cost` field to ProductItemInput
+* add `level` field to IssueItem model
+* add `iban` field to Journal model
+* fix multiple typos (sofware → software)
+* update field types and descriptions
+* change `account_number` in PMSCustomerItem from required to optional
+* improve documentation for `account_info` and partner_info fields
+
+## 0.1.96 - 2025-04-28
 * fix models
 
 ## 0.1.95 - 2025-04-22
