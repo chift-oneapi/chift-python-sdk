@@ -33,11 +33,12 @@ class DeleteMixin(BaseMixin, Generic[T]):
 
 
 class ReadMixin(BaseMixin, Generic[T]):
-    def get(self, chift_id, client=None, params=None, map_model=True) -> T:
+    def get(self, chift_id, client=None, params=None, map_model=True, raw_data=False) -> T:
         if not client:
             client = ChiftClient()
         client.consumer_id = self.consumer_id
         client.connection_id = self.connection_id
+        client.raw_data = raw_data
 
         json_data = client.get_one(
             self.chift_vertical,
@@ -46,7 +47,8 @@ class ReadMixin(BaseMixin, Generic[T]):
             extra_path=self.extra_path,
             params=params,
         )
-
+        if raw_data:
+            return next(iter(json_data.get("raw_data", {}).values()), {})
         return self.model(**json_data) if map_model else json_data
 
 
@@ -88,11 +90,12 @@ class UpdateMixin(BaseMixin, Generic[T]):
 
 
 class PaginationMixin(BaseMixin, Generic[T]):
-    def all(self, params=None, client=None, map_model=True, limit=None) -> list[T]:
+    def all(self, params=None, client=None, map_model=True, limit=None, raw_data=False) -> list[T]:
         if not client:
             client = ChiftClient()
         client.consumer_id = self.consumer_id
         client.connection_id = self.connection_id
+        client.raw_data = raw_data
 
         if not params:
             params = {}
@@ -109,6 +112,8 @@ class PaginationMixin(BaseMixin, Generic[T]):
                 params={"page": page, "size": size} | params,
                 extra_path=self.extra_path,
             )
+            if raw_data:
+                return json_data.get("raw_data", {})
             all_items.extend(
                 [
                     self.model(**item) if map_model else item
