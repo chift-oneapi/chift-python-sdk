@@ -66,6 +66,7 @@ class ChiftClient:
     auth = None
     consumer_id = None
     connection_id = None
+    raw_data = None
     related_chain_execution_id = None
     sync_id = None
 
@@ -158,6 +159,9 @@ class ChiftClient:
 
         if self.connection_id:
             headers["x-chift-connectionid"] = self.connection_id
+
+        if self.raw_data:
+            headers["x-chift-raw-data"] = "true"
 
         if self.related_chain_execution_id:
             headers["x-chift-relatedchainexecutionid"] = self.related_chain_execution_id
