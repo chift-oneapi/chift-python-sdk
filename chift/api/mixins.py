@@ -33,7 +33,9 @@ class DeleteMixin(BaseMixin, Generic[T]):
 
 
 class ReadMixin(BaseMixin, Generic[T]):
-    def get(self, chift_id, client=None, params=None, map_model=True, raw_data=False) -> T:
+    def get(
+        self, chift_id, client=None, params=None, map_model=True, raw_data=False
+    ) -> T:
         if not client:
             client = ChiftClient()
         client.consumer_id = self.consumer_id
@@ -90,7 +92,9 @@ class UpdateMixin(BaseMixin, Generic[T]):
 
 
 class PaginationMixin(BaseMixin, Generic[T]):
-    def all(self, params=None, client=None, map_model=True, limit=None, raw_data=False) -> list[T]:
+    def all(
+        self, params=None, client=None, map_model=True, limit=None, raw_data=False
+    ) -> list[T]:
         if not client:
             client = ChiftClient()
         client.consumer_id = self.consumer_id

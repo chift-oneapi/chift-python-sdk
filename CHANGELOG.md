@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.98 - 2025-05-27
+* allow to use raw_data parameter to get raw data from the API
+
 ## 0.1.97 - 2025-05-21
 * add IssueLevel enum with "error" and "warning" values
 * add "general_discount" option to POSLineItemType
