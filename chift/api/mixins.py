@@ -1,6 +1,7 @@
 from typing import Generic, TypeVar
 
 from chift.api.client import ChiftClient
+from chift.openapi.models import ObjectWithRawData
 
 T = TypeVar("T")
 
@@ -50,7 +51,12 @@ class ReadMixin(BaseMixin, Generic[T]):
             params=params,
         )
         if raw_data:
-            return next(iter(json_data.get("raw_data", {}).values()), {})
+            if map_model:
+                return ObjectWithRawData(
+                    chift_data=self.model(**json_data), raw_data=json_data.get("raw_data") or {}
+                )
+            else:
+                return json_data
         return self.model(**json_data) if map_model else json_data
 
 
@@ -117,7 +123,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
                 extra_path=self.extra_path,
             )
             if raw_data:
-                return json_data.get("raw_data", {})
+                return json_data.get("raw_data") or {}
             all_items.extend(
                 [
                     self.model(**item) if map_model else item

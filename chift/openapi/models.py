@@ -520,3 +520,8 @@ class PaymentPayment(PaymentItemOut):
 
 class PaymentRefund(RefundItemOut):
     pass
+
+
+class ObjectWithRawData(BaseModel):
+    chift_data: BaseModel
+    raw_data: dict
