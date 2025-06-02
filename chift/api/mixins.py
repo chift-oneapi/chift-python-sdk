@@ -53,7 +53,8 @@ class ReadMixin(BaseMixin, Generic[T]):
         if raw_data:
             if map_model:
                 return ObjectWithRawData(
-                    chift_data=self.model(**json_data), raw_data=json_data.get("raw_data") or {}
+                    chift_data=self.model(**json_data),
+                    raw_data=json_data.get("raw_data") or {},
                 )
             else:
                 return json_data
