@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.99 - 2025-06-07
+* added update_batch method for Custom API
+
 ## 0.1.98 - 2025-05-27
 * allow to use raw_data parameter to get raw data from the API
 
