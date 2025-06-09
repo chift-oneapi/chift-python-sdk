@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.2.0 - 2025-06-09
+* remove raw-data and x-chift-client-requestid from headers on uncessary endpoints
+
 ## 0.1.99 - 2025-06-09
 * allow to use x-chift-client-requestid header for Idempotency on create/update requests
 

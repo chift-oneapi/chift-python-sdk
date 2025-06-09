@@ -18,11 +18,13 @@ class BaseMixin(object):
 
 
 class DeleteMixin(BaseMixin, Generic[T]):
-    def delete(self, chift_id, client=None, params=None) -> T:
+    def delete(self, chift_id, client=None, params=None, client_request_id=None) -> T:
         if not client:
             client = ChiftClient()
         client.consumer_id = self.consumer_id
         client.connection_id = self.connection_id
+        client.raw_data = False
+        client.client_request_id = client_request_id
 
         return client.delete_one(
             self.chift_vertical,
@@ -42,6 +44,7 @@ class ReadMixin(BaseMixin, Generic[T]):
         client.consumer_id = self.consumer_id
         client.connection_id = self.connection_id
         client.raw_data = raw_data
+        client.client_request_id = None
 
         json_data = client.get_one(
             self.chift_vertical,
@@ -69,6 +72,7 @@ class CreateMixin(BaseMixin, Generic[T]):
             client = ChiftClient()
         client.consumer_id = self.consumer_id
         client.connection_id = self.connection_id
+        client.raw_data = False
         client.client_request_id = client_request_id
 
         json_data = client.post_one(
@@ -96,6 +100,7 @@ class UpdateMixin(BaseMixin, Generic[T]):
             client = ChiftClient()
         client.consumer_id = self.consumer_id
         client.connection_id = self.connection_id
+        client.raw_data = False
         client.client_request_id = client_request_id
 
         json_data = client.update_one(
@@ -119,6 +124,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         client.consumer_id = self.consumer_id
         client.connection_id = self.connection_id
         client.raw_data = raw_data
+        client.client_request_id = None
 
         if not params:
             params = {}
@@ -162,6 +168,8 @@ class ListMixin(BaseMixin, Generic[T]):
             client = ChiftClient()
         client.consumer_id = self.consumer_id
         client.connection_id = self.connection_id
+        client.raw_data = False
+        client.client_request_id = None
 
         json_data = client.get_all(
             self.chift_vertical,
