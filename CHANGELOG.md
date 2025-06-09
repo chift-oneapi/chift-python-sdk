@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.99 - 2025-06-09
+* allow to use x-chift-client-requestid header for Idempotency on create/update requests
+
 ## 0.1.98 - 2025-05-27
 * allow to use raw_data parameter to get raw data from the API
 
