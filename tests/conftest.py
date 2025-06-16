@@ -73,6 +73,11 @@ def invoicing_consumer(chift):
     return Consumer(consumerid=uuid.uuid4(), name="Consumer")
 
 
+@pytest.fixture
+def test_consumer(chift):
+    return Consumer(consumerid=uuid.uuid4(), name="Consumer")
+
+
 @pytest.fixture(autouse=True)
 def _patch_chift_client(monkeypatch, request):
     marker = request.node.get_closest_marker("mock_chift_response")

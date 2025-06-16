@@ -1,4 +1,4 @@
-from typing import Generic, TypeVar
+from typing import Any, Generator, Generic, Literal, TypeVar, overload
 
 from chift.api.client import ChiftClient
 from chift.openapi.models import ObjectWithRawData
@@ -116,9 +116,13 @@ class UpdateMixin(BaseMixin, Generic[T]):
 
 
 class PaginationMixin(BaseMixin, Generic[T]):
-    def all(
-        self, params=None, client=None, map_model=True, limit=None, raw_data=False
-    ) -> list[T]:
+    def __iter_page(
+        self,
+        params=None,
+        client=None,
+        limit=None,
+        raw_data=False,
+    ):
         if not client:
             client = ChiftClient()
         client.consumer_id = self.consumer_id
@@ -131,8 +135,8 @@ class PaginationMixin(BaseMixin, Generic[T]):
 
         size = limit if limit and limit < 100 else 100
 
-        all_items = []
         page = 1
+        count = 0
 
         while True:
             json_data = client.get_all(
@@ -141,25 +145,67 @@ class PaginationMixin(BaseMixin, Generic[T]):
                 params={"page": page, "size": size} | params,
                 extra_path=self.extra_path,
             )
-            if raw_data:
-                return json_data.get("raw_data") or {}
-            all_items.extend(
-                [
-                    self.model(**item) if map_model else item
-                    for item in json_data.get("items", [])
-                ]
-            )
+            yield json_data
             page += 1
-
-            if limit and len(all_items) >= limit:
+            count += len(json_data.get("items", []))
+            total = json_data.get("total", 0)
+            if count >= total or (limit and count >= limit):
                 break
 
-            if len(all_items) >= json_data.get("total", 0) or not json_data.get(
-                "items"
-            ):
-                break
-
+    def all(
+        self, params=None, client=None, map_model=True, limit=None, raw_data=False
+    ) -> list[T]:
+        all_items = []
+        for page in self.__iter_page(
+            params=params,
+            client=client,
+            limit=limit,
+            raw_data=raw_data,
+        ):
+            if raw_data:
+                return page.get("raw_data") or {}
+            all_items.extend(
+                self.model(**item) if map_model else item
+                for item in page.get("items", [])
+            )
         return all_items
+
+    @overload
+    def iter_all(
+        self,
+        params=None,
+        client=None,
+        map_model: Literal[True] = True,
+        limit=None,
+    ) -> Generator[T, Any, None]: ...
+
+    @overload
+    def iter_all(
+        self,
+        params=None,
+        client=None,
+        map_model: Literal[False] = False,
+        limit=None,
+    ) -> Generator[dict, Any, None]: ...
+
+    def iter_all(
+        self,
+        params=None,
+        client=None,
+        map_model=True,
+        limit=None,
+    ) -> Generator[T | dict, Any, None]:
+        for page in self.__iter_page(
+            params=params,
+            client=client,
+            limit=limit,
+            raw_data=False,
+        ):
+            for item in page.get("items", []):
+                if map_model:
+                    yield self.model(**item)
+                else:
+                    yield item
 
 
 class ListMixin(BaseMixin, Generic[T]):
