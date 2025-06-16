@@ -36,9 +36,49 @@ class DeleteMixin(BaseMixin, Generic[T]):
 
 
 class ReadMixin(BaseMixin, Generic[T]):
+    @overload
+    def get(
+        self,
+        chift_id,
+        client=None,
+        params=None,
+        map_model: Literal[True] = True,
+        raw_data: Literal[False] = False,
+    ) -> T: ...
+
+    @overload
+    def get(
+        self,
+        chift_id,
+        client=None,
+        params=None,
+        map_model: Literal[False] = False,
+        raw_data: Literal[False] = False,
+    ) -> dict: ...
+
+    @overload
+    def get(
+        self,
+        chift_id,
+        client=None,
+        params=None,
+        map_model: Literal[True] = True,
+        raw_data: Literal[True] = True,
+    ) -> ObjectWithRawData[T]: ...
+
+    @overload
+    def get(
+        self,
+        chift_id,
+        client=None,
+        params=None,
+        map_model: Literal[False] = False,
+        raw_data: Literal[True] = True,
+    ) -> dict: ...
+
     def get(
         self, chift_id, client=None, params=None, map_model=True, raw_data=False
-    ) -> T:
+    ) -> T | dict | ObjectWithRawData[T]:
         if not client:
             client = ChiftClient()
         client.consumer_id = self.consumer_id
@@ -55,7 +95,7 @@ class ReadMixin(BaseMixin, Generic[T]):
         )
         if raw_data:
             if map_model:
-                return ObjectWithRawData(
+                return ObjectWithRawData[T](
                     chift_data=self.model(**json_data),
                     raw_data=json_data.get("raw_data") or {},
                 )
@@ -65,9 +105,29 @@ class ReadMixin(BaseMixin, Generic[T]):
 
 
 class CreateMixin(BaseMixin, Generic[T]):
+    @overload
+    def create(
+        self,
+        data,
+        client=None,
+        params=None,
+        map_model: Literal[True] = True,
+        client_request_id=None,
+    ) -> T: ...
+
+    @overload
+    def create(
+        self,
+        data,
+        client=None,
+        params=None,
+        map_model: Literal[False] = False,
+        client_request_id=None,
+    ) -> dict: ...
+
     def create(
         self, data, client=None, params=None, map_model=True, client_request_id=None
-    ) -> T:
+    ) -> T | dict:
         if not client:
             client = ChiftClient()
         client.consumer_id = self.consumer_id
@@ -87,6 +147,28 @@ class CreateMixin(BaseMixin, Generic[T]):
 
 
 class UpdateMixin(BaseMixin, Generic[T]):
+    @overload
+    def update(
+        self,
+        chift_id,
+        data,
+        client=None,
+        params=None,
+        map_model: Literal[True] = True,
+        client_request_id=None,
+    ) -> T: ...
+
+    @overload
+    def update(
+        self,
+        chift_id,
+        data,
+        client=None,
+        params=None,
+        map_model: Literal[False] = False,
+        client_request_id=None,
+    ) -> dict: ...
+
     def update(
         self,
         chift_id,
@@ -95,7 +177,7 @@ class UpdateMixin(BaseMixin, Generic[T]):
         params=None,
         map_model=True,
         client_request_id=None,
-    ) -> T:
+    ) -> T | dict:
         if not client:
             client = ChiftClient()
         client.consumer_id = self.consumer_id
@@ -152,9 +234,39 @@ class PaginationMixin(BaseMixin, Generic[T]):
             if count >= total or (limit and count >= limit):
                 break
 
+    @overload
+    def all(
+        self,
+        params=None,
+        client=None,
+        map_model: Literal[True] = True,
+        limit=None,
+        raw_data: Literal[False] = False,
+    ) -> list[T]: ...
+
+    @overload
+    def all(
+        self,
+        params=None,
+        client=None,
+        map_model: Literal[False] = False,
+        limit=None,
+        raw_data: Literal[False] = False,
+    ) -> list[dict]: ...
+
+    @overload
+    def all(
+        self,
+        params=None,
+        client=None,
+        map_model=False,
+        limit=False,
+        raw_data: Literal[True] = True,
+    ) -> dict: ...
+
     def all(
         self, params=None, client=None, map_model=True, limit=None, raw_data=False
-    ) -> list[T]:
+    ) -> list[T | dict] | dict:
         all_items = []
         for page in self.__iter_page(
             params=params,
