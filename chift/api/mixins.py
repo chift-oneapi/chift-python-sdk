@@ -204,7 +204,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         client=None,
         limit=None,
         raw_data=False,
-    ):
+    ) -> Generator[dict, Any, None]:
         if not client:
             client = ChiftClient()
         client.consumer_id = self.consumer_id
