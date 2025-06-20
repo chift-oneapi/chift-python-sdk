@@ -12,6 +12,9 @@ class BaseMixin(object):
             hasattr(self, "chift_vertical") and self.chift_vertical or None
         )
         self.chift_model = hasattr(self, "chift_model") and self.chift_model or None
+        self.chift_model_create = (
+            hasattr(self, "chift_model_create") and self.chift_model_create or self.chift_model
+        )
         self.extra_path = hasattr(self, "extra_path") and self.extra_path or None
         self.consumer_id = consumer_id
         self.connection_id = connection_id
@@ -137,7 +140,7 @@ class CreateMixin(BaseMixin, Generic[T]):
 
         json_data = client.post_one(
             self.chift_vertical,
-            self.chift_model,
+            self.chift_model_create,
             data,
             extra_path=self.extra_path,
             params=params,

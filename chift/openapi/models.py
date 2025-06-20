@@ -14,6 +14,7 @@ from .openapi import (
     BackboneApiAppRoutersConnectionsConnectionItem,
     BackboneCommonModelsPosCommonProductCategoryItem,
     BalanceItemOut,
+    BankAccountItemOut,
     CategoryItem,
     ClientItemOut,
     ClosureItem,
@@ -380,6 +381,10 @@ class MultipleMatching(MultipleMatchingOut):
 
 
 class Attachment(AttachmentItemOut):
+    pass
+
+
+class BankAccount(BankAccountItemOut):
     pass
 
 
