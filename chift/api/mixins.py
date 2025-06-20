@@ -13,7 +13,9 @@ class BaseMixin(object):
         )
         self.chift_model = hasattr(self, "chift_model") and self.chift_model or None
         self.chift_model_create = (
-            hasattr(self, "chift_model_create") and self.chift_model_create or self.chift_model
+            hasattr(self, "chift_model_create")
+            and self.chift_model_create
+            or self.chift_model
         )
         self.extra_path = hasattr(self, "extra_path") and self.extra_path or None
         self.consumer_id = consumer_id

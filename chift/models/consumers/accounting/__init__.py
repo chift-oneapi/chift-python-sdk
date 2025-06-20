@@ -7,6 +7,7 @@ from chift.openapi.models import (
 )
 from chift.openapi.models import AnalyticPlan as AnalyticPlanModel
 from chift.openapi.models import Attachment as AttachmentModel
+from chift.openapi.models import BankAccount as BankAccountModel
 from chift.openapi.models import Client as ClientModel
 from chift.openapi.models import Employee as EmployeeModel
 from chift.openapi.models import FinancialEntry as FinancialEntryModel
@@ -19,7 +20,6 @@ from chift.openapi.models import MultipleMatching as MultipleMatchingModel
 from chift.openapi.models import Outstanding as OutstandingModel
 from chift.openapi.models import Supplier as SupplierModel
 from chift.openapi.models import TaxAccounting as TaxAccountingModel
-from chift.openapi.models import BankAccount as BankAccountModel
 
 
 class AccountingRouter:
@@ -194,6 +194,7 @@ class Attachment(CreateMixin[MatchingModel], PaginationMixin[AttachmentModel]):
         self.chift_model = "invoices"
         self.extra_path = f"pdf/{invoice_id}"
         return super().create(data=data, client=client, params=params, map_model=False)
+
 
 class BankAccount(CreateMixin[BankAccountModel]):
     chift_vertical: ClassVar = "accounting"
