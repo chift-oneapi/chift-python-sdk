@@ -1,6 +1,6 @@
 import datetime
 from enum import Enum
-from typing import List, Optional
+from typing import Generic, List, Optional, TypeVar
 
 from pydantic import BaseModel, ConfigDict
 
@@ -14,6 +14,7 @@ from .openapi import (
     BackboneApiAppRoutersConnectionsConnectionItem,
     BackboneCommonModelsPosCommonProductCategoryItem,
     BalanceItemOut,
+    BankAccountItemOut,
     CategoryItem,
     ClientItemOut,
     ClosureItem,
@@ -73,6 +74,8 @@ from .openapi import (
     WebhookInstanceGetItem,
     WebhookItem,
 )
+
+VarModel = TypeVar("VarModel", bound=BaseModel)
 
 # UNPUBLISHED MODELS
 
@@ -381,6 +384,10 @@ class Attachment(AttachmentItemOut):
     pass
 
 
+class BankAccount(BankAccountItemOut):
+    pass
+
+
 # log
 class Log(ConsumerLog):
     pass
@@ -522,6 +529,6 @@ class PaymentRefund(RefundItemOut):
     pass
 
 
-class ObjectWithRawData(BaseModel):
-    chift_data: BaseModel
+class ObjectWithRawData(BaseModel, Generic[VarModel]):
+    chift_data: VarModel
     raw_data: dict

@@ -19,6 +19,7 @@ from chift.openapi.models import MultipleMatching as MultipleMatchingModel
 from chift.openapi.models import Outstanding as OutstandingModel
 from chift.openapi.models import Supplier as SupplierModel
 from chift.openapi.models import TaxAccounting as TaxAccountingModel
+from chift.openapi.models import BankAccount as BankAccountModel
 
 
 class AccountingRouter:
@@ -42,6 +43,7 @@ class AccountingRouter:
         self.EntryMatching = EntryMatching(consumer_id, connection_id)
         self.MultipleEntryMatching = MultipleEntryMatching(consumer_id, connection_id)
         self.Attachment = Attachment(consumer_id, connection_id)
+        self.BankAccount = BankAccount(consumer_id, connection_id)
 
 
 class AnalyticPlan(PaginationMixin[AnalyticPlanModel]):
@@ -82,6 +84,7 @@ class Account(
 ):
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "chart-of-accounts"
+    chift_model_create: ClassVar = "accounts"
     model = AccountModel
 
 
@@ -155,10 +158,12 @@ class Outstanding(
 
 
 class Journal(
+    CreateMixin[JournalModel],
     PaginationMixin[JournalModel],
 ):
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "journals"
+    chift_model_create: ClassVar = "journal"
     model = JournalModel
 
 
@@ -189,3 +194,8 @@ class Attachment(CreateMixin[MatchingModel], PaginationMixin[AttachmentModel]):
         self.chift_model = "invoices"
         self.extra_path = f"pdf/{invoice_id}"
         return super().create(data=data, client=client, params=params, map_model=False)
+
+class BankAccount(CreateMixin[BankAccountModel]):
+    chift_vertical: ClassVar = "accounting"
+    chift_model: ClassVar = "bank-accounts"
+    model = BankAccountModel
