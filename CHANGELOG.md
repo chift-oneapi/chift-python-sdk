@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.1 - 2025-06-18
+## 0.3.0 - 2025-06-18
 * add possibility to iterate over pages when doing all requests instead of loading everything in memory
 * improve typing on mixins concerning map_model and raw_data parameters
 * update models (add create journal, create bank account, create ledger account)
