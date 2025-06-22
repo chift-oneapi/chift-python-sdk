@@ -236,7 +236,9 @@ class PaginationMixin(BaseMixin, Generic[T]):
             page += 1
             count += len(json_data.get("items", []))
             total = json_data.get("total", 0)
-            if count >= total or (limit and count >= limit):
+            if (count >= total or not json_data.get("items")) or (
+                limit and count >= limit
+            ):
                 break
 
     @overload

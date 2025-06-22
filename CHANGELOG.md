@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.1 - 2025-06-22
+* make sure pagination stops if list of items is empty
+
 ## 0.3.0 - 2025-06-18
 * add possibility to iterate over pages when doing all requests instead of loading everything in memory
 * improve typing on mixins concerning map_model and raw_data parameters
