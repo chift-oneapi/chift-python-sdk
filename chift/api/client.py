@@ -111,6 +111,24 @@ class ChiftClient:
         self.max_retries = kwargs.get("max_retries")
         self._start_session()
 
+    def __repr__(self) -> str:
+        client_secret = (
+            self.client_secret[:2]
+            + ("*" * (len(self.client_secret) - 4))
+            + self.client_secret[-2:]
+            if self.client_secret
+            else ""
+        )
+        return (
+            f"{self.__class__.__name__}("
+            f"consumer_id={self.consumer_id},"
+            f"client_id={self.client_id},"
+            f"client_secret={client_secret},"
+            f"env_id={self.env_id},"
+            f"url_base={self.url_base}"
+            ")"
+        )
+
     def _start_session(self):
         self.ignored_error_codes = []
         if self.test_client:
