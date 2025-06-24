@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.2 - 2025-06-24
+* add string repr to ChiftClient
+
 ## 0.3.1 - 2025-06-22
 * make sure pagination stops if list of items is empty
 
