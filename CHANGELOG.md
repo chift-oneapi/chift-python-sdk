@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.3 - 2025-06-25
+* update of the `total` field renamed to `amount` for the payment endpoint
+
 ## 0.3.2 - 2025-07-02
 * reset client_request_id and raw_data after a request
 
@@ -10,9 +13,6 @@
 * add possibility to iterate over pages when doing all requests instead of loading everything in memory
 * improve typing on mixins concerning map_model and raw_data parameters
 * update models (add create journal, create bank account, create ledger account)
-
-## 0.2.1 - 2025-06-25
-* update of the `total` field renamed to `amount` for the payment endpoint
 
 ## 0.2.0 - 2025-06-09
 * remove raw-data and x-chift-client-requestid from headers on uncessary endpoints
