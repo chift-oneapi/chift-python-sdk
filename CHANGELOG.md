@@ -11,6 +11,9 @@
 * improve typing on mixins concerning map_model and raw_data parameters
 * update models (add create journal, create bank account, create ledger account)
 
+## 0.2.1 - 2025-06-25
+* update of the `total` field renamed to `amount` for the payment endpoint
+
 ## 0.2.0 - 2025-06-09
 * remove raw-data and x-chift-client-requestid from headers on uncessary endpoints
 
