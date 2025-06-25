@@ -3,8 +3,6 @@
 #   timestamp: 2025-06-20T14:05:40+00:00
 from __future__ import annotations
 
-from datetime import date as Date
-from datetime import datetime as DateTime
 from enum import Enum
 from typing import Any, Dict, List, Optional, Union
 from uuid import UUID
@@ -1743,7 +1741,7 @@ class TransactionFilterDateType(Enum):
 class TransactionItemOut(BaseModel):
     id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(..., description="Technical id in the target software")
-    total: float = Field(..., description="Total amount incl. fee", title="Total")
+    amount: float = Field(..., description="Total amount incl. fee", title="Amount")
     fee: float = Field(..., description="Total fee", title="Fee")
     currency: str = Field(..., description="Currency", title="Currency")
     exchange_rate: float = Field(
