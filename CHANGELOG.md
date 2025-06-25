@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.2 - 2025-06-25
+* update of the `total` field renamed to `amount` for the payment endpoint
+
 ## 0.3.1 - 2025-06-22
 * make sure pagination stops if list of items is empty
 
