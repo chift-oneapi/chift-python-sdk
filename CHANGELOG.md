@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.2.1 - 2025-06-25
+* update of the `total` field renamed to `amount` for the payment endpoint
+
 ## 0.2.0 - 2025-06-09
 * remove raw-data and x-chift-client-requestid from headers on uncessary endpoints
 
