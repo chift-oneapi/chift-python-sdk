@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.3 - 2025-06-25
+* update of the `total` field renamed to `amount` for the payment endpoint
+
 ## 0.3.2 - 2025-07-02
 * reset client_request_id and raw_data after a request
 

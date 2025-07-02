@@ -1743,7 +1743,7 @@ class TransactionFilterDateType(Enum):
 class TransactionItemOut(BaseModel):
     id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(..., description="Technical id in the target software")
-    total: float = Field(..., description="Total amount incl. fee", title="Total")
+    amount: float = Field(..., description="Total amount incl. fee", title="Amount")
     fee: float = Field(..., description="Total fee", title="Fee")
     currency: str = Field(..., description="Currency", title="Currency")
     exchange_rate: float = Field(
