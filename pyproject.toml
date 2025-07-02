@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "chift"
-version = "0.3.2"
+version = "0.3.3"
 description = "Chift API client"
 authors = ["Henry Hertoghe <henry.hertoghe@chift.eu>"]
 readme = "README.md"

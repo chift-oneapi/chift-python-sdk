@@ -3,6 +3,8 @@
 #   timestamp: 2025-06-20T14:05:40+00:00
 from __future__ import annotations
 
+from datetime import date as Date
+from datetime import datetime as DateTime
 from enum import Enum
 from typing import Any, Dict, List, Optional, Union
 from uuid import UUID
