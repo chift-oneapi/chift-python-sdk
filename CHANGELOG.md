@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.2 - 2025-07-02
+* reset client_request_id and raw_data after a request
+
 ## 0.3.1 - 2025-06-22
 * make sure pagination stops if list of items is empty
 

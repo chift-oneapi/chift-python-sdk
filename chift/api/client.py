@@ -184,6 +184,10 @@ class ChiftClient:
             raise exceptions.ChiftException(
                 f"After {self.max_retries} retries, the request failed."
             )
+        finally:
+            # reset client_request_id and raw_data
+            self.client_request_id = None
+            self.raw_data = None
 
         if req.status_code == httplib.UNAUTHORIZED:
             raise exceptions.ChiftException(
