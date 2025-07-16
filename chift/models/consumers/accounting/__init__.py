@@ -12,6 +12,9 @@ from chift.openapi.models import Client as ClientModel
 from chift.openapi.models import Employee as EmployeeModel
 from chift.openapi.models import FinancialEntry as FinancialEntryModel
 from chift.openapi.models import InvoiceAccounting as InvoiceAccountingModel
+from chift.openapi.models import (
+    InvoiceMultiPlanAccounting as InvoiceMultiPlanAccountingModel,
+)
 from chift.openapi.models import Journal as JournalModel
 from chift.openapi.models import JournalEntry as JournalEntryModel
 from chift.openapi.models import Matching as MatchingModel
@@ -35,6 +38,7 @@ class AccountingRouter:
         self.Supplier = Supplier(consumer_id, connection_id)
         self.Employee = Employee(consumer_id, connection_id)
         self.Invoice = Invoice(consumer_id, connection_id)
+        self.InvoiceMultiPlan = InvoiceMultiPlan(consumer_id, connection_id)
         self.JournalEntry = JournalEntry(consumer_id, connection_id)
         self.FinancialEntry = FinancialEntry(consumer_id, connection_id)
         self.Outstanding = Outstanding(consumer_id, connection_id)
@@ -118,6 +122,20 @@ class Invoice(
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "invoices"
     model = InvoiceAccountingModel
+
+    def all(self, invoice_type, params=None, client=None, limit=None):
+        self.extra_path = f"type/{invoice_type}"
+        return super().all(params=params, limit=limit, client=client)
+
+
+class InvoiceMultiPlan(
+    ReadMixin[InvoiceMultiPlanAccountingModel],
+    PaginationMixin[InvoiceMultiPlanAccountingModel],
+    CreateMixin[InvoiceMultiPlanAccountingModel],
+):
+    chift_vertical: ClassVar = "accounting"
+    chift_model: ClassVar = "invoices/multi-analytic-plans"
+    model = InvoiceMultiPlanAccountingModel
 
     def all(self, invoice_type, params=None, client=None, limit=None):
         self.extra_path = f"type/{invoice_type}"
