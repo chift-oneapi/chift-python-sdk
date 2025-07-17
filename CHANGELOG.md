@@ -1,5 +1,5 @@
 # Changelog
-## 0.3.2 - 2025-07-16
+## 0.3.4 - 2025-07-16
 * add multiplan analytic acccounting route
 
 ## 0.3.3 - 2025-06-25

@@ -16894,48 +16894,6 @@
         "type": "object",
         "title": "AnalyticAccountItemUpdate"
       },
-      "AnalyticDistribution": {
-        "properties": {
-          "analytic_plan": {
-            "type": "string",
-            "title": "Analytic Plan",
-            "description": "Id of the analytic plan to which the distribution applies."
-          },
-          "analytic_accounts": {
-            "items": {
-              "$ref": "#/components/schemas/AnalyticDistributionDetail"
-            },
-            "type": "array",
-            "title": "Analytic Accounts",
-            "description": "List of analytic accounts and their respective percentages for the distribution."
-          }
-        },
-        "type": "object",
-        "required": [
-          "analytic_plan",
-          "analytic_accounts"
-        ],
-        "title": "AnalyticDistribution"
-      },
-      "AnalyticDistributionDetail": {
-        "properties": {
-          "analytic_account": {
-            "type": "string",
-            "title": "Analytic Account"
-          },
-          "percentage": {
-            "type": "number",
-            "title": "Percentage",
-            "description": "Percentage of the untaxed amount attributed to this analytic account. Only whole numbers (no decimals) are allowed. The total across the analytic distribution (all accounts in a given analytic plan) must equal 100%."
-          }
-        },
-        "type": "object",
-        "required": [
-          "analytic_account",
-          "percentage"
-        ],
-        "title": "AnalyticDistributionDetail"
-      },
       "Api": {
         "type": "string",
         "enum": [
@@ -24200,7 +24158,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/AnalyticDistribution"
+                  "$ref": "#/components/schemas/backbone_common__models__accounting__common__AnalyticDistribution"
                 },
                 "type": "array"
               },
@@ -26122,7 +26080,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/AnalyticDistribution"
+                  "$ref": "#/components/schemas/backbone_common__models__invoicing__common__AnalyticDistribution"
                 },
                 "type": "array"
               },
@@ -26290,7 +26248,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/AnalyticDistribution"
+                  "$ref": "#/components/schemas/backbone_common__models__invoicing__common__AnalyticDistribution"
                 },
                 "type": "array"
               },
@@ -26493,7 +26451,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/AnalyticDistribution"
+                  "$ref": "#/components/schemas/backbone_common__models__accounting__common__AnalyticDistribution"
                 },
                 "type": "array"
               },
@@ -26734,7 +26692,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/AnalyticDistribution"
+                  "$ref": "#/components/schemas/backbone_common__models__accounting__common__AnalyticDistribution"
                 },
                 "type": "array"
               },
@@ -27815,7 +27773,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/AnalyticDistribution"
+                  "$ref": "#/components/schemas/backbone_common__models__accounting__common__AnalyticDistribution"
                 },
                 "type": "array"
               },
@@ -28074,7 +28032,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/AnalyticDistribution"
+                  "$ref": "#/components/schemas/backbone_common__models__accounting__common__AnalyticDistribution"
                 },
                 "type": "array"
               },
@@ -36800,6 +36758,48 @@
         "type": "object",
         "title": "ConnectionItem"
       },
+      "backbone_common__models__accounting__common__AnalyticDistribution": {
+        "properties": {
+          "analytic_plan": {
+            "type": "string",
+            "title": "Analytic Plan",
+            "description": "Id of the analytic plan to which the distribution applies."
+          },
+          "analytic_accounts": {
+            "items": {
+              "$ref": "#/components/schemas/backbone_common__models__accounting__common__AnalyticDistributionDetail"
+            },
+            "type": "array",
+            "title": "Analytic Accounts",
+            "description": "List of analytic accounts and their respective percentages for the distribution."
+          }
+        },
+        "type": "object",
+        "required": [
+          "analytic_plan",
+          "analytic_accounts"
+        ],
+        "title": "AnalyticDistribution"
+      },
+      "backbone_common__models__accounting__common__AnalyticDistributionDetail": {
+        "properties": {
+          "analytic_account": {
+            "type": "string",
+            "title": "Analytic Account"
+          },
+          "percentage": {
+            "type": "number",
+            "title": "Percentage",
+            "description": "Percentage of the untaxed amount attributed to this analytic account. Only whole numbers (no decimals) are allowed. The total across the analytic distribution (all accounts in a given analytic plan) must equal 100%."
+          }
+        },
+        "type": "object",
+        "required": [
+          "analytic_account",
+          "percentage"
+        ],
+        "title": "AnalyticDistributionDetail"
+      },
       "backbone_common__models__accounting__common__AnalyticPlanItem": {
         "properties": {
           "id": {
@@ -37360,6 +37360,55 @@
           "address_type"
         ],
         "title": "AddressItemOut"
+      },
+      "backbone_common__models__invoicing__common__AnalyticDistribution": {
+        "properties": {
+          "analytic_plan": {
+            "type": "string",
+            "title": "Analytic Plan",
+            "description": "Id of the analytic plan to which the distribution applies."
+          },
+          "analytic_accounts": {
+            "items": {
+              "$ref": "#/components/schemas/backbone_common__models__invoicing__common__AnalyticDistributionDetail"
+            },
+            "type": "array",
+            "title": "Analytic Accounts",
+            "description": "List of analytic accounts and their respective percentages for the distribution."
+          }
+        },
+        "type": "object",
+        "required": [
+          "analytic_plan",
+          "analytic_accounts"
+        ],
+        "title": "AnalyticDistribution"
+      },
+      "backbone_common__models__invoicing__common__AnalyticDistributionDetail": {
+        "properties": {
+          "analytic_account_code": {
+            "type": "string",
+            "title": "Analytic Account Code",
+            "description": "Code of the analytic account."
+          },
+          "analytic_account_id": {
+            "type": "string",
+            "title": "Analytic Account Id",
+            "description": "Id of the analytic account."
+          },
+          "percentage": {
+            "type": "number",
+            "title": "Percentage",
+            "description": "Percentage of the untaxed amount attributed to this analytic account. Only whole numbers (no decimals) are allowed. The total across the analytic distribution (all accounts in a given analytic plan) must equal 100%."
+          }
+        },
+        "type": "object",
+        "required": [
+          "analytic_account_code",
+          "analytic_account_id",
+          "percentage"
+        ],
+        "title": "AnalyticDistributionDetail"
       },
       "backbone_common__models__invoicing__common__AnalyticPlanItem": {
         "properties": {
