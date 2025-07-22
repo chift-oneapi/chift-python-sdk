@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.4 - 2025-07-22
+* add the internal x-chift-extra-context header
+
 ## 0.3.3 - 2025-06-25
 * update of the `total` field renamed to `amount` for the payment endpoint
 

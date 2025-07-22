@@ -1,3 +1,4 @@
+import base64
 import http.client as httplib
 import json
 from datetime import datetime
@@ -113,6 +114,7 @@ class ChiftClient:
 
     def _start_session(self):
         self.ignored_error_codes = []
+        self.extra_context = None
         if self.test_client:
             self.url_base = ""  # set to empty string to avoid url_base in the request
             self.test_auth = ChiftAuth(
@@ -175,6 +177,15 @@ class ChiftClient:
 
         if self.ignored_error_codes:
             headers["x-chift-ignored-error-codes"] = ",".join(self.ignored_error_codes)
+
+        if self.extra_context:
+            # used to pass extra context about the request to chift
+            try:
+                headers["x-chift-extra-context"] = base64.b64encode(
+                    json.dumps(self.extra_context).encode("utf-8")
+                ).decode("utf-8")
+            except Exception:
+                pass
 
         try:
             req = self.process_request(
@@ -325,3 +336,6 @@ class ChiftClient:
 
     def set_ignored_error_codes(self, ignored_error_codes=[]):
         self.ignored_error_codes = ignored_error_codes
+
+    def set_extra_context(self, extra_context=None):
+        self.extra_context = extra_context
