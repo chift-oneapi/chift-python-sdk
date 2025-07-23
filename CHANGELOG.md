@@ -1,4 +1,6 @@
 # Changelog
+## 0.3.4 - 2025-07-16
+* add multiplan analytic acccounting route
 
 ## 0.3.4 - 2025-07-22
 * add the internal x-chift-extra-context header

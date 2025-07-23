@@ -9,9 +9,9 @@ from .openapi import (
     AccountingVatCode,
     AccountItem,
     AnalyticAccountItemOutMultiAnalyticPlans,
-    AnalyticPlanItem,
     AttachmentItemOut,
     BackboneApiAppRoutersConnectionsConnectionItem,
+    BackboneCommonModelsAccountingCommonAnalyticPlanItem,
     BackboneCommonModelsPosCommonProductCategoryItem,
     BalanceItemOut,
     BankAccountItemOut,
@@ -30,6 +30,7 @@ from .openapi import (
     FinancialEntryItemOut,
     IntegrationItem,
     InvoiceItemOutMonoAnalyticPlan,
+    InvoiceItemOutMultiAnalyticPlans,
     InvoiceItemOutSingle,
     InvoicingPaymentItem,
     InvoicingPaymentMethodItem,
@@ -320,7 +321,7 @@ class InvoicingPaymentMethod(InvoicingPaymentMethodItem):
 
 
 # accounting
-class AnalyticPlan(AnalyticPlanItem):
+class AnalyticPlan(BackboneCommonModelsAccountingCommonAnalyticPlanItem):
     pass
 
 
@@ -353,6 +354,10 @@ class Employee(EmployeeItem):
 
 
 class InvoiceAccounting(InvoiceItemOutMonoAnalyticPlan):
+    pass
+
+
+class InvoiceMultiPlanAccounting(InvoiceItemOutMultiAnalyticPlans):
     pass
 
 
