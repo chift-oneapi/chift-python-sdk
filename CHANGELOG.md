@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.5 - 2025-07-23
+* add 'service' type as line item type for POS
+
 ## 0.3.4 - 2025-07-22
 * add the internal x-chift-extra-context header
 

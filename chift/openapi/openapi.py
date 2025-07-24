@@ -1368,6 +1368,7 @@ class POSLineItemType(Enum):
     menu = "menu"
     product = "product"
     general_discount = "general_discount"
+    service = "service"
 
 
 class POSLocationItem(BaseModel):

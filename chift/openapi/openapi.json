@@ -21368,7 +21368,7 @@
       },
       "POSLineItemType": {
         "type": "string",
-        "enum": ["menu", "product", "general_discount"],
+        "enum": ["menu", "product", "general_discount", "service"],
         "title": "POSLineItemType"
       },
       "POSLocationItem": {
