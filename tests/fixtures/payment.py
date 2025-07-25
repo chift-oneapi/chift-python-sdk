@@ -9,7 +9,7 @@ TRANSACTIONS_ALL = {
             "source_ref": {"id": "tx_123", "model": "Transaction"},
             "total": 100.0,
             "fee": 2.5,
-            "amount":100,
+            "amount": 100,
             "currency": "EUR",
             "exchange_rate": 1.0,
             "create_date": datetime.now().isoformat(),
