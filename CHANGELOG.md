@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.3.6 - 2025-07-25
+
+* add comprehensive field descriptions across all models
+* add new models: `FECItemOut`, `ExtendedIssueItem`, `IssueEvent`, `ChiftPageObjectivesItem`, `FolderAddressItem`
+* update `BankAccount` models: make IBAN optional, add account_number field
+* add date field to `ObjectivesItem`
+* fix default values for POS/PMS order fields (discount, refund, tip, delivery_fee)
+* add last_updated_on and sku fields to `ProductItemOutput`
+* add last_payment_date to `InvoiceItemOut` models
+* add other_currencies_allowed field to `Journal` model
+* improve field validation and constraints
+
 ## 0.3.5 - 2025-07-23
 * add 'service' type as line item type for POS
 
