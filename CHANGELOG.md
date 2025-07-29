@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.8 - 2025-07-29
+
+* add object to handle invoices with multiple analytic plans
+
 ## 0.3.7 - 2025-07-29
 
 * add due_dates field on Invoices and Journal Entries

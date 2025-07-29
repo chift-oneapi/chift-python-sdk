@@ -30,6 +30,7 @@ from .openapi import (
     FinancialEntryItemOut,
     IntegrationItem,
     InvoiceItemOutMonoAnalyticPlan,
+    InvoiceItemOutMultiAnalyticPlans,
     InvoiceItemOutSingle,
     InvoicingPaymentItem,
     InvoicingPaymentMethodItem,
@@ -353,6 +354,10 @@ class Employee(EmployeeItem):
 
 
 class InvoiceAccounting(InvoiceItemOutMonoAnalyticPlan):
+    pass
+
+
+class InvoiceMultiPlanAccounting(InvoiceItemOutMultiAnalyticPlans):
     pass
 
 

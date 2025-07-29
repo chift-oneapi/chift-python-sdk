@@ -2994,7 +2994,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "responses": {
@@ -3095,7 +3096,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "responses": {
@@ -3170,7 +3172,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           },
           {
             "name": "force_merge",
@@ -3186,7 +3189,8 @@
                 }
               ],
               "title": "Force Merge"
-            }
+            },
+            "description": "Indicate the ID of the corresponding supplier in the accounting system. Accounting systems using 1 entity to handle clients/customers and suppliers will merge the existing supplier with the new client/customer (if the parameter is filled in with the ID of an existing supplier)."
           }
         ],
         "requestBody": {
@@ -3296,7 +3300,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           },
           {
             "name": "search",
@@ -3312,7 +3317,8 @@
                 }
               ],
               "title": "Search"
-            }
+            },
+            "description": "Filter based on the following fields: name, email, first_name, last_name, external_reference, vat and company_number"
           },
           {
             "name": "updated_after",
@@ -3329,7 +3335,8 @@
                 }
               ],
               "title": "Updated After"
-            }
+            },
+            "description": "Retrieve clients created or updated after a specific datetime (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC). UTC is the only format that is supported on all connectors."
           }
         ],
         "responses": {
@@ -3413,7 +3420,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "requestBody": {
@@ -3519,7 +3527,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "responses": {
@@ -3608,7 +3617,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           },
           {
             "name": "force_merge",
@@ -3624,7 +3634,8 @@
                 }
               ],
               "title": "Force Merge"
-            }
+            },
+            "description": "Indicate the ID of the corresponding client/customer in the accounting system. Accounting systems using 1 entity to handle clients/customers and suppliers will merge the existing client/customer with the new supplier (if the parameter is filled in with the ID of an existing client/customer)."
           }
         ],
         "requestBody": {
@@ -3734,7 +3745,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           },
           {
             "name": "search",
@@ -3750,7 +3762,8 @@
                 }
               ],
               "title": "Search"
-            }
+            },
+            "description": "Filter based on the following fields: name, email, first_name, last_name, external_reference, vat and company_number"
           },
           {
             "name": "updated_after",
@@ -3767,7 +3780,8 @@
                 }
               ],
               "title": "Updated After"
-            }
+            },
+            "description": "Retrieve suppliers created or updated after a specific datetime (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC). UTC is the only format that is supported on all connectors."
           }
         ],
         "responses": {
@@ -3851,7 +3865,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "responses": {
@@ -3947,7 +3962,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "requestBody": {
@@ -4046,7 +4062,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           },
           {
             "name": "force_financial_period",
@@ -4062,7 +4079,8 @@
                 }
               ],
               "title": "Force Financial Period"
-            }
+            },
+            "description": "Forces financial period in which the invoice must be created. This will create the invoice in the forced financial period rather than the current period. The format is: mmYYYY."
           },
           {
             "name": "regroup_lines",
@@ -4079,7 +4097,8 @@
               ],
               "default": "true",
               "title": "Regroup Lines"
-            }
+            },
+            "description": "Allow to regroup invoice lines by account number, tax code and analytic account in the accounting system."
           }
         ],
         "requestBody": {
@@ -4178,7 +4197,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           },
           {
             "name": "force_financial_period",
@@ -4194,7 +4214,8 @@
                 }
               ],
               "title": "Force Financial Period"
-            }
+            },
+            "description": "Forces financial period in which the invoice must be created. This will create the invoice in the forced financial period rather than the current period. The format is: mmYYYY."
           },
           {
             "name": "regroup_lines",
@@ -4211,7 +4232,8 @@
               ],
               "default": "true",
               "title": "Regroup Lines"
-            }
+            },
+            "description": "Regroup lines by account number, tax code and analytic distribution in the accounting system."
           }
         ],
         "requestBody": {
@@ -4345,7 +4367,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           },
           {
             "name": "date_from",
@@ -4395,7 +4418,8 @@
                 }
               ],
               "title": "Journal Ids"
-            }
+            },
+            "description": "Journal Ids used to filter the invoices. The Ids are separated by ','"
           },
           {
             "name": "include_payments",
@@ -4412,7 +4436,8 @@
               ],
               "default": "false",
               "title": "Include Payments"
-            }
+            },
+            "description": "Indicate if payments linked to the invoices should be included in the response. By default payments are not included and the field payments is null."
           },
           {
             "name": "payment_status",
@@ -4429,7 +4454,8 @@
               ],
               "default": "all",
               "title": "Payment Status"
-            }
+            },
+            "description": "Extra filter to retrieve invoices with a specific payment status."
           },
           {
             "name": "updated_after",
@@ -4446,7 +4472,8 @@
                 }
               ],
               "title": "Updated After"
-            }
+            },
+            "description": "Retrieve invoices created or updated after a specific datetime (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC). UTC is the only format that is supported on all connectors."
           },
           {
             "name": "include_invoice_lines",
@@ -4463,7 +4490,8 @@
               ],
               "default": "false",
               "title": "Include Invoice Lines"
-            }
+            },
+            "description": "Indicate if invoice lines should be included in the response. By default invoice lines are not included when this requires extra requests on the target API."
           },
           {
             "name": "include_partner_info",
@@ -4480,7 +4508,8 @@
               ],
               "default": "false",
               "title": "Include Partner Info"
-            }
+            },
+            "description": "Indicate if partner (client/supplier) information should be included in the response. By default partner information is not included when it requires extra requests on the target API to be retrieved."
           }
         ],
         "responses": {
@@ -4590,7 +4619,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           },
           {
             "name": "date_from",
@@ -4640,7 +4670,8 @@
                 }
               ],
               "title": "Journal Ids"
-            }
+            },
+            "description": "Journal Ids used to filter the invoices. The Ids are separated by ','"
           },
           {
             "name": "include_payments",
@@ -4657,7 +4688,8 @@
               ],
               "default": "false",
               "title": "Include Payments"
-            }
+            },
+            "description": "Indicate if payments linked to the invoices should be included in the response. By default payments are not included and the field payments is null."
           },
           {
             "name": "payment_status",
@@ -4674,7 +4706,8 @@
               ],
               "default": "all",
               "title": "Payment Status"
-            }
+            },
+            "description": "Extra filter to retrieve invoices with a specific payment status."
           },
           {
             "name": "updated_after",
@@ -4691,7 +4724,8 @@
                 }
               ],
               "title": "Updated After"
-            }
+            },
+            "description": "Retrieve invoices created or updated after a specific datetime (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC). UTC is the only format that is supported on all connectors."
           },
           {
             "name": "include_invoice_lines",
@@ -4708,7 +4742,8 @@
               ],
               "default": "false",
               "title": "Include Invoice Lines"
-            }
+            },
+            "description": "Indicate if invoice lines should be included in the response. By default invoice lines are not included when this requires extra requests on the target API."
           },
           {
             "name": "include_partner_info",
@@ -4725,7 +4760,8 @@
               ],
               "default": "false",
               "title": "Include Partner Info"
-            }
+            },
+            "description": "Indicate if partner (client/supplier) information should be included in the response. By default partner information is not included when it requires extra requests on the target API to be retrieved."
           }
         ],
         "responses": {
@@ -4809,7 +4845,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           },
           {
             "name": "include_payments",
@@ -4826,7 +4863,8 @@
               ],
               "default": "false",
               "title": "Include Payments"
-            }
+            },
+            "description": "Indicate if payments linked to the invoice should be included in the response. By default payments are not included and the field payments is null."
           },
           {
             "name": "include_invoice_lines",
@@ -4843,7 +4881,8 @@
               ],
               "default": "false",
               "title": "Include Invoice Lines"
-            }
+            },
+            "description": "Indicate if invoice lines should be included in the response. By default invoice lines are not included when this requires extra requests on the target API."
           },
           {
             "name": "include_partner_info",
@@ -4860,7 +4899,8 @@
               ],
               "default": "false",
               "title": "Include Partner Info"
-            }
+            },
+            "description": "Indicate if partner (client/supplier) information should be included in the response. By default partner information is not included when it requires extra requests on the target API to be retrieved."
           }
         ],
         "responses": {
@@ -4958,7 +4998,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           },
           {
             "name": "include_payments",
@@ -4975,7 +5016,8 @@
               ],
               "default": "false",
               "title": "Include Payments"
-            }
+            },
+            "description": "Indicate if payments linked to the invoice should be included in the response. By default payments are not included and the field payments is null."
           },
           {
             "name": "include_invoice_lines",
@@ -4992,7 +5034,8 @@
               ],
               "default": "false",
               "title": "Include Invoice Lines"
-            }
+            },
+            "description": "Indicate if invoice lines should be included in the response. By default invoice lines are not included when this requires extra requests on the target API."
           },
           {
             "name": "include_partner_info",
@@ -5009,7 +5052,8 @@
               ],
               "default": "false",
               "title": "Include Partner Info"
-            }
+            },
+            "description": "Indicate if partner (client/supplier) information should be included in the response. By default partner information is not included when it requires extra requests on the target API to be retrieved."
           }
         ],
         "responses": {
@@ -5098,7 +5142,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "requestBody": {
@@ -5183,7 +5228,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "requestBody": {
@@ -5268,7 +5314,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "requestBody": {
@@ -5378,7 +5425,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "responses": {
@@ -5462,7 +5510,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "requestBody": {
@@ -5556,7 +5605,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "requestBody": {
@@ -5662,7 +5712,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "responses": {
@@ -5769,7 +5820,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "requestBody": {
@@ -5884,7 +5936,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "responses": {
@@ -6000,7 +6053,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "responses": {
@@ -6102,7 +6156,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           },
           {
             "name": "unposted_allowed",
@@ -6136,7 +6191,8 @@
                 }
               ],
               "title": "Date From"
-            }
+            },
+            "description": "Accounting date from which the journal entries will be retrieved (this date will be included in the response). This parameter is mandatory if the 'updated_after' parameter is not provided."
           },
           {
             "name": "date_to",
@@ -6153,7 +6209,8 @@
                 }
               ],
               "title": "Date To"
-            }
+            },
+            "description": "Accounting date until which the journal entries will be retrieved (this date will be included in the response). This parameter is mandatory if the 'updated_after' parameter is not provided."
           },
           {
             "name": "updated_after",
@@ -6170,7 +6227,8 @@
                 }
               ],
               "title": "Updated After"
-            }
+            },
+            "description": "When provided only journal entries modified or created after this datetime will be retrieved (this datetime will NOT be included in the response). E.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC, UTC is the only format that is supported on all connectors."
           },
           {
             "name": "partner_id",
@@ -6223,107 +6281,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Accounting",
-          "Journal entries"
-        ],
-        "summary": "Create Journal Entry [Deprecated]",
-        "description": "Create a new Journal Entry in the accounting system",
-        "operationId": "accounting_create_journal_entry",
-        "parameters": [
-          {
-            "name": "consumer_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Consumer Id"
-            }
-          },
-          {
-            "name": "folder_id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Folder Id"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/JournalEntryIn"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/JournalEntryMultiAnalyticPlan"
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "A sale/purchase entry cannot be linked to multiple partner accounts.",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Debit and credit cannot be both positive.",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Unprocessable Entity"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "The currency doesn't exist or is not active in the accounting system.",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Not Found"
           }
         }
       }
@@ -6389,7 +6346,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           },
           {
             "name": "unposted_allowed",
@@ -6423,7 +6381,8 @@
                 }
               ],
               "title": "Date From"
-            }
+            },
+            "description": "Accounting date from which the journal entries will be retrieved (this date will be included in the response). This parameter is mandatory if the 'updated_after' parameter is not provided."
           },
           {
             "name": "date_to",
@@ -6440,7 +6399,8 @@
                 }
               ],
               "title": "Date To"
-            }
+            },
+            "description": "Accounting date until which the journal entries will be retrieved (this date will be included in the response).This parameter is mandatory if the 'updated_after' parameter is not provided."
           },
           {
             "name": "updated_after",
@@ -6457,7 +6417,8 @@
                 }
               ],
               "title": "Updated After"
-            }
+            },
+            "description": "When provided only journal entries modified or created after this datetime will be retrieved (this datetime will NOT be included in the response). E.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC, UTC is the only format that is supported on all connectors."
           },
           {
             "name": "partner_id",
@@ -6557,7 +6518,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "responses": {
@@ -6646,7 +6608,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           },
           {
             "name": "force_currency_exchange",
@@ -6663,7 +6626,8 @@
               ],
               "default": "false",
               "title": "Force Currency Exchange"
-            }
+            },
+            "description": "Boolean flag indicating whether to force the use of the provided currency exchange rate instead of the rate used by the accounting software. "
           }
         ],
         "requestBody": {
@@ -6802,7 +6766,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "responses": {
@@ -6918,7 +6883,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "responses": {
@@ -6993,7 +6959,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "requestBody": {
@@ -7119,7 +7086,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "responses": {
@@ -7194,7 +7162,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "requestBody": {
@@ -7318,7 +7287,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           },
           {
             "name": "date_from",
@@ -7368,7 +7338,8 @@
                 }
               ],
               "title": "Journal Ids"
-            }
+            },
+            "description": "Journal Ids used to filter the invoices. The Ids are separed by ','"
           }
         ],
         "responses": {
@@ -7452,7 +7423,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "responses": {
@@ -7527,7 +7499,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "requestBody": {
@@ -7626,7 +7599,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "requestBody": {
@@ -7738,7 +7712,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           },
           {
             "name": "overwrite_existing",
@@ -7755,7 +7730,8 @@
               ],
               "default": "false",
               "title": "Overwrite Existing"
-            }
+            },
+            "description": "Indicate what to do if a document is already attched to the invoice."
           }
         ],
         "requestBody": {
@@ -7847,7 +7823,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           },
           {
             "name": "type",
@@ -7993,7 +7970,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           },
           {
             "name": "classes",
@@ -8009,7 +7987,8 @@
                 }
               ],
               "title": "Classes"
-            }
+            },
+            "description": "Filter based on the class of the account (e.g. 6,7 to retrieve 6 and 7 account classes). The classes are separated by ','."
           },
           {
             "name": "type",
@@ -8025,7 +8004,8 @@
                 }
               ],
               "title": "Type"
-            }
+            },
+            "description": "Filter based on the type of the account (e.g. bank, cash, income, expense, vat)."
           }
         ],
         "responses": {
@@ -8127,7 +8107,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "requestBody": {
@@ -8239,7 +8220,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           }
         ],
         "responses": {
@@ -8266,121 +8248,6 @@
               }
             },
             "description": "Bad Request"
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/consumers/{consumer_id}/accounting/financial-entry": {
-      "post": {
-        "tags": [
-          "Accounting",
-          "Journal entries"
-        ],
-        "summary": "Create a financial entry [Deprecated]",
-        "description": "Create a new financial entry (Bank or Cash operation)",
-        "operationId": "accounting_create_financial_entry",
-        "parameters": [
-          {
-            "name": "consumer_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Consumer Id"
-            }
-          },
-          {
-            "name": "folder_id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Folder Id"
-            }
-          },
-          {
-            "name": "financial_counterpart_account",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Financial Counterpart Account"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/FinancialEntryItemInOld"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FinancialEntryItemOutOld"
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "The account 'x' cannot be used for this type of line.",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "The currency 'x' doesn't exist in the accounting system.",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Not Found"
           },
           "422": {
             "description": "Validation Error",
@@ -8429,7 +8296,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           },
           {
             "name": "financial_counterpart_account",
@@ -8445,7 +8313,8 @@
                 }
               ],
               "title": "Financial Counterpart Account"
-            }
+            },
+            "description": "Number of ledger account representing bank account in accounting. Required in cases where the connector does not allow direct linking of the ledger account representing the bank account and the journal representing the bank account, making it necessary to specify it here."
           }
         ],
         "requestBody": {
@@ -8571,7 +8440,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           },
           {
             "name": "type",
@@ -8662,7 +8532,8 @@
                 }
               ],
               "title": "Folder Id"
-            }
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
           },
           {
             "name": "date_from",
@@ -8672,7 +8543,8 @@
               "type": "string",
               "format": "date",
               "title": "Date From"
-            }
+            },
+            "description": "Start date for the FEC export."
           },
           {
             "name": "date_to",
@@ -8682,7 +8554,8 @@
               "type": "string",
               "format": "date",
               "title": "Date To"
-            }
+            },
+            "description": "End date for the FEC export."
           }
         ],
         "responses": {
@@ -8789,7 +8662,8 @@
                 }
               ],
               "title": "Date From"
-            }
+            },
+            "description": "Start date (inclusive) of the period to get orders from"
           },
           {
             "name": "date_to",
@@ -8806,7 +8680,8 @@
                 }
               ],
               "title": "Date To"
-            }
+            },
+            "description": "End date (inclusive) of the period to get orders from"
           },
           {
             "name": "location_id",
@@ -8822,7 +8697,8 @@
                 }
               ],
               "title": "Location Id"
-            }
+            },
+            "description": "Unique identifier of the location. If none passed, orders from all locations will be returned unless the location was selected by the end-user"
           },
           {
             "name": "state",
@@ -8831,7 +8707,8 @@
             "schema": {
               "$ref": "#/components/schemas/States",
               "default": "all"
-            }
+            },
+            "description": "State of the orders to get"
           },
           {
             "name": "closure_id",
@@ -8847,7 +8724,8 @@
                 }
               ],
               "title": "Closure Id"
-            }
+            },
+            "description": "Unique identifier of the closure. If none passed, orders from all closures will be selected."
           }
         ],
         "responses": {
@@ -8943,7 +8821,8 @@
             "schema": {
               "type": "string",
               "title": "Order Id"
-            }
+            },
+            "description": "Unique identifier of the order"
           }
         ],
         "responses": {
@@ -9051,7 +8930,8 @@
             "schema": {
               "type": "string",
               "title": "Order Id"
-            }
+            },
+            "description": "Unique identifier of the order"
           }
         ],
         "requestBody": {
@@ -9299,7 +9179,8 @@
               "type": "string",
               "format": "date",
               "title": "Date From"
-            }
+            },
+            "description": "Start date (inclusive) of the period to get payments from"
           },
           {
             "name": "date_to",
@@ -9309,7 +9190,8 @@
               "type": "string",
               "format": "date",
               "title": "Date To"
-            }
+            },
+            "description": "End date (inclusive) of the period to get payments from"
           }
         ],
         "responses": {
@@ -9406,7 +9288,8 @@
               "type": "string",
               "format": "date",
               "title": "Date From"
-            }
+            },
+            "description": "Start date (inclusive) of the period to get sales from"
           },
           {
             "name": "date_to",
@@ -9416,7 +9299,8 @@
               "type": "string",
               "format": "date",
               "title": "Date To"
-            }
+            },
+            "description": "End date (inclusive) of the period to get sales from"
           },
           {
             "name": "location_id",
@@ -9432,7 +9316,8 @@
                 }
               ],
               "title": "Location Id"
-            }
+            },
+            "description": "Unique identifier of the location. If none passed, sales from all locations will be returned unless the location was selected by the end-user"
           }
         ],
         "responses": {
@@ -9562,7 +9447,8 @@
                 }
               ],
               "title": "Location Id"
-            }
+            },
+            "description": "Unique identifier of the location If none passed, payment methods from all locations will be returned unless the location was selected by the end-user"
           }
         ],
         "responses": {
@@ -9693,7 +9579,8 @@
                 }
               ],
               "title": "Search"
-            }
+            },
+            "description": "Filter based on other parameters than the email/phone, e.g. firstname, lastname"
           },
           {
             "name": "email",
@@ -9709,7 +9596,8 @@
                 }
               ],
               "title": "Email"
-            }
+            },
+            "description": "Filter based on email of customer"
           },
           {
             "name": "phone",
@@ -9725,7 +9613,8 @@
                 }
               ],
               "title": "Phone"
-            }
+            },
+            "description": "Filter based on phone of customer"
           }
         ],
         "responses": {
@@ -9917,7 +9806,8 @@
             "schema": {
               "type": "string",
               "title": "Customer Id"
-            }
+            },
+            "description": "Unique identifier of the customer"
           }
         ],
         "responses": {
@@ -10061,7 +9951,8 @@
                 }
               ],
               "title": "Location Id"
-            }
+            },
+            "description": "Unique identifier of the location. If none passed, product categories from all locations will be returned unless the location was selected by the end-user"
           },
           {
             "name": "only_parents",
@@ -10070,7 +9961,8 @@
             "schema": {
               "$ref": "#/components/schemas/BoolParam",
               "default": "false"
-            }
+            },
+            "description": "If true, only parent categories will be returned"
           }
         ],
         "responses": {
@@ -10200,7 +10092,8 @@
                 }
               ],
               "title": "Location Id"
-            }
+            },
+            "description": "Unique identifier of the location. If none passed, products from all locations will be returned unless the location was selected by the end-user"
           }
         ],
         "responses": {
@@ -10330,7 +10223,8 @@
                 }
               ],
               "title": "Location Id"
-            }
+            },
+            "description": "Unique identifier of the location. If none passed, accounting categories from all locations will be returned unless the location was selected by the end-user"
           }
         ],
         "responses": {
@@ -10427,7 +10321,8 @@
               "type": "string",
               "format": "date",
               "title": "Date"
-            }
+            },
+            "description": "Filter based on the date of the closure"
           },
           {
             "name": "location_id",
@@ -10443,7 +10338,8 @@
                 }
               ],
               "title": "Location Id"
-            }
+            },
+            "description": "Unique identifier of the location. If none passed, closures from all locations will be returned unless the location was selected by the end-user"
           }
         ],
         "responses": {
@@ -10566,7 +10462,8 @@
               "type": "string",
               "format": "date",
               "title": "Date From"
-            }
+            },
+            "description": "Start date (inclusive) of the period to get payments from"
           },
           {
             "name": "date_to",
@@ -10576,7 +10473,8 @@
               "type": "string",
               "format": "date",
               "title": "Date To"
-            }
+            },
+            "description": "End date (inclusive) of the period to get payments from"
           }
         ],
         "responses": {
@@ -10875,7 +10773,8 @@
                 }
               ],
               "title": "Updated After"
-            }
+            },
+            "description": "Retrieve products updated after a specific datetime (e.g. 2025-01-31T15:00:00 for 31 of January 2025 at 3PM UTC). UTC is the only format that is supported on all connectors."
           },
           {
             "name": "sku",
@@ -10891,7 +10790,8 @@
                 }
               ],
               "title": "Sku"
-            }
+            },
+            "description": "SKU of the product. Supports multiple values separated by comma"
           }
         ],
         "responses": {
@@ -11336,7 +11236,8 @@
                 }
               ],
               "title": "Date From"
-            }
+            },
+            "description": "Filter orders created at or after this date (e.g. 2023-01-31)"
           },
           {
             "name": "date_to",
@@ -11353,7 +11254,8 @@
                 }
               ],
               "title": "Date To"
-            }
+            },
+            "description": "Filter orders created at or before this date (e.g. 2023-01-31)"
           },
           {
             "name": "updated_after",
@@ -11370,7 +11272,8 @@
                 }
               ],
               "title": "Updated After"
-            }
+            },
+            "description": "Filter orders last updated at or after this date (e.g. 2023-01-31T15:00:00 for 31 of January 2023 at 3PM UTC). UTC is the only format that is supported on all connectors."
           },
           {
             "name": "include_detailed_refunds",
@@ -11387,7 +11290,8 @@
               ],
               "default": "false",
               "title": "Include Detailed Refunds"
-            }
+            },
+            "description": "Include detailed information concerning refunds"
           },
           {
             "name": "include_product_categories",
@@ -11404,7 +11308,8 @@
               ],
               "default": "false",
               "title": "Include Product Categories"
-            }
+            },
+            "description": "Include detailed information about categories"
           },
           {
             "name": "include_customer_details",
@@ -11421,7 +11326,8 @@
               ],
               "default": "true",
               "title": "Include Customer Details"
-            }
+            },
+            "description": "Include detailed information about customer"
           }
         ],
         "responses": {
@@ -11577,7 +11483,8 @@
               ],
               "default": "false",
               "title": "Include Product Categories"
-            }
+            },
+            "description": "Include detailed information about categories"
           }
         ],
         "responses": {
@@ -12132,7 +12039,8 @@
               ],
               "default": "false",
               "title": "Include Invoice Lines"
-            }
+            },
+            "description": "Include the invoice lines in the response. By default, invoice lines are included when no extra request is needed to fetch them. If you want to include them explicitly, set this parameter to true."
           }
         ],
         "responses": {
@@ -12284,7 +12192,8 @@
               ],
               "default": "false",
               "title": "Include Pdf"
-            }
+            },
+            "description": "Include the invoice PDF as a base64 encoded string in the response"
           }
         ],
         "responses": {
@@ -13960,7 +13869,8 @@
               ],
               "default": "all",
               "title": "Accounting Category"
-            }
+            },
+            "description": "Filter based on the type of the transaction."
           },
           {
             "name": "starting_from",
@@ -13976,7 +13886,8 @@
                 }
               ],
               "title": "Starting From"
-            }
+            },
+            "description": "Get all transactions more recent than this one excluded"
           },
           {
             "name": "balance_id",
@@ -13992,7 +13903,8 @@
                 }
               ],
               "title": "Balance Id"
-            }
+            },
+            "description": "Get all transactions for a specific balance"
           },
           {
             "name": "date_from",
@@ -14330,7 +14242,8 @@
                 }
               ],
               "title": "Payment Id"
-            }
+            },
+            "description": "Optional payment ID, to retrieve all refunds associated with that payment."
           },
           {
             "name": "date_from",
@@ -23083,90 +22996,6 @@
         ],
         "title": "FinancialEntryItemIn"
       },
-      "FinancialEntryItemInOld": {
-        "properties": {
-          "date": {
-            "type": "string",
-            "format": "date",
-            "title": "Date",
-            "description": "Accounting date of the financial entry (format: YYYY-MM-DD). This is the date when the financial entry is recorded in the accounting system."
-          },
-          "journal_id": {
-            "type": "string",
-            "title": "Journal Id",
-            "description": "Id of the journal instance in the accounting system in which the financial entry is recorded."
-          },
-          "currency": {
-            "type": "string",
-            "title": "Currency",
-            "description": "Indicates the currency of the operation (e.g., EUR, USD)."
-          },
-          "currency_exchange_rate": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Currency Exchange Rate",
-            "description": "Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the folder's default currency.",
-            "default": 1
-          },
-          "reference": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Reference",
-            "description": "Optional reference field that can be used for lettering by storing an external or contextual identifier related to the entry . For example, it can be used to store a reference number, such as the invoice number associated with the payment."
-          },
-          "number": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Number"
-          },
-          "items": {
-            "items": {
-              "$ref": "#/components/schemas/FinancialEntryLineItemOld"
-            },
-            "type": "array",
-            "minItems": 1,
-            "title": "Items"
-          },
-          "pdf": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Pdf",
-            "description": "Base 64 string representing the PDF attached to the sale/purchase entry."
-          }
-        },
-        "type": "object",
-        "required": [
-          "date",
-          "journal_id",
-          "currency",
-          "items"
-        ],
-        "title": "FinancialEntryItemInOld"
-      },
       "FinancialEntryItemOut": {
         "properties": {
           "date": {
@@ -23239,76 +23068,6 @@
         ],
         "title": "FinancialEntryItemOut"
       },
-      "FinancialEntryItemOutOld": {
-        "properties": {
-          "date": {
-            "type": "string",
-            "format": "date",
-            "title": "Date",
-            "description": "Accounting date of the financial entry (format: YYYY-MM-DD). This is the date when the financial entry is recorded in the accounting system."
-          },
-          "journal_id": {
-            "type": "string",
-            "title": "Journal Id",
-            "description": "Id of the journal instance in the accounting system in which the financial entry is recorded."
-          },
-          "currency": {
-            "type": "string",
-            "title": "Currency",
-            "description": "Indicates the currency of the operation (e.g., EUR, USD)."
-          },
-          "currency_exchange_rate": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Currency Exchange Rate",
-            "description": "Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the folder's default currency.",
-            "default": 1
-          },
-          "reference": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Reference",
-            "description": "Optional reference field that can be used for lettering by storing an external or contextual identifier related to the entry . For example, it can be used to store a reference number, such as the invoice number associated with the payment."
-          },
-          "id": {
-            "type": "string",
-            "title": "Id"
-          },
-          "number": {
-            "type": "string",
-            "title": "Number"
-          },
-          "items": {
-            "items": {
-              "$ref": "#/components/schemas/FinancialEntryLineItemOutOld"
-            },
-            "type": "array",
-            "title": "Items"
-          }
-        },
-        "type": "object",
-        "required": [
-          "date",
-          "journal_id",
-          "currency",
-          "id",
-          "number",
-          "items"
-        ],
-        "title": "FinancialEntryItemOutOld"
-      },
       "FinancialEntryLineItem": {
         "properties": {
           "account_type": {
@@ -23346,52 +23105,6 @@
           "amount"
         ],
         "title": "FinancialEntryLineItem"
-      },
-      "FinancialEntryLineItemOld": {
-        "properties": {
-          "type": {
-            "$ref": "#/components/schemas/EntryLineType"
-          },
-          "account_number": {
-            "type": "string",
-            "title": "Account Number"
-          },
-          "partner_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Partner Id",
-            "description": "Must be filled in it is a 'customer_account', 'supplier_account' or 'employee_account' line type."
-          },
-          "amount": {
-            "type": "number",
-            "title": "Amount",
-            "description": "A positive amount represents funds transfered to the bank/cash account. In that case the bank/cash account is debited and the given account_number is credited."
-          },
-          "description": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Description"
-          }
-        },
-        "type": "object",
-        "required": [
-          "type",
-          "account_number",
-          "amount"
-        ],
-        "title": "FinancialEntryLineItemOld"
       },
       "FinancialEntryLineItemOut": {
         "properties": {
@@ -23435,57 +23148,6 @@
           "counterpart_account"
         ],
         "title": "FinancialEntryLineItemOut"
-      },
-      "FinancialEntryLineItemOutOld": {
-        "properties": {
-          "type": {
-            "$ref": "#/components/schemas/EntryLineType"
-          },
-          "account_number": {
-            "type": "string",
-            "title": "Account Number"
-          },
-          "partner_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Partner Id",
-            "description": "Must be filled in it is a 'customer_account', 'supplier_account' or 'employee_account' line type."
-          },
-          "amount": {
-            "type": "number",
-            "title": "Amount",
-            "description": "A positive amount represents funds transfered to the bank/cash account. In that case the bank/cash account is debited and the given account_number is credited."
-          },
-          "description": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Description"
-          },
-          "counterpart_account": {
-            "type": "string",
-            "title": "Counterpart Account"
-          }
-        },
-        "type": "object",
-        "required": [
-          "type",
-          "account_number",
-          "amount",
-          "counterpart_account"
-        ],
-        "title": "FinancialEntryLineItemOutOld"
       },
       "FlowConfig-Input": {
         "properties": {
@@ -24344,6 +24006,12 @@
               "FR",
               "ES"
             ]
+          },
+          "local_agent": {
+            "type": "boolean",
+            "title": "Local Agent",
+            "description": "This field indicate if the integration is a local agent.",
+            "default": false
           }
         },
         "type": "object",
@@ -25293,6 +24961,19 @@
             "title": "Outstanding Amount",
             "description": "Amount left to be paid"
           },
+          "last_payment_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Payment Date",
+            "description": "Date of the last payment linked to the invoice"
+          },
           "accounting_date": {
             "anyOf": [
               {
@@ -25918,6 +25599,19 @@
             ],
             "title": "Outstanding Amount",
             "description": "Amount left to be paid"
+          },
+          "last_payment_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Payment Date",
+            "description": "Date of the last payment linked to the invoice"
           },
           "accounting_date": {
             "anyOf": [
@@ -27227,79 +26921,6 @@
         ],
         "title": "Journal"
       },
-      "JournalEntryIn": {
-        "properties": {
-          "reference": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Reference",
-            "description": "Optional reference field used to store an external or contextual identifier related to the entry. For example, it can be used to store a reference number, the invoice number issued by the suppllier or any other relevant information."
-          },
-          "due_date": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Due Date",
-            "description": "If the journal entry relates to an invoice, this is the due date for payment or settlement (format: YYYY-MM-DD)."
-          },
-          "journal_id": {
-            "type": "string",
-            "title": "Journal Id",
-            "description": "Id of the journal instance in the accounting system in which the journal entry is recorded."
-          },
-          "name": {
-            "type": "string",
-            "title": "Name"
-          },
-          "date": {
-            "type": "string",
-            "format": "date",
-            "title": "Date",
-            "description": "Accounting date of the journal entry (format: YYYY-MM-DD)."
-          },
-          "items": {
-            "items": {
-              "$ref": "#/components/schemas/JournalItemIn"
-            },
-            "type": "array",
-            "minItems": 2,
-            "title": "Items",
-            "description": "List of journal items that make up the journal entry. Each item represents a line in the journal entry, and the sum of debits must equal the sum of credits to ensure the entry is balanced. There must always be at least 2 lines/items."
-          },
-          "pdf": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Pdf",
-            "description": "Base 64 string representing the PDF attached to the item."
-          }
-        },
-        "type": "object",
-        "required": [
-          "journal_id",
-          "name",
-          "date",
-          "items"
-        ],
-        "title": "JournalEntryIn"
-      },
       "JournalEntryMonoAnalyticPlan": {
         "properties": {
           "reference": {
@@ -27646,92 +27267,6 @@
           "due_date"
         ],
         "title": "JournalItemDueDatesOut"
-      },
-      "JournalItemIn": {
-        "properties": {
-          "account_number": {
-            "type": "string",
-            "minLength": 1,
-            "title": "Account Number",
-            "description": "Depending on account_type, if the account_type is 'general_account', this is the general ledger account number used to book the journal item against. If the account_type is 'customer_account', 'supplier_account' or 'employee_account', this is the thirdparty_id (id of the customer, supplier or employee in the accounting system)."
-          },
-          "partner_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Partner Id",
-            "description": "Id of the thirdparty (customer, supplier or employee) in the accounting system if the journal item relates to a thirdparty (e.g., an invoice)."
-          },
-          "description": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Description",
-            "description": "Text description for this journal item. This is typically used to provide additional context or information."
-          },
-          "debit": {
-            "type": "number",
-            "title": "Debit",
-            "description": "Amount to debit on the account. Must be 0 if credit field is not 0"
-          },
-          "credit": {
-            "type": "number",
-            "title": "Credit",
-            "description": "Amount to credit on the account. Must be 0 if debit field is not 0"
-          },
-          "currency": {
-            "type": "string",
-            "minLength": 1,
-            "title": "Currency",
-            "description": "Currency code (e.g., USD, EUR) used for the journal item amounts."
-          },
-          "currency_exchange_rate": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Currency Exchange Rate",
-            "description": "Exchange rate applicable at the date of the journal item. Required when currency is different from the folder's default currency.",
-            "default": 1
-          },
-          "analytic_distribution": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/AnalyticDistribution"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Analytic Distribution",
-            "default": []
-          }
-        },
-        "type": "object",
-        "required": [
-          "account_number",
-          "debit",
-          "credit",
-          "currency"
-        ],
-        "title": "JournalItemIn"
       },
       "JournalItemMonoAnalyticPlan": {
         "properties": {
