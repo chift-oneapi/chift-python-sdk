@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.7 - 2025-07-29
+
+* add due_dates field on Invoices and Journal Entries
+
 ## 0.3.6 - 2025-07-25
 
 * add comprehensive field descriptions across all models
