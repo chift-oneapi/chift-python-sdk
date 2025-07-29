@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.9 - 2025-07-29
+
+* accounting: add payment method indication in due dates
+
 ## 0.3.8 - 2025-07-29
 
 * add object to handle invoices with multiple analytic plans

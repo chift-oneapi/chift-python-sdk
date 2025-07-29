@@ -24359,6 +24359,18 @@
             "title": "Due Date",
             "description": "Due date of the item."
           },
+          "payment_method": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Method",
+            "description": "Payment method used to pay the invoice on that due date."
+          },
           "amount": {
             "type": "number",
             "title": "Amount",
@@ -27234,6 +27246,18 @@
             "format": "date",
             "title": "Due Date",
             "description": "Due date of the item."
+          },
+          "payment_method": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Method",
+            "description": "Payment method used to pay the entry on that due date."
           },
           "debit": {
             "anyOf": [
