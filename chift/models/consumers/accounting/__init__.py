@@ -1,6 +1,12 @@
 from typing import ClassVar
 
-from chift.api.mixins import CreateMixin, DeleteMixin, PaginationMixin, ReadMixin, UpdateMixin
+from chift.api.mixins import (
+    CreateMixin,
+    DeleteMixin,
+    PaginationMixin,
+    ReadMixin,
+    UpdateMixin,
+)
 from chift.openapi.models import Account as AccountModel
 from chift.openapi.models import (
     AnalyticAccountMultiPlan as AnalyticAccountMultiPlanModel,
