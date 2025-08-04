@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.10 - 2025-07-29
+
+* accounting: add custom route
+
 ## 0.3.9 - 2025-07-29
 
 * accounting: add payment method indication in due dates
