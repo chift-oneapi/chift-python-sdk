@@ -1,6 +1,12 @@
 from typing import ClassVar
 
-from chift.api.mixins import CreateMixin, PaginationMixin, ReadMixin, UpdateMixin
+from chift.api.mixins import (
+    CreateMixin,
+    DeleteMixin,
+    PaginationMixin,
+    ReadMixin,
+    UpdateMixin,
+)
 from chift.openapi.models import Account as AccountModel
 from chift.openapi.models import (
     AnalyticAccountMultiPlan as AnalyticAccountMultiPlanModel,
@@ -48,6 +54,7 @@ class AccountingRouter:
         self.MultipleEntryMatching = MultipleEntryMatching(consumer_id, connection_id)
         self.Attachment = Attachment(consumer_id, connection_id)
         self.BankAccount = BankAccount(consumer_id, connection_id)
+        self.Custom = Custom(consumer_id, connection_id)
 
 
 class AnalyticPlan(PaginationMixin[AnalyticPlanModel]):
@@ -218,3 +225,28 @@ class BankAccount(CreateMixin[BankAccountModel]):
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "bank-accounts"
     model = BankAccountModel
+
+
+class Custom(ReadMixin, CreateMixin, UpdateMixin, PaginationMixin, DeleteMixin):
+    chift_vertical: ClassVar = "accounting"
+    chift_model: ClassVar = "custom"
+
+    def all(self, custom_path, params=None, client=None, limit=None):
+        self.extra_path = custom_path
+        return super().all(params=params, map_model=False, client=client, limit=limit)
+
+    def create(self, custom_path, data, client=None, params=None):
+        self.extra_path = custom_path
+        return super().create(data, map_model=False, client=client, params=params)
+
+    def update(self, custom_path, chift_id, data, client=None, params=None):
+        self.extra_path = f"{custom_path}/{chift_id}"
+        return super().update(None, data, map_model=False, client=client, params=params)
+
+    def get(self, custom_path, chift_id, params=None, client=None):
+        self.extra_path = f"{custom_path}/{chift_id}"
+        return super().get(chift_id=None, map_model=False, params=params, client=client)
+
+    def delete(self, custom_path, chift_id, client=None, params=None):
+        self.extra_path = f"{custom_path}/{chift_id}"
+        return super().delete(chift_id=None, client=client, params=params)

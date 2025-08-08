@@ -30627,6 +30627,21 @@
               }
             ],
             "description": "Reference to the customer related to this payment"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Description of the payment",
+            "examples": [
+              "Payment for invoice INV-12345"
+            ]
           }
         },
         "type": "object",
