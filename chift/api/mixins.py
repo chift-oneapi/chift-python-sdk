@@ -178,7 +178,7 @@ class CreateMixin(BaseMixin, Generic[T]):
                 count += len(json_data.get("items", []))
                 total = json_data.get("total", 0)
 
-                if (json_data.get("items") and count < total):
+                if json_data.get("items") and count < total:
                     page += 1
                     json_data = client.post_one(
                         self.chift_vertical,

@@ -8,6 +8,7 @@ from chift.api.mixins import (
     UpdateMixin,
 )
 from chift.openapi.models import Account as AccountModel
+from chift.openapi.models import AccountBalance as AccountBalanceModel
 from chift.openapi.models import (
     AnalyticAccountMultiPlan as AnalyticAccountMultiPlanModel,
 )
@@ -29,7 +30,6 @@ from chift.openapi.models import MultipleMatching as MultipleMatchingModel
 from chift.openapi.models import Outstanding as OutstandingModel
 from chift.openapi.models import Supplier as SupplierModel
 from chift.openapi.models import TaxAccounting as TaxAccountingModel
-from chift.openapi.models import AccountBalance as AccountBalanceModel
 
 
 class AccountingRouter:
