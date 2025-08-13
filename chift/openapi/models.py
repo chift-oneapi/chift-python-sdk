@@ -5,6 +5,7 @@ from typing import Generic, List, Optional, TypeVar
 from pydantic import BaseModel, ConfigDict
 
 from .openapi import (
+    AccountBalance,
     AccountingCategoryItem,
     AccountingVatCode,
     AccountItem,
@@ -390,6 +391,10 @@ class Attachment(AttachmentItemOut):
 
 
 class BankAccount(BankAccountItemOut):
+    pass
+
+
+class AccountBalance(AccountBalance):
     pass
 
 
