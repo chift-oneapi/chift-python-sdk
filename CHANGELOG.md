@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.11 - 2025-08-13
+* accounting: add get balances of account
+
 ## 0.3.10 - 2025-08-08
 
 * accounting: add custom route

@@ -8,6 +8,7 @@ from chift.api.mixins import (
     UpdateMixin,
 )
 from chift.openapi.models import Account as AccountModel
+from chift.openapi.models import AccountBalance as AccountBalanceModel
 from chift.openapi.models import (
     AnalyticAccountMultiPlan as AnalyticAccountMultiPlanModel,
 )
@@ -55,6 +56,7 @@ class AccountingRouter:
         self.Attachment = Attachment(consumer_id, connection_id)
         self.BankAccount = BankAccount(consumer_id, connection_id)
         self.Custom = Custom(consumer_id, connection_id)
+        self.Balance = Balance(consumer_id, connection_id)
 
 
 class AnalyticPlan(PaginationMixin[AnalyticPlanModel]):
@@ -225,6 +227,12 @@ class BankAccount(CreateMixin[BankAccountModel]):
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "bank-accounts"
     model = BankAccountModel
+
+
+class Balance(CreateMixin[AccountBalanceModel]):
+    chift_vertical: ClassVar = "accounting"
+    chift_model: ClassVar = "chart-of-accounts/balance"
+    model = AccountBalanceModel
 
 
 class Custom(ReadMixin, CreateMixin, UpdateMixin, PaginationMixin, DeleteMixin):

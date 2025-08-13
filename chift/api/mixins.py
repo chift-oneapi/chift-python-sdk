@@ -130,9 +130,20 @@ class CreateMixin(BaseMixin, Generic[T]):
         client_request_id=None,
     ) -> dict: ...
 
+    # we have a few post routes which are used as get (e.g. chart-of-accounts/balance)
+    @overload
+    def create(
+        self,
+        data,
+        client=None,
+        params=None,
+        map_model: Literal[False] = False,
+        client_request_id=None,
+    ) -> list[T]: ...
+
     def create(
         self, data, client=None, params=None, map_model=True, client_request_id=None
-    ) -> T | dict:
+    ) -> T | dict | list[T]:
         if not client:
             client = ChiftClient()
         client.consumer_id = self.consumer_id
@@ -147,6 +158,40 @@ class CreateMixin(BaseMixin, Generic[T]):
             extra_path=self.extra_path,
             params=params,
         )
+
+        all_items = []
+
+        if json_data.get("items", []) and "total" in json_data:
+            # we are in a specific case where the post is used to retrieve data
+            # pagination params should be managed as well
+
+            if not params:
+                params = {}
+
+            page = 1
+            count = 0
+            size = 100
+
+            all_items = json_data.get("items", [])
+
+            while True:
+                count += len(json_data.get("items", []))
+                total = json_data.get("total", 0)
+
+                if json_data.get("items") and count < total:
+                    page += 1
+                    json_data = client.post_one(
+                        self.chift_vertical,
+                        self.chift_model_create,
+                        data,
+                        extra_path=self.extra_path,
+                        params={"page": page, "size": size} | params,
+                    )
+                    all_items.extend(json_data.get("items", []))
+                else:
+                    break
+
+            return [(self.model(**item) if map_model else item) for item in all_items]
 
         return self.model(**json_data) if map_model else json_data
 
