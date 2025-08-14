@@ -7,7 +7,7 @@ from chift.api.mixins import (
     ReadMixin,
     UpdateMixin,
 )
-from chift.openapi.models import Account as AccountModel
+from chift.openapi.models import Account as AccountModel, AccountingPayment
 from chift.openapi.models import AccountBalance as AccountBalanceModel
 from chift.openapi.models import (
     AnalyticAccountMultiPlan as AnalyticAccountMultiPlanModel,
@@ -197,6 +197,7 @@ class InvoiceMultiPlan(
 # deprecated
 class JournalEntry(
     PaginationMixin[JournalEntryModel],
+    CreateMixin[JournalEntryModel],
 ):
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "journal/entries"
@@ -230,6 +231,7 @@ class Outstanding(
 class Journal(
     CreateMixin[JournalModel],
     PaginationMixin[JournalModel],
+    ReadMixin[JournalModel],
 ):
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "journals"
@@ -247,6 +249,9 @@ class MultipleEntryMatching(CreateMixin[MultipleMatchingModel]):
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "matching-multiple"
     model = MultipleMatchingModel
+
+    def create(self, data, client=None, params=None) -> list[MultipleMatchingModel]:
+        return super().create(data=data, client=client, params=params, map_model=False)
 
 
 class Employee(PaginationMixin[EmployeeModel]):
@@ -301,3 +306,13 @@ class Custom(ReadMixin, CreateMixin, UpdateMixin, PaginationMixin, DeleteMixin):
     def delete(self, custom_path, chift_id, client=None, params=None):
         self.extra_path = f"{custom_path}/{chift_id}"
         return super().delete(chift_id=None, client=client, params=params)
+
+
+class Payment(CreateMixin[AccountingPayment]):
+    chift_vertical: ClassVar = "accounting"
+    chift_model: ClassVar = "invoices/id"
+    model = AccountingPayment
+
+    def create(self, invoice_id, data, client=None, params=None) -> AccountingPayment:
+        self.extra_path = f"{invoice_id}/payments"
+        return super().create(data=data, client=client, params=params, map_model=True)
