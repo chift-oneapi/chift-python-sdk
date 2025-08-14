@@ -1,4 +1,4 @@
-from typing import ClassVar, Literal
+from typing import ClassVar
 
 from chift.api.mixins import (
     CreateMixin,
@@ -81,7 +81,6 @@ class AnalyticAccountMultiPlan(
         analytic_plan,
         client=None,
         params=None,
-        map_model: Literal[True] = True,
         client_request_id=None,
     ):
         self.extra_path = f"multi-analytic-plans/{analytic_plan}"
@@ -93,11 +92,13 @@ class AnalyticAccountMultiPlan(
         analytic_plan: str,
         client=None,
         params=None,
-        map_model: Literal[False] = False,
-        raw_data: Literal[True] = True,
-    ):
+    ) -> AnalyticAccountMultiPlanModel:
         self.extra_path = f"multi-analytic-plans/{analytic_plan}"
-        return super().get(chift_id=chift_id, client=client, params=params, map_model=map_model, raw_data=raw_data)
+        return super().get(
+            chift_id=chift_id,
+            client=client,
+            params=params,
+        )
 
     def update(
         self,
@@ -106,7 +107,6 @@ class AnalyticAccountMultiPlan(
         data,
         client=None,
         params=None,
-        map_model: Literal[True] = True,
         client_request_id=None,
     ):
         self.extra_path = f"multi-analytic-plans/{analytic_plan}"
@@ -115,7 +115,6 @@ class AnalyticAccountMultiPlan(
     def all(self, params=None, client=None, limit=None):
         self.extra_path = "multi-analytic-plans"
         return super().all(params=params, limit=limit, client=client)
-
 
 
 class Tax(PaginationMixin[TaxAccountingModel]):
