@@ -1,4 +1,4 @@
-from typing import ClassVar
+from typing import ClassVar, Literal
 
 from chift.api.mixins import (
     CreateMixin,
@@ -67,11 +67,55 @@ class AnalyticPlan(PaginationMixin[AnalyticPlanModel]):
 
 class AnalyticAccountMultiPlan(
     CreateMixin[AnalyticAccountMultiPlanModel],
+    ReadMixin[AnalyticAccountMultiPlanModel],
+    UpdateMixin[AnalyticAccountMultiPlanModel],
     PaginationMixin[AnalyticAccountMultiPlanModel],
 ):
     chift_vertical: ClassVar = "accounting"
-    chift_model: ClassVar = "analytic-accounts/multi-analytic-plans"
+    chift_model: ClassVar = "analytic-accounts"
     model = AnalyticAccountMultiPlanModel
+
+    def create(
+        self,
+        data,
+        analytic_plan,
+        client=None,
+        params=None,
+        map_model: Literal[True] = True,
+        client_request_id=None,
+    ):
+        self.extra_path = f"multi-analytic-plans/{analytic_plan}"
+        return super().create(data=data, client=client, params=params)
+
+    def get(
+        self,
+        chift_id: str,
+        analytic_plan: str,
+        client=None,
+        params=None,
+        map_model: Literal[False] = False,
+        raw_data: Literal[True] = True,
+    ):
+        self.extra_path = f"multi-analytic-plans/{analytic_plan}"
+        return super().get(chift_id=chift_id, client=client, params=params, map_model=map_model, raw_data=raw_data)
+
+    def update(
+        self,
+        chift_id: str,
+        analytic_plan: str,
+        data,
+        client=None,
+        params=None,
+        map_model: Literal[True] = True,
+        client_request_id=None,
+    ):
+        self.extra_path = f"multi-analytic-plans/{analytic_plan}"
+        return super().update(chift_id=chift_id, data=data, client=client)
+
+    def all(self, params=None, client=None, limit=None):
+        self.extra_path = "multi-analytic-plans"
+        return super().all(params=params, limit=limit, client=client)
+
 
 
 class Tax(PaginationMixin[TaxAccountingModel]):
