@@ -3,19 +3,19 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
-from typing import Any, Dict, List, Tuple, Optional, Literal
+from typing import Any, Dict, List, Literal, Optional, Tuple
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 from tools.model_generator import (
-    ModelGenerator,
-    BaseClassSpec,
-    TypeExpression,
-    ClassVarSpec,
-    ClassSpec,
-    FunctionSpec,
-    FunctionBody,
     ArgumentSpec,
+    BaseClassSpec,
+    ClassSpec,
+    ClassVarSpec,
+    FunctionBody,
+    FunctionSpec,
+    ModelGenerator,
+    TypeExpression,
 )
 
 """
