@@ -13,6 +13,3 @@ consumer = chift.Consumer.get("7ad965d8-b37c-49f1-bbf8-ad36e2f5bba6")
 
 
 consumer.accounting.AnalyticAccountMultiPlan.all()
-
-
-

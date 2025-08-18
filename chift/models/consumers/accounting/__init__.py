@@ -7,8 +7,9 @@ from chift.api.mixins import (
     ReadMixin,
     UpdateMixin,
 )
-from chift.openapi.models import Account as AccountModel, AccountingPayment
+from chift.openapi.models import Account as AccountModel
 from chift.openapi.models import AccountBalance as AccountBalanceModel
+from chift.openapi.models import AccountingPayment
 from chift.openapi.models import (
     AnalyticAccountMultiPlan as AnalyticAccountMultiPlanModel,
 )

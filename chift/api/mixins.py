@@ -193,7 +193,9 @@ class CreateMixin(BaseMixin, Generic[T]):
 
             return [(self.model(**item) if map_model else item) for item in all_items]
 
-        return self.model(**json_data) if map_model else json_data
+        return (
+            self.model(**json_data) if map_model else json_data
+        )  # If map_model is True, return a model instance, otherwise return the raw data as a dict
 
 
 class UpdateMixin(BaseMixin, Generic[T]):
