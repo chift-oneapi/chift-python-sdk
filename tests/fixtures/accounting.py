@@ -376,3 +376,57 @@ OUTSTANDING_ALL = {
     "page": 1,
     "size": 10,
 }
+
+ANALYTIC_ACCOUNT_MULTI_PLAN_ALL = {
+    "items": [
+        {
+            "id": "af26326f-af3d-4059-9a5d-00e536f3d610",
+            "active": True,
+            "code": None,
+            "name": "rsfsd",
+            "currency": "EUR",
+            "balance": 0.0,
+            "credit": 0.0,
+            "debit": 0.0,
+            "analytic_plan": "42ffc773-b77b-4719-90b6-71e8d017043d",
+        },
+        {
+            "id": "6d01c5c3-dad4-4baf-9a5e-6635024bffba",
+            "active": True,
+            "code": None,
+            "name": "Chantier 2",
+            "currency": "EUR",
+            "balance": 0.0,
+            "credit": 0.0,
+            "debit": 0.0,
+            "analytic_plan": "0ed690d3-4686-4bd0-9474-54ec606e66a1",
+        },
+    ],
+    "total": 28,
+    "page": 1,
+    "size": 2,
+}
+
+ANALYTIC_ACCOUNT_MULTI_PLAN_CREATE = {
+    "id": "0198c64c-380a-7c2a-8912-79f58bf3fc94",
+    "active": True,
+    "code": None,
+    "name": "New Project Analysis",
+    "currency": "EUR",
+    "balance": 0.0,
+    "credit": 0.0,
+    "debit": 0.0,
+    "analytic_plan": "42ffc773-b77b-4719-90b6-71e8d017043d",
+}
+
+ANALYTIC_ACCOUNT_MULTI_PLAN_UPDATE = {
+    "id": "af26326f-af3d-4059-9a5d-00e536f3d610",
+    "active": True,
+    "code": None,
+    "name": "Updated Marketing Campaign",
+    "currency": "EUR",
+    "balance": 0.0,
+    "credit": 0.0,
+    "debit": 0.0,
+    "analytic_plan": "42ffc773-b77b-4719-90b6-71e8d017043d",
+}

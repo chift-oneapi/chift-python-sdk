@@ -249,3 +249,92 @@ def test_outstandings(accounting_consumer: Consumer):
 
     for outstanding in outstandings:
         assert outstanding.id
+
+
+@pytest.mark.mock_chift_response(accounting.ANALYTIC_ACCOUNT_MULTI_PLAN_ALL)
+def test_analytic_account_multi_plan_all(accounting_consumer: Consumer):
+    consumer = accounting_consumer
+
+    accounts = consumer.accounting.AnalyticAccountMultiPlan.all(limit=2)
+
+    assert accounts
+    assert len(accounts) == 2
+
+    for account in accounts:
+        assert account.id
+        assert account.name
+        assert account.code is None
+        assert account.analytic_plan
+
+
+@pytest.mark.mock_chift_response(
+    accounting.ANALYTIC_ACCOUNT_MULTI_PLAN_ALL,
+    accounting.ANALYTIC_ACCOUNT_MULTI_PLAN_ALL["items"][0],
+    accounting.ANALYTIC_ACCOUNT_MULTI_PLAN_ALL["items"][1],
+)
+def test_analytic_account_multi_plan_get(accounting_consumer: Consumer):
+    consumer = accounting_consumer
+
+    accounts = consumer.accounting.AnalyticAccountMultiPlan.all(limit=2)
+
+    assert accounts
+
+    for account in accounts:
+        expected_account = consumer.accounting.AnalyticAccountMultiPlan.get(
+            account.id, account.analytic_plan
+        )
+
+        assert account == expected_account
+        assert expected_account.id == account.id
+        assert expected_account.analytic_plan == account.analytic_plan
+
+
+@pytest.mark.mock_chift_response(accounting.ANALYTIC_ACCOUNT_MULTI_PLAN_CREATE)
+def test_analytic_account_multi_plan_create(accounting_consumer: Consumer):
+    consumer = accounting_consumer
+
+    new_account_data = {
+        "name": "New Project Analysis",
+        "code": "NEW-001",
+        "active": True,
+        "currency": "EUR",
+    }
+
+    created_account = consumer.accounting.AnalyticAccountMultiPlan.create(
+        new_account_data, "plan-001"
+    )
+
+    assert created_account
+    assert created_account.id == accounting.ANALYTIC_ACCOUNT_MULTI_PLAN_CREATE["id"]
+    assert created_account.name == accounting.ANALYTIC_ACCOUNT_MULTI_PLAN_CREATE["name"]
+    assert created_account.code == accounting.ANALYTIC_ACCOUNT_MULTI_PLAN_CREATE["code"]
+    assert (
+        created_account.analytic_plan
+        == accounting.ANALYTIC_ACCOUNT_MULTI_PLAN_CREATE["analytic_plan"]
+    )
+    assert created_account.active is True
+
+
+@pytest.mark.mock_chift_response(
+    accounting.ANALYTIC_ACCOUNT_MULTI_PLAN_ALL,
+    accounting.ANALYTIC_ACCOUNT_MULTI_PLAN_UPDATE,
+)
+def test_analytic_account_multi_plan_update(accounting_consumer: Consumer):
+    consumer = accounting_consumer
+
+    accounts = consumer.accounting.AnalyticAccountMultiPlan.all(limit=1)
+
+    assert accounts
+
+    account = accounts[0]
+    original_name = account.name
+
+    updated_account = consumer.accounting.AnalyticAccountMultiPlan.update(
+        account.id, account.analytic_plan, {"name": "Updated Marketing Campaign"}
+    )
+
+    assert updated_account
+    assert updated_account.id == account.id
+    assert updated_account.name == "Updated Marketing Campaign"
+    assert updated_account.analytic_plan == account.analytic_plan
+    assert updated_account.name != original_name
