@@ -4,8 +4,8 @@ from typing import Generic, List, Optional, TypeVar
 
 from pydantic import BaseModel, ConfigDict
 
-from .openapi import AccountBalance as AccountBalanceModel
 from .openapi import (
+    AccountBalance as AccountBalanceModel,
     AccountingCategoryItem,
     AccountingVatCode,
     AccountItem,
@@ -36,9 +36,7 @@ from .openapi import (
     InvoicingPaymentItem,
     InvoicingPaymentMethodItem,
     InvoicingVatCode,
-)
-from .openapi import Journal as JournalModel
-from .openapi import (
+    Journal as JournalModel,
     JournalEntryMultiAnalyticPlan,
     LinkItem,
     MatchingOut,
@@ -47,11 +45,10 @@ from .openapi import (
     OpportunityItem,
     OrderItemOut,
     OutstandingItem,
-)
-from .openapi import Payment as PaymentModel
-from .openapi import PaymentItemOut, PaymentMethodItem
-from .openapi import PaymentMethods as PaymentMethodsModel
-from .openapi import (
+    Payment as PaymentModel,
+    PaymentItemOut,
+    PaymentMethodItem,
+    PaymentMethods as PaymentMethodsModel,
     PMSAccountingCategoryItem,
     PMSClosureItem,
     PMSCustomerItem,
@@ -59,9 +56,7 @@ from .openapi import (
     PMSLocationItem,
     PMSOrderItem,
     PMSPaymentItem,
-)
-from .openapi import PMSPaymentMethods as PMSPaymentMethodsModel
-from .openapi import (
+    PMSPaymentMethods as PMSPaymentMethodsModel,
     PMSTaxRateItem,
     POSCustomerItem,
     POSLocationItem,
