@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.12 - 2025-08-21
+
+- accounting: enhance MultiPlan Accounts with create, get, and update methods
+- accounting: add Payment model and enhance Journal and MultipleEntryMatching classes with create methods
+- accounting: add comprehensive tests for AnalyticAccountMultiPlan including create, update, and retrieval functionalities
+- refactor: remove unused map_model parameters from AnalyticAccountMultiPlan methods for cleaner code
+
 ## 0.3.11 - 2025-08-13
 * accounting: add get balances of account
 
