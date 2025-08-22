@@ -161,7 +161,11 @@ class CreateMixin(BaseMixin, Generic[T]):
 
         all_items = []
 
-        if isinstance(json_data, dict) and json_data.get("items", []) and "total" in json_data:
+        if (
+            isinstance(json_data, dict)
+            and json_data.get("items", [])
+            and "total" in json_data
+        ):
             # we are in a specific case where the post is used to retrieve data
             # pagination params should be managed as well
 
@@ -193,9 +197,8 @@ class CreateMixin(BaseMixin, Generic[T]):
 
             return [(self.model(**item) if map_model else item) for item in all_items]
 
-        return (
-            self.model(**json_data) if map_model else json_data
-        )  # If map_model is True, return a model instance, otherwise return the raw data as a dict
+        # If map_model is True, return a model instance, otherwise return the raw response
+        return self.model(**json_data) if map_model else json_data
 
 
 class UpdateMixin(BaseMixin, Generic[T]):
