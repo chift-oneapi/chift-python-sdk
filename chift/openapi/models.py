@@ -4,8 +4,8 @@ from typing import Generic, List, Optional, TypeVar
 
 from pydantic import BaseModel, ConfigDict
 
+from .openapi import AccountBalance as AccountBalanceModel
 from .openapi import (
-    AccountBalance,
     AccountingCategoryItem,
     AccountingVatCode,
     AccountItem,
@@ -36,7 +36,9 @@ from .openapi import (
     InvoicingPaymentItem,
     InvoicingPaymentMethodItem,
     InvoicingVatCode,
-    Journal,
+)
+from .openapi import Journal as JournalModel
+from .openapi import (
     JournalEntryMultiAnalyticPlan,
     LinkItem,
     MatchingOut,
@@ -45,9 +47,11 @@ from .openapi import (
     OpportunityItem,
     OrderItemOut,
     OutstandingItem,
-    PaymentItemOut,
-    PaymentMethodItem,
-    PaymentMethods,
+)
+from .openapi import Payment as PaymentModel
+from .openapi import PaymentItemOut, PaymentMethodItem
+from .openapi import PaymentMethods as PaymentMethodsModel
+from .openapi import (
     PMSAccountingCategoryItem,
     PMSClosureItem,
     PMSCustomerItem,
@@ -55,7 +59,9 @@ from .openapi import (
     PMSLocationItem,
     PMSOrderItem,
     PMSPaymentItem,
-    PMSPaymentMethods,
+)
+from .openapi import PMSPaymentMethods as PMSPaymentMethodsModel
+from .openapi import (
     PMSTaxRateItem,
     POSCustomerItem,
     POSLocationItem,
@@ -92,7 +98,7 @@ class DatastoreDef(BaseModel):
     columns: List[DatastoreColumn]
 
 
-class Datastore(BaseModel):
+class DatastoreModel(BaseModel):
     id: Optional[str] = None
     name: str
     definition: DatastoreDef
@@ -146,14 +152,14 @@ class FlowConfig(BaseModel):
     definitionFields: Optional[List[dict]] = None
     doorkeyFields: Optional[List[dict]] = None
     customFields: Optional[List[dict]] = None
-    datastores: Optional[List[Datastore]] = []
+    datastores: Optional[List[DatastoreModel]] = []
 
 
 # consumers
 
 
 class Consumer(ConsumerItem, extra="allow"):
-    connectionid: str = None
+    connectionid: Optional[str] = None
 
     @property
     def invoicing(self):
@@ -374,7 +380,7 @@ class Outstanding(OutstandingItem):
     pass
 
 
-class Journal(Journal):
+class Journal(JournalModel):
     pass
 
 
@@ -394,7 +400,11 @@ class BankAccount(BankAccountItemOut):
     pass
 
 
-class AccountBalance(AccountBalance):
+class AccountBalance(AccountBalanceModel):
+    pass
+
+
+class AccountingPayment(PaymentModel):
     pass
 
 
@@ -408,7 +418,7 @@ class Customer(POSCustomerItem):
     pass
 
 
-class PaymentMethods(PaymentMethods):
+class PaymentMethods(PaymentMethodsModel):
     pass
 
 
@@ -447,7 +457,7 @@ class POSProduct(POSProductItem):
 # pms
 
 
-class PMSPaymentMethods(PMSPaymentMethods):
+class PMSPaymentMethods(PMSPaymentMethodsModel):
     pass
 
 
