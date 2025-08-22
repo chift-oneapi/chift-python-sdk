@@ -161,7 +161,7 @@ class CreateMixin(BaseMixin, Generic[T]):
 
         all_items = []
 
-        if json_data.get("items", []) and "total" in json_data:
+        if isinstance(json_data, dict) and json_data.get("items", []) and "total" in json_data:
             # we are in a specific case where the post is used to retrieve data
             # pagination params should be managed as well
 
