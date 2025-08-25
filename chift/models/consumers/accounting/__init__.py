@@ -306,11 +306,16 @@ class Custom(ReadMixin, CreateMixin, UpdateMixin, PaginationMixin, DeleteMixin):
         return super().delete(chift_id=None, client=client, params=params)
 
 
-class Payment(CreateMixin[AccountingPayment]):
+class Payment(ReadMixin[AccountingPayment]):
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "invoices/id"
     model = AccountingPayment
 
-    def create(self, invoice_id, data, client=None, params=None) -> AccountingPayment:
-        self.extra_path = f"{invoice_id}/payments"
-        return super().create(data=data, client=client, params=params, map_model=True)
+    def get(
+        self,
+        invoice_id,
+        params=None,
+        client=None,
+    ):
+        self.extra_path = "payments"
+        return super().get(invoice_id, client=client, params=params)
