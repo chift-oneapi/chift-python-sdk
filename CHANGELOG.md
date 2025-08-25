@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.13 - 2025-08-25
+
+- accounting: revert MultipleEntryMatching changes, fix Payment model methods
+
 ## 0.3.12 - 2025-08-21
 
 - accounting: enhance MultiPlan Accounts with create, get, and update methods
