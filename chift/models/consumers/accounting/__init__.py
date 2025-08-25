@@ -251,9 +251,6 @@ class MultipleEntryMatching(CreateMixin[MultipleMatchingModel]):
     chift_model: ClassVar = "matching-multiple"
     model = MultipleMatchingModel
 
-    def create(self, data, client=None, params=None) -> list[MultipleMatchingModel]:
-        return super().create(data=data, client=client, params=params, map_model=False)
-
 
 class Employee(PaginationMixin[EmployeeModel]):
     chift_vertical: ClassVar = "accounting"
