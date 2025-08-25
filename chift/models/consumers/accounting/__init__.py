@@ -58,6 +58,7 @@ class AccountingRouter:
         self.BankAccount = BankAccount(consumer_id, connection_id)
         self.Custom = Custom(consumer_id, connection_id)
         self.Balance = Balance(consumer_id, connection_id)
+        self.Payment = Payment(consumer_id, connection_id)
 
 
 class AnalyticPlan(PaginationMixin[AnalyticPlanModel]):
@@ -311,11 +312,6 @@ class Payment(ReadMixin[AccountingPayment]):
     chift_model: ClassVar = "invoices/id"
     model = AccountingPayment
 
-    def get(
-        self,
-        invoice_id,
-        params=None,
-        client=None,
-    ):
+    def get(self, invoice_id, params=None, client=None):
         self.extra_path = "payments"
         return super().get(invoice_id, client=client, params=params)
