@@ -58,6 +58,7 @@ class AccountingRouter:
         self.BankAccount = BankAccount(consumer_id, connection_id)
         self.Custom = Custom(consumer_id, connection_id)
         self.Balance = Balance(consumer_id, connection_id)
+        self.Payment = Payment(consumer_id, connection_id)
 
 
 class AnalyticPlan(PaginationMixin[AnalyticPlanModel]):
@@ -251,9 +252,6 @@ class MultipleEntryMatching(CreateMixin[MultipleMatchingModel]):
     chift_model: ClassVar = "matching-multiple"
     model = MultipleMatchingModel
 
-    def create(self, data, client=None, params=None) -> list[MultipleMatchingModel]:
-        return super().create(data=data, client=client, params=params, map_model=False)
-
 
 class Employee(PaginationMixin[EmployeeModel]):
     chift_vertical: ClassVar = "accounting"
@@ -309,11 +307,11 @@ class Custom(ReadMixin, CreateMixin, UpdateMixin, PaginationMixin, DeleteMixin):
         return super().delete(chift_id=None, client=client, params=params)
 
 
-class Payment(CreateMixin[AccountingPayment]):
+class Payment(ReadMixin[AccountingPayment]):
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "invoices/id"
     model = AccountingPayment
 
-    def create(self, invoice_id, data, client=None, params=None) -> AccountingPayment:
-        self.extra_path = f"{invoice_id}/payments"
-        return super().create(data=data, client=client, params=params, map_model=True)
+    def get(self, invoice_id, params=None, client=None):
+        self.extra_path = "payments"
+        return super().get(invoice_id, client=client, params=params)
