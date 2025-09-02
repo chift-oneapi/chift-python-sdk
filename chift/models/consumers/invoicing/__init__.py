@@ -5,6 +5,8 @@ from typing import ClassVar
 from chift.api.mixins import CreateMixin, PaginationMixin, ReadMixin, UpdateMixin
 from chift.openapi.models import Contact as ContactModel
 from chift.openapi.models import Invoice as InvoiceModel
+from chift.openapi.models import InvoicingBankAccount as BankAccountModel
+from chift.openapi.models import InvoicingBankTransaction as BankTransactionModel
 from chift.openapi.models import InvoicingPayment as PaymentModel
 from chift.openapi.models import InvoicingPaymentMethod as PaymentMethodModel
 from chift.openapi.models import Opportunity as OpportunityModel
@@ -23,6 +25,8 @@ class InvoicingRouter:
         self.PaymentMethod = PaymentMethod(consumer_id, connection_id)
         self.UploadDocument = UploadDocument(consumer_id, connection_id)
         self.Custom = Custom(consumer_id, connection_id)
+        self.BankAccount = BankAccount(consumer_id, connection_id)
+        self.BankTransaction = BankTransaction(consumer_id, connection_id)
 
 
 class Product(
@@ -91,6 +95,18 @@ class UploadDocument(CreateMixin):
     chift_vertical: ClassVar = "invoicing"
     chift_model: ClassVar = "upload-document"
     model = InvoiceModel
+
+
+class BankAccount(PaginationMixin[BankAccountModel]):
+    chift_vertical: ClassVar = "invoicing"
+    chift_model: ClassVar = "bank-accounts"
+    model = BankAccountModel
+
+
+class BankTransaction(PaginationMixin[BankTransactionModel]):
+    chift_vertical: ClassVar = "invoicing"
+    chift_model: ClassVar = "bank-transactions"
+    model = BankTransactionModel
 
 
 class Custom(ReadMixin, CreateMixin, UpdateMixin, PaginationMixin):
