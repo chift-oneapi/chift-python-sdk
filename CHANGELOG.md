@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.14 - 2025-09-10
+
+- chore: update openapi documentation
+
 ## 0.3.13 - 2025-08-25
 
 - accounting: revert MultipleEntryMatching changes, fix Payment model methods
