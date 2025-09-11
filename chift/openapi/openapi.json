@@ -13125,7 +13125,8 @@
     "/consumers/{consumer_id}/invoicing/payments": {
       "get": {
         "tags": [
-          "Invoicing"
+          "Invoicing",
+          "Payments"
         ],
         "summary": "Retrieve all payments (invoicing)",
         "description": "Returns a list of payments",
@@ -13244,7 +13245,8 @@
     "/consumers/{consumer_id}/invoicing/payment-methods": {
       "get": {
         "tags": [
-          "Invoicing"
+          "Invoicing",
+          "Payment methods"
         ],
         "summary": "Retrieve all payment methods",
         "description": "Returns the list of payment methods",
@@ -13295,6 +13297,248 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ChiftPage_InvoicingPaymentMethodItem_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/invoicing/bank-accounts": {
+      "get": {
+        "tags": [
+          "Invoicing",
+          "Bank accounts"
+        ],
+        "summary": "Retrieve all Bank Accounts",
+        "description": "Returns the list of bank accounts",
+        "operationId": "invoicing_get_bank_accounts",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Page number",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Page size",
+              "default": 50,
+              "title": "Size"
+            },
+            "description": "Page size"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_InvoicingBankAccountItem_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/invoicing/bank-transactions": {
+      "get": {
+        "tags": [
+          "Invoicing",
+          "Bank transactions"
+        ],
+        "summary": "Retrieve all Bank Transactions",
+        "description": "Returns the list of bank transactions",
+        "operationId": "invoicing_get_bank_transactions",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Page number",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Page size",
+              "default": 50,
+              "title": "Size"
+            },
+            "description": "Page size"
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date From"
+            },
+            "description": "The start date (inclusive) for filtering bank transactions. If provided, only transactions on or after this date will be returned."
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date To"
+            },
+            "description": "The end date (inclusive) for filtering bank transactions. If provided, only transactions on or before this date will be returned."
+          },
+          {
+            "name": "bank_account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Bank Account Id"
+            },
+            "description": "The unique identifier of the bank account to filter transactions for. If omitted, transactions from all accessible accounts will be included."
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/BankTransactionStatus"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            },
+            "description": "Filter transactions by their status."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_InvoicingBankTransactionItem_"
                 }
               }
             }
@@ -17127,6 +17371,14 @@
         ],
         "title": "BankAccountItemOut"
       },
+      "BankTransactionStatus": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "done"
+        ],
+        "title": "BankTransactionStatus"
+      },
       "BankingAccountItem": {
         "properties": {
           "id": {
@@ -18622,6 +18874,86 @@
           "size"
         ],
         "title": "ChiftPage[InvoiceItemOut]"
+      },
+      "ChiftPage_InvoicingBankAccountItem_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/InvoicingBankAccountItem"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Page"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "page",
+          "size"
+        ],
+        "title": "ChiftPage[InvoicingBankAccountItem]"
+      },
+      "ChiftPage_InvoicingBankTransactionItem_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/InvoicingBankTransactionItem"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Page"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "page",
+          "size"
+        ],
+        "title": "ChiftPage[InvoicingBankTransactionItem]"
       },
       "ChiftPage_InvoicingPaymentItem_": {
         "properties": {
@@ -26476,6 +26808,169 @@
         ],
         "title": "InvoiceStatusOut"
       },
+      "InvoicingBankAccountItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "$ref": "#/components/schemas/Ref",
+            "description": "Technical id in the target software"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Bank account name"
+          },
+          "iban": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Iban",
+            "description": "IBAN"
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency",
+            "description": "Currency of the bank account"
+          },
+          "balance": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Balance",
+            "description": "Current balance of the bank account"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "source_ref",
+          "name"
+        ],
+        "title": "InvoicingBankAccountItem"
+      },
+      "InvoicingBankTransactionItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "$ref": "#/components/schemas/Ref",
+            "description": "Technical id in the target software"
+          },
+          "status": {
+            "$ref": "#/components/schemas/BankTransactionStatus",
+            "description": "Status of the bank transaction"
+          },
+          "bank_account_id": {
+            "type": "string",
+            "title": "Bank Account Id",
+            "description": "Technical id of the bank account in Chift"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount",
+            "description": "Transaction amount"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date",
+            "description": "Transaction date"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Transaction description"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "description": "Currency of the transaction"
+          },
+          "currency_exchange_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency Exchange Rate",
+            "description": "Exchange rate at the date of the transaction",
+            "default": 1.0
+          },
+          "accounting_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Accounting Code",
+            "description": "Accounting code"
+          },
+          "linked_documents": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/LinkedDocument"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Linked Documents",
+            "description": "List of linked documents",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "source_ref",
+          "status",
+          "bank_account_id",
+          "amount",
+          "date",
+          "currency"
+        ],
+        "title": "InvoicingBankTransactionItem"
+      },
       "InvoicingPaymentItem": {
         "properties": {
           "id": {
@@ -27715,6 +28210,44 @@
           "url"
         ],
         "title": "LinkSyncItem"
+      },
+      "LinkedDocument": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "$ref": "#/components/schemas/Ref",
+            "description": "Technical id in the target software"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount",
+            "description": "Amount linked to the document"
+          },
+          "type": {
+            "$ref": "#/components/schemas/LinkedDocumentType",
+            "description": "Type of linked document"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "source_ref",
+          "amount",
+          "type"
+        ],
+        "title": "LinkedDocument"
+      },
+      "LinkedDocumentType": {
+        "type": "string",
+        "enum": [
+          "invoice",
+          "other"
+        ],
+        "title": "LinkedDocumentType"
       },
       "LocalAgentInfo": {
         "properties": {

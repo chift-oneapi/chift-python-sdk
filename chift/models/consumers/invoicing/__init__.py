@@ -10,6 +10,8 @@ from chift.openapi.models import InvoicingPaymentMethod as PaymentMethodModel
 from chift.openapi.models import Opportunity as OpportunityModel
 from chift.openapi.models import Product as ProductModel
 from chift.openapi.models import Tax as TaxModel
+from chift.openapi.models import InvoicingBankAccount as BankAccountModel
+from chift.openapi.models import InvoicingBankTransaction as BankTransactionModel
 
 
 class InvoicingRouter:
@@ -22,6 +24,8 @@ class InvoicingRouter:
         self.Payment = Payment(consumer_id, connection_id)
         self.PaymentMethod = PaymentMethod(consumer_id, connection_id)
         self.UploadDocument = UploadDocument(consumer_id, connection_id)
+        self.BankAccount = BankAccount(consumer_id, connection_id)
+        self.BankTransaction = BankTransaction(consumer_id, connection_id)
         self.Custom = Custom(consumer_id, connection_id)
 
 
@@ -91,6 +95,16 @@ class UploadDocument(CreateMixin):
     chift_vertical: ClassVar = "invoicing"
     chift_model: ClassVar = "upload-document"
     model = InvoiceModel
+
+class BankAccount(PaginationMixin[BankAccountModel]):
+    chift_vertical: ClassVar = "invoicing"
+    chift_model: ClassVar = "bank-accounts"
+    model = BankAccountModel
+
+class BankTransaction(PaginationMixin[BankTransactionModel]):
+    chift_vertical: ClassVar = "invoicing"
+    chift_model: ClassVar = "bank-transactions"
+    model = BankTransactionModel
 
 
 class Custom(ReadMixin, CreateMixin, UpdateMixin, PaginationMixin):

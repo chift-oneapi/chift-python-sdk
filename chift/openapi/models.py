@@ -36,6 +36,8 @@ from .openapi import (
     InvoicingPaymentItem,
     InvoicingPaymentMethodItem,
     InvoicingVatCode,
+    InvoicingBankAccountItem,
+    InvoicingBankTransactionItem,
 )
 from .openapi import Journal as JournalModel
 from .openapi import (
@@ -324,6 +326,12 @@ class InvoicingPayment(InvoicingPaymentItem):
 
 
 class InvoicingPaymentMethod(InvoicingPaymentMethodItem):
+    pass
+
+class InvoicingBankAccount(InvoicingBankAccountItem):
+    pass
+
+class InvoicingBankTransaction(InvoicingBankTransactionItem):
     pass
 
 
