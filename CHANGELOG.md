@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.17 - 2025-09-12
+- sync: add more sync configuration options
+
 ## 0.3.16 - 2025-09-12
 - sync: add presync info
 
