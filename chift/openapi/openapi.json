@@ -22211,6 +22211,27 @@
             "minLength": 1,
             "title": "Name"
           },
+          "config": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "items": {
+                    "additionalProperties": true,
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "propertyNames": {
+                  "const": "presync"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Config"
+          },
           "connections": {
             "items": {
               "$ref": "#/components/schemas/ConnectionItem-Input"
@@ -22275,6 +22296,24 @@
             ],
             "title": "Challenge Question"
           },
+          "conditions": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "propertyNames": {
+                  "const": "hideIf"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Conditions"
+          },
           "sub_mappings": {
             "items": {
               "$ref": "#/components/schemas/CreateSyncMappingToFieldItem-Input"
@@ -22323,6 +22362,24 @@
             ],
             "title": "Challenge Question"
           },
+          "conditions": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "propertyNames": {
+                  "const": "hideIf"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Conditions"
+          },
           "sub_mappings": {
             "items": {
               "$ref": "#/components/schemas/CreateSyncMappingToFieldItem-Output"
@@ -22370,6 +22427,24 @@
               }
             ],
             "title": "Challenge Question"
+          },
+          "conditions": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "propertyNames": {
+                  "const": "hideIf"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Conditions"
           },
           "source_field": {
             "$ref": "#/components/schemas/FieldItem"
@@ -22435,6 +22510,24 @@
               }
             ],
             "title": "Challenge Question"
+          },
+          "conditions": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "propertyNames": {
+                  "const": "hideIf"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Conditions"
           },
           "source_field": {
             "$ref": "#/components/schemas/FieldItem"
@@ -34239,6 +34332,27 @@
             "minLength": 1,
             "title": "Name"
           },
+          "config": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "items": {
+                    "additionalProperties": true,
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "propertyNames": {
+                  "const": "presync"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Config"
+          },
           "connections": {
             "items": {
               "$ref": "#/components/schemas/backbone_api__app__routers__syncs__ConnectionItem"
@@ -34316,6 +34430,24 @@
               }
             ],
             "title": "Challenge Question"
+          },
+          "conditions": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "propertyNames": {
+                  "const": "hideIf"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Conditions"
           },
           "values": {
             "items": {
