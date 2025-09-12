@@ -6425,7 +6425,9 @@ class SyncConsumerItem(BaseModel):
         None, description="Metadata passed during creation", title="Link Metadata"
     )
     link_presync: Optional[Dict[str, Any]] = Field(
-        None, description="Values of the presync configuration for the sync for the specific consumer", title="Link Presync"
+        None,
+        description="Values of the presync configuration for the sync for the specific consumer",
+        title="Link Presync",
     )
     enabled_flows: Optional[List[ReadFlowConsumerItem]] = Field(
         None,
