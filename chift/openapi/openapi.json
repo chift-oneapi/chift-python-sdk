@@ -35649,6 +35649,19 @@
             "title": "Link Metadata",
             "description": "Metadata passed during creation"
           },
+          "link_presync": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Link Presync",
+            "description": "Values of the presync configuration for the sync for the specific consumer"
+          },
           "enabled_flows": {
             "anyOf": [
               {

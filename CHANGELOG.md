@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.16 - 2025-09-12
+- sync: add presync info
+
 ## 0.3.15 - 2025-09-11
 
 - invoicing: add bank account and bank transactions routes
