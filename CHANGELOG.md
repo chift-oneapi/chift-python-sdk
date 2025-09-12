@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.15 - 2025-09-11
+
+- invoicing: add bank account and bank transactions routes
+
 ## 0.3.14 - 2025-09-10
 
 - chore: update openapi documentation

@@ -33,6 +33,8 @@ from .openapi import (
     InvoiceItemOutMonoAnalyticPlan,
     InvoiceItemOutMultiAnalyticPlans,
     InvoiceItemOutSingle,
+    InvoicingBankAccountItem,
+    InvoicingBankTransactionItem,
     InvoicingPaymentItem,
     InvoicingPaymentMethodItem,
     InvoicingVatCode,
@@ -324,6 +326,14 @@ class InvoicingPayment(InvoicingPaymentItem):
 
 
 class InvoicingPaymentMethod(InvoicingPaymentMethodItem):
+    pass
+
+
+class InvoicingBankAccount(InvoicingBankAccountItem):
+    pass
+
+
+class InvoicingBankTransaction(InvoicingBankTransactionItem):
     pass
 
 
