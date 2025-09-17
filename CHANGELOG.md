@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.18 - 2025-09-12
+- invoicing: add analytical accounting information to invoices
+
 ## 0.3.17 - 2025-09-12
 - sync: add more sync configuration options
 
