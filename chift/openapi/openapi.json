@@ -8421,6 +8421,92 @@
         }
       }
     },
+    "/consumers/{consumer_id}/accounting/expenses": {
+      "post": {
+        "tags": [
+          "Accounting",
+          "Expenses"
+        ],
+        "summary": "Create an expense",
+        "description": "Create a new employee expense",
+        "operationId": "accounting_create_expense",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Folder Id"
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpenseItemIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpenseItemOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/accounting/outstandings": {
       "get": {
         "tags": [
@@ -12100,6 +12186,24 @@
               "title": "Include Invoice Lines"
             },
             "description": "Include the invoice lines in the response. By default, invoice lines are included when no extra request is needed to fetch them. If you want to include them explicitly, set this parameter to true."
+          },
+          {
+            "name": "include_analytic_accounts",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/BoolParam"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": "false",
+              "title": "Include Analytic Accounts"
+            },
+            "description": "Include analytic accounts in the response"
           }
         ],
         "responses": {
@@ -12253,6 +12357,24 @@
               "title": "Include Pdf"
             },
             "description": "Include the invoice PDF as a base64 encoded string in the response"
+          },
+          {
+            "name": "include_analytic_accounts",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/BoolParam"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": "false",
+              "title": "Include Analytic Accounts"
+            },
+            "description": "Include analytic accounts in the response"
           }
         ],
         "responses": {
@@ -13500,16 +13622,9 @@
           {
             "name": "bank_account_id",
             "in": "query",
-            "required": false,
+            "required": true,
             "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
+              "type": "string",
               "title": "Bank Account Id"
             },
             "description": "The unique identifier of the bank account to filter transactions for. If omitted, transactions from all accessible accounts will be included."
@@ -17032,6 +17147,61 @@
           "percentage"
         ],
         "title": "AnalyticDistributionDetail"
+      },
+      "AnalyticDistributionDetailInvoicing": {
+        "properties": {
+          "analytic_account_code": {
+            "type": "string",
+            "title": "Analytic Account Code",
+            "description": "Code of the analytic account."
+          },
+          "analytic_account_id": {
+            "type": "string",
+            "title": "Analytic Account Id",
+            "description": "Id of the analytic account."
+          },
+          "percentage": {
+            "type": "number",
+            "title": "Percentage",
+            "description": "Percentage of the untaxed amount attributed to this analytic account. Only whole numbers (no decimals) are allowed. The total across the analytic distribution (all accounts in a given analytic plan) must equal 100%."
+          }
+        },
+        "type": "object",
+        "required": [
+          "analytic_account_code",
+          "analytic_account_id",
+          "percentage"
+        ],
+        "title": "AnalyticDistributionDetailInvoicing"
+      },
+      "AnalyticDistributionInvoicing": {
+        "properties": {
+          "analytic_plan_id": {
+            "type": "string",
+            "title": "Analytic Plan Id",
+            "description": "Id of the analytic plan to which the distribution applies."
+          },
+          "analytic_plan_code": {
+            "type": "string",
+            "title": "Analytic Plan Code",
+            "description": "Code of the analytic plan to which the distribution applies."
+          },
+          "analytic_accounts": {
+            "items": {
+              "$ref": "#/components/schemas/AnalyticDistributionDetailInvoicing"
+            },
+            "type": "array",
+            "title": "Analytic Accounts",
+            "description": "List of analytic accounts and their respective percentages for the distribution."
+          }
+        },
+        "type": "object",
+        "required": [
+          "analytic_plan_id",
+          "analytic_plan_code",
+          "analytic_accounts"
+        ],
+        "title": "AnalyticDistributionInvoicing"
       },
       "AnalyticPlanItem": {
         "properties": {
@@ -22975,6 +23145,276 @@
         ],
         "title": "ExecutionType"
       },
+      "ExpenseItemIn": {
+        "properties": {
+          "employee_id": {
+            "type": "string",
+            "title": "Employee Id",
+            "description": "Employee identifier in the accounting system."
+          },
+          "total": {
+            "type": "number",
+            "title": "Total",
+            "description": "Total amount including taxes for the expense."
+          },
+          "untaxed_amount": {
+            "type": "number",
+            "title": "Untaxed Amount",
+            "description": "Total untaxed amount for the expense."
+          },
+          "tax_amount": {
+            "type": "number",
+            "title": "Tax Amount",
+            "description": "Total tax amount for the expense."
+          },
+          "reference": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference",
+            "description": "External reference."
+          },
+          "number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Number",
+            "description": "Unique number for idempotency in the accounting system."
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "description": "Currency of the expense (e.g., EUR, USD)."
+          },
+          "currency_exchange_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency Exchange Rate",
+            "description": "Exchange rate at expense date if currency differs from folder currency. Must be positive if provided.",
+            "default": 1
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date",
+            "description": "Expense date."
+          },
+          "pdf": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pdf",
+            "description": "Base64 PDF attachment of the expense document."
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/ExpenseLineItem"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Lines",
+            "description": "Expense lines."
+          }
+        },
+        "type": "object",
+        "required": [
+          "employee_id",
+          "total",
+          "untaxed_amount",
+          "tax_amount",
+          "currency",
+          "date",
+          "lines"
+        ],
+        "title": "ExpenseItemIn"
+      },
+      "ExpenseItemOut": {
+        "properties": {
+          "employee_id": {
+            "type": "string",
+            "title": "Employee Id",
+            "description": "Employee identifier in the accounting system."
+          },
+          "total": {
+            "type": "number",
+            "title": "Total",
+            "description": "Total amount including taxes for the expense."
+          },
+          "untaxed_amount": {
+            "type": "number",
+            "title": "Untaxed Amount",
+            "description": "Total untaxed amount for the expense."
+          },
+          "tax_amount": {
+            "type": "number",
+            "title": "Tax Amount",
+            "description": "Total tax amount for the expense."
+          },
+          "reference": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference",
+            "description": "External reference."
+          },
+          "number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Number",
+            "description": "Unique number for idempotency in the accounting system."
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "description": "Currency of the expense (e.g., EUR, USD)."
+          },
+          "currency_exchange_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency Exchange Rate",
+            "description": "Exchange rate at expense date if currency differs from folder currency. Must be positive if provided.",
+            "default": 1
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date",
+            "description": "Expense date."
+          },
+          "pdf": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pdf",
+            "description": "Base64 PDF attachment of the expense document."
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/ExpenseLineItem"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Lines",
+            "description": "Expense lines."
+          },
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique id of the expense in the accounting system."
+          }
+        },
+        "type": "object",
+        "required": [
+          "employee_id",
+          "total",
+          "untaxed_amount",
+          "tax_amount",
+          "currency",
+          "date",
+          "lines",
+          "id"
+        ],
+        "title": "ExpenseItemOut"
+      },
+      "ExpenseLineItem": {
+        "properties": {
+          "total": {
+            "type": "number",
+            "title": "Total",
+            "description": "Total amount for the line including taxes."
+          },
+          "untaxed_amount": {
+            "type": "number",
+            "title": "Untaxed Amount",
+            "description": "Untaxed amount for the line."
+          },
+          "tax_amount": {
+            "type": "number",
+            "title": "Tax Amount",
+            "description": "Tax amount for the line."
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Line description"
+          },
+          "account_number": {
+            "type": "string",
+            "title": "Account Number",
+            "description": "General ledger account number to book the expense."
+          },
+          "tax_rate": {
+            "type": "number",
+            "title": "Tax Rate",
+            "description": "Tax rate (e.g., 21.0 for 21%)."
+          },
+          "tax_id": {
+            "type": "string",
+            "title": "Tax Id",
+            "description": "Tax identifier to validate against the provided tax_rate."
+          }
+        },
+        "type": "object",
+        "required": [
+          "total",
+          "untaxed_amount",
+          "tax_amount",
+          "account_number",
+          "tax_rate",
+          "tax_id"
+        ],
+        "title": "ExpenseLineItem"
+      },
       "ExtendedIssueItem": {
         "properties": {
           "id": {
@@ -24644,7 +25084,7 @@
           },
           "lines": {
             "items": {
-              "$ref": "#/components/schemas/InvoiceLineItem"
+              "$ref": "#/components/schemas/InvoiceLineItem-Input"
             },
             "type": "array",
             "title": "Lines",
@@ -25349,7 +25789,7 @@
           },
           "lines": {
             "items": {
-              "$ref": "#/components/schemas/InvoiceLineItem"
+              "$ref": "#/components/schemas/InvoiceLineItem-Output"
             },
             "type": "array",
             "title": "Lines",
@@ -25988,7 +26428,7 @@
           },
           "lines": {
             "items": {
-              "$ref": "#/components/schemas/InvoiceLineItem"
+              "$ref": "#/components/schemas/InvoiceLineItem-Output"
             },
             "type": "array",
             "title": "Lines",
@@ -26193,7 +26633,7 @@
         "title": "InvoiceItemOutSingle",
         "description": "Invoice item returned in get 1 invoice"
       },
-      "InvoiceLineItem": {
+      "InvoiceLineItem-Input": {
         "properties": {
           "description": {
             "anyOf": [
@@ -26333,6 +26773,190 @@
             ],
             "title": "Product Name",
             "description": "Product name"
+          },
+          "analytic_distribution": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/AnalyticDistributionInvoicing"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analytic Distribution",
+            "description": "List of analytic distributions for the line item. Each distribution specifies an analytic plan and the associated analytic accounts with their percentages.",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "unit_price",
+          "quantity",
+          "tax_amount",
+          "untaxed_amount",
+          "total"
+        ],
+        "title": "InvoiceLineItem"
+      },
+      "InvoiceLineItem-Output": {
+        "properties": {
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Line description"
+          },
+          "unit_price": {
+            "type": "number",
+            "title": "Unit Price",
+            "description": "Unit price excl. taxes"
+          },
+          "quantity": {
+            "type": "number",
+            "title": "Quantity",
+            "description": "Quantity"
+          },
+          "discount_amount": {
+            "type": "number",
+            "title": "Discount Amount",
+            "description": "Line discount amount excl. taxes, (unit_price * quantity) - discount_amount = untaxed_amount",
+            "default": 0.0
+          },
+          "tax_amount": {
+            "type": "number",
+            "title": "Tax Amount",
+            "description": "Line total taxes amount"
+          },
+          "untaxed_amount": {
+            "type": "number",
+            "title": "Untaxed Amount",
+            "description": "Line total untaxed amount"
+          },
+          "total": {
+            "type": "number",
+            "title": "Total",
+            "description": "Line total amount incl. taxes, total = tax_amount + untaxed_amount"
+          },
+          "tax_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tax Rate",
+            "description": "Tax rate (e.g. 21.0)"
+          },
+          "account_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Account Number",
+            "description": "Number of the accounting account used (e.g. 701000)"
+          },
+          "tax_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tax Id",
+            "description": "Technical id of the tax in Chift"
+          },
+          "tax_exemption_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tax Exemption Reason",
+            "description": "Tax exemption reason"
+          },
+          "unit_of_measure": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit Of Measure",
+            "description": "Unit of measure matching target sofware name"
+          },
+          "product_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Product Id",
+            "description": "Technical id of the product in Chift"
+          },
+          "product_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Product Code",
+            "description": "Product reference"
+          },
+          "product_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Product Name",
+            "description": "Product name"
+          },
+          "analytic_distribution": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/AnalyticDistributionInvoicing"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analytic Distribution",
+            "description": "List of analytic distributions for the line item. Each distribution specifies an analytic plan and the associated analytic accounts with their percentages.",
+            "default": []
           }
         },
         "type": "object",
