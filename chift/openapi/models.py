@@ -10,6 +10,7 @@ from .openapi import (
     AccountingVatCode,
     AccountItem,
     AnalyticAccountItemOutMultiAnalyticPlans,
+    AnalyticDistributionInvoicing,
     AnalyticPlanItem,
     AttachmentItemOut,
     BackboneApiAppRoutersConnectionsConnectionItem,
@@ -34,6 +35,7 @@ from .openapi import (
     InvoiceItemOutMonoAnalyticPlan,
     InvoiceItemOutMultiAnalyticPlans,
     InvoiceItemOutSingle,
+    InvoiceLineItemOutput,
     InvoicingBankAccountItem,
     InvoicingBankTransactionItem,
     InvoicingPaymentItem,
@@ -306,6 +308,10 @@ class Invoice(InvoiceItemOutSingle):
     pass
 
 
+class InvoiceLine(InvoiceLineItemOutput):
+    pass
+
+
 class Contact(ContactItemOut):
     pass
 
@@ -335,6 +341,10 @@ class InvoicingBankAccount(InvoicingBankAccountItem):
 
 
 class InvoicingBankTransaction(InvoicingBankTransactionItem):
+    pass
+
+
+class AnalyticDistribution(AnalyticDistributionInvoicing):
     pass
 
 
