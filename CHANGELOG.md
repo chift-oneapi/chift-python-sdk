@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.19 - 2025-09-28
+- accounting: add expense model and endpoint
+
 ## 0.3.18 - 2025-09-12
 - invoicing: add analytical accounting information to invoices
 
