@@ -28,6 +28,7 @@ from .openapi import (
     DataItemOut,
     DataStoreItem,
     EmployeeItem,
+    ExpenseItemIn,
     FinancialEntryItemOut,
     IntegrationItem,
     InvoiceItemOutMonoAnalyticPlan,
@@ -415,6 +416,10 @@ class AccountBalance(AccountBalanceModel):
 
 
 class AccountingPayment(PaymentModel):
+    pass
+
+
+class Expense(ExpenseItemIn):
     pass
 
 

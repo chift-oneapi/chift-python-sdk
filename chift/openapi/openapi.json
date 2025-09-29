@@ -1340,46 +1340,6 @@
             }
           }
         }
-      },
-      "patch": {
-        "tags": [
-          "Syncs"
-        ],
-        "summary": "Update existing sync",
-        "description": "Update existing sync & related flows and mappings",
-        "operationId": "syncs_update_sync",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateSyncItem"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ReadSyncItem"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
       }
     },
     "/syncs/{syncid}": {
@@ -12186,24 +12146,6 @@
               "title": "Include Invoice Lines"
             },
             "description": "Include the invoice lines in the response. By default, invoice lines are included when no extra request is needed to fetch them. If you want to include them explicitly, set this parameter to true."
-          },
-          {
-            "name": "include_analytic_accounts",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "$ref": "#/components/schemas/BoolParam"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "default": "false",
-              "title": "Include Analytic Accounts"
-            },
-            "description": "Include analytic accounts in the response"
           }
         ],
         "responses": {
@@ -12357,24 +12299,6 @@
               "title": "Include Pdf"
             },
             "description": "Include the invoice PDF as a base64 encoded string in the response"
-          },
-          {
-            "name": "include_analytic_accounts",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "$ref": "#/components/schemas/BoolParam"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "default": "false",
-              "title": "Include Analytic Accounts"
-            },
-            "description": "Include analytic accounts in the response"
           }
         ],
         "responses": {
@@ -17147,61 +17071,6 @@
           "percentage"
         ],
         "title": "AnalyticDistributionDetail"
-      },
-      "AnalyticDistributionDetailInvoicing": {
-        "properties": {
-          "analytic_account_code": {
-            "type": "string",
-            "title": "Analytic Account Code",
-            "description": "Code of the analytic account."
-          },
-          "analytic_account_id": {
-            "type": "string",
-            "title": "Analytic Account Id",
-            "description": "Id of the analytic account."
-          },
-          "percentage": {
-            "type": "number",
-            "title": "Percentage",
-            "description": "Percentage of the untaxed amount attributed to this analytic account. Only whole numbers (no decimals) are allowed. The total across the analytic distribution (all accounts in a given analytic plan) must equal 100%."
-          }
-        },
-        "type": "object",
-        "required": [
-          "analytic_account_code",
-          "analytic_account_id",
-          "percentage"
-        ],
-        "title": "AnalyticDistributionDetailInvoicing"
-      },
-      "AnalyticDistributionInvoicing": {
-        "properties": {
-          "analytic_plan_id": {
-            "type": "string",
-            "title": "Analytic Plan Id",
-            "description": "Id of the analytic plan to which the distribution applies."
-          },
-          "analytic_plan_code": {
-            "type": "string",
-            "title": "Analytic Plan Code",
-            "description": "Code of the analytic plan to which the distribution applies."
-          },
-          "analytic_accounts": {
-            "items": {
-              "$ref": "#/components/schemas/AnalyticDistributionDetailInvoicing"
-            },
-            "type": "array",
-            "title": "Analytic Accounts",
-            "description": "List of analytic accounts and their respective percentages for the distribution."
-          }
-        },
-        "type": "object",
-        "required": [
-          "analytic_plan_id",
-          "analytic_plan_code",
-          "analytic_accounts"
-        ],
-        "title": "AnalyticDistributionInvoicing"
       },
       "AnalyticPlanItem": {
         "properties": {
@@ -24397,6 +24266,10 @@
               }
             ],
             "title": "Options"
+          },
+          "priority": {
+            "$ref": "#/components/schemas/TriggerPriority",
+            "default": "NORMAL"
           }
         },
         "type": "object",
@@ -25084,7 +24957,7 @@
           },
           "lines": {
             "items": {
-              "$ref": "#/components/schemas/InvoiceLineItem-Input"
+              "$ref": "#/components/schemas/InvoiceLineItem"
             },
             "type": "array",
             "title": "Lines",
@@ -25789,7 +25662,7 @@
           },
           "lines": {
             "items": {
-              "$ref": "#/components/schemas/InvoiceLineItem-Output"
+              "$ref": "#/components/schemas/InvoiceLineItem"
             },
             "type": "array",
             "title": "Lines",
@@ -26428,7 +26301,7 @@
           },
           "lines": {
             "items": {
-              "$ref": "#/components/schemas/InvoiceLineItem-Output"
+              "$ref": "#/components/schemas/InvoiceLineItem"
             },
             "type": "array",
             "title": "Lines",
@@ -26633,7 +26506,7 @@
         "title": "InvoiceItemOutSingle",
         "description": "Invoice item returned in get 1 invoice"
       },
-      "InvoiceLineItem-Input": {
+      "InvoiceLineItem": {
         "properties": {
           "description": {
             "anyOf": [
@@ -26773,190 +26646,6 @@
             ],
             "title": "Product Name",
             "description": "Product name"
-          },
-          "analytic_distribution": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/AnalyticDistributionInvoicing"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Analytic Distribution",
-            "description": "List of analytic distributions for the line item. Each distribution specifies an analytic plan and the associated analytic accounts with their percentages.",
-            "default": []
-          }
-        },
-        "type": "object",
-        "required": [
-          "unit_price",
-          "quantity",
-          "tax_amount",
-          "untaxed_amount",
-          "total"
-        ],
-        "title": "InvoiceLineItem"
-      },
-      "InvoiceLineItem-Output": {
-        "properties": {
-          "description": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Description",
-            "description": "Line description"
-          },
-          "unit_price": {
-            "type": "number",
-            "title": "Unit Price",
-            "description": "Unit price excl. taxes"
-          },
-          "quantity": {
-            "type": "number",
-            "title": "Quantity",
-            "description": "Quantity"
-          },
-          "discount_amount": {
-            "type": "number",
-            "title": "Discount Amount",
-            "description": "Line discount amount excl. taxes, (unit_price * quantity) - discount_amount = untaxed_amount",
-            "default": 0.0
-          },
-          "tax_amount": {
-            "type": "number",
-            "title": "Tax Amount",
-            "description": "Line total taxes amount"
-          },
-          "untaxed_amount": {
-            "type": "number",
-            "title": "Untaxed Amount",
-            "description": "Line total untaxed amount"
-          },
-          "total": {
-            "type": "number",
-            "title": "Total",
-            "description": "Line total amount incl. taxes, total = tax_amount + untaxed_amount"
-          },
-          "tax_rate": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Tax Rate",
-            "description": "Tax rate (e.g. 21.0)"
-          },
-          "account_number": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Account Number",
-            "description": "Number of the accounting account used (e.g. 701000)"
-          },
-          "tax_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Tax Id",
-            "description": "Technical id of the tax in Chift"
-          },
-          "tax_exemption_reason": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Tax Exemption Reason",
-            "description": "Tax exemption reason"
-          },
-          "unit_of_measure": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Unit Of Measure",
-            "description": "Unit of measure matching target sofware name"
-          },
-          "product_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Product Id",
-            "description": "Technical id of the product in Chift"
-          },
-          "product_code": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Product Code",
-            "description": "Product reference"
-          },
-          "product_name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Product Name",
-            "description": "Product name"
-          },
-          "analytic_distribution": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/AnalyticDistributionInvoicing"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Analytic Distribution",
-            "description": "List of analytic distributions for the line item. Each distribution specifies an analytic plan and the associated analytic accounts with their percentages.",
-            "default": []
           }
         },
         "type": "object",
@@ -30342,6 +30031,18 @@
               }
             ],
             "title": "Gift Card",
+            "default": false
+          },
+          "is_gift": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Gift",
             "default": false
           }
         },
@@ -36668,6 +36369,15 @@
           "success"
         ],
         "title": "TransactionStatus"
+      },
+      "TriggerPriority": {
+        "type": "string",
+        "enum": [
+          "NORMAL",
+          "MEDIUM",
+          "HIGH"
+        ],
+        "title": "TriggerPriority"
       },
       "TriggerResponse": {
         "properties": {

@@ -18,6 +18,7 @@ from chift.openapi.models import Attachment as AttachmentModel
 from chift.openapi.models import BankAccount as BankAccountModel
 from chift.openapi.models import Client as ClientModel
 from chift.openapi.models import Employee as EmployeeModel
+from chift.openapi.models import Expense as ExpenseModel
 from chift.openapi.models import FinancialEntry as FinancialEntryModel
 from chift.openapi.models import InvoiceAccounting as InvoiceAccountingModel
 from chift.openapi.models import (
@@ -59,6 +60,7 @@ class AccountingRouter:
         self.Custom = Custom(consumer_id, connection_id)
         self.Balance = Balance(consumer_id, connection_id)
         self.Payment = Payment(consumer_id, connection_id)
+        self.Expense = Expense(consumer_id, connection_id)
 
 
 class AnalyticPlan(PaginationMixin[AnalyticPlanModel]):
@@ -315,3 +317,11 @@ class Payment(ReadMixin[AccountingPayment]):
     def get(self, invoice_id, params=None, client=None):
         self.extra_path = "payments"
         return super().get(invoice_id, client=client, params=params)
+
+
+class Expense(
+    CreateMixin[ExpenseModel],
+):
+    chift_vertical: ClassVar = "accounting"
+    chift_model: ClassVar = "expenses"
+    model = ExpenseModel
