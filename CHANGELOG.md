@@ -1,4 +1,6 @@
 # Changelog
+## 0.1.96 - 2025-04-23
+* add banking vertical
 
 ## 0.3.19 - 2025-09-28
 - accounting: add expense model and endpoint
