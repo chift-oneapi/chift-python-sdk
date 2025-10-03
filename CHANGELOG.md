@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.22 - 2025-10-03
+- accounting: add journal entry with multiple analytic plans retrieval (iter_all)
+
 ## 0.3.21 - 2025-10-03
 - accounting: add journal entry with multiple analytic plans retrieval
 

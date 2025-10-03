@@ -216,6 +216,15 @@ class Entry(
     chift_model: ClassVar = "journal-entries"
     model = JournalEntryModel
 
+    def iter_all(self, params=None, client=None, map_model: Literal[True] = True, limit=None):
+        self.chift_model = "journal/entries/multi-analytic-plans"
+        return super().iter_all(
+            params=params,
+            client=client,
+            map_model=map_model,
+            limit=limit,
+        )
+
     def all(
         self,
         params=None,
