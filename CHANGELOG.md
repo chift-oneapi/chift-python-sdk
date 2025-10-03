@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.21 - 2025-10-03
+- accounting: add journal entry with multiple analytic plans retrieval
+
 ## 0.3.20 - 2025-10-01
 - accounting: adapt output model of expenses
 

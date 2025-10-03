@@ -1,4 +1,4 @@
-from typing import ClassVar
+from typing import ClassVar, Literal
 
 from chift.api.mixins import (
     CreateMixin,
@@ -209,11 +209,29 @@ class JournalEntry(
 
 
 class Entry(
+    PaginationMixin[JournalEntryModel],
     CreateMixin[JournalEntryModel],
 ):
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "journal-entries"
     model = JournalEntryModel
+
+    def all(
+        self,
+        params=None,
+        client=None,
+        map_model: Literal[True] = True,
+        limit=None,
+        raw_data: Literal[False] = False,
+    ):
+        self.chift_model = "journal/entries/multi-analytic-plans"
+        return super().all(
+            params=params,
+            client=client,
+            map_model=map_model,
+            limit=limit,
+            raw_data=raw_data,
+        )
 
 
 class FinancialEntry(
