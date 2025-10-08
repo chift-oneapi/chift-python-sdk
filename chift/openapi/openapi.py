@@ -727,6 +727,12 @@ class ClosurePaymentItem(BaseModel):
     total: float = Field(
         ..., description="Total amount including tax", examples=[11], title="Total"
     )
+    tip: Optional[float] = Field(
+        "0",
+        description="Total amount of the tips of the payment. Tips are not part of the total of the payment",
+        examples=[1],
+        title="Tip",
+    )
 
 
 class ClosureStates(Enum):

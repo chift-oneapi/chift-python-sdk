@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.23 - 2025-10-08
+- pos: update closure item (add tip)
+
 ## 0.3.22 - 2025-10-03
 - accounting: add journal entry with multiple analytic plans retrieval (iter_all)
 

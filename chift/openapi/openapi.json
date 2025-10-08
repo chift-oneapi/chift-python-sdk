@@ -21246,6 +21246,22 @@
             "examples": [
               11
             ]
+          },
+          "tip": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tip",
+            "description": "Total amount of the tips of the payment. Tips are not part of the total of the payment",
+            "default": "0",
+            "examples": [
+              1
+            ]
           }
         },
         "type": "object",
