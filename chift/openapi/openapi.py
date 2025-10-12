@@ -5,19 +5,12 @@
 from __future__ import annotations
 
 from datetime import date as Date
+from datetime import datetime as DateTime
 from enum import Enum
 from typing import Any, Dict, List, Optional, Union
 from uuid import UUID
 
-from pydantic import (
-    AwareDatetime,
-    BaseModel,
-    ConfigDict,
-    Field,
-    confloat,
-    conint,
-    constr,
-)
+from pydantic import BaseModel, ConfigDict, Field, confloat, conint, constr
 
 
 class AccountBalance(BaseModel):
@@ -450,7 +443,7 @@ class BankingAccountItem(BaseModel):
         examples=[1000],
         title="Current Balance",
     )
-    current_balance_last_update_date: Optional[AwareDatetime] = Field(
+    current_balance_last_update_date: Optional[DateTime] = Field(
         None,
         description="Last update date of the current balance",
         examples=["2025-01-01T00:00:00Z"],
@@ -462,7 +455,7 @@ class BankingAccountItem(BaseModel):
         examples=[1000],
         title="Available Balance",
     )
-    available_balance_last_update_date: Optional[AwareDatetime] = Field(
+    available_balance_last_update_date: Optional[DateTime] = Field(
         None,
         description="Last update date of the available balance",
         examples=["2025-01-01T00:00:00Z"],
@@ -585,19 +578,19 @@ class BankingTransactionItem(BaseModel):
         examples=["Chift transaction"],
         title="Remittance Information",
     )
-    creation_date: AwareDatetime = Field(
+    creation_date: DateTime = Field(
         ...,
         description="Creation date of the transaction",
         examples=["2025-01-01T00:00:00Z"],
         title="Creation Date",
     )
-    value_date: AwareDatetime = Field(
+    value_date: DateTime = Field(
         ...,
         description="Value date of the transaction",
         examples=["2025-01-01T00:00:00Z"],
         title="Value Date",
     )
-    execution_date: AwareDatetime = Field(
+    execution_date: DateTime = Field(
         ...,
         description="Execution date of the transaction",
         examples=["2025-01-01T00:00:00Z"],
@@ -635,8 +628,8 @@ class BoolParam(Enum):
 
 class ChainExecutionItem(BaseModel):
     id: str = Field(..., title="Id")
-    start: AwareDatetime = Field(..., title="Start")
-    end: Optional[AwareDatetime] = Field(..., title="End")
+    start: DateTime = Field(..., title="Start")
+    end: Optional[DateTime] = Field(..., title="End")
     status: str = Field(..., title="Status")
 
 
@@ -847,7 +840,7 @@ class DataItem(BaseModel):
 class DataItemOut(BaseModel):
     data: Dict[str, Any] = Field(..., title="Data")
     id: str = Field(..., title="Id")
-    created_on: AwareDatetime = Field(..., title="Created On")
+    created_on: DateTime = Field(..., title="Created On")
 
 
 class DatastoreColumn(BaseModel):
@@ -1356,7 +1349,7 @@ class InvoiceStatusOut(Enum):
 class IssueEvent(BaseModel):
     id: str = Field(..., title="Id")
     execution_id: str = Field(..., title="Execution Id")
-    created_on: AwareDatetime = Field(..., title="Created On")
+    created_on: DateTime = Field(..., title="Created On")
     context: Optional[Dict[str, Any]] = Field(None, title="Context")
     message: Optional[str] = Field(None, title="Message")
 
@@ -1836,7 +1829,7 @@ class POSCustomerItem(BaseModel):
         examples=["john.doe@gmail.com"],
         title="Email",
     )
-    created_on: Optional[AwareDatetime] = Field(
+    created_on: Optional[DateTime] = Field(
         None,
         description="Date and time when the customer was created",
         examples=["2025-01-01T00:00:00Z"],
@@ -2283,9 +2276,7 @@ class TransactionItemOut(BaseModel):
     exchange_rate: float = Field(
         ..., description="Exchange rate", title="Exchange Rate"
     )
-    create_date: AwareDatetime = Field(
-        ..., description="Create Date", title="Create Date"
-    )
+    create_date: DateTime = Field(..., description="Create Date", title="Create Date")
     application_type: str = Field(
         ...,
         description="Type of the transaction as recorded in the target software",
@@ -2396,7 +2387,7 @@ class WebhookInstanceGetItem(BaseModel):
     webhookid: UUID = Field(..., title="Webhookid")
     accountid: UUID = Field(..., title="Accountid")
     createdby: Optional[UUID] = Field(None, title="Createdby")
-    createdon: AwareDatetime = Field(..., title="Createdon")
+    createdon: DateTime = Field(..., title="Createdon")
     event: str = Field(..., title="Event")
     url: str = Field(..., title="Url")
     status: Status
@@ -2431,7 +2422,7 @@ class WebhookLogItem(BaseModel):
     event: str = Field(..., title="Event")
     url: str = Field(..., title="Url")
     accountid: str = Field(..., title="Accountid")
-    createdon: AwareDatetime = Field(..., title="Createdon")
+    createdon: DateTime = Field(..., title="Createdon")
     httpstatus: int = Field(..., title="Httpstatus")
     integrationid: Optional[int] = Field(None, title="Integrationid")
 
@@ -2832,9 +2823,7 @@ class BalanceItemOut(BaseModel):
         ..., description="Total amount available", title="Available Amount"
     )
     currency: str = Field(..., description="Currency", title="Currency")
-    create_date: AwareDatetime = Field(
-        ..., description="Create Date", title="Create Date"
-    )
+    create_date: DateTime = Field(..., description="Create Date", title="Create Date")
 
 
 class CategoryItem(BaseModel):
@@ -3142,7 +3131,7 @@ class ClientItemOut(BaseModel):
         description="Id of the client in the accounting software. This is the unique identifier used to reference the client in the system.",
         title="Id",
     )
-    last_updated_on: Optional[AwareDatetime] = Field(
+    last_updated_on: Optional[DateTime] = Field(
         None,
         description="The last time the client has been updated.",
         title="Last Updated On",
@@ -3255,7 +3244,7 @@ class CommerceCustomerItem(BaseModel):
     addresses: Optional[List[BackboneCommonModelsCommerceCommonAddressItemOut]] = Field(
         [], title="Addresses"
     )
-    created_on: Optional[AwareDatetime] = Field(None, title="Created On")
+    created_on: Optional[DateTime] = Field(None, title="Created On")
 
 
 class CommerceLocationItemOut(BaseModel):
@@ -3485,9 +3474,9 @@ class ExtendedIssueItem(BaseModel):
     connection_id: str = Field(..., title="Connection Id")
     integration_id: int = Field(..., title="Integration Id")
     integration_name: str = Field(..., title="Integration Name")
-    created_on: AwareDatetime = Field(..., title="Created On")
-    updated_on: AwareDatetime = Field(..., title="Updated On")
-    last_seen: AwareDatetime = Field(..., title="Last Seen")
+    created_on: DateTime = Field(..., title="Created On")
+    updated_on: DateTime = Field(..., title="Updated On")
+    last_seen: DateTime = Field(..., title="Last Seen")
     error: ErrorInfo
     occurrences: int = Field(..., title="Occurrences")
     level: IssueLevel
@@ -3497,7 +3486,7 @@ class ExtendedIssueItem(BaseModel):
 class FeesItem(BaseModel):
     id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(..., description="Technical id in the target software")
-    created_on: Optional[AwareDatetime] = Field(None, title="Created On")
+    created_on: Optional[DateTime] = Field(None, title="Created On")
     type: FeesType
     removed: Optional[bool] = Field(
         False,
@@ -3884,7 +3873,7 @@ class InvoicingPaymentItem(BaseModel):
     description: str = Field(..., description="Description", title="Description")
     amount: float = Field(..., description="Amount", title="Amount")
     currency: str = Field(..., description="Currency", title="Currency")
-    payment_date: AwareDatetime = Field(
+    payment_date: DateTime = Field(
         ..., description="Date of creation", title="Payment Date"
     )
     partner_id: Optional[str] = Field(
@@ -3931,9 +3920,9 @@ class IssueItem(BaseModel):
     connection_id: str = Field(..., title="Connection Id")
     integration_id: int = Field(..., title="Integration Id")
     integration_name: str = Field(..., title="Integration Name")
-    created_on: AwareDatetime = Field(..., title="Created On")
-    updated_on: AwareDatetime = Field(..., title="Updated On")
-    last_seen: AwareDatetime = Field(..., title="Last Seen")
+    created_on: DateTime = Field(..., title="Created On")
+    updated_on: DateTime = Field(..., title="Updated On")
+    last_seen: DateTime = Field(..., title="Last Seen")
     error: ErrorInfo
     occurrences: int = Field(..., title="Occurrences")
     level: IssueLevel
@@ -4258,7 +4247,7 @@ class OrderTransactions(BaseModel):
     id: str = Field(
         ..., description="Technical id of the transaction in the eCommerce", title="Id"
     )
-    created_on: Optional[AwareDatetime] = Field(None, title="Created On")
+    created_on: Optional[DateTime] = Field(None, title="Created On")
     payment_method_id: Optional[str] = Field(
         None,
         description="Technical id of the payment method in the eCommerce",
@@ -4344,7 +4333,7 @@ class PMSCustomerItem(BaseModel):
         examples=["701000"],
         title="Account Number",
     )
-    created_on: Optional[AwareDatetime] = Field(
+    created_on: Optional[DateTime] = Field(
         None,
         description="Creation date of the customer",
         examples=["2023-09-25T12:00:00"],
@@ -4463,7 +4452,7 @@ class PMSPaymentItem(BaseModel):
     currency: Optional[str] = Field(
         None, description="Currency of the payment", examples=["EUR"], title="Currency"
     )
-    date: Optional[AwareDatetime] = Field(
+    date: Optional[DateTime] = Field(
         None,
         description="Date of the payment",
         examples=["2025-01-01T00:00:00Z"],
@@ -4673,7 +4662,7 @@ class POSPaymentItem(BaseModel):
     currency: Optional[str] = Field(
         None, description="Currency of the payment", examples=["EUR"], title="Currency"
     )
-    date: Optional[AwareDatetime] = Field(
+    date: Optional[DateTime] = Field(
         None,
         description="Date of the payment",
         examples=["2025-01-01T00:00:00Z"],
@@ -4805,7 +4794,7 @@ class Partner(BaseModel):
         description="Id of the client in the accounting software. This is the unique identifier used to reference the client in the system.",
         title="Id",
     )
-    last_updated_on: Optional[AwareDatetime] = Field(
+    last_updated_on: Optional[DateTime] = Field(
         None,
         description="The last time the client has been updated.",
         title="Last Updated On",
@@ -4826,7 +4815,7 @@ class PaymentItemOut(BaseModel):
     description: str = Field(..., description="Description", title="Description")
     amount: float = Field(..., description="Amount", title="Amount")
     currency: str = Field(..., description="Currency", title="Currency")
-    payment_date: AwareDatetime = Field(
+    payment_date: DateTime = Field(
         ..., description="Date of creation", title="Payment Date"
     )
     partner_id: Optional[str] = Field(
@@ -4898,7 +4887,7 @@ class ProductVariantItem(BaseModel):
     categories: Optional[
         List[BackboneCommonModelsCommerceCommonProductCategoryItem]
     ] = Field([], title="Categories")
-    created_on: Optional[AwareDatetime] = Field(None, title="Created On")
+    created_on: Optional[DateTime] = Field(None, title="Created On")
     sku: Optional[str] = Field(None, title="Sku")
     barcode: Optional[str] = Field(None, title="Barcode")
     available_quantity: Optional[float] = Field(0, title="Available Quantity")
@@ -4937,7 +4926,7 @@ class RefundItemOut(BaseModel):
     description: str = Field(..., description="Description", title="Description")
     amount: float = Field(..., description="Amount", title="Amount")
     currency: str = Field(..., description="Currency", title="Currency")
-    refund_date: AwareDatetime = Field(
+    refund_date: DateTime = Field(
         ..., description="Date of creation", title="Refund Date"
     )
     payment_id: Optional[str] = Field(
@@ -4969,19 +4958,19 @@ class RefundOrderLineItem(BaseModel):
 class ReservationItem(BaseModel):
     id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(..., description="Technical id in the target software")
-    start_date: Optional[AwareDatetime] = Field(
+    start_date: Optional[DateTime] = Field(
         None,
         description="Start date of the reservation",
         examples=["2024-10-01T12:00:00"],
         title="Start Date",
     )
-    end_date: Optional[AwareDatetime] = Field(
+    end_date: Optional[DateTime] = Field(
         None,
         description="End date of the reservation",
         examples=["2024-10-10T12:00:00"],
         title="End Date",
     )
-    creation_date: Optional[AwareDatetime] = Field(
+    creation_date: Optional[DateTime] = Field(
         None,
         description="Creation date of the reservation",
         examples=["2024-09-25T12:00:00"],
@@ -5215,7 +5204,7 @@ class SupplierItemOut(BaseModel):
         description="Id of the supplier in the accounting software. This is the unique identifier used to reference the supplier in the system.",
         title="Id",
     )
-    last_updated_on: Optional[AwareDatetime] = Field(
+    last_updated_on: Optional[DateTime] = Field(
         None,
         description="The last time the supplier has been updated.",
         title="Last Updated On",
@@ -5321,7 +5310,7 @@ class VariantItem(BaseModel):
     categories: Optional[
         List[BackboneCommonModelsCommerceCommonProductCategoryItem]
     ] = Field([], title="Categories")
-    created_on: Optional[AwareDatetime] = Field(None, title="Created On")
+    created_on: Optional[DateTime] = Field(None, title="Created On")
     sku: Optional[str] = Field(None, title="Sku")
     barcode: Optional[str] = Field(None, title="Barcode")
     available_quantity: Optional[float] = Field(0, title="Available Quantity")
@@ -5682,13 +5671,13 @@ class InvoiceItemOutput(BaseModel):
         examples=["INV-12345"],
         title="Invoice Number",
     )
-    creation_date: Optional[AwareDatetime] = Field(
+    creation_date: Optional[DateTime] = Field(
         None,
         description="Creation date of the invoice",
         examples=["2023-10-01T12:00:00"],
         title="Creation Date",
     )
-    closing_date: Optional[AwareDatetime] = Field(
+    closing_date: Optional[DateTime] = Field(
         None,
         description="Closing date of the invoice",
         examples=["2023-10-10T12:00:00"],
@@ -5954,7 +5943,7 @@ class InvoiceItemOutMonoAnalyticPlan(BaseModel):
     )
     payments: Optional[List[Payment]] = Field(None, title="Payments")
     status: Optional[InvoiceStatusOut] = "posted"
-    last_updated_on: Optional[AwareDatetime] = Field(
+    last_updated_on: Optional[DateTime] = Field(
         None,
         description="The last time the invoice has been updated.",
         title="Last Updated On",
@@ -6032,7 +6021,7 @@ class InvoiceItemOutMultiAnalyticPlans(BaseModel):
     )
     payments: Optional[List[Payment]] = Field(None, title="Payments")
     status: Optional[InvoiceStatusOut] = "posted"
-    last_updated_on: Optional[AwareDatetime] = Field(
+    last_updated_on: Optional[DateTime] = Field(
         None,
         description="The last time the invoice has been updated.",
         title="Last Updated On",
@@ -6185,7 +6174,7 @@ class MiscellaneousOperationIn(BaseModel):
 class OrderLineItemOut(BaseModel):
     id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(..., description="Technical id in the target software")
-    created_on: Optional[AwareDatetime] = Field(None, title="Created On")
+    created_on: Optional[DateTime] = Field(None, title="Created On")
     variant: Optional[OrderLineProductVariantItem] = Field(
         None, description="Product variant"
     )
@@ -6228,7 +6217,7 @@ class OrderLineItemOut(BaseModel):
 class OrderRefundItem(BaseModel):
     id: str = Field(..., description="Technical id in Chift", title="Id")
     source_ref: Ref = Field(..., description="Technical id in the target software")
-    created_on: Optional[AwareDatetime] = Field(None, title="Created On")
+    created_on: Optional[DateTime] = Field(None, title="Created On")
     total: float = Field(..., title="Total")
     reason: Optional[str] = Field(None, title="Reason")
     order_lines: Optional[List[RefundOrderLineItem]] = Field([], title="Order Lines")
@@ -6243,7 +6232,7 @@ class OrderRefundItem(BaseModel):
 class OrderReturnItem(BaseModel):
     id: str = Field(..., description="Technical id of the return in Chift", title="Id")
     source_ref: Ref = Field(..., description="Technical id in the target software")
-    created_on: Optional[AwareDatetime] = Field(None, title="Created On")
+    created_on: Optional[DateTime] = Field(None, title="Created On")
     order_lines: Optional[List[ReturnOrderLineItem]] = Field([], title="Order Lines")
     new_lines: Optional[List[ReturnOrderLineItem]] = Field([], title="New Lines")
     linked_fees: Optional[List[ReturnFeesItem]] = Field([], title="Linked Fees")
@@ -6270,13 +6259,13 @@ class PMSInvoiceFullItem(BaseModel):
         examples=["INV-12345"],
         title="Invoice Number",
     )
-    creation_date: Optional[AwareDatetime] = Field(
+    creation_date: Optional[DateTime] = Field(
         None,
         description="Creation date of the invoice",
         examples=["2023-10-01T12:00:00"],
         title="Creation Date",
     )
-    closing_date: Optional[AwareDatetime] = Field(
+    closing_date: Optional[DateTime] = Field(
         None,
         description="Closing date of the invoice",
         examples=["2023-10-10T12:00:00"],
@@ -6321,19 +6310,19 @@ class PMSOrderItem(BaseModel):
         examples=["1"],
         title="Order Number",
     )
-    creation_date: AwareDatetime = Field(
+    creation_date: DateTime = Field(
         ...,
         description="Creation date of the order",
         examples=["2025-01-01T00:00:00Z"],
         title="Creation Date",
     )
-    closing_date: Optional[AwareDatetime] = Field(
+    closing_date: Optional[DateTime] = Field(
         None,
         description="Closing date of the order",
         examples=["2025-01-01T00:00:00Z"],
         title="Closing Date",
     )
-    service_date: Optional[AwareDatetime] = Field(
+    service_date: Optional[DateTime] = Field(
         None,
         description="Indicates the date of the service to which the order belongs (can be used to group orders by closure date)",
         examples=["2025-01-01T00:00:00Z"],
@@ -6443,19 +6432,19 @@ class POSOrderItem(BaseModel):
         examples=["1"],
         title="Order Number",
     )
-    creation_date: AwareDatetime = Field(
+    creation_date: DateTime = Field(
         ...,
         description="Creation date of the order",
         examples=["2025-01-01T00:00:00Z"],
         title="Creation Date",
     )
-    closing_date: Optional[AwareDatetime] = Field(
+    closing_date: Optional[DateTime] = Field(
         None,
         description="Closing date of the order",
         examples=["2025-01-01T00:00:00Z"],
         title="Closing Date",
     )
-    service_date: Optional[AwareDatetime] = Field(
+    service_date: Optional[DateTime] = Field(
         None,
         description="Indicates the date of the service to which the order belongs (can be used to group orders by closure date)",
         examples=["2025-01-01T00:00:00Z"],
@@ -6553,8 +6542,8 @@ class ProductItemOutput(BaseModel):
     categories: Optional[
         List[BackboneCommonModelsCommerceCommonProductCategoryItem]
     ] = Field([], title="Categories")
-    created_on: Optional[AwareDatetime] = Field(None, title="Created On")
-    last_updated_on: Optional[AwareDatetime] = Field(None, title="Last Updated On")
+    created_on: Optional[DateTime] = Field(None, title="Created On")
+    last_updated_on: Optional[DateTime] = Field(None, title="Last Updated On")
     variants: Optional[List[ProductVariantItem]] = Field([], title="Variants")
     status: Optional[ProductStatus] = None
     sku: Optional[str] = Field(None, title="Sku")
@@ -6579,7 +6568,7 @@ class ReadFlowConsumerItem(BaseModel):
     id: str = Field(..., title="Id")
     config: Optional[FlowConfigOutput] = None
     values: Dict[str, Any] = Field(..., title="Values")
-    enabled_on: Optional[AwareDatetime] = Field(
+    enabled_on: Optional[DateTime] = Field(
         None,
         description="Date on which the flow was enabled for this consumer",
         title="Enabled On",
@@ -6608,7 +6597,7 @@ class SyncConsumerItem(BaseModel):
         description="Gives additional information if the status is inactive",
         title="Status Details",
     )
-    link_createdon: AwareDatetime = Field(
+    link_createdon: DateTime = Field(
         ...,
         description="Date on which the consumer first navigated to the link to setup the sync",
         title="Link Createdon",
@@ -6680,7 +6669,7 @@ class UploadDocumentItemOut(BaseModel):
     italian_specificities: Optional[ItalianSpecificitiesOutput] = Field(
         None, description="Specificities for Italy"
     )
-    last_updated_on: Optional[AwareDatetime] = Field(None, title="Last Updated On")
+    last_updated_on: Optional[DateTime] = Field(None, title="Last Updated On")
     outstanding_amount: Optional[float] = Field(
         None, description="Amount left to be paid", title="Outstanding Amount"
     )
@@ -6868,7 +6857,7 @@ class InvoiceItemOut(BaseModel):
     italian_specificities: Optional[ItalianSpecificitiesOutput] = Field(
         None, description="Specificities for Italy"
     )
-    last_updated_on: Optional[AwareDatetime] = Field(None, title="Last Updated On")
+    last_updated_on: Optional[DateTime] = Field(None, title="Last Updated On")
     outstanding_amount: Optional[float] = Field(
         None, description="Amount left to be paid", title="Outstanding Amount"
     )
@@ -6931,7 +6920,7 @@ class InvoiceItemOutSingle(BaseModel):
     italian_specificities: Optional[ItalianSpecificitiesOutput] = Field(
         None, description="Specificities for Italy"
     )
-    last_updated_on: Optional[AwareDatetime] = Field(None, title="Last Updated On")
+    last_updated_on: Optional[DateTime] = Field(None, title="Last Updated On")
     outstanding_amount: Optional[float] = Field(
         None, description="Amount left to be paid", title="Outstanding Amount"
     )
@@ -6963,11 +6952,11 @@ class OrderItemOut(BaseModel):
     customer: Optional[OrderCustomerItemOut] = None
     billing_address: Optional[BackboneCommonModelsCommerceCommonAddressItemOut] = None
     shipping_address: Optional[BackboneCommonModelsCommerceCommonAddressItemOut] = None
-    created_on: Optional[AwareDatetime] = Field(None, title="Created On")
-    last_updated_on: Optional[AwareDatetime] = Field(None, title="Last Updated On")
-    confirmed_on: Optional[AwareDatetime] = Field(None, title="Confirmed On")
-    delivery_date: Optional[AwareDatetime] = Field(None, title="Delivery Date")
-    cancelled_on: Optional[AwareDatetime] = Field(None, title="Cancelled On")
+    created_on: Optional[DateTime] = Field(None, title="Created On")
+    last_updated_on: Optional[DateTime] = Field(None, title="Last Updated On")
+    confirmed_on: Optional[DateTime] = Field(None, title="Confirmed On")
+    delivery_date: Optional[DateTime] = Field(None, title="Delivery Date")
+    cancelled_on: Optional[DateTime] = Field(None, title="Cancelled On")
     status: OrderStatus
     discount_amount: float = Field(..., title="Discount Amount")
     untaxed_amount_without_fees: float = Field(

@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.25 - 2025-10-12
+- revert AwareDatetime to datetime
+
 ## 0.3.24 - 2025-10-11
 - invoicing: add document_type for attribute to upload document endpoint
 
