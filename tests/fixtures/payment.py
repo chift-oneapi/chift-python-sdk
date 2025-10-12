@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 
 # Response for Transaction.all()
 TRANSACTIONS_ALL = {
@@ -12,7 +12,7 @@ TRANSACTIONS_ALL = {
             "amount": 100,
             "currency": "EUR",
             "exchange_rate": 1.0,
-            "create_date": datetime.now().isoformat(),
+            "create_date": datetime.now().isoformat(tz=timezone.utc),
             "application_type": "payment",
             "accounting_category": "payment",
             "refund_id": None,
@@ -26,7 +26,7 @@ TRANSACTIONS_ALL = {
             "amount": 100,
             "currency": "EUR",
             "exchange_rate": 1.0,
-            "create_date": datetime.now().isoformat(),
+            "create_date": datetime.now().isoformat(tz=timezone.utc),
             "application_type": "payout",
             "accounting_category": "payout",
             "refund_id": None,
@@ -46,14 +46,14 @@ BALANCES_ALL = {
             "source_ref": {"id": "bal_123", "model": "Balance"},
             "available_amount": 1500.0,
             "currency": "EUR",
-            "create_date": datetime.now().isoformat(),
+            "create_date": datetime.now().isoformat(tz=timezone.utc),
         },
         {
             "id": str(uuid.uuid4()),
             "source_ref": {"id": "bal_124", "model": "Balance"},
             "available_amount": 500.0,
             "currency": "USD",
-            "create_date": datetime.now().isoformat(),
+            "create_date": datetime.now().isoformat(tz=timezone.utc),
         },
     ],
     "total": 2,
@@ -74,7 +74,7 @@ PAYMENTS_ALL = {
             "description": "Test payment",
             "amount": 100.0,
             "currency": "EUR",
-            "payment_date": datetime.now().isoformat(),
+            "payment_date": datetime.now().isoformat(tz=timezone.utc),
             "partner_id": str(uuid.uuid4()),
             "payment_id": "pay_124",
         },
@@ -85,7 +85,7 @@ PAYMENTS_ALL = {
             "description": "Another payment",
             "amount": 75.0,
             "currency": "EUR",
-            "payment_date": datetime.now().isoformat(),
+            "payment_date": datetime.now().isoformat(tz=timezone.utc),
             "payment_id": "pay_123",
             "partner_id": str(uuid.uuid4()),
         },
@@ -103,7 +103,7 @@ PAYMENT_GET = {
     "description": "Test payment",
     "amount": 100.0,
     "currency": "EUR",
-    "payment_date": datetime.now().isoformat(),
+    "payment_date": datetime.now().isoformat(tz=timezone.utc),
     "partner_id": str(uuid.uuid4()),
 }
 
@@ -117,7 +117,7 @@ REFUNDS_ALL = {
             "description": "Test refund",
             "amount": 25.0,
             "currency": "EUR",
-            "refund_date": datetime.now().isoformat(),
+            "refund_date": datetime.now().isoformat(tz=timezone.utc),
             "payment_id": PAYMENT_ID,
         },
         {
@@ -127,7 +127,7 @@ REFUNDS_ALL = {
             "description": "Another refund",
             "amount": 15.0,
             "currency": "EUR",
-            "refund_date": datetime.now().isoformat(),
+            "refund_date": datetime.now().isoformat(tz=timezone.utc),
             "payment_id": PAYMENT_ID,
         },
     ],
