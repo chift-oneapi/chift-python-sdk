@@ -1452,7 +1452,7 @@
             "content": {
               "application/json": {
                 "example": {
-                  "message": "You cannot force the execution for all consumers",
+                  "message": "No consumers found",
                   "status": "error"
                 },
                 "schema": {
@@ -7833,7 +7833,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/DocumentType"
+              "$ref": "#/components/schemas/backbone_common__models__accounting__common__DocumentType"
             }
           },
           {
@@ -13609,6 +13609,74 @@
         }
       }
     },
+    "/consumers/{consumer_id}/invoicing/upload-document": {
+      "post": {
+        "tags": [
+          "Invoicing"
+        ],
+        "summary": "Upload a document (PDF)",
+        "description": "Upload a document (PDF)",
+        "operationId": "invoicing_upload_document",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttachmentItemIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadDocumentItemOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The document is not a valid base64 string representing a PDF.",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/banking/financial-institutions": {
       "get": {
         "tags": [
@@ -16256,6 +16324,18 @@
             "title": "Reversed",
             "description": "Indicates whether the VAT code is reversed. A reversed VAT code is used in specific scenarios, such as reverse charge mechanisms, where the responsibility for reporting VAT shifts from the seller to the buyer.",
             "default": false
+          },
+          "country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Country",
+            "description": "Country of the VAT code. This is the ISO 3166-1 code of the country."
           }
         },
         "type": "object",
@@ -17145,6 +17225,23 @@
         ],
         "title": "AttachmentItem"
       },
+      "AttachmentItemIn": {
+        "properties": {
+          "base64_string": {
+            "type": "string",
+            "title": "Base64 String"
+          },
+          "document_type": {
+            "$ref": "#/components/schemas/backbone_common__models__invoicing__common__DocumentType"
+          }
+        },
+        "type": "object",
+        "required": [
+          "base64_string",
+          "document_type"
+        ],
+        "title": "AttachmentItemIn"
+      },
       "AttachmentItemOut": {
         "properties": {
           "id": {
@@ -17402,6 +17499,18 @@
             ],
             "title": "Ledger Account",
             "description": "Indicates the ledger account used in the accounting system to represent the bank account. The ledger account is used in all the transactions related to this specific bank account. This ledger account is used to track the balance of the bank account."
+          },
+          "unallocated_account": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unallocated Account",
+            "description": "Unallocated ledger account used to book entries when the final ledger account / client / supplier / employee is not yet known (specific to bank and cash journals)"
           }
         },
         "type": "object",
@@ -17964,15 +18073,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -17989,6 +18091,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18004,15 +18107,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18029,6 +18125,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18044,15 +18141,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18069,6 +18159,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18084,15 +18175,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18109,6 +18193,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18124,15 +18209,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18149,6 +18227,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18164,15 +18243,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18189,6 +18261,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18204,15 +18277,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18229,6 +18295,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18244,15 +18311,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18269,6 +18329,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18284,15 +18345,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18309,6 +18363,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18324,15 +18379,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18349,6 +18397,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18364,15 +18413,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18389,6 +18431,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18404,15 +18447,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18429,6 +18465,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18444,15 +18481,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18469,6 +18499,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18484,15 +18515,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18509,6 +18533,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18524,15 +18549,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18549,6 +18567,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18564,15 +18583,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18589,6 +18601,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18604,15 +18617,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18629,6 +18635,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18644,15 +18651,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18669,6 +18669,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18684,15 +18685,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18709,6 +18703,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18724,15 +18719,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18749,6 +18737,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18764,15 +18753,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18789,6 +18771,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18804,15 +18787,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18829,6 +18805,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18844,15 +18821,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18869,6 +18839,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18884,15 +18855,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18909,6 +18873,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18924,15 +18889,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18949,6 +18907,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -18964,15 +18923,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -18989,6 +18941,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19004,15 +18957,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19029,6 +18975,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19044,15 +18991,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19069,6 +19009,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19084,15 +19025,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19109,6 +19043,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19124,15 +19059,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19149,6 +19077,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19164,15 +19093,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19189,6 +19111,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19204,15 +19127,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19229,6 +19145,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19244,15 +19161,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19269,6 +19179,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19284,15 +19195,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19309,6 +19213,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19324,15 +19229,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19349,6 +19247,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19364,15 +19263,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19389,6 +19281,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19404,15 +19297,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19429,6 +19315,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19444,15 +19331,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19469,6 +19349,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19484,15 +19365,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19509,6 +19383,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19524,15 +19399,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19549,6 +19417,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19564,15 +19433,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19589,6 +19451,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19604,15 +19467,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19629,6 +19485,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19644,15 +19501,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19669,6 +19519,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19684,15 +19535,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19709,6 +19553,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19724,15 +19569,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19749,6 +19587,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19764,15 +19603,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19789,6 +19621,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19804,15 +19637,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19829,6 +19655,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19844,15 +19671,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19869,6 +19689,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19884,15 +19705,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19909,6 +19723,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19924,15 +19739,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19949,6 +19757,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19964,15 +19773,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19989,6 +19791,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20004,15 +19807,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20029,6 +19825,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20044,15 +19841,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20069,6 +19859,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20084,15 +19875,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20109,6 +19893,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20124,15 +19909,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20149,6 +19927,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20164,15 +19943,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20189,6 +19961,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20204,15 +19977,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20229,6 +19995,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20244,15 +20011,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20269,6 +20029,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20284,15 +20045,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20309,6 +20063,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20324,15 +20079,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20349,6 +20097,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20364,15 +20113,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20389,6 +20131,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21239,14 +20982,6 @@
               "Cash"
             ]
           },
-          "total": {
-            "type": "number",
-            "title": "Total",
-            "description": "Total amount including tax",
-            "examples": [
-              11
-            ]
-          },
           "tip": {
             "anyOf": [
               {
@@ -21261,6 +20996,14 @@
             "default": "0",
             "examples": [
               1
+            ]
+          },
+          "total": {
+            "type": "number",
+            "title": "Total",
+            "description": "Total amount including tax",
+            "examples": [
+              11
             ]
           }
         },
@@ -22795,14 +22538,6 @@
           "LOSS"
         ],
         "title": "DiscountType"
-      },
-      "DocumentType": {
-        "type": "string",
-        "enum": [
-          "invoice",
-          "entry"
-        ],
-        "title": "DocumentType"
       },
       "EmployeeItem": {
         "properties": {
@@ -24749,6 +24484,15 @@
           "logo"
         ],
         "title": "ImageType"
+      },
+      "ImportMode": {
+        "type": "string",
+        "enum": [
+          "IMPORT_ONLY_MISSING_DAYS",
+          "REIMPORT_ENTIRE_PERIOD"
+        ],
+        "title": "ImportMode",
+        "description": "Enumeration of import modes for flow execution."
       },
       "IntegrationItem": {
         "properties": {
@@ -27865,6 +27609,18 @@
             ],
             "title": "Counterpart Account",
             "description": "When journal is of type bank or cash, this is account number of the counterpart account used for the journal."
+          },
+          "unallocated_account": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unallocated Account",
+            "description": "Unallocated ledger account used to book entries when the final ledger account / client / supplier / employee is not yet known (specific to bank and cash journals)"
           },
           "next_document_numbers": {
             "anyOf": [
@@ -33794,37 +33550,82 @@
       "PostSyncFlowEvent": {
         "properties": {
           "consumers": {
-            "anyOf": [
-              {
-                "items": {
-                  "type": "string",
-                  "format": "uuid"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Consumers",
-            "default": []
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "type": "array",
+            "title": "Consumers"
           },
           "data": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Data",
-            "default": {}
+            "$ref": "#/components/schemas/PostSyncFlowEventData"
           }
         },
         "type": "object",
         "title": "PostSyncFlowEvent"
+      },
+      "PostSyncFlowEventData": {
+        "properties": {
+          "force_restart": {
+            "type": "boolean",
+            "title": "Force Restart",
+            "description": "Whether to force restart the sync from the specified dates",
+            "default": false
+          },
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date",
+            "description": "Start date for sync range"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date",
+            "description": "End date for sync range"
+          },
+          "force_from_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Force From Date",
+            "description": "Force sync from this specific date, overriding flow configuration"
+          },
+          "import_mode": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ImportMode"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Import mode: reimport all data or only missing days"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "PostSyncFlowEventData"
       },
       "ProductCostItem": {
         "properties": {
@@ -36544,6 +36345,294 @@
         "type": "object",
         "title": "UpdateOrderItem"
       },
+      "UploadDocumentItemOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "$ref": "#/components/schemas/Ref",
+            "description": "Technical id in the target software"
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency",
+            "description": "Currency of the uploaded document"
+          },
+          "invoice_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/backbone_common__models__invoicing__common__InvoiceType"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Invoice type of the uploaded document"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/InvoiceStatus"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Status of the uploaded document"
+          },
+          "invoice_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Invoice Date",
+            "description": "Invoicing date"
+          },
+          "tax_amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tax Amount",
+            "description": "Taxes amount"
+          },
+          "untaxed_amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Untaxed Amount",
+            "description": "Untaxed amount"
+          },
+          "total": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total",
+            "description": "Total amount incl. taxes"
+          },
+          "lines": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/InvoiceLineItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lines",
+            "description": "Invoice lines",
+            "default": []
+          },
+          "partner_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Partner Id",
+            "description": "Technical id of the vendor/customer in Chift"
+          },
+          "invoice_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Invoice Number",
+            "description": "Number/sequence"
+          },
+          "due_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Due Date",
+            "description": "Due date"
+          },
+          "reference": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference",
+            "description": "Reference"
+          },
+          "payment_communication": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Communication",
+            "description": "Payment communication"
+          },
+          "customer_memo": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Memo",
+            "description": "Customer note/memo"
+          },
+          "journal_ref": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FieldRef"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Journal"
+          },
+          "italian_specificities": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ItalianSpecificities-Output"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Specificities for Italy"
+          },
+          "last_updated_on": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Updated On"
+          },
+          "outstanding_amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Outstanding Amount",
+            "description": "Amount left to be paid"
+          },
+          "last_payment_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Payment Date",
+            "description": "Date of the last payment linked to the invoice"
+          },
+          "accounting_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Accounting Date",
+            "description": "Accounting date"
+          },
+          "payment_method_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Method Id",
+            "description": "Technical id of the payment method in Chift"
+          },
+          "currency_exchange_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency Exchange Rate",
+            "description": "Indicates the exchange rate at the date of the invoice.",
+            "default": 1
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "source_ref"
+        ],
+        "title": "UploadDocumentItemOut"
+      },
       "ValidationError": {
         "properties": {
           "loc": {
@@ -37374,6 +37463,14 @@
         "type": "object",
         "title": "ConnectionItem"
       },
+      "backbone_common__models__accounting__common__DocumentType": {
+        "type": "string",
+        "enum": [
+          "invoice",
+          "entry"
+        ],
+        "title": "DocumentType"
+      },
       "backbone_common__models__accounting__common__InvoiceType": {
         "type": "string",
         "enum": [
@@ -37889,6 +37986,15 @@
           "address_type"
         ],
         "title": "AddressItemOut"
+      },
+      "backbone_common__models__invoicing__common__DocumentType": {
+        "type": "string",
+        "enum": [
+          "customer_document",
+          "supplier_document",
+          "employee_expense"
+        ],
+        "title": "DocumentType"
       },
       "backbone_common__models__invoicing__common__InvoiceType": {
         "type": "string",

@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.24 - 2025-10-11
+- invoicing: add document_type for attribute to upload document endpoint
+
 ## 0.3.23 - 2025-10-08
 - pos: update closure item (add tip)
 
