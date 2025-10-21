@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.26 - 2025-10-21
+- accounting: add automated_matching_number field on financial entries + accounting payments and payment methods
+
 ## 0.3.25 - 2025-10-12
 - revert AwareDatetime to datetime
 

@@ -6824,6 +6824,188 @@
         }
       }
     },
+    "/consumers/{consumer_id}/accounting/payment-methods": {
+      "get": {
+        "tags": [
+          "Accounting",
+          "Invoices"
+        ],
+        "summary": "Get payment methods",
+        "description": "Get payment methods",
+        "operationId": "accounting_get_payment_methods",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Page number",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Page size",
+              "default": 50,
+              "title": "Size"
+            },
+            "description": "Page size"
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Folder Id"
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_AccountingPaymentMethod_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/accounting/invoices/payments": {
+      "post": {
+        "tags": [
+          "Accounting",
+          "Invoices"
+        ],
+        "summary": "Create an invoice payment",
+        "description": "Create invoice payment",
+        "operationId": "accounting_create_invoice_payment",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Folder Id"
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountingInvoicePaymentIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/accounting/journals": {
       "get": {
         "tags": [
@@ -9480,8 +9662,8 @@
           "Point of Sale",
           "Payment methods"
         ],
-        "summary": "Get payment methods",
-        "description": "Returns the list of payment methods",
+        "summary": "Get payment methods (POS)",
+        "description": "Returns the list of payment methods (POS)",
         "operationId": "pos_get_payments_methods",
         "parameters": [
           {
@@ -16243,6 +16425,126 @@
         ],
         "title": "AccountingCategoryItem"
       },
+      "AccountingInvoicePaymentIn": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date",
+            "description": "The date of the payment"
+          },
+          "payment_method_id": {
+            "type": "string",
+            "title": "Payment Method Id",
+            "description": "Technical ID of the payment method in the accounting system."
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "description": "Payment currency"
+          },
+          "currency_exchange_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency Exchange Rate",
+            "description": "Exchange rate applicable at the payment date. Required when the currency is different from the system's currency.",
+            "default": 1
+          },
+          "reference": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference",
+            "description": "External reference of the payment."
+          },
+          "number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Number",
+            "description": "Unique Payment number (if managed by the software)."
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AccountingInvoicePaymentItemIn"
+            },
+            "type": "array",
+            "title": "Items",
+            "description": "Payment's repartition"
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "payment_method_id",
+          "currency",
+          "items"
+        ],
+        "title": "AccountingInvoicePaymentIn"
+      },
+      "AccountingInvoicePaymentItemIn": {
+        "properties": {
+          "invoice_id": {
+            "type": "string",
+            "title": "Invoice Id",
+            "description": "Technical ID of the invoice in the accounting system."
+          },
+          "amount": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Amount",
+            "description": "Paid amount dedicated to the invoice. The amount must be positive and follows the sign of the linked invoice."
+          }
+        },
+        "type": "object",
+        "required": [
+          "invoice_id",
+          "amount"
+        ],
+        "title": "AccountingInvoicePaymentItemIn"
+      },
+      "AccountingPaymentMethod": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Technical ID of the payment method in the accounting system."
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "Name of the payment method"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "AccountingPaymentMethod"
+      },
       "AccountingVatCode": {
         "properties": {
           "id": {
@@ -16261,6 +16563,19 @@
             ],
             "title": "Code",
             "description": "Short code (sometimes also used as id) for the VAT code, as defined in the accounting system. This code is typically used for internal referencing, mapping, or selection of VAT codes"
+          },
+          "active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Active",
+            "description": "Flag indicating whether the vat code is active. If True, the vat code is active and can be used in entries/invoices. If False, the vat code is inactive and cannot be used in entries/invoices.",
+            "default": true
           },
           "label": {
             "type": "string",
@@ -18164,6 +18479,40 @@
           "size"
         ],
         "title": "ChiftPage[AccountingCategoryItem]"
+      },
+      "ChiftPage_AccountingPaymentMethod_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AccountingPaymentMethod"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Page"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "title": "ChiftPage[AccountingPaymentMethod]"
       },
       "ChiftPage_AccountingVatCode_": {
         "properties": {
@@ -23640,6 +23989,18 @@
             ],
             "title": "Description",
             "description": "Text description for this line item. This is typically used to provide additional context or information."
+          },
+          "automated_matching_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Automated Matching Number",
+            "description": "Automated matching number of the financial entry line item. This is used to let the accounting system do an automated matching based on this value. This is not supported on all accounting systems."
           }
         },
         "type": "object",
@@ -23678,6 +24039,18 @@
             ],
             "title": "Description",
             "description": "Text description for this line item. This is typically used to provide additional context or information."
+          },
+          "automated_matching_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Automated Matching Number",
+            "description": "Automated matching number of the financial entry line item. This is used to let the accounting system do an automated matching based on this value. This is not supported on all accounting systems."
           },
           "counterpart_account": {
             "type": "string",
@@ -25146,6 +25519,32 @@
             },
             "type": "array",
             "title": "Lines"
+          },
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date",
+            "description": "Start date of the period covered by the invoice (format: YYYY-MM-DD). This field should be used when the invoice relates to prepaid income or expenses (accruals and deferrals), indicating when the covered period begins."
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date",
+            "description": "End date of the period covered by the invoice (format: YYYY-MM-DD). This field should be used when the invoice relates to prepaid income or expenses (accruals and deferrals), indicating when the covered period ends."
           }
         },
         "type": "object",
@@ -25360,6 +25759,32 @@
             },
             "type": "array",
             "title": "Lines"
+          },
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date",
+            "description": "Start date of the period covered by the invoice (format: YYYY-MM-DD). This field should be used when the invoice relates to prepaid income or expenses (accruals and deferrals), indicating when the covered period begins."
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date",
+            "description": "End date of the period covered by the invoice (format: YYYY-MM-DD). This field should be used when the invoice relates to prepaid income or expenses (accruals and deferrals), indicating when the covered period ends."
           }
         },
         "type": "object",
@@ -25792,6 +26217,10 @@
             "description": "List of all due dates of the invoice.",
             "default": []
           },
+          "attachments_info": {
+            "$ref": "#/components/schemas/ItemAttachmentInfoOut",
+            "description": "Extra information about the attachments linked to the invoice."
+          },
           "lines": {
             "items": {
               "$ref": "#/components/schemas/InvoiceLineItemOutMonoAnalyticPlan"
@@ -25991,6 +26420,10 @@
             "title": "Due Dates",
             "description": "List of all due dates of the invoice.",
             "default": []
+          },
+          "attachments_info": {
+            "$ref": "#/components/schemas/ItemAttachmentInfoOut",
+            "description": "Extra information about the attachments linked to the invoice."
           },
           "lines": {
             "items": {
@@ -27574,6 +28007,74 @@
         "type": "object",
         "title": "ItalianSpecificities"
       },
+      "ItemAttachmentInfoAttachment": {
+        "properties": {
+          "filename": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Filename",
+            "description": "The name of the attachment."
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Url",
+            "description": "The URL to download the file."
+          }
+        },
+        "type": "object",
+        "title": "ItemAttachmentInfoAttachment"
+      },
+      "ItemAttachmentInfoOut": {
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/ItemAttachmentInfoStatus",
+            "description": "The status of the attachment.'yes' means the attachment can be returned directly.'yes_to_request' means an additional request is required.'no' means there is no attachment.'unknown' means we can not yet determine if an attachment is available."
+          },
+          "attachments": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ItemAttachmentInfoAttachment"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Attachments",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "ItemAttachmentInfoOut"
+      },
+      "ItemAttachmentInfoStatus": {
+        "type": "string",
+        "enum": [
+          "unknown",
+          "yes",
+          "yes_to_request",
+          "no"
+        ],
+        "title": "ItemAttachmentInfoStatus"
+      },
       "Journal": {
         "properties": {
           "id": {
@@ -27799,6 +28300,10 @@
             "description": "List of all due dates of a journal entry.",
             "default": []
           },
+          "attachments_info": {
+            "$ref": "#/components/schemas/ItemAttachmentInfoOut",
+            "description": "Extra information about the attachments linked to the journal entry."
+          },
           "items": {
             "anyOf": [
               {
@@ -27925,6 +28430,10 @@
             "title": "Due Dates",
             "description": "List of all due dates of a journal entry.",
             "default": []
+          },
+          "attachments_info": {
+            "$ref": "#/components/schemas/ItemAttachmentInfoOut",
+            "description": "Extra information about the attachments linked to the journal entry."
           },
           "items": {
             "anyOf": [
@@ -33459,6 +33968,19 @@
             ],
             "title": "Country",
             "description": "ISO 3166-1 alpha-2 country code to filter connectors by country. Ignored if integrationid is provided."
+          },
+          "redirect": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Redirect",
+            "description": "Indicates whether you want to return to the consumer's redirectUrl after creation (true) or whether you want to stay on the connection selection page (false)(This field is ignored if integrationid is provided)",
+            "default": false
           }
         },
         "type": "object",
