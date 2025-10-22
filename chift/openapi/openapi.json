@@ -17510,10 +17510,10 @@
             "title": "Analytic Account Code",
             "description": "Code of the analytic account."
           },
-          "analytic_account_id": {
+          "analytic_account_name": {
             "type": "string",
-            "title": "Analytic Account Id",
-            "description": "Id of the analytic account."
+            "title": "Analytic Account Name",
+            "description": "Name of the analytic account."
           },
           "percentage": {
             "type": "number",
@@ -17524,18 +17524,13 @@
         "type": "object",
         "required": [
           "analytic_account_code",
-          "analytic_account_id",
+          "analytic_account_name",
           "percentage"
         ],
         "title": "AnalyticDistributionDetailInvoicing"
       },
       "AnalyticDistributionInvoicing": {
         "properties": {
-          "analytic_plan_id": {
-            "type": "string",
-            "title": "Analytic Plan Id",
-            "description": "Id of the analytic plan to which the distribution applies."
-          },
           "analytic_plan_code": {
             "type": "string",
             "title": "Analytic Plan Code",
@@ -17552,7 +17547,6 @@
         },
         "type": "object",
         "required": [
-          "analytic_plan_id",
           "analytic_plan_code",
           "analytic_accounts"
         ],
