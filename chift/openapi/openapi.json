@@ -12328,24 +12328,6 @@
               "title": "Include Invoice Lines"
             },
             "description": "Include the invoice lines in the response. By default, invoice lines are included when no extra request is needed to fetch them. If you want to include them explicitly, set this parameter to true."
-          },
-          {
-            "name": "include_analytic_accounts",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "$ref": "#/components/schemas/BoolParam"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "default": "false",
-              "title": "Include Analytic Accounts"
-            },
-            "description": "Include analytic accounts in the response"
           }
         ],
         "responses": {
@@ -12499,24 +12481,6 @@
               "title": "Include Pdf"
             },
             "description": "Include the invoice PDF as a base64 encoded string in the response"
-          },
-          {
-            "name": "include_analytic_accounts",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "$ref": "#/components/schemas/BoolParam"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "default": "false",
-              "title": "Include Analytic Accounts"
-            },
-            "description": "Include analytic accounts in the response"
           }
         ],
         "responses": {
@@ -14172,6 +14136,23 @@
               ],
               "default": "value_date",
               "title": "Date Type"
+            }
+          },
+          {
+            "name": "updated_after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Updated After"
             }
           }
         ],
@@ -17503,61 +17484,6 @@
         ],
         "title": "AnalyticDistributionDetail"
       },
-      "AnalyticDistributionDetailInvoicing": {
-        "properties": {
-          "analytic_account_code": {
-            "type": "string",
-            "title": "Analytic Account Code",
-            "description": "Code of the analytic account."
-          },
-          "analytic_account_id": {
-            "type": "string",
-            "title": "Analytic Account Id",
-            "description": "Id of the analytic account."
-          },
-          "percentage": {
-            "type": "number",
-            "title": "Percentage",
-            "description": "Percentage of the untaxed amount attributed to this analytic account. Only whole numbers (no decimals) are allowed. The total across the analytic distribution (all accounts in a given analytic plan) must equal 100%."
-          }
-        },
-        "type": "object",
-        "required": [
-          "analytic_account_code",
-          "analytic_account_id",
-          "percentage"
-        ],
-        "title": "AnalyticDistributionDetailInvoicing"
-      },
-      "AnalyticDistributionInvoicing": {
-        "properties": {
-          "analytic_plan_id": {
-            "type": "string",
-            "title": "Analytic Plan Id",
-            "description": "Id of the analytic plan to which the distribution applies."
-          },
-          "analytic_plan_code": {
-            "type": "string",
-            "title": "Analytic Plan Code",
-            "description": "Code of the analytic plan to which the distribution applies."
-          },
-          "analytic_accounts": {
-            "items": {
-              "$ref": "#/components/schemas/AnalyticDistributionDetailInvoicing"
-            },
-            "type": "array",
-            "title": "Analytic Accounts",
-            "description": "List of analytic accounts and their respective percentages for the distribution."
-          }
-        },
-        "type": "object",
-        "required": [
-          "analytic_plan_id",
-          "analytic_plan_code",
-          "analytic_accounts"
-        ],
-        "title": "AnalyticDistributionInvoicing"
-      },
       "AnalyticPlanItem": {
         "properties": {
           "id": {
@@ -18037,6 +17963,22 @@
             "examples": [
               "John Doe"
             ]
+          },
+          "active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Active",
+            "description": "Indicates if the account is active",
+            "default": true,
+            "examples": [
+              true
+            ]
           }
         },
         "type": "object",
@@ -18176,6 +18118,21 @@
               1000
             ]
           },
+          "tax_amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tax Amount",
+            "description": "VAT amount of the transaction",
+            "examples": [
+              200
+            ]
+          },
           "currency": {
             "type": "string",
             "title": "Currency",
@@ -18285,6 +18242,71 @@
             "examples": [
               "2025-01-01T00:00:00Z"
             ]
+          },
+          "internal_transaction": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Internal Transaction",
+            "description": "Indicates if the transaction is internal",
+            "default": false,
+            "examples": [
+              false
+            ]
+          },
+          "operation_type": {
+            "$ref": "#/components/schemas/OperationType",
+            "description": "Type of the operation",
+            "examples": [
+              "incoming_transfer"
+            ]
+          },
+          "last_update_on": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Update On",
+            "description": "Last update date of the transaction",
+            "examples": [
+              "2025-01-01T00:00:00Z"
+            ]
+          },
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/backbone_common__models__banking__common__TransactionStatus"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Status of the transaction",
+            "examples": [
+              "pending"
+            ]
+          },
+          "pdf": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pdf",
+            "description": "Base 64 string representing the PDF attached to the invoice."
           }
         },
         "type": "object",
@@ -18294,7 +18316,8 @@
           "currency",
           "creation_date",
           "value_date",
-          "execution_date"
+          "execution_date",
+          "operation_type"
         ],
         "title": "BankingTransactionItem"
       },
@@ -18479,8 +18502,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18497,7 +18527,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18513,8 +18542,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18531,7 +18567,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18547,8 +18582,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18565,7 +18607,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18581,8 +18622,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18599,7 +18647,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18615,8 +18662,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18633,7 +18687,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18649,8 +18702,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18667,7 +18727,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18683,8 +18742,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18701,7 +18767,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18717,8 +18782,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18735,7 +18807,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18751,8 +18822,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18769,7 +18847,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18785,8 +18862,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18803,7 +18887,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18819,8 +18902,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18837,7 +18927,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18853,8 +18942,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18871,7 +18967,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18887,8 +18982,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18905,7 +19007,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18921,8 +19022,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18939,7 +19047,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18955,8 +19062,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18973,7 +19087,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18989,8 +19102,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19007,7 +19127,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19023,8 +19142,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19041,7 +19167,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19057,8 +19182,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19075,7 +19207,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19091,8 +19222,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19109,7 +19247,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19125,8 +19262,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19143,7 +19287,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19159,8 +19302,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19177,7 +19327,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19193,8 +19342,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19211,7 +19367,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19227,8 +19382,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19245,7 +19407,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19261,8 +19422,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19279,7 +19447,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19295,8 +19462,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19313,7 +19487,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19329,8 +19502,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19347,7 +19527,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19363,8 +19542,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19381,7 +19567,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19397,8 +19582,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19415,7 +19607,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19431,8 +19622,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19449,7 +19647,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19465,8 +19662,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19483,7 +19687,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19499,8 +19702,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19517,7 +19727,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19533,8 +19742,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19551,7 +19767,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19567,8 +19782,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19585,7 +19807,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19601,8 +19822,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19619,7 +19847,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19635,8 +19862,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19653,7 +19887,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19669,8 +19902,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19687,7 +19927,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19703,8 +19942,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19721,7 +19967,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19737,8 +19982,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19755,7 +20007,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19771,8 +20022,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19789,7 +20047,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19805,8 +20062,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19823,7 +20087,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19839,8 +20102,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19857,7 +20127,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19873,8 +20142,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19891,7 +20167,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19907,8 +20182,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19925,7 +20207,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19941,8 +20222,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19959,7 +20247,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19975,8 +20262,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19993,7 +20287,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20009,8 +20302,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20027,7 +20327,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20043,8 +20342,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20061,7 +20367,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20077,8 +20382,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20095,7 +20407,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20111,8 +20422,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20129,7 +20447,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20145,8 +20462,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20163,7 +20487,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20179,8 +20502,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20197,7 +20527,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20213,8 +20542,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20231,7 +20567,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20247,8 +20582,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20265,7 +20607,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20281,8 +20622,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20299,7 +20647,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20315,8 +20662,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20333,7 +20687,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20349,8 +20702,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20367,7 +20727,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20383,8 +20742,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20401,7 +20767,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20417,8 +20782,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20435,7 +20807,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20451,8 +20822,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20469,7 +20847,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20485,8 +20862,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20503,7 +20887,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20519,8 +20902,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20537,7 +20927,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20553,8 +20942,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20571,7 +20967,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -25938,7 +26333,7 @@
           },
           "lines": {
             "items": {
-              "$ref": "#/components/schemas/InvoiceLineItemOut"
+              "$ref": "#/components/schemas/InvoiceLineItem"
             },
             "type": "array",
             "title": "Lines",
@@ -26585,7 +26980,7 @@
           },
           "lines": {
             "items": {
-              "$ref": "#/components/schemas/InvoiceLineItemOut"
+              "$ref": "#/components/schemas/InvoiceLineItem"
             },
             "type": "array",
             "title": "Lines",
@@ -27146,174 +27541,6 @@
           "tax_code"
         ],
         "title": "InvoiceLineItemInMultiAnalyticPlans"
-      },
-      "InvoiceLineItemOut": {
-        "properties": {
-          "description": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Description",
-            "description": "Line description"
-          },
-          "unit_price": {
-            "type": "number",
-            "title": "Unit Price",
-            "description": "Unit price excl. taxes"
-          },
-          "quantity": {
-            "type": "number",
-            "title": "Quantity",
-            "description": "Quantity"
-          },
-          "discount_amount": {
-            "type": "number",
-            "title": "Discount Amount",
-            "description": "Line discount amount excl. taxes, (unit_price * quantity) - discount_amount = untaxed_amount",
-            "default": 0.0
-          },
-          "tax_amount": {
-            "type": "number",
-            "title": "Tax Amount",
-            "description": "Line total taxes amount"
-          },
-          "untaxed_amount": {
-            "type": "number",
-            "title": "Untaxed Amount",
-            "description": "Line total untaxed amount"
-          },
-          "total": {
-            "type": "number",
-            "title": "Total",
-            "description": "Line total amount incl. taxes, total = tax_amount + untaxed_amount"
-          },
-          "tax_rate": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Tax Rate",
-            "description": "Tax rate (e.g. 21.0)"
-          },
-          "account_number": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Account Number",
-            "description": "Number of the accounting account used (e.g. 701000)"
-          },
-          "tax_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Tax Id",
-            "description": "Technical id of the tax in Chift"
-          },
-          "tax_exemption_reason": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Tax Exemption Reason",
-            "description": "Tax exemption reason"
-          },
-          "unit_of_measure": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Unit Of Measure",
-            "description": "Unit of measure matching target sofware name"
-          },
-          "product_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Product Id",
-            "description": "Technical id of the product in Chift"
-          },
-          "product_code": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Product Code",
-            "description": "Product reference"
-          },
-          "product_name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Product Name",
-            "description": "Product name"
-          },
-          "analytic_distribution": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/AnalyticDistributionInvoicing"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Analytic Distribution",
-            "description": "List of analytic distributions for the line item. Each distribution specifies an analytic plan and the associated analytic accounts with their percentages.",
-            "default": []
-          }
-        },
-        "type": "object",
-        "required": [
-          "unit_price",
-          "quantity",
-          "tax_amount",
-          "untaxed_amount",
-          "total"
-        ],
-        "title": "InvoiceLineItemOut"
       },
       "InvoiceLineItemOutMonoAnalyticPlan": {
         "properties": {
@@ -29739,6 +29966,25 @@
         ],
         "title": "ObjectivesItem"
       },
+      "OperationType": {
+        "type": "string",
+        "enum": [
+          "incoming_transfer",
+          "outgoing_transfer",
+          "card",
+          "direct_debit",
+          "direct_debit_collection",
+          "direct_debit_hold",
+          "fee",
+          "cheque",
+          "recall",
+          "swift_income",
+          "pay_later",
+          "financing_installment",
+          "other"
+        ],
+        "title": "OperationType"
+      },
       "OpportunityItem": {
         "properties": {
           "id": {
@@ -30927,7 +31173,7 @@
             "title": "Amount"
           },
           "status": {
-            "$ref": "#/components/schemas/TransactionStatus"
+            "$ref": "#/components/schemas/backbone_common__models__commerce__common__TransactionStatus"
           }
         },
         "type": "object",
@@ -36959,15 +37205,6 @@
         ],
         "title": "TransactionItemOut"
       },
-      "TransactionStatus": {
-        "type": "string",
-        "enum": [
-          "failed",
-          "pending",
-          "success"
-        ],
-        "title": "TransactionStatus"
-      },
       "TriggerPriority": {
         "type": "string",
         "enum": [
@@ -38262,6 +38499,15 @@
         ],
         "title": "InvoiceType"
       },
+      "backbone_common__models__banking__common__TransactionStatus": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "declined",
+          "completed"
+        ],
+        "title": "TransactionStatus"
+      },
       "backbone_common__models__commerce__common__AddressItemIn": {
         "properties": {
           "first_name": {
@@ -38545,6 +38791,15 @@
           "currency"
         ],
         "title": "ProductPriceItem"
+      },
+      "backbone_common__models__commerce__common__TransactionStatus": {
+        "type": "string",
+        "enum": [
+          "failed",
+          "pending",
+          "success"
+        ],
+        "title": "TransactionStatus"
       },
       "backbone_common__models__common__AddressItemIn": {
         "properties": {

@@ -1,6 +1,9 @@
 # Changelog
 
-## 0.3.27 - 2025-10-10
+## 0.4.0 - 2025-10-22
+- banking: add banking vertical with bank accounts and bank transactions endpoints
+
+## 0.3.27 - 2025-10-22
 - invoicing: add analytic distribution in invoices retrieval model
 
 ## 0.3.26 - 2025-10-21
