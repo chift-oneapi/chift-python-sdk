@@ -32,6 +32,7 @@ from chift.openapi.models import MultipleMatching as MultipleMatchingModel
 from chift.openapi.models import Outstanding as OutstandingModel
 from chift.openapi.models import Supplier as SupplierModel
 from chift.openapi.models import TaxAccounting as TaxAccountingModel
+from chift.openapi.models import Folder as FolderModel
 
 
 class AccountingRouter:
@@ -61,6 +62,7 @@ class AccountingRouter:
         self.Balance = Balance(consumer_id, connection_id)
         self.Payment = Payment(consumer_id, connection_id)
         self.Expense = Expense(consumer_id, connection_id)
+        self.Folder = Folder(consumer_id, connection_id)
 
 
 class AnalyticPlan(PaginationMixin[AnalyticPlanModel]):
@@ -354,3 +356,15 @@ class Expense(
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "expenses"
     model = ExpenseModel
+
+
+class Folder(ReadMixin[list[FolderModel]]):
+    chift_vertical: ClassVar = "accounting"
+    chift_model: ClassVar = "folders"
+    model = FolderModel
+
+    def get(self, client=None, params=None):
+        folders = super().get(
+            chift_id=None, client=client, params=params, map_model=False, raw_data=True
+        )
+        return [FolderModel(**folder) for folder in folders]
