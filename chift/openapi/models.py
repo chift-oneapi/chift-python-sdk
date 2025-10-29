@@ -4,7 +4,7 @@ from typing import Generic, List, Optional, TypeVar
 
 from pydantic import BaseModel, ConfigDict
 
-from .openapi import AccountBalance as AccountBalanceModel, FolderItem
+from .openapi import AccountBalance as AccountBalanceModel
 from .openapi import (
     AccountingCategoryItem,
     AccountingVatCode,
@@ -30,6 +30,7 @@ from .openapi import (
     EmployeeItem,
     ExpenseItemOut,
     FinancialEntryItemOut,
+    FolderItem,
     IntegrationItem,
     InvoiceItemOutMonoAnalyticPlan,
     InvoiceItemOutMultiAnalyticPlans,
@@ -422,8 +423,10 @@ class AccountingPayment(PaymentModel):
 class Expense(ExpenseItemOut):
     pass
 
+
 class Folder(FolderItem):
     pass
+
 
 # log
 class Log(ConsumerLog):

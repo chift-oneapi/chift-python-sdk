@@ -20,6 +20,7 @@ from chift.openapi.models import Client as ClientModel
 from chift.openapi.models import Employee as EmployeeModel
 from chift.openapi.models import Expense as ExpenseModel
 from chift.openapi.models import FinancialEntry as FinancialEntryModel
+from chift.openapi.models import Folder as FolderModel
 from chift.openapi.models import InvoiceAccounting as InvoiceAccountingModel
 from chift.openapi.models import (
     InvoiceMultiPlanAccounting as InvoiceMultiPlanAccountingModel,
@@ -32,7 +33,6 @@ from chift.openapi.models import MultipleMatching as MultipleMatchingModel
 from chift.openapi.models import Outstanding as OutstandingModel
 from chift.openapi.models import Supplier as SupplierModel
 from chift.openapi.models import TaxAccounting as TaxAccountingModel
-from chift.openapi.models import Folder as FolderModel
 
 
 class AccountingRouter:
