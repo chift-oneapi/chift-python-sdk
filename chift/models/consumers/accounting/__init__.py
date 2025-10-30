@@ -3,6 +3,7 @@ from typing import ClassVar, Literal
 from chift.api.mixins import (
     CreateMixin,
     DeleteMixin,
+    ListMixin,
     PaginationMixin,
     ReadMixin,
     UpdateMixin,
@@ -358,13 +359,7 @@ class Expense(
     model = ExpenseModel
 
 
-class Folder(ReadMixin[list[FolderModel]]):
+class Folder(ListMixin[FolderModel]):
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "folders"
     model = FolderModel
-
-    def get(self, client=None, params=None):
-        folders = super().get(
-            chift_id=None, client=client, params=params, map_model=False, raw_data=True
-        )
-        return [FolderModel(**folder) for folder in folders]

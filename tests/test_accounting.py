@@ -344,9 +344,11 @@ def test_analytic_account_multi_plan_update(accounting_consumer: Consumer):
 def test_folder(accounting_consumer: Consumer):
     consumer = accounting_consumer
 
-    folders = consumer.accounting.Folder.get()
+    folders = consumer.accounting.Folder.all()
 
     assert folders
+    assert isinstance(folders, list)
+    assert len(folders) == 2
 
     for folder in folders:
         assert folder.id
