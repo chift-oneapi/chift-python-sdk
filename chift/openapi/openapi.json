@@ -125,6 +125,22 @@
               ],
               "title": "Search"
             }
+          },
+          {
+            "name": "internal_reference",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Internal Reference"
+            }
           }
         ],
         "responses": {
@@ -753,6 +769,83 @@
               "application/json": {
                 "example": {
                   "message": "The connection does not exist",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/connections/{connection_id}/transactions": {
+      "get": {
+        "tags": [
+          "Connections"
+        ],
+        "summary": "Get transaction information",
+        "description": "Returns transaction info by client_request_id",
+        "operationId": "get_transaction_by_client_request_id_consumers__consumer_id__connections__connection_id__transactions_get",
+        "parameters": [
+          {
+            "name": "connection_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Connection Id"
+            }
+          },
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "client_request_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Client Request Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiTransactionLookupOut"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The specified transaction could not be found",
                   "status": "error"
                 },
                 "schema": {
@@ -3109,6 +3202,109 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ChiftPage_AnalyticPlanItem_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/accounting/schemes": {
+      "get": {
+        "tags": [
+          "Accounting",
+          "Schemes"
+        ],
+        "summary": "Get schemes",
+        "description": "Get GL schemes existing in the accounting system. A scheme (e.g., RGS, SBR) provides a standardized classification structure for organizing accounts for reporting purposes.",
+        "operationId": "accounting_get_schemes",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Page number",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Page size",
+              "default": 50,
+              "title": "Size"
+            },
+            "description": "Page size"
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Folder Id"
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_SchemeItem_"
                 }
               }
             }
@@ -14067,7 +14263,7 @@
         }
       }
     },
-    "/consumers/{consumer_id}/banking/{account_id}/transactions": {
+    "/consumers/{consumer_id}/banking/transactions": {
       "get": {
         "tags": [
           "Banking",
@@ -14085,15 +14281,6 @@
               "type": "string",
               "format": "uuid",
               "title": "Consumer Id"
-            }
-          },
-          {
-            "name": "account_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Account Id"
             }
           },
           {
@@ -14122,6 +14309,15 @@
               "title": "Size"
             },
             "description": "Page size"
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Account Id"
+            }
           },
           {
             "name": "date_from",
@@ -14172,6 +14368,23 @@
               ],
               "default": "value_date",
               "title": "Date Type"
+            }
+          },
+          {
+            "name": "updated_after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Updated After"
             }
           }
         ],
@@ -14318,6 +14531,101 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ChiftPage_BankingCounterPartItem_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/banking/attachments": {
+      "get": {
+        "tags": [
+          "Banking",
+          "Attachments"
+        ],
+        "summary": "Get attachments",
+        "description": "Returns a list of all attachments linked to a transaction",
+        "operationId": "banking_get_attachments",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "transaction_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Transaction Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Page number",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Page size",
+              "default": 50,
+              "title": "Size"
+            },
+            "description": "Page size"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_AttachmentItemOut_"
                 }
               }
             }
@@ -16305,7 +16613,8 @@
           "number": {
             "type": "string",
             "title": "Number",
-            "description": "The account number in the chart of accounts. Must be unique within the accounting folder. In some countries (e.g., France, Belgium, Spain), the number structure is constrained by local accounting rules and must follow official charts of accounts (e.g., Plan Comptable Général)."
+            "description": "The account number in the chart of accounts. Must be unique within the accounting folder. In some countries (e.g., France, Belgium, Spain), the number structure is constrained by local accounting rules and must follow official charts of accounts (e.g., Plan Comptable Général).",
+            "chift_target_entity_id": true
           },
           "name": {
             "type": "string",
@@ -16335,6 +16644,21 @@
               }
             ],
             "description": "Represents the functional type of the ledger account, used to support common accounting operations such as payments, invoicing, tax handling, and reporting. The type here is more operational and aligned with how accounts are actually used in day-to-day processes (e.g., tracking receivables, recording VAT, handling bank transactions) "
+          },
+          "scheme_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Scheme Ids",
+            "description": "List of scheme classification IDs linked to this ledger account. A scheme (e.g., RGS, SBR) provides a standardized classification structure for organizing accounts for reporting purposes. Multiple scheme codes can be associated with a single account."
           }
         },
         "type": "object",
@@ -17234,7 +17558,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Unique id of the analytic account in the accounting system."
+            "description": "Unique id of the analytic account in the accounting system.",
+            "chift_target_entity_id": true
           },
           "active": {
             "type": "boolean",
@@ -17320,7 +17645,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Unique id of the analytic account in the accounting system."
+            "description": "Unique id of the analytic account in the accounting system.",
+            "chift_target_entity_id": true
           },
           "active": {
             "type": "boolean",
@@ -17612,6 +17938,65 @@
         ],
         "title": "Api"
       },
+      "ApiTransactionLookupOut": {
+        "properties": {
+          "created_on": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created On",
+            "description": "Date and time when the API transaction started (UTC).",
+            "examples": [
+              "2024-05-15T12:34:56Z"
+            ]
+          },
+          "method": {
+            "$ref": "#/components/schemas/HTTPMethod",
+            "description": "HTTP method of the original request.",
+            "examples": [
+              "POST"
+            ]
+          },
+          "route": {
+            "type": "string",
+            "title": "Route",
+            "description": "Path of the original request.",
+            "examples": [
+              "/consumers/a65f95f4-7188-4866-a3ff-eb0fe17958c3/accounting/suppliers"
+            ]
+          },
+          "status_code": {
+            "type": "integer",
+            "title": "Status Code",
+            "description": "HTTP status code returned by the original request.",
+            "examples": [
+              200
+            ]
+          },
+          "created_entity_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created Entity Id",
+            "description": "Identifier of the entity created by the request, when applicable (typically for POST).",
+            "examples": [
+              "inv_123"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "created_on",
+          "method",
+          "route",
+          "status_code"
+        ],
+        "title": "ApiTransactionLookupOut"
+      },
       "AttachmentItem": {
         "properties": {
           "base64_string": {
@@ -17701,7 +18086,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -17802,7 +18188,8 @@
         "properties": {
           "id": {
             "type": "string",
-            "title": "Id"
+            "title": "Id",
+            "chift_target_entity_id": true
           },
           "code": {
             "anyOf": [
@@ -18031,6 +18418,22 @@
             "examples": [
               "John Doe"
             ]
+          },
+          "active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Active",
+            "description": "Indicates if the account is active",
+            "default": true,
+            "examples": [
+              true
+            ]
           }
         },
         "type": "object",
@@ -18170,6 +18573,21 @@
               1000
             ]
           },
+          "tax_amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tax Amount",
+            "description": "VAT amount of the transaction",
+            "examples": [
+              200
+            ]
+          },
           "currency": {
             "type": "string",
             "title": "Currency",
@@ -18279,6 +18697,63 @@
             "examples": [
               "2025-01-01T00:00:00Z"
             ]
+          },
+          "internal_transaction": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Internal Transaction",
+            "description": "Indicates if the transaction is internal",
+            "default": false,
+            "examples": [
+              false
+            ]
+          },
+          "operation_type": {
+            "$ref": "#/components/schemas/OperationType",
+            "description": "Type of the operation",
+            "examples": [
+              "incoming_transfer"
+            ]
+          },
+          "last_update_on": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Update On",
+            "description": "Last update date of the transaction",
+            "examples": [
+              "2025-01-01T00:00:00Z"
+            ]
+          },
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/backbone_common__models__banking__common__TransactionStatus"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Status of the transaction",
+            "examples": [
+              "pending"
+            ]
+          },
+          "attachments_info": {
+            "$ref": "#/components/schemas/ItemAttachmentInfoOut",
+            "description": "Extra information about the attachments linked to the invoice."
           }
         },
         "type": "object",
@@ -18288,7 +18763,8 @@
           "currency",
           "creation_date",
           "value_date",
-          "execution_date"
+          "execution_date",
+          "operation_type"
         ],
         "title": "BankingTransactionItem"
       },
@@ -18339,7 +18815,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -18449,7 +18926,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -18473,8 +18951,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18491,7 +18976,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18507,8 +18991,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18525,7 +19016,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18541,8 +19031,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18559,7 +19056,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18575,8 +19071,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18593,7 +19096,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18609,8 +19111,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18627,7 +19136,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18643,8 +19151,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18661,7 +19176,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18677,8 +19191,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18695,7 +19216,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18711,8 +19231,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18729,7 +19256,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18745,8 +19271,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18763,7 +19296,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18779,8 +19311,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18797,7 +19336,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18813,8 +19351,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18831,7 +19376,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18847,8 +19391,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18865,7 +19416,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18881,8 +19431,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18899,7 +19456,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18915,8 +19471,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18933,7 +19496,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18949,8 +19511,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -18967,7 +19536,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -18983,8 +19551,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19001,7 +19576,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19017,8 +19591,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19035,7 +19616,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19051,8 +19631,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19069,7 +19656,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19085,8 +19671,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19103,7 +19696,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19119,8 +19711,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19137,7 +19736,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19153,8 +19751,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19171,7 +19776,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19187,8 +19791,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19205,7 +19816,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19221,8 +19831,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19239,7 +19856,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19255,8 +19871,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19273,7 +19896,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19289,8 +19911,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19307,7 +19936,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19323,8 +19951,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19341,7 +19976,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19357,8 +19991,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19375,7 +20016,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19391,8 +20031,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19409,7 +20056,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19425,8 +20071,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19443,7 +20096,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19459,8 +20111,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19477,7 +20136,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19493,8 +20151,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19511,7 +20176,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19527,8 +20191,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19545,7 +20216,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19561,8 +20231,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19579,7 +20256,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19595,8 +20271,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19613,7 +20296,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19629,8 +20311,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19647,7 +20336,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19663,8 +20351,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19681,7 +20376,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19697,8 +20391,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19715,7 +20416,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19731,8 +20431,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19749,7 +20456,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19765,8 +20471,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19783,7 +20496,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19799,8 +20511,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19817,7 +20536,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19833,8 +20551,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19851,7 +20576,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19867,8 +20591,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19885,7 +20616,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19901,8 +20631,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19919,7 +20656,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19935,8 +20671,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19953,7 +20696,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -19969,8 +20711,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -19987,7 +20736,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20003,8 +20751,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20021,7 +20776,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20037,8 +20791,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20055,7 +20816,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20071,8 +20831,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20089,7 +20856,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20105,8 +20871,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20123,7 +20896,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20139,8 +20911,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20157,7 +20936,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20173,8 +20951,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20191,7 +20976,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20207,8 +20991,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20225,7 +21016,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20241,8 +21031,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20259,7 +21056,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20275,8 +21071,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20293,7 +21096,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20309,8 +21111,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20327,7 +21136,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20343,8 +21151,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20361,7 +21176,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20377,8 +21191,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20395,7 +21216,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20411,8 +21231,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20429,7 +21256,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20445,8 +21271,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20463,11 +21296,50 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
         "title": "ChiftPage[RefundItemOut]"
+      },
+      "ChiftPage_SchemeItem_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/SchemeItem"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Page"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "page",
+          "size"
+        ],
+        "title": "ChiftPage[SchemeItem]"
       },
       "ChiftPage_SupplierItemOut_": {
         "properties": {
@@ -20479,8 +21351,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20497,7 +21376,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20513,8 +21391,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20531,7 +21416,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -20547,8 +21431,15 @@
             "title": "Items"
           },
           "total": {
-            "type": "integer",
-            "minimum": 0.0,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Total"
           },
           "page": {
@@ -20565,7 +21456,6 @@
         "type": "object",
         "required": [
           "items",
-          "total",
           "page",
           "size"
         ],
@@ -21067,7 +21957,8 @@
               }
             ],
             "title": "Id",
-            "description": "Id of the client in the accounting software. This is the unique identifier used to reference the client in the system."
+            "description": "Id of the client in the accounting software. This is the unique identifier used to reference the client in the system.",
+            "chift_target_entity_id": true
           },
           "last_updated_on": {
             "anyOf": [
@@ -21460,7 +22351,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -22022,7 +22914,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -23397,7 +24290,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Unique id of the expense in the accounting system."
+            "description": "Unique id of the expense in the accounting system.",
+            "chift_target_entity_id": true
           }
         },
         "type": "object",
@@ -23657,7 +24551,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -24020,7 +24915,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Unique id of the financial entry instance in the accounting system."
+            "description": "Unique id of the financial entry instance in the accounting system.",
+            "chift_target_entity_id": true
           },
           "number": {
             "type": "string",
@@ -24885,6 +25781,19 @@
         ],
         "title": "GenericJournalItem"
       },
+      "HTTPMethod": {
+        "type": "string",
+        "enum": [
+          "GET",
+          "POST",
+          "PUT",
+          "PATCH",
+          "DELETE",
+          "HEAD",
+          "OPTIONS"
+        ],
+        "title": "HTTPMethod"
+      },
       "HTTPValidationError": {
         "title": "Validation Error",
         "required": [
@@ -25295,7 +26204,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -25890,7 +26800,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -26207,7 +27118,8 @@
                 "type": "null"
               }
             ],
-            "title": "Id"
+            "title": "Id",
+            "chift_target_entity_id": true
           },
           "invoice_date": {
             "type": "string",
@@ -26411,7 +27323,8 @@
                 "type": "null"
               }
             ],
-            "title": "Id"
+            "title": "Id",
+            "chift_target_entity_id": true
           },
           "invoice_date": {
             "type": "string",
@@ -26537,7 +27450,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -27554,7 +28468,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -27665,7 +28580,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -27726,7 +28642,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -27828,7 +28745,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -27937,7 +28855,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -27962,7 +28881,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -28332,7 +29252,8 @@
         "properties": {
           "id": {
             "type": "string",
-            "title": "Id"
+            "title": "Id",
+            "chift_target_entity_id": true
           },
           "code": {
             "anyOf": [
@@ -28535,7 +29456,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Unique id of the journal entry instance in the accounting system."
+            "description": "Unique id of the journal entry instance in the accounting system.",
+            "chift_target_entity_id": true
           },
           "due_dates": {
             "anyOf": [
@@ -28666,7 +29588,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Unique id of the journal entry instance in the accounting system."
+            "description": "Unique id of the journal entry instance in the accounting system.",
+            "chift_target_entity_id": true
           },
           "due_dates": {
             "anyOf": [
@@ -29156,7 +30079,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -29310,7 +30234,8 @@
           "matching_number": {
             "type": "string",
             "title": "Matching Number",
-            "description": "Unique 'number' of the matching operation in the accounting system."
+            "description": "Unique 'number' of the matching operation in the accounting system.",
+            "chift_target_entity_id": true
           },
           "balance": {
             "type": "number",
@@ -29544,7 +30469,8 @@
           },
           "id": {
             "type": "string",
-            "title": "Id"
+            "title": "Id",
+            "chift_target_entity_id": true
           }
         },
         "type": "object",
@@ -29602,7 +30528,8 @@
                 "type": "null"
               }
             ],
-            "title": "Matching Number"
+            "title": "Matching Number",
+            "chift_target_entity_id": true
           },
           "processed": {
             "type": "boolean",
@@ -29733,12 +30660,32 @@
         ],
         "title": "ObjectivesItem"
       },
+      "OperationType": {
+        "type": "string",
+        "enum": [
+          "incoming_transfer",
+          "outgoing_transfer",
+          "card",
+          "direct_debit",
+          "direct_debit_collection",
+          "direct_debit_hold",
+          "fee",
+          "cheque",
+          "recall",
+          "swift_income",
+          "pay_later",
+          "financing_installment",
+          "other"
+        ],
+        "title": "OperationType"
+      },
       "OpportunityItem": {
         "properties": {
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -30109,7 +31056,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -30461,7 +31409,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -30671,7 +31620,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -30921,7 +31871,7 @@
             "title": "Amount"
           },
           "status": {
-            "$ref": "#/components/schemas/TransactionStatus"
+            "$ref": "#/components/schemas/backbone_common__models__commerce__common__TransactionStatus"
           }
         },
         "type": "object",
@@ -31304,7 +32254,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -31444,7 +32395,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -32365,7 +33317,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -32543,7 +33496,8 @@
             "description": "Unique identifier of the customer",
             "examples": [
               "371ca583-d218-8000-b236-397532cf0e52"
-            ]
+            ],
+            "chift_target_entity_id": true
           },
           "first_name": {
             "anyOf": [
@@ -33667,7 +34621,8 @@
               }
             ],
             "title": "Id",
-            "description": "Id of the client in the accounting software. This is the unique identifier used to reference the client in the system."
+            "description": "Id of the client in the accounting software. This is the unique identifier used to reference the client in the system.",
+            "chift_target_entity_id": true
           },
           "last_updated_on": {
             "anyOf": [
@@ -33850,7 +34805,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -33911,7 +34867,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -34536,7 +35493,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -34704,7 +35662,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -34849,7 +35808,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -35470,7 +36430,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -35579,7 +36540,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -35810,12 +36772,39 @@
         ],
         "title": "SalesItem"
       },
+      "SchemeItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique id of the scheme instance in the accounting system."
+          },
+          "code": {
+            "type": "string",
+            "title": "Code",
+            "description": "Short code or identifier of the scheme (e.g., 'RGS', 'SBR')."
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name or description of the scheme as it appears in the accounting system."
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "code",
+          "name"
+        ],
+        "title": "SchemeItem"
+      },
       "ShippingRefund": {
         "properties": {
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -36360,7 +37349,8 @@
               }
             ],
             "title": "Id",
-            "description": "Id of the supplier in the accounting software. This is the unique identifier used to reference the supplier in the system."
+            "description": "Id of the supplier in the accounting software. This is the unique identifier used to reference the supplier in the system.",
+            "chift_target_entity_id": true
           },
           "last_updated_on": {
             "anyOf": [
@@ -36748,7 +37738,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -36875,7 +37866,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -36952,15 +37944,6 @@
           "accounting_category"
         ],
         "title": "TransactionItemOut"
-      },
-      "TransactionStatus": {
-        "type": "string",
-        "enum": [
-          "failed",
-          "pending",
-          "success"
-        ],
-        "title": "TransactionStatus"
       },
       "TriggerPriority": {
         "type": "string",
@@ -37125,7 +38108,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -37485,7 +38469,8 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift"
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -38256,6 +39241,15 @@
         ],
         "title": "InvoiceType"
       },
+      "backbone_common__models__banking__common__TransactionStatus": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "declined",
+          "completed"
+        ],
+        "title": "TransactionStatus"
+      },
       "backbone_common__models__commerce__common__AddressItemIn": {
         "properties": {
           "first_name": {
@@ -38539,6 +39533,15 @@
           "currency"
         ],
         "title": "ProductPriceItem"
+      },
+      "backbone_common__models__commerce__common__TransactionStatus": {
+        "type": "string",
+        "enum": [
+          "failed",
+          "pending",
+          "success"
+        ],
+        "title": "TransactionStatus"
       },
       "backbone_common__models__common__AddressItemIn": {
         "properties": {
