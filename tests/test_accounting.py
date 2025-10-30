@@ -338,3 +338,17 @@ def test_analytic_account_multi_plan_update(accounting_consumer: Consumer):
     assert updated_account.name == "Updated Marketing Campaign"
     assert updated_account.analytic_plan == account.analytic_plan
     assert updated_account.name != original_name
+
+
+@pytest.mark.mock_chift_response(accounting.FOLDERS)
+def test_folder(accounting_consumer: Consumer):
+    consumer = accounting_consumer
+
+    folders = consumer.accounting.Folder.all()
+
+    assert folders
+    assert isinstance(folders, list)
+    assert len(folders) == 2
+
+    for folder in folders:
+        assert folder.id

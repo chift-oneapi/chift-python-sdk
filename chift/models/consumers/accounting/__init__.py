@@ -3,6 +3,7 @@ from typing import ClassVar, Literal
 from chift.api.mixins import (
     CreateMixin,
     DeleteMixin,
+    ListMixin,
     PaginationMixin,
     ReadMixin,
     UpdateMixin,
@@ -20,6 +21,7 @@ from chift.openapi.models import Client as ClientModel
 from chift.openapi.models import Employee as EmployeeModel
 from chift.openapi.models import Expense as ExpenseModel
 from chift.openapi.models import FinancialEntry as FinancialEntryModel
+from chift.openapi.models import Folder as FolderModel
 from chift.openapi.models import InvoiceAccounting as InvoiceAccountingModel
 from chift.openapi.models import (
     InvoiceMultiPlanAccounting as InvoiceMultiPlanAccountingModel,
@@ -61,6 +63,7 @@ class AccountingRouter:
         self.Balance = Balance(consumer_id, connection_id)
         self.Payment = Payment(consumer_id, connection_id)
         self.Expense = Expense(consumer_id, connection_id)
+        self.Folder = Folder(consumer_id, connection_id)
 
 
 class AnalyticPlan(PaginationMixin[AnalyticPlanModel]):
@@ -354,3 +357,9 @@ class Expense(
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "expenses"
     model = ExpenseModel
+
+
+class Folder(ListMixin[FolderModel]):
+    chift_vertical: ClassVar = "accounting"
+    chift_model: ClassVar = "folders"
+    model = FolderModel

@@ -430,3 +430,44 @@ ANALYTIC_ACCOUNT_MULTI_PLAN_UPDATE = {
     "debit": 0.0,
     "analytic_plan": "42ffc773-b77b-4719-90b6-71e8d017043d",
 }
+
+FOLDERS = [
+    [
+        {
+            "id": "folder-001",
+            "name": "Folder 1",
+            "selected": True,
+            "vat": "21",
+            "company_number": "1234567890",
+            "main_currency": "EUR",
+            "addresses": [
+                {
+                    "street": "Main Street",
+                    "number": "123",
+                    "box": "123",
+                    "postal_code": "1000",
+                    "city": "Brussels",
+                    "country": "BE",
+                }
+            ],
+        },
+        {
+            "id": "folder-001",
+            "name": "Folder 1",
+            "selected": True,
+            "vat": "21",
+            "company_number": "1234567890",
+            "main_currency": "EUR",
+            "addresses": [
+                {
+                    "street": "Main Street",
+                    "number": "123",
+                    "box": "123",
+                    "postal_code": "1000",
+                    "city": "Brussels",
+                    "country": "BE",
+                }
+            ],
+        },
+    ]
+]

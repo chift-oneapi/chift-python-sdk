@@ -30,6 +30,7 @@ from .openapi import (
     EmployeeItem,
     ExpenseItemOut,
     FinancialEntryItemOut,
+    FolderItem,
     IntegrationItem,
     InvoiceItemOutMonoAnalyticPlan,
     InvoiceItemOutMultiAnalyticPlans,
@@ -420,6 +421,10 @@ class AccountingPayment(PaymentModel):
 
 
 class Expense(ExpenseItemOut):
+    pass
+
+
+class Folder(FolderItem):
     pass
 
 
