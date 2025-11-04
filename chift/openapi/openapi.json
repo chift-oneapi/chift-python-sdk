@@ -3067,11 +3067,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -3169,11 +3169,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -3272,11 +3272,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -3476,11 +3476,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -3921,11 +3921,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -4543,11 +4543,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -4795,11 +4795,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -5393,6 +5393,107 @@
       }
     },
     "/consumers/{consumer_id}/accounting/bank-accounts": {
+      "get": {
+        "tags": [
+          "Accounting",
+          "Bank accounts"
+        ],
+        "summary": "Get bank accounts",
+        "description": "Returns a list of bank accounts in the accounting system",
+        "operationId": "accounting_get_bank_accounts",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Page number",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "Page size",
+              "default": 50,
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "description": "Page size"
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Folder Id"
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_BankAccountItemOut_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
       "post": {
         "tags": [
           "Accounting",
@@ -5601,11 +5702,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -6229,11 +6330,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -6332,11 +6433,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -6522,11 +6623,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -6942,11 +7043,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -7059,11 +7160,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -7241,11 +7342,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -7444,11 +7545,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -7645,11 +7746,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -8190,6 +8291,33 @@
             }
           },
           {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Page number",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "Page size",
+              "default": 50,
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "description": "Page size"
+          },
+          {
             "name": "folder_id",
             "in": "query",
             "required": false,
@@ -8222,33 +8350,6 @@
               "type": "string",
               "title": "Document Id"
             }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "description": "Page number",
-              "default": 1,
-              "title": "Page"
-            },
-            "description": "Page number"
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
-              "description": "Page size",
-              "default": 50,
-              "title": "Size"
-            },
-            "description": "Page size"
           }
         ],
         "responses": {
@@ -8328,11 +8429,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -8465,11 +8566,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -8578,11 +8679,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -8884,11 +8985,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -9066,6 +9167,92 @@
         }
       }
     },
+    "/consumers/{consumer_id}/accounting/bank-transactions": {
+      "post": {
+        "tags": [
+          "Accounting",
+          "Bank transactions"
+        ],
+        "summary": "Create bank transactions",
+        "description": "Create new bank transactions",
+        "operationId": "accounting_create_bank_transactions",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Folder Id"
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BankStatementItemIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BankStatementItemOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The format of the bank_statement_id doesn't seem to be correct.",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/pos/orders": {
       "get": {
         "tags": [
@@ -9105,11 +9292,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -9515,11 +9702,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           }
@@ -9629,11 +9816,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -9891,11 +10078,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -10023,11 +10210,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -10395,11 +10582,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -10536,11 +10723,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -10667,11 +10854,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -10912,11 +11099,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -11065,11 +11252,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           }
@@ -11233,11 +11420,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -11610,11 +11797,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           }
@@ -11696,11 +11883,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -12061,11 +12248,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           }
@@ -12147,11 +12334,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -12242,11 +12429,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           }
@@ -12328,11 +12515,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           }
@@ -12414,11 +12601,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -12806,11 +12993,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           }
@@ -12974,11 +13161,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           }
@@ -13209,11 +13396,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           }
@@ -13377,11 +13564,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -13621,11 +13808,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -13741,11 +13928,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           }
@@ -13827,11 +14014,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           }
@@ -13913,11 +14100,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -14130,11 +14317,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           }
@@ -14216,11 +14403,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           }
@@ -14302,11 +14489,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -14465,11 +14652,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -14568,7 +14755,7 @@
           "Banking",
           "Attachments"
         ],
-        "summary": "Get attachments",
+        "summary": "Get Attachments",
         "description": "Returns a list of all attachments linked to a transaction",
         "operationId": "banking_get_attachments",
         "parameters": [
@@ -14610,8 +14797,6 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
               "title": "Size"
@@ -14696,11 +14881,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           }
@@ -14782,11 +14967,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -14954,11 +15139,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -15156,11 +15341,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -15293,11 +15478,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -15452,11 +15637,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -15602,11 +15787,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           }
@@ -15827,11 +16012,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           }
@@ -15941,11 +16126,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -16075,11 +16260,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           },
@@ -16205,11 +16390,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           }
@@ -16432,11 +16617,11 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
               "description": "Page size",
               "default": 50,
-              "title": "Size"
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
             },
             "description": "Page size"
           }
@@ -18306,6 +18491,346 @@
         ],
         "title": "BankAccountItemOut"
       },
+      "BankStatementItemIn": {
+        "properties": {
+          "bank_statement_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Bank Statement Date",
+            "description": "Date of the bank statement"
+          },
+          "bank_account_id": {
+            "type": "string",
+            "title": "Bank Account Id",
+            "description": "Unique ID of the bank account in the accounting system"
+          },
+          "external_bank_statement_id": {
+            "type": "string",
+            "title": "External Bank Statement Id",
+            "description": "External bank statement ID"
+          },
+          "opening_balance": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Opening Balance",
+            "description": "Opening balance of the bank account before the statement"
+          },
+          "pdf": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pdf",
+            "description": "Base64 PDF attachment of the bank statement."
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/BankTransactionItemIn"
+            },
+            "type": "array",
+            "title": "Items",
+            "description": "List of transaction items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "bank_statement_date",
+          "bank_account_id",
+          "external_bank_statement_id",
+          "items"
+        ],
+        "title": "BankStatementItemIn"
+      },
+      "BankStatementItemOut": {
+        "properties": {
+          "bank_statement_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Bank Statement Date",
+            "description": "Date of the bank statement"
+          },
+          "bank_account_id": {
+            "type": "string",
+            "title": "Bank Account Id",
+            "description": "Unique ID of the bank account in the accounting system"
+          },
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id",
+            "description": "Internal bank statement ID generated by the accounting system"
+          },
+          "external_bank_statement_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "External Bank Statement Id",
+            "description": "External bank statement ID"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/BankTransactionItemOut"
+            },
+            "type": "array",
+            "title": "Items",
+            "description": "List of transaction items with their IDs"
+          }
+        },
+        "type": "object",
+        "required": [
+          "bank_statement_date",
+          "bank_account_id",
+          "items"
+        ],
+        "title": "BankStatementItemOut"
+      },
+      "BankTransactionItemIn": {
+        "properties": {
+          "account_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Account Type",
+            "description": "Account type; mandatory if account is provided"
+          },
+          "account": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Account",
+            "description": "Account identifier"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description",
+            "description": "Transaction description"
+          },
+          "external_transaction_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "External Transaction Id",
+            "description": "External transaction ID"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date",
+            "description": "Transaction date"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount",
+            "description": "Total amount including fee and tax"
+          },
+          "fee_amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fee Amount",
+            "description": "Fee amount",
+            "default": 0
+          },
+          "tax_amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tax Amount",
+            "description": "Tax amount",
+            "default": 0
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "description": "Transaction currency"
+          },
+          "currency_exchange_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency Exchange Rate",
+            "description": "Exchange rate applicable at the transaction date",
+            "default": 1
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "amount",
+          "currency"
+        ],
+        "title": "BankTransactionItemIn"
+      },
+      "BankTransactionItemOut": {
+        "properties": {
+          "account_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Account Type",
+            "description": "Account type; mandatory if account is provided"
+          },
+          "account": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Account",
+            "description": "Account identifier"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description",
+            "description": "Transaction description"
+          },
+          "external_transaction_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "External Transaction Id",
+            "description": "External transaction ID"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date",
+            "description": "Transaction date"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount",
+            "description": "Total amount including fee and tax"
+          },
+          "fee_amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fee Amount",
+            "description": "Fee amount",
+            "default": 0
+          },
+          "tax_amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tax Amount",
+            "description": "Tax amount",
+            "default": 0
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "description": "Transaction currency"
+          },
+          "currency_exchange_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency Exchange Rate",
+            "description": "Exchange rate applicable at the transaction date",
+            "default": 1
+          },
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id",
+            "description": "Internal transaction ID generated by the accounting system"
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "amount",
+          "currency"
+        ],
+        "title": "BankTransactionItemOut"
+      },
       "BankTransactionStatus": {
         "type": "string",
         "enum": [
@@ -18715,8 +19240,16 @@
             ]
           },
           "operation_type": {
-            "$ref": "#/components/schemas/OperationType",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/OperationType"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Type of the operation",
+            "default": "other",
             "examples": [
               "incoming_transfer"
             ]
@@ -18763,8 +19296,7 @@
           "currency",
           "creation_date",
           "value_date",
-          "execution_date",
-          "operation_type"
+          "execution_date"
         ],
         "title": "BankingTransactionItem"
       },
@@ -19340,6 +19872,46 @@
           "size"
         ],
         "title": "ChiftPage[BalanceItemOut]"
+      },
+      "ChiftPage_BankAccountItemOut_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/BankAccountItemOut"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Page"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "page",
+          "size"
+        ],
+        "title": "ChiftPage[BankAccountItemOut]"
       },
       "ChiftPage_BankingAccountItem_": {
         "properties": {

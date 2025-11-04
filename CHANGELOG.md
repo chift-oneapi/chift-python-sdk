@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.4.1 - 2025-11-04
+- accounting: add bank related endpoints
+
 ## 0.4.0 - 2025-10-30
 - banking: add banking vertical with bank accounts and bank transactions endpoints
 
