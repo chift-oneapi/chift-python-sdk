@@ -20,6 +20,7 @@ from .openapi import (
     BankingCounterPartItem,
     BankingFinancialInstitutionItem,
     BankingTransactionItem,
+    BankStatementItemOut,
     CategoryItem,
     ClientItemOut,
     ClosureItem,
@@ -421,6 +422,10 @@ class Attachment(AttachmentItemOut):
 
 
 class BankAccount(BankAccountItemOut):
+    pass
+
+
+class BankStatement(BankStatementItemOut):
     pass
 
 

@@ -17,6 +17,7 @@ from chift.openapi.models import (
 from chift.openapi.models import AnalyticPlan as AnalyticPlanModel
 from chift.openapi.models import Attachment as AttachmentModel
 from chift.openapi.models import BankAccount as BankAccountModel
+from chift.openapi.models import BankStatement as BankStatementModel
 from chift.openapi.models import Client as ClientModel
 from chift.openapi.models import Employee as EmployeeModel
 from chift.openapi.models import Expense as ExpenseModel
@@ -59,6 +60,7 @@ class AccountingRouter:
         self.MultipleEntryMatching = MultipleEntryMatching(consumer_id, connection_id)
         self.Attachment = Attachment(consumer_id, connection_id)
         self.BankAccount = BankAccount(consumer_id, connection_id)
+        self.BankTransaction = BankTransaction(consumer_id, connection_id)
         self.Custom = Custom(consumer_id, connection_id)
         self.Balance = Balance(consumer_id, connection_id)
         self.Payment = Payment(consumer_id, connection_id)
@@ -304,10 +306,16 @@ class Attachment(CreateMixin[MatchingModel], PaginationMixin[AttachmentModel]):
         return super().create(data=data, client=client, params=params, map_model=False)
 
 
-class BankAccount(CreateMixin[BankAccountModel]):
+class BankAccount(CreateMixin[BankAccountModel], PaginationMixin[BankAccountModel]):
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "bank-accounts"
     model = BankAccountModel
+
+
+class BankTransaction(CreateMixin[BankStatementModel]):
+    chift_vertical: ClassVar = "accounting"
+    chift_model: ClassVar = "bank-transactions"
+    model = BankStatementModel
 
 
 class Balance(CreateMixin[AccountBalanceModel]):
