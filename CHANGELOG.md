@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.4.2 - 2025-11-28
+- ecommerce: make quantity float
+
 ## 0.4.1 - 2025-11-04
 - accounting: add bank related endpoints
 

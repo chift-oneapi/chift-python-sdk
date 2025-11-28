@@ -6469,11 +6469,19 @@
           {
             "name": "journal_id",
             "in": "query",
-            "required": true,
+            "required": false,
             "schema": {
-              "type": "string",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
               "title": "Journal Id"
-            }
+            },
+            "description": "Journal ID used to filter journal entries to only retrieve entries for a specific journal. This is an optional filter parameter."
           },
           {
             "name": "date_from",
@@ -6659,11 +6667,19 @@
           {
             "name": "journal_id",
             "in": "query",
-            "required": true,
+            "required": false,
             "schema": {
-              "type": "string",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
               "title": "Journal Id"
-            }
+            },
+            "description": "Journal ID used to filter journal entries to only retrieve entries for a specific journal. This is an optional filter parameter."
           },
           {
             "name": "date_from",
@@ -18501,11 +18517,13 @@
           },
           "bank_account_id": {
             "type": "string",
+            "minLength": 1,
             "title": "Bank Account Id",
             "description": "Unique ID of the bank account in the accounting system"
           },
           "external_bank_statement_id": {
             "type": "string",
+            "minLength": 1,
             "title": "External Bank Statement Id",
             "description": "External bank statement ID"
           },
@@ -18561,6 +18579,7 @@
           },
           "bank_account_id": {
             "type": "string",
+            "minLength": 1,
             "title": "Bank Account Id",
             "description": "Unique ID of the bank account in the accounting system"
           },
@@ -18605,18 +18624,27 @@
         ],
         "title": "BankStatementItemOut"
       },
+      "BankTransactionItemAccountType": {
+        "type": "string",
+        "enum": [
+          "customer_account",
+          "supplier_account",
+          "employee_account",
+          "general_account"
+        ],
+        "title": "BankTransactionItemAccountType"
+      },
       "BankTransactionItemIn": {
         "properties": {
           "account_type": {
             "anyOf": [
               {
-                "type": "string"
+                "$ref": "#/components/schemas/BankTransactionItemAccountType"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Account Type",
             "description": "Account type; mandatory if account is provided"
           },
           "account": {
@@ -18632,7 +18660,14 @@
             "description": "Account identifier"
           },
           "description": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Description",
             "description": "Transaction description"
           },
@@ -18687,6 +18722,7 @@
           },
           "currency": {
             "type": "string",
+            "minLength": 1,
             "title": "Currency",
             "description": "Transaction currency"
           },
@@ -18717,13 +18753,12 @@
           "account_type": {
             "anyOf": [
               {
-                "type": "string"
+                "$ref": "#/components/schemas/BankTransactionItemAccountType"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Account Type",
             "description": "Account type; mandatory if account is provided"
           },
           "account": {
@@ -18739,7 +18774,14 @@
             "description": "Account identifier"
           },
           "description": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Description",
             "description": "Transaction description"
           },
@@ -18794,6 +18836,7 @@
           },
           "currency": {
             "type": "string",
+            "minLength": 1,
             "title": "Currency",
             "description": "Transaction currency"
           },
@@ -26333,6 +26376,17 @@
             "title": "Tax Code",
             "description": "Indicates the Tax Code used for the entry item. This is the Id of the Tax Code instance in the accounting software."
           },
+          "tax_info": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TaxInfo"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Tax information related to the journal item. The provided tax amount is added to the amount (debit or credit) of the journal item. This is only supported for general accounts."
+          },
           "account_info": {
             "anyOf": [
               {
@@ -27706,7 +27760,14 @@
             "description": "Last Due date of the invoice. The invoice date is used when this information is not given by the software."
           },
           "partner_id": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Partner Id"
           },
           "journal_id": {
@@ -27911,7 +27972,14 @@
             "description": "Last Due date of the invoice. The invoice date is used when this information is not given by the software."
           },
           "partner_id": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Partner Id"
           },
           "journal_id": {
@@ -31953,8 +32021,9 @@
             "description": "Technical id of the product variant in Chift"
           },
           "quantity": {
-            "type": "integer",
-            "title": "Quantity"
+            "type": "number",
+            "title": "Quantity",
+            "description": "Quantity of the product variant in the order line."
           },
           "tax_rate": {
             "type": "number",
@@ -32012,11 +32081,12 @@
             "description": "Product variant"
           },
           "quantity": {
-            "type": "integer",
-            "title": "Quantity"
+            "type": "number",
+            "title": "Quantity",
+            "description": "Quantity of the product variant in the order line."
           },
           "current_quantity": {
-            "type": "integer",
+            "type": "number",
             "title": "Current Quantity",
             "description": "Quantity without refunds and returns."
           },
@@ -37078,8 +37148,9 @@
             "description": "Product variant"
           },
           "quantity": {
-            "type": "integer",
-            "title": "Quantity"
+            "type": "number",
+            "title": "Quantity",
+            "description": "Quantity of the product variant in the order line."
           },
           "untaxed_amount": {
             "type": "number",
@@ -37273,8 +37344,9 @@
             "description": "Product variant"
           },
           "quantity": {
-            "type": "integer",
-            "title": "Quantity"
+            "type": "number",
+            "title": "Quantity",
+            "description": "Quantity of the product variant in the order line."
           },
           "untaxed_amount": {
             "type": "number",
@@ -38304,6 +38376,62 @@
           "inactive"
         ],
         "title": "SyncConsumerStatus"
+      },
+      "TaxInfo": {
+        "properties": {
+          "tax_code": {
+            "type": "string",
+            "title": "Tax Code",
+            "description": "VAT code of the tax line. This is the Id of the Tax code instance in the accounting software."
+          },
+          "tax_amount": {
+            "type": "number",
+            "title": "Tax Amount",
+            "description": "Amount of the tax line. The amount must be positive and is required even with reversed VAT."
+          },
+          "vat_account": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vat Account",
+            "description": "VAT account of the tax line. This is the account number used to book the tax amount. The account is mandatory if tax amount is different from 0 and will be used when we need to pass this information to the accounting software."
+          },
+          "reversed_vat_account": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reversed Vat Account",
+            "description": "Reversed VAT account of the tax line. This is the account number used to book the reversed tax amount. The account is mandatory if you are using a reversed VAT code."
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Optional extra description of the tax line."
+          }
+        },
+        "type": "object",
+        "required": [
+          "tax_code",
+          "tax_amount"
+        ],
+        "title": "TaxInfo"
       },
       "TaxRateItem": {
         "properties": {
