@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.4.2 - 2025-12-05
+- sync: add mapping hidden_source_ids field
+
 ## 0.4.1 - 2025-11-04
 - accounting: add bank related endpoints
 
