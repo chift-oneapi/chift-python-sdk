@@ -158,6 +158,7 @@ class ChiftClient:
             "Content-Type": content_type,
             "Accept": "application/json",
             "User-Agent": "chift-python-sdk library",
+            "Accept-Encoding": "gzip",
         }
 
         if self.connection_id:

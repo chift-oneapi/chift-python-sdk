@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.0 - 2025-12-12
+- client: accept gzip compressed responses
+
 ## 0.4.2 - 2025-12-05
 - sync: add mapping hidden_source_ids field
 
