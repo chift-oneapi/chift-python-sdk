@@ -78,7 +78,7 @@ from .openapi import (
     POSPaymentItem,
     POSProductItem,
     ProductItemOut,
-    ProductItemOutput,
+    BackboneCommonModelsCommerceCommonProductItem,
     ReadFlowItem,
     ReadSyncItem,
     RefundItemOut,
@@ -535,7 +535,7 @@ class CommerceCustomer(CommerceCustomerItem):
     pass
 
 
-class CommerceProduct(ProductItemOutput):
+class CommerceProduct(BackboneCommonModelsCommerceCommonProductItem):
     pass
 
 

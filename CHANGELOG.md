@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.1 - 2025-12-20
+- accounting: update models (new attributes)
+
 ## 0.5.0 - 2025-12-12
 - client: accept gzip compressed responses
 
