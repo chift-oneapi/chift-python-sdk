@@ -492,7 +492,7 @@
               "schema": {
                 "anyOf": [
                   {
-                    "$ref": "#/components/schemas/PostConnectionItem-Input"
+                    "$ref": "#/components/schemas/backbone_api__app__routers__connections__PostConnectionItem"
                   },
                   {
                     "type": "null"
@@ -884,7 +884,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/Status"
+                  "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
                 },
                 {
                   "type": "null"
@@ -1099,7 +1099,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/Status"
+                  "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
                 },
                 {
                   "type": "null"
@@ -1952,6 +1952,23 @@
               "format": "uuid",
               "title": "Syncid"
             }
+          },
+          {
+            "name": "preview_executionid",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Preview Executionid"
+            }
           }
         ],
         "responses": {
@@ -2274,7 +2291,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/Status"
+                  "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
                 },
                 {
                   "type": "null"
@@ -4661,7 +4678,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/PaymentStatus-Input"
+                  "$ref": "#/components/schemas/backbone_common__models__common__PaymentStatus"
                 },
                 {
                   "type": "null"
@@ -4913,7 +4930,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/PaymentStatus-Input"
+                  "$ref": "#/components/schemas/backbone_common__models__common__PaymentStatus"
                 },
                 {
                   "type": "null"
@@ -7226,6 +7243,109 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ChiftPage_AccountingPaymentMethod_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/accounting/payment-terms": {
+      "get": {
+        "tags": [
+          "Accounting",
+          "Invoices"
+        ],
+        "summary": "Get payment terms",
+        "description": "Get payment terms",
+        "operationId": "accounting_get_payment_terms",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Page number",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "Page size",
+              "default": 50,
+              "title": "Size",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "description": "Page size"
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Folder Id"
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_AccountingPaymentTerms_"
                 }
               }
             }
@@ -11571,7 +11691,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProductItem-Output"
+                  "$ref": "#/components/schemas/backbone_common__models__commerce__common__ProductItem"
                 }
               }
             }
@@ -12700,7 +12820,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/PaymentStatus-Input"
+                  "$ref": "#/components/schemas/backbone_common__models__common__PaymentStatus"
                 },
                 {
                   "type": "null"
@@ -12826,7 +12946,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/InvoiceItem-Input"
+                "$ref": "#/components/schemas/backbone_common__models__invoicing__common__InvoiceItem"
               }
             }
           }
@@ -13265,7 +13385,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductItem-Input"
+                "$ref": "#/components/schemas/backbone_common__models__invoicing__common__ProductItem"
               }
             }
           }
@@ -17003,6 +17123,50 @@
         ],
         "title": "AccountingCategoryItem"
       },
+      "AccountingInfoOut": {
+        "properties": {
+          "main_currency": {
+            "type": "string",
+            "title": "Main Currency",
+            "description": "Main currency of the accounting folder. ISO-4217 format.",
+            "examples": [
+              "EUR",
+              "USD",
+              "GBP"
+            ]
+          },
+          "main_currency_total": {
+            "type": "number",
+            "title": "Main Currency Total",
+            "description": "Total amount of the invoice in the accounting folder's currency.",
+            "default": 0,
+            "examples": [
+              "100.0",
+              "123.4",
+              "1.23"
+            ]
+          },
+          "account_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Account Number",
+            "description": "Client/supplier ledger account used to book the invoice total amount. (optional)",
+            "examples": [
+              "411001",
+              "401234",
+              "1600"
+            ]
+          }
+        },
+        "type": "object",
+        "title": "AccountingInfoOut"
+      },
       "AccountingInvoicePaymentIn": {
         "properties": {
           "date": {
@@ -17123,6 +17287,32 @@
         ],
         "title": "AccountingPaymentMethod"
       },
+      "AccountingPaymentTerms": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Technical ID of the payment term in the accounting system."
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "Name of the payment term"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "AccountingPaymentTerms"
+      },
       "AccountingVatCode": {
         "properties": {
           "id": {
@@ -17163,7 +17353,7 @@
           "scope": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/VatCodeScope"
+                "$ref": "#/components/schemas/backbone_common__models__invoicing__common__VatCodeScope"
               },
               {
                 "type": "null"
@@ -17178,7 +17368,7 @@
             "description": "VAT rate associated with the VAT code. This is the percentage rate applied to the amount when this VAT code is used."
           },
           "type": {
-            "$ref": "#/components/schemas/VatCodeType",
+            "$ref": "#/components/schemas/backbone_common__models__invoicing__common__VatCodeType",
             "description": "Type of the VAT code, indicating whether it is a sales tax or purchase tax. This helps in understanding how the VAT code is applied in transactions."
           },
           "deductible_account": {
@@ -17464,129 +17654,6 @@
           "country"
         ],
         "title": "AddressItemInInvoicing"
-      },
-      "AddressItemOut-Input": {
-        "properties": {
-          "address_type": {
-            "$ref": "#/components/schemas/AddressType"
-          },
-          "name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Name"
-          },
-          "number": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Number"
-          },
-          "box": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Box"
-          },
-          "phone": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Phone"
-          },
-          "mobile": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Mobile"
-          },
-          "email": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Email"
-          },
-          "street": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Street"
-          },
-          "city": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "City"
-          },
-          "postal_code": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Postal Code"
-          },
-          "country": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Country",
-            "description": "Format: ISO 3166-1 codes."
-          }
-        },
-        "type": "object",
-        "required": [
-          "address_type"
-        ],
-        "title": "AddressItemOut"
       },
       "AddressItemOutInvoicing": {
         "properties": {
@@ -19543,15 +19610,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19568,6 +19628,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19583,15 +19644,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19608,6 +19662,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19623,15 +19678,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19648,6 +19696,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19663,15 +19712,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19688,10 +19730,45 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
         "title": "ChiftPage[AccountingPaymentMethod]"
+      },
+      "ChiftPage_AccountingPaymentTerms_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AccountingPaymentTerms"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Page"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "title": "ChiftPage[AccountingPaymentTerms]"
       },
       "ChiftPage_AccountingVatCode_": {
         "properties": {
@@ -19703,15 +19780,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19728,6 +19798,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19743,15 +19814,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19768,6 +19832,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19783,15 +19848,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19808,6 +19866,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19823,15 +19882,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19848,6 +19900,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19863,15 +19916,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19888,6 +19934,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19903,15 +19950,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19928,6 +19968,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19943,15 +19984,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -19968,6 +20002,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -19983,15 +20018,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20008,6 +20036,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20023,15 +20052,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20048,6 +20070,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20063,15 +20086,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20088,6 +20104,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20103,15 +20120,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20128,6 +20138,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20143,15 +20154,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20168,6 +20172,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20183,15 +20188,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20208,6 +20206,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20223,15 +20222,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20248,6 +20240,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20263,15 +20256,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20288,6 +20274,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20303,15 +20290,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20328,6 +20308,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20343,15 +20324,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20368,6 +20342,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20383,15 +20358,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20408,6 +20376,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20423,15 +20392,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20448,6 +20410,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20463,15 +20426,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20488,6 +20444,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20503,15 +20460,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20528,6 +20478,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20543,15 +20494,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20568,6 +20512,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20583,15 +20528,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20608,6 +20546,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20623,15 +20562,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20648,6 +20580,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20663,15 +20596,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20688,6 +20614,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20703,15 +20630,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20728,6 +20648,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20743,15 +20664,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20768,6 +20682,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20783,15 +20698,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20808,6 +20716,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20823,15 +20732,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20848,6 +20750,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20863,15 +20766,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20888,6 +20784,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20903,15 +20800,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20928,6 +20818,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20943,15 +20834,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -20968,6 +20852,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -20983,15 +20868,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21008,6 +20886,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21023,15 +20902,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21048,6 +20920,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21063,15 +20936,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21088,6 +20954,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21103,15 +20970,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21128,6 +20988,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21143,15 +21004,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21168,6 +21022,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21183,15 +21038,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21208,6 +21056,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21223,15 +21072,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21248,6 +21090,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21263,15 +21106,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21288,6 +21124,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21303,15 +21140,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21328,6 +21158,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21343,15 +21174,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21368,6 +21192,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21383,15 +21208,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21408,6 +21226,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21423,15 +21242,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21448,6 +21260,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21463,15 +21276,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21488,6 +21294,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21503,15 +21310,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21528,6 +21328,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21543,15 +21344,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21568,6 +21362,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21583,15 +21378,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21608,6 +21396,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21623,15 +21412,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21648,6 +21430,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21663,15 +21446,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21688,6 +21464,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21703,15 +21480,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21728,6 +21498,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21743,15 +21514,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21768,6 +21532,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21783,15 +21548,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21808,6 +21566,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21823,15 +21582,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21848,6 +21600,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21857,21 +21610,14 @@
         "properties": {
           "items": {
             "items": {
-              "$ref": "#/components/schemas/ProductItem-Output"
+              "$ref": "#/components/schemas/backbone_common__models__commerce__common__ProductItem"
             },
             "type": "array",
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21888,6 +21634,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21903,15 +21650,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21928,6 +21668,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21943,15 +21684,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -21968,6 +21702,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -21983,15 +21718,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -22008,6 +21736,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -22023,15 +21752,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -22048,6 +21770,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -22063,15 +21786,8 @@
             "title": "Items"
           },
           "total": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "minimum": 0.0,
             "title": "Total"
           },
           "page": {
@@ -22088,6 +21804,7 @@
         "type": "object",
         "required": [
           "items",
+          "total",
           "page",
           "size"
         ],
@@ -22849,7 +22566,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/AddressItemOut-Input"
+                  "$ref": "#/components/schemas/backbone_common__models__common__AddressItemOut"
                 },
                 "type": "array"
               },
@@ -23173,44 +22890,6 @@
           "values"
         ],
         "title": "CommonAttributeItem"
-      },
-      "ConnectionItem-Input": {
-        "properties": {
-          "one_api": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "One Api"
-          },
-          "connection_type": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Connection Type"
-          },
-          "display_order": {
-            "type": "integer",
-            "title": "Display Order",
-            "default": 0
-          },
-          "display_hidden": {
-            "type": "boolean",
-            "title": "Display Hidden",
-            "default": false
-          }
-        },
-        "type": "object",
-        "title": "ConnectionItem"
       },
       "ConsumerItem": {
         "properties": {
@@ -24017,7 +23696,7 @@
           },
           "connections": {
             "items": {
-              "$ref": "#/components/schemas/ConnectionItem-Input"
+              "$ref": "#/components/schemas/backbone_api__app__routers__syncs__ConnectionItem"
             },
             "type": "array",
             "title": "Connections"
@@ -24344,42 +24023,6 @@
         ],
         "title": "CreateSyncMappingToFieldItem"
       },
-      "CredentialItem-Input": {
-        "properties": {
-          "key": {
-            "type": "string",
-            "title": "Key"
-          },
-          "value": {
-            "type": "string",
-            "title": "Value"
-          }
-        },
-        "type": "object",
-        "required": [
-          "key",
-          "value"
-        ],
-        "title": "CredentialItem"
-      },
-      "CredentialItem-Output": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "title": "Name"
-          },
-          "optional": {
-            "type": "boolean",
-            "title": "Optional",
-            "default": false
-          }
-        },
-        "type": "object",
-        "required": [
-          "name"
-        ],
-        "title": "CredentialItem"
-      },
       "DataItem": {
         "properties": {
           "data": {
@@ -24432,7 +24075,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/Status"
+                "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
               },
               {
                 "type": "null"
@@ -25857,7 +25500,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/Status"
+                "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
               },
               {
                 "type": "null"
@@ -25896,7 +25539,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/Status"
+                "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
               },
               {
                 "type": "null"
@@ -26543,7 +26186,7 @@
             "title": "Name"
           },
           "status": {
-            "$ref": "#/components/schemas/Status"
+            "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
           },
           "api": {
             "$ref": "#/components/schemas/Api"
@@ -26560,7 +26203,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/PostConnectionItem-Output"
+                  "$ref": "#/components/schemas/backbone_api__app__routers__integrations__PostConnectionItem"
                 },
                 "type": "array"
               },
@@ -26592,7 +26235,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/CredentialItem-Output"
+                  "$ref": "#/components/schemas/backbone_api__app__routers__integrations__CredentialItem"
                 },
                 "type": "array"
               },
@@ -26733,242 +26376,6 @@
         "type": "object",
         "title": "InvoiceCorrection"
       },
-      "InvoiceItem-Input": {
-        "properties": {
-          "currency": {
-            "type": "string",
-            "title": "Currency",
-            "description": "Currency matching target sofware name"
-          },
-          "invoice_type": {
-            "$ref": "#/components/schemas/backbone_common__models__invoicing__common__InvoiceType",
-            "description": "Invoice type"
-          },
-          "status": {
-            "$ref": "#/components/schemas/InvoiceStatus",
-            "description": "Status"
-          },
-          "invoice_date": {
-            "type": "string",
-            "format": "date",
-            "title": "Invoice Date",
-            "description": "Invoicing date"
-          },
-          "tax_amount": {
-            "type": "number",
-            "title": "Tax Amount",
-            "description": "Taxes amount"
-          },
-          "untaxed_amount": {
-            "type": "number",
-            "title": "Untaxed Amount",
-            "description": "Untaxed amount"
-          },
-          "total": {
-            "type": "number",
-            "title": "Total",
-            "description": "Total amount incl. taxes"
-          },
-          "lines": {
-            "items": {
-              "$ref": "#/components/schemas/InvoiceLineItem"
-            },
-            "type": "array",
-            "title": "Lines",
-            "description": "Invoice lines",
-            "default": []
-          },
-          "partner_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Partner Id",
-            "description": "Technical id of the vendor/customer in Chift"
-          },
-          "invoice_number": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Invoice Number",
-            "description": "Number/sequence"
-          },
-          "due_date": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Due Date",
-            "description": "Due date"
-          },
-          "reference": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Reference",
-            "description": "Reference"
-          },
-          "payment_communication": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Payment Communication",
-            "description": "Payment communication"
-          },
-          "customer_memo": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Customer Memo",
-            "description": "Customer note/memo"
-          },
-          "journal_ref": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/FieldRef"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Journal"
-          },
-          "italian_specificities": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/ItalianSpecificities-Input"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Specificities for Italy"
-          }
-        },
-        "type": "object",
-        "required": [
-          "currency",
-          "invoice_type",
-          "status",
-          "invoice_date",
-          "tax_amount",
-          "untaxed_amount",
-          "total"
-        ],
-        "title": "InvoiceItem"
-      },
-      "InvoiceItem-Output": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
-          },
-          "source_ref": {
-            "$ref": "#/components/schemas/Ref",
-            "description": "Technical id in the target software"
-          },
-          "invoice_number": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Invoice Number",
-            "description": "Number/sequence",
-            "examples": [
-              "INV-12345"
-            ]
-          },
-          "creation_date": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Creation Date",
-            "description": "Creation date of the invoice",
-            "examples": [
-              "2023-10-01T12:00:00"
-            ]
-          },
-          "closing_date": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Closing Date",
-            "description": "Closing date of the invoice",
-            "examples": [
-              "2023-10-10T12:00:00"
-            ]
-          },
-          "partners": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/InvoicePartnerItem"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Partners",
-            "description": "List of partners related to the invoice"
-          }
-        },
-        "type": "object",
-        "required": [
-          "id",
-          "source_ref",
-          "invoice_number"
-        ],
-        "title": "InvoiceItem"
-      },
       "InvoiceItemDueDatesOut": {
         "properties": {
           "due_date": {
@@ -26988,6 +26395,18 @@
             ],
             "title": "Payment Method",
             "description": "Payment method used to pay the invoice on that due date."
+          },
+          "payment_method_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Method Id",
+            "description": "Technical ID of the payment method used to pay the invoice on that due date."
           },
           "amount": {
             "type": "number",
@@ -27075,6 +26494,18 @@
             ],
             "title": "Customer Memo",
             "description": "Internal or external note associated with the invoice, typically intended for the customer. Can include additional context, comments, or special instructions related to the transaction."
+          },
+          "payment_term_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Term Id",
+            "description": "Technical ID of the payment term associated with the invoice."
           },
           "invoice_date": {
             "type": "string",
@@ -27227,6 +26658,18 @@
             ],
             "title": "End Date",
             "description": "End date of the period covered by the invoice (format: YYYY-MM-DD). This field should be used when the invoice relates to prepaid income or expenses (accruals and deferrals), indicating when the covered period ends."
+          },
+          "payment_method_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Method Id",
+            "description": "Technical ID of the payment method in the accounting system. This is an indication of the payment method that will be used to pay the invoice. It is not necessarily the payment method that will eventually be used to pay the invoice."
           }
         },
         "type": "object",
@@ -27315,6 +26758,18 @@
             ],
             "title": "Customer Memo",
             "description": "Internal or external note associated with the invoice, typically intended for the customer. Can include additional context, comments, or special instructions related to the transaction."
+          },
+          "payment_term_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Term Id",
+            "description": "Technical ID of the payment term associated with the invoice."
           },
           "invoice_date": {
             "type": "string",
@@ -27467,6 +26922,18 @@
             ],
             "title": "End Date",
             "description": "End date of the period covered by the invoice (format: YYYY-MM-DD). This field should be used when the invoice relates to prepaid income or expenses (accruals and deferrals), indicating when the covered period ends."
+          },
+          "payment_method_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Method Id",
+            "description": "Technical ID of the payment method in the accounting system. This is an indication of the payment method that will be used to pay the invoice. It is not necessarily the payment method that will eventually be used to pay the invoice."
           }
         },
         "type": "object",
@@ -27796,6 +27263,18 @@
             "title": "Customer Memo",
             "description": "Internal or external note associated with the invoice, typically intended for the customer. Can include additional context, comments, or special instructions related to the transaction."
           },
+          "payment_term_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Term Id",
+            "description": "Technical ID of the payment term associated with the invoice."
+          },
           "id": {
             "anyOf": [
               {
@@ -27911,6 +27390,29 @@
           "attachments_info": {
             "$ref": "#/components/schemas/ItemAttachmentInfoOut",
             "description": "Extra information about the attachments linked to the invoice."
+          },
+          "accounting_info": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AccountingInfoOut"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Additional information about the invoice."
+          },
+          "payment_method_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Method Id",
+            "description": "Technical ID of the payment method in the accounting system. This is the payment method currently linked to the invoice. It is not necessarily the payment method that will eventually be used to pay the invoice."
           },
           "lines": {
             "items": {
@@ -28008,6 +27510,18 @@
             "title": "Customer Memo",
             "description": "Internal or external note associated with the invoice, typically intended for the customer. Can include additional context, comments, or special instructions related to the transaction."
           },
+          "payment_term_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Term Id",
+            "description": "Technical ID of the payment term associated with the invoice."
+          },
           "id": {
             "anyOf": [
               {
@@ -28123,6 +27637,29 @@
           "attachments_info": {
             "$ref": "#/components/schemas/ItemAttachmentInfoOut",
             "description": "Extra information about the attachments linked to the invoice."
+          },
+          "accounting_info": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AccountingInfoOut"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Additional information about the invoice."
+          },
+          "payment_method_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Method Id",
+            "description": "Technical ID of the payment method in the accounting system. This is the payment method currently linked to the invoice. It is not necessarily the payment method that will eventually be used to pay the invoice."
           },
           "lines": {
             "items": {
@@ -29600,7 +29137,7 @@
             "description": "Tax rate (e.g. 21.0)"
           },
           "type": {
-            "$ref": "#/components/schemas/VatCodeType",
+            "$ref": "#/components/schemas/backbone_common__models__invoicing__common__VatCodeType",
             "description": "Type"
           },
           "code": {
@@ -29618,7 +29155,7 @@
           "scope": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/VatCodeScope"
+                "$ref": "#/components/schemas/backbone_common__models__invoicing__common__VatCodeScope"
               },
               {
                 "type": "null"
@@ -30407,6 +29944,18 @@
             ],
             "title": "Payment Method",
             "description": "Payment method used to pay the entry on that due date."
+          },
+          "payment_method_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Method Id",
+            "description": "Technical ID of the payment method used to pay the entry on that due date."
           },
           "debit": {
             "anyOf": [
@@ -33600,7 +33149,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/InvoiceItem-Output"
+                  "$ref": "#/components/schemas/backbone_common__models__pms__common__InvoiceItem"
                 },
                 "type": "array"
               },
@@ -35397,7 +34946,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/CredentialItem-Input"
+                  "$ref": "#/components/schemas/backbone_api__app__routers__connections__CredentialItem"
                 },
                 "type": "array"
               },
@@ -35700,15 +35249,6 @@
         ],
         "title": "PaymentReportingMethod"
       },
-      "PaymentStatus-Input": {
-        "type": "string",
-        "enum": [
-          "all",
-          "unpaid",
-          "paid"
-        ],
-        "title": "PaymentStatus"
-      },
       "PaymentTermAccountInfo": {
         "properties": {
           "amount": {
@@ -35827,104 +35367,6 @@
         ],
         "title": "PostAddressItem"
       },
-      "PostConnectionItem-Input": {
-        "properties": {
-          "integrationid": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Integrationid",
-            "description": "Can be used to specify the integration code of a specific connector. If specified, the url will point directly to the connection page of the connector and will redirect on save to the redirect url of the consumer if specified."
-          },
-          "name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Name",
-            "description": "Can be used to specify the name of the connection. Must be used in combination with an integrationid."
-          },
-          "credentials": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/CredentialItem-Input"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Credentials",
-            "description": "Can be used to specify the credentials of your connection. Must be used in combination with an integrationid and a name. Please use the getIntegrations route to see the available credentials for each integration"
-          },
-          "country": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Country",
-            "description": "ISO 3166-1 alpha-2 country code to filter connectors by country. Ignored if integrationid is provided."
-          },
-          "redirect": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Redirect",
-            "description": "Indicates whether you want to return to the consumer's redirectUrl after creation (true) or whether you want to stay on the connection selection page (false)(This field is ignored if integrationid is provided)",
-            "default": false
-          }
-        },
-        "type": "object",
-        "title": "PostConnectionItem"
-      },
-      "PostConnectionItem-Output": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "title": "Id"
-          },
-          "title": {
-            "type": "string",
-            "title": "Title"
-          },
-          "optional": {
-            "type": "boolean",
-            "title": "Optional"
-          },
-          "resource": {
-            "type": "string",
-            "title": "Resource"
-          }
-        },
-        "type": "object",
-        "required": [
-          "id",
-          "title",
-          "optional",
-          "resource"
-        ],
-        "title": "PostConnectionItem"
-      },
       "PostConsumerItem": {
         "properties": {
           "name": {
@@ -36006,6 +35448,12 @@
       },
       "PostSyncFlowEventData": {
         "properties": {
+          "is_preview": {
+            "type": "boolean",
+            "title": "Is Preview",
+            "description": "Whether to preview the sync",
+            "default": false
+          },
           "force_restart": {
             "type": "boolean",
             "title": "Force Restart",
@@ -36084,286 +35532,6 @@
           "currency"
         ],
         "title": "ProductCostItem"
-      },
-      "ProductItem-Input": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "title": "Name",
-            "description": "Name"
-          },
-          "unit_price": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Unit Price",
-            "description": "Unit price"
-          },
-          "tax_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Tax Id",
-            "description": "Technical id of the tax in Chift"
-          },
-          "code": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Code",
-            "description": "Reference/code"
-          },
-          "unit": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Unit",
-            "description": "Unit of measure matching target software name"
-          },
-          "category": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Category",
-            "description": "Category matching target software name"
-          },
-          "currency": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Currency",
-            "description": "Currency matching target software name"
-          },
-          "description": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Description",
-            "description": "Description"
-          },
-          "cost": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Cost",
-            "description": "Cost of the product",
-            "default": 0
-          }
-        },
-        "type": "object",
-        "required": [
-          "name"
-        ],
-        "title": "ProductItem"
-      },
-      "ProductItem-Output": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
-          },
-          "source_ref": {
-            "$ref": "#/components/schemas/Ref",
-            "description": "Technical id in the target software"
-          },
-          "name": {
-            "type": "string",
-            "title": "Name"
-          },
-          "description": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Description"
-          },
-          "description_html": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Description Html"
-          },
-          "categories": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/backbone_common__models__commerce__common__ProductCategoryItem"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Categories",
-            "default": []
-          },
-          "created_on": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Created On"
-          },
-          "last_updated_on": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Last Updated On"
-          },
-          "variants": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/ProductVariantItem"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Variants",
-            "default": []
-          },
-          "status": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/ProductStatus"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "sku": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Sku"
-          },
-          "common_attributes": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/CommonAttributeItem"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Common Attributes",
-            "description": "List of attributes that are shared by all variants of the product.",
-            "default": []
-          },
-          "variant_attributes_options": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/VariantAttributeOptionItem"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Variant Attributes Options",
-            "default": []
-          },
-          "common_images": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/ImageItem"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Common Images",
-            "description": "List of images that are shared by all variants of the product.",
-            "default": []
-          }
-        },
-        "type": "object",
-        "required": [
-          "id",
-          "source_ref",
-          "name"
-        ],
-        "title": "ProductItem"
       },
       "ProductItemOut": {
         "properties": {
@@ -37561,14 +36729,6 @@
         ],
         "title": "States"
       },
-      "Status": {
-        "type": "string",
-        "enum": [
-          "active",
-          "inactive"
-        ],
-        "title": "Status"
-      },
       "SupplierItemIn": {
         "properties": {
           "external_reference": {
@@ -38325,7 +37485,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/AddressItemOut-Input"
+                  "$ref": "#/components/schemas/backbone_common__models__common__AddressItemOut"
                 },
                 "type": "array"
               },
@@ -39498,26 +38658,6 @@
         ],
         "title": "VariantItem"
       },
-      "VatCodeScope": {
-        "type": "string",
-        "enum": [
-          "nat",
-          "eu",
-          "int",
-          "unknown"
-        ],
-        "title": "VatCodeScope"
-      },
-      "VatCodeType": {
-        "type": "string",
-        "enum": [
-          "sale",
-          "purchase",
-          "both",
-          "unknown"
-        ],
-        "title": "VatCodeType"
-      },
       "WebhookInstanceGetItem": {
         "properties": {
           "webhookid": {
@@ -39556,7 +38696,7 @@
             "title": "Url"
           },
           "status": {
-            "$ref": "#/components/schemas/Status"
+            "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
           },
           "integrationid": {
             "anyOf": [
@@ -39586,7 +38726,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/Status"
+                "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
               },
               {
                 "type": "null"
@@ -39932,7 +39072,7 @@
             "title": "Data"
           },
           "status": {
-            "$ref": "#/components/schemas/Status"
+            "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
           },
           "agent": {
             "anyOf": [
@@ -39956,6 +39096,140 @@
           "status"
         ],
         "title": "ConnectionItem"
+      },
+      "backbone_api__app__routers__connections__CredentialItem": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "value": {
+            "type": "string",
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "value"
+        ],
+        "title": "CredentialItem"
+      },
+      "backbone_api__app__routers__connections__PostConnectionItem": {
+        "properties": {
+          "integrationid": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Integrationid",
+            "description": "Can be used to specify the integration code of a specific connector. If specified, the url will point directly to the connection page of the connector and will redirect on save to the redirect url of the consumer if specified."
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "Can be used to specify the name of the connection. Must be used in combination with an integrationid."
+          },
+          "credentials": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/backbone_api__app__routers__connections__CredentialItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Credentials",
+            "description": "Can be used to specify the credentials of your connection. Must be used in combination with an integrationid and a name. Please use the getIntegrations route to see the available credentials for each integration"
+          },
+          "country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Country",
+            "description": "ISO 3166-1 alpha-2 country code to filter connectors by country. Ignored if integrationid is provided."
+          },
+          "redirect": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Redirect",
+            "description": "Indicates whether you want to return to the consumer's redirectUrl after creation (true) or whether you want to stay on the connection selection page (false)(This field is ignored if integrationid is provided)",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "PostConnectionItem"
+      },
+      "backbone_api__app__routers__integrations__CredentialItem": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "optional": {
+            "type": "boolean",
+            "title": "Optional",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "CredentialItem"
+      },
+      "backbone_api__app__routers__integrations__PostConnectionItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "optional": {
+            "type": "boolean",
+            "title": "Optional"
+          },
+          "resource": {
+            "type": "string",
+            "title": "Resource"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "optional",
+          "resource"
+        ],
+        "title": "PostConnectionItem"
       },
       "backbone_api__app__routers__syncs__ConnectionItem": {
         "properties": {
@@ -39994,6 +39268,14 @@
         },
         "type": "object",
         "title": "ConnectionItem"
+      },
+      "backbone_api__app__routers__webhooks__Status": {
+        "type": "string",
+        "enum": [
+          "active",
+          "inactive"
+        ],
+        "title": "Status"
       },
       "backbone_common__models__accounting__common__DocumentType": {
         "type": "string",
@@ -40281,6 +39563,175 @@
         ],
         "title": "ProductCategoryItem"
       },
+      "backbone_common__models__commerce__common__ProductItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
+          },
+          "source_ref": {
+            "$ref": "#/components/schemas/Ref",
+            "description": "Technical id in the target software"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "description_html": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description Html"
+          },
+          "categories": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/backbone_common__models__commerce__common__ProductCategoryItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Categories",
+            "default": []
+          },
+          "created_on": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created On"
+          },
+          "last_updated_on": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Updated On"
+          },
+          "variants": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ProductVariantItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Variants",
+            "default": []
+          },
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProductStatus"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sku": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sku"
+          },
+          "common_attributes": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/CommonAttributeItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Common Attributes",
+            "description": "List of attributes that are shared by all variants of the product.",
+            "default": []
+          },
+          "variant_attributes_options": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/VariantAttributeOptionItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Variant Attributes Options",
+            "default": []
+          },
+          "common_images": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ImageItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Common Images",
+            "description": "List of images that are shared by all variants of the product.",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "source_ref",
+          "name"
+        ],
+        "title": "ProductItem"
+      },
       "backbone_common__models__commerce__common__ProductPriceItem": {
         "properties": {
           "currency": {
@@ -40537,6 +39988,15 @@
         ],
         "title": "AddressItemOut"
       },
+      "backbone_common__models__common__PaymentStatus": {
+        "type": "string",
+        "enum": [
+          "all",
+          "unpaid",
+          "paid"
+        ],
+        "title": "PaymentStatus"
+      },
       "backbone_common__models__invoicing__common__DocumentType": {
         "type": "string",
         "enum": [
@@ -40545,6 +40005,159 @@
           "employee_expense"
         ],
         "title": "DocumentType"
+      },
+      "backbone_common__models__invoicing__common__InvoiceItem": {
+        "properties": {
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "description": "Currency matching target sofware name"
+          },
+          "invoice_type": {
+            "$ref": "#/components/schemas/backbone_common__models__invoicing__common__InvoiceType",
+            "description": "Invoice type"
+          },
+          "status": {
+            "$ref": "#/components/schemas/InvoiceStatus",
+            "description": "Status"
+          },
+          "invoice_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Invoice Date",
+            "description": "Invoicing date"
+          },
+          "tax_amount": {
+            "type": "number",
+            "title": "Tax Amount",
+            "description": "Taxes amount"
+          },
+          "untaxed_amount": {
+            "type": "number",
+            "title": "Untaxed Amount",
+            "description": "Untaxed amount"
+          },
+          "total": {
+            "type": "number",
+            "title": "Total",
+            "description": "Total amount incl. taxes"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/InvoiceLineItem"
+            },
+            "type": "array",
+            "title": "Lines",
+            "description": "Invoice lines",
+            "default": []
+          },
+          "partner_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Partner Id",
+            "description": "Technical id of the vendor/customer in Chift"
+          },
+          "invoice_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Invoice Number",
+            "description": "Number/sequence"
+          },
+          "due_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Due Date",
+            "description": "Due date"
+          },
+          "reference": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference",
+            "description": "Reference"
+          },
+          "payment_communication": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Communication",
+            "description": "Payment communication"
+          },
+          "customer_memo": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Memo",
+            "description": "Customer note/memo"
+          },
+          "journal_ref": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FieldRef"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Journal"
+          },
+          "italian_specificities": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ItalianSpecificities-Input"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Specificities for Italy"
+          }
+        },
+        "type": "object",
+        "required": [
+          "currency",
+          "invoice_type",
+          "status",
+          "invoice_date",
+          "tax_amount",
+          "untaxed_amount",
+          "total"
+        ],
+        "title": "InvoiceItem"
       },
       "backbone_common__models__invoicing__common__InvoiceType": {
         "type": "string",
@@ -40556,6 +40169,137 @@
           "all"
         ],
         "title": "InvoiceType"
+      },
+      "backbone_common__models__invoicing__common__ProductItem": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name"
+          },
+          "unit_price": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit Price",
+            "description": "Unit price"
+          },
+          "tax_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tax Id",
+            "description": "Technical id of the tax in Chift"
+          },
+          "code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Code",
+            "description": "Reference/code"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit",
+            "description": "Unit of measure matching target software name"
+          },
+          "category": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category",
+            "description": "Category matching target software name"
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency",
+            "description": "Currency matching target software name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Description"
+          },
+          "cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cost",
+            "description": "Cost of the product",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "ProductItem"
+      },
+      "backbone_common__models__invoicing__common__VatCodeScope": {
+        "type": "string",
+        "enum": [
+          "nat",
+          "eu",
+          "int",
+          "unknown"
+        ],
+        "title": "VatCodeScope"
+      },
+      "backbone_common__models__invoicing__common__VatCodeType": {
+        "type": "string",
+        "enum": [
+          "sale",
+          "purchase",
+          "both",
+          "unknown"
+        ],
+        "title": "VatCodeType"
       },
       "backbone_common__models__payment__common__PaymentStatus": {
         "type": "string",
@@ -40569,6 +40313,89 @@
           "authorized"
         ],
         "title": "PaymentStatus"
+      },
+      "backbone_common__models__pms__common__InvoiceItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Technical id in Chift",
+            "chift_target_entity_id": true
+          },
+          "source_ref": {
+            "$ref": "#/components/schemas/Ref",
+            "description": "Technical id in the target software"
+          },
+          "invoice_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Invoice Number",
+            "description": "Number/sequence",
+            "examples": [
+              "INV-12345"
+            ]
+          },
+          "creation_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Creation Date",
+            "description": "Creation date of the invoice",
+            "examples": [
+              "2023-10-01T12:00:00"
+            ]
+          },
+          "closing_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Closing Date",
+            "description": "Closing date of the invoice",
+            "examples": [
+              "2023-10-10T12:00:00"
+            ]
+          },
+          "partners": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/InvoicePartnerItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Partners",
+            "description": "List of partners related to the invoice"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "source_ref",
+          "invoice_number"
+        ],
+        "title": "InvoiceItem"
       },
       "backbone_common__models__pos__common__ProductCategoryItem": {
         "properties": {
