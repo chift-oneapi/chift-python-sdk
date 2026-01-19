@@ -884,7 +884,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
+                  "$ref": "#/components/schemas/backbone_api__app__routers__integrations__Status"
                 },
                 {
                   "type": "null"
@@ -1099,7 +1099,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
+                  "$ref": "#/components/schemas/backbone_api__app__routers__integrations__Status"
                 },
                 {
                   "type": "null"
@@ -2291,7 +2291,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
+                  "$ref": "#/components/schemas/backbone_api__app__routers__integrations__Status"
                 },
                 {
                   "type": "null"
@@ -4331,6 +4331,17 @@
               "title": "Regroup Lines"
             },
             "description": "Allow to regroup invoice lines by account number, tax code and analytic account in the accounting system."
+          },
+          {
+            "name": "ignore_accounting_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Ignore Accounting Id"
+            },
+            "description": "If set to true, Chift will not wait for the invoice to be processed to return, use this when you do not need the ID in the return value.Note that this might also change the output of the call."
           }
         ],
         "requestBody": {
@@ -4466,6 +4477,17 @@
               "title": "Regroup Lines"
             },
             "description": "Regroup lines by account number, tax code and analytic distribution in the accounting system."
+          },
+          {
+            "name": "ignore_accounting_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Ignore Accounting Id"
+            },
+            "description": "If set to true, Chift will not wait for the invoice to be processed to return, use this when you do not need the ID in the return value.Note that this might also change the output of the call."
           }
         ],
         "requestBody": {
@@ -6977,6 +6999,17 @@
               "title": "Force Currency Exchange"
             },
             "description": "Boolean flag indicating whether to force the use of the provided currency exchange rate instead of the rate used by the accounting software. "
+          },
+          {
+            "name": "ignore_accounting_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Ignore Accounting Id"
+            },
+            "description": "If set to true, Chift will not wait for the invoice to be processed to return, use this when you do not need the ID in the return value.Note that this might also change the output of the call."
           }
         ],
         "requestBody": {
@@ -16951,8 +16984,7 @@
           "number": {
             "type": "string",
             "title": "Number",
-            "description": "The account number in the chart of accounts. Must be unique within the accounting folder. In some countries (e.g., France, Belgium, Spain), the number structure is constrained by local accounting rules and must follow official charts of accounts (e.g., Plan Comptable Général).",
-            "chift_target_entity_id": true
+            "description": "The account number in the chart of accounts. Must be unique within the accounting folder. In some countries (e.g., France, Belgium, Spain), the number structure is constrained by local accounting rules and must follow official charts of accounts (e.g., Plan Comptable Général)."
           },
           "name": {
             "type": "string",
@@ -16997,6 +17029,18 @@
             ],
             "title": "Scheme Ids",
             "description": "List of scheme classification IDs linked to this ledger account. A scheme (e.g., RGS, SBR) provides a standardized classification structure for organizing accounts for reporting purposes. Multiple scheme codes can be associated with a single account."
+          },
+          "accounting_category": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Accounting Category",
+            "description": "Category of the ledger account in the accounting system. This is the category of the account as defined in the accounting system."
           }
         },
         "type": "object",
@@ -17016,6 +17060,7 @@
           "payable",
           "income",
           "expense",
+          "other_expense",
           "vat",
           "other"
         ],
@@ -17048,6 +17093,7 @@
           "cash",
           "income",
           "expense",
+          "other_expense",
           "vat"
         ],
         "title": "AccountTypeFilter"
@@ -17368,7 +17414,7 @@
             "description": "VAT rate associated with the VAT code. This is the percentage rate applied to the amount when this VAT code is used."
           },
           "type": {
-            "$ref": "#/components/schemas/backbone_common__models__invoicing__common__VatCodeType",
+            "$ref": "#/components/schemas/backbone_common__models__accounting__common__VatCodeType",
             "description": "Type of the VAT code, indicating whether it is a sales tax or purchase tax. This helps in understanding how the VAT code is applied in transactions."
           },
           "deductible_account": {
@@ -17406,6 +17452,19 @@
             ],
             "title": "Reversed",
             "description": "Indicates whether the VAT code is reversed. A reversed VAT code is used in specific scenarios, such as reverse charge mechanisms, where the responsibility for reporting VAT shifts from the seller to the buyer.",
+            "default": false
+          },
+          "withholding_tax": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Withholding Tax",
+            "description": "Indicates whether the VAT code is a withholding tax. This is used to indicate that the VAT code is a withholding tax and should be treated as such.",
             "default": false
           },
           "country": {
@@ -17843,8 +17902,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Unique id of the analytic account in the accounting system.",
-            "chift_target_entity_id": true
+            "description": "Unique id of the analytic account in the accounting system."
           },
           "active": {
             "type": "boolean",
@@ -17930,8 +17988,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Unique id of the analytic account in the accounting system.",
-            "chift_target_entity_id": true
+            "description": "Unique id of the analytic account in the accounting system."
           },
           "active": {
             "type": "boolean",
@@ -18371,8 +18428,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -18473,8 +18529,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "title": "Id",
-            "chift_target_entity_id": true
+            "title": "Id"
           },
           "code": {
             "anyOf": [
@@ -19474,8 +19529,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -19585,8 +19639,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -22306,8 +22359,7 @@
               }
             ],
             "title": "Id",
-            "description": "Id of the client in the accounting software. This is the unique identifier used to reference the client in the system.",
-            "chift_target_entity_id": true
+            "description": "Id of the client in the accounting software. This is the unique identifier used to reference the client in the system."
           },
           "last_updated_on": {
             "anyOf": [
@@ -22700,8 +22752,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -23225,8 +23276,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -23559,7 +23609,8 @@
         "enum": [
           "SUPPORTED",
           "NOT_IMPLEMENTED",
-          "NOT_SUPPORTED"
+          "NOT_SUPPORTED",
+          "UNDER_ANALYSIS"
         ],
         "title": "CoverageStatus"
       },
@@ -24075,7 +24126,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
+                "$ref": "#/components/schemas/backbone_api__app__routers__integrations__Status"
               },
               {
                 "type": "null"
@@ -24591,8 +24642,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Unique id of the expense in the accounting system.",
-            "chift_target_entity_id": true
+            "description": "Unique id of the expense in the accounting system."
           }
         },
         "type": "object",
@@ -24852,8 +24902,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -25216,8 +25265,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Unique id of the financial entry instance in the accounting system.",
-            "chift_target_entity_id": true
+            "description": "Unique id of the financial entry instance in the accounting system."
           },
           "number": {
             "type": "string",
@@ -25500,7 +25548,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
+                "$ref": "#/components/schemas/backbone_api__app__routers__integrations__Status"
               },
               {
                 "type": "null"
@@ -25539,7 +25587,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
+                "$ref": "#/components/schemas/backbone_api__app__routers__integrations__Status"
               },
               {
                 "type": "null"
@@ -26185,8 +26233,19 @@
             "type": "string",
             "title": "Name"
           },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
           "status": {
-            "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
+            "$ref": "#/components/schemas/backbone_api__app__routers__integrations__Status"
           },
           "api": {
             "$ref": "#/components/schemas/Api"
@@ -26507,6 +26566,17 @@
             "title": "Payment Term Id",
             "description": "Technical ID of the payment term associated with the invoice."
           },
+          "withholding_tax": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/backbone_common__models__accounting__common__WithholdingTax"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Withholding tax information for the invoice."
+          },
           "invoice_date": {
             "type": "string",
             "format": "date",
@@ -26771,6 +26841,17 @@
             "title": "Payment Term Id",
             "description": "Technical ID of the payment term associated with the invoice."
           },
+          "withholding_tax": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/backbone_common__models__accounting__common__WithholdingTax"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Withholding tax information for the invoice."
+          },
           "invoice_date": {
             "type": "string",
             "format": "date",
@@ -26954,8 +27035,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -27275,6 +27355,17 @@
             "title": "Payment Term Id",
             "description": "Technical ID of the payment term associated with the invoice."
           },
+          "withholding_tax": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/backbone_common__models__accounting__common__WithholdingTax"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Withholding tax information for the invoice."
+          },
           "id": {
             "anyOf": [
               {
@@ -27284,8 +27375,7 @@
                 "type": "null"
               }
             ],
-            "title": "Id",
-            "chift_target_entity_id": true
+            "title": "Id"
           },
           "invoice_date": {
             "type": "string",
@@ -27522,6 +27612,17 @@
             "title": "Payment Term Id",
             "description": "Technical ID of the payment term associated with the invoice."
           },
+          "withholding_tax": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/backbone_common__models__accounting__common__WithholdingTax"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Withholding tax information for the invoice."
+          },
           "id": {
             "anyOf": [
               {
@@ -27531,8 +27632,7 @@
                 "type": "null"
               }
             ],
-            "title": "Id",
-            "chift_target_entity_id": true
+            "title": "Id"
           },
           "invoice_date": {
             "type": "string",
@@ -27688,8 +27788,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -28706,8 +28805,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -28818,8 +28916,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -28880,8 +28977,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -28983,8 +29079,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -29093,8 +29188,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -29119,8 +29213,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -29137,7 +29230,7 @@
             "description": "Tax rate (e.g. 21.0)"
           },
           "type": {
-            "$ref": "#/components/schemas/backbone_common__models__invoicing__common__VatCodeType",
+            "$ref": "#/components/schemas/backbone_common__models__accounting__common__VatCodeType",
             "description": "Type"
           },
           "code": {
@@ -29333,7 +29426,7 @@
           "withholding_tax": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/WithholdingTax"
+                "$ref": "#/components/schemas/backbone_common__models__invoicing__common__WithholdingTax"
               },
               {
                 "type": "null"
@@ -29384,7 +29477,7 @@
           "withholding_tax": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/WithholdingTax"
+                "$ref": "#/components/schemas/backbone_common__models__invoicing__common__WithholdingTax"
               },
               {
                 "type": "null"
@@ -29490,8 +29583,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "title": "Id",
-            "chift_target_entity_id": true
+            "title": "Id"
           },
           "code": {
             "anyOf": [
@@ -29694,8 +29786,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Unique id of the journal entry instance in the accounting system.",
-            "chift_target_entity_id": true
+            "description": "Unique id of the journal entry instance in the accounting system."
           },
           "due_dates": {
             "anyOf": [
@@ -29826,8 +29917,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Unique id of the journal entry instance in the accounting system.",
-            "chift_target_entity_id": true
+            "description": "Unique id of the journal entry instance in the accounting system."
           },
           "due_dates": {
             "anyOf": [
@@ -30329,8 +30419,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -30484,8 +30573,7 @@
           "matching_number": {
             "type": "string",
             "title": "Matching Number",
-            "description": "Unique 'number' of the matching operation in the accounting system.",
-            "chift_target_entity_id": true
+            "description": "Unique 'number' of the matching operation in the accounting system."
           },
           "balance": {
             "type": "number",
@@ -30719,8 +30807,7 @@
           },
           "id": {
             "type": "string",
-            "title": "Id",
-            "chift_target_entity_id": true
+            "title": "Id"
           }
         },
         "type": "object",
@@ -30778,8 +30865,7 @@
                 "type": "null"
               }
             ],
-            "title": "Matching Number",
-            "chift_target_entity_id": true
+            "title": "Matching Number"
           },
           "processed": {
             "type": "boolean",
@@ -30934,8 +31020,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -31306,8 +31391,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -31631,8 +31715,9 @@
             "description": "Technical id of the product variant in Chift"
           },
           "quantity": {
-            "type": "integer",
-            "title": "Quantity"
+            "type": "number",
+            "title": "Quantity",
+            "description": "Quantity of the product variant in the order line."
           },
           "tax_rate": {
             "type": "number",
@@ -31659,8 +31744,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -31690,11 +31774,12 @@
             "description": "Product variant"
           },
           "quantity": {
-            "type": "integer",
-            "title": "Quantity"
+            "type": "number",
+            "title": "Quantity",
+            "description": "Quantity of the product variant in the order line."
           },
           "current_quantity": {
-            "type": "integer",
+            "type": "number",
             "title": "Current Quantity",
             "description": "Quantity without refunds and returns."
           },
@@ -31870,8 +31955,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -32504,8 +32588,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -32645,8 +32728,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -33567,8 +33649,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -33746,8 +33827,7 @@
             "description": "Unique identifier of the customer",
             "examples": [
               "371ca583-d218-8000-b236-397532cf0e52"
-            ],
-            "chift_target_entity_id": true
+            ]
           },
           "first_name": {
             "anyOf": [
@@ -34871,8 +34951,7 @@
               }
             ],
             "title": "Id",
-            "description": "Id of the client in the accounting software. This is the unique identifier used to reference the client in the system.",
-            "chift_target_entity_id": true
+            "description": "Id of the client in the accounting software. This is the unique identifier used to reference the client in the system."
           },
           "last_updated_on": {
             "anyOf": [
@@ -35055,8 +35134,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -35117,8 +35195,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -35538,8 +35615,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -35684,8 +35760,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -36314,8 +36389,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -36390,8 +36464,9 @@
             "description": "Product variant"
           },
           "quantity": {
-            "type": "integer",
-            "title": "Quantity"
+            "type": "number",
+            "title": "Quantity",
+            "description": "Quantity of the product variant in the order line."
           },
           "untaxed_amount": {
             "type": "number",
@@ -36424,8 +36499,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -36585,8 +36659,9 @@
             "description": "Product variant"
           },
           "quantity": {
-            "type": "integer",
-            "title": "Quantity"
+            "type": "number",
+            "title": "Quantity",
+            "description": "Quantity of the product variant in the order line."
           },
           "untaxed_amount": {
             "type": "number",
@@ -36687,8 +36762,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -37225,8 +37299,7 @@
               }
             ],
             "title": "Id",
-            "description": "Id of the supplier in the accounting software. This is the unique identifier used to reference the supplier in the system.",
-            "chift_target_entity_id": true
+            "description": "Id of the supplier in the accounting software. This is the unique identifier used to reference the supplier in the system."
           },
           "last_updated_on": {
             "anyOf": [
@@ -37670,8 +37743,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -37798,8 +37870,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -38040,8 +38111,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -38401,8 +38471,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -38696,7 +38765,7 @@
             "title": "Url"
           },
           "status": {
-            "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
+            "$ref": "#/components/schemas/backbone_api__app__routers__integrations__Status"
           },
           "integrationid": {
             "anyOf": [
@@ -38726,7 +38795,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
+                "$ref": "#/components/schemas/backbone_api__app__routers__integrations__Status"
               },
               {
                 "type": "null"
@@ -38945,48 +39014,6 @@
         ],
         "title": "WelfareFundType"
       },
-      "WithholdingTax": {
-        "properties": {
-          "rate": {
-            "type": "number",
-            "title": "Rate",
-            "description": "Rate"
-          },
-          "amount": {
-            "type": "number",
-            "title": "Amount",
-            "description": "Amount"
-          },
-          "reason": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/WithholdingTaxReason"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Reason"
-          },
-          "payment_reason": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/WithholdingTaxPaymentReason"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Payment reason"
-          }
-        },
-        "type": "object",
-        "required": [
-          "rate",
-          "amount"
-        ],
-        "title": "WithholdingTax"
-      },
       "WithholdingTaxPaymentReason": {
         "type": "string",
         "enum": [
@@ -39072,7 +39099,7 @@
             "title": "Data"
           },
           "status": {
-            "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
+            "$ref": "#/components/schemas/backbone_api__app__routers__integrations__Status"
           },
           "agent": {
             "anyOf": [
@@ -39231,6 +39258,14 @@
         ],
         "title": "PostConnectionItem"
       },
+      "backbone_api__app__routers__integrations__Status": {
+        "type": "string",
+        "enum": [
+          "active",
+          "inactive"
+        ],
+        "title": "Status"
+      },
       "backbone_api__app__routers__syncs__ConnectionItem": {
         "properties": {
           "one_api": {
@@ -39269,14 +39304,6 @@
         "type": "object",
         "title": "ConnectionItem"
       },
-      "backbone_api__app__routers__webhooks__Status": {
-        "type": "string",
-        "enum": [
-          "active",
-          "inactive"
-        ],
-        "title": "Status"
-      },
       "backbone_common__models__accounting__common__DocumentType": {
         "type": "string",
         "enum": [
@@ -39294,6 +39321,42 @@
           "supplier_refund"
         ],
         "title": "InvoiceType"
+      },
+      "backbone_common__models__accounting__common__VatCodeType": {
+        "type": "string",
+        "enum": [
+          "sale",
+          "purchase",
+          "both",
+          "unknown"
+        ],
+        "title": "VatCodeType"
+      },
+      "backbone_common__models__accounting__common__WithholdingTax": {
+        "properties": {
+          "tax_rate": {
+            "type": "number",
+            "title": "Tax Rate",
+            "description": "Rate of the withholding tax. Normal withholding tax should have a negative tax rate."
+          },
+          "tax_code": {
+            "type": "string",
+            "title": "Tax Code",
+            "description": "Tax code of the withholding tax. This is the Id of the Tax Code in the accounting software."
+          },
+          "tax_amount": {
+            "type": "number",
+            "title": "Tax Amount",
+            "description": "Amount of the withholding tax. This is the amount of the withholding tax that will be applied to the invoice. It should be negative for normal withholding tax."
+          }
+        },
+        "type": "object",
+        "required": [
+          "tax_rate",
+          "tax_code",
+          "tax_amount"
+        ],
+        "title": "WithholdingTax"
       },
       "backbone_common__models__banking__common__TransactionStatus": {
         "type": "string",
@@ -39568,8 +39631,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",
@@ -40291,15 +40353,47 @@
         ],
         "title": "VatCodeScope"
       },
-      "backbone_common__models__invoicing__common__VatCodeType": {
-        "type": "string",
-        "enum": [
-          "sale",
-          "purchase",
-          "both",
-          "unknown"
+      "backbone_common__models__invoicing__common__WithholdingTax": {
+        "properties": {
+          "rate": {
+            "type": "number",
+            "title": "Rate",
+            "description": "Rate"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount",
+            "description": "Amount"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WithholdingTaxReason"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Reason"
+          },
+          "payment_reason": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WithholdingTaxPaymentReason"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Payment reason"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rate",
+          "amount"
         ],
-        "title": "VatCodeType"
+        "title": "WithholdingTax"
       },
       "backbone_common__models__payment__common__PaymentStatus": {
         "type": "string",
@@ -40319,8 +40413,7 @@
           "id": {
             "type": "string",
             "title": "Id",
-            "description": "Technical id in Chift",
-            "chift_target_entity_id": true
+            "description": "Technical id in Chift"
           },
           "source_ref": {
             "$ref": "#/components/schemas/Ref",

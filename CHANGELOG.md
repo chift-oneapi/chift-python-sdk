@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.2 - 2026-01-19
+- ecommerce: make quantity float
+
 ## 0.5.1 - 2025-12-20
 - accounting: update models (new attributes)
 
