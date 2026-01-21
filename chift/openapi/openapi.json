@@ -884,7 +884,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/backbone_api__app__routers__integrations__Status"
+                  "$ref": "#/components/schemas/backbone_api__app__routers__datastores__Status"
                 },
                 {
                   "type": "null"
@@ -1099,7 +1099,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/backbone_api__app__routers__integrations__Status"
+                  "$ref": "#/components/schemas/backbone_api__app__routers__datastores__Status"
                 },
                 {
                   "type": "null"
@@ -2291,7 +2291,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/backbone_api__app__routers__integrations__Status"
+                  "$ref": "#/components/schemas/backbone_api__app__routers__datastores__Status"
                 },
                 {
                   "type": "null"
@@ -17399,7 +17399,7 @@
           "scope": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_common__models__invoicing__common__VatCodeScope"
+                "$ref": "#/components/schemas/backbone_common__models__accounting__common__VatCodeScope"
               },
               {
                 "type": "null"
@@ -17414,7 +17414,7 @@
             "description": "VAT rate associated with the VAT code. This is the percentage rate applied to the amount when this VAT code is used."
           },
           "type": {
-            "$ref": "#/components/schemas/backbone_common__models__accounting__common__VatCodeType",
+            "$ref": "#/components/schemas/backbone_common__models__invoicing__common__VatCodeType",
             "description": "Type of the VAT code, indicating whether it is a sales tax or purchase tax. This helps in understanding how the VAT code is applied in transactions."
           },
           "deductible_account": {
@@ -24126,7 +24126,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_api__app__routers__integrations__Status"
+                "$ref": "#/components/schemas/backbone_api__app__routers__datastores__Status"
               },
               {
                 "type": "null"
@@ -25548,7 +25548,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_api__app__routers__integrations__Status"
+                "$ref": "#/components/schemas/backbone_api__app__routers__datastores__Status"
               },
               {
                 "type": "null"
@@ -25587,7 +25587,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_api__app__routers__integrations__Status"
+                "$ref": "#/components/schemas/backbone_api__app__routers__datastores__Status"
               },
               {
                 "type": "null"
@@ -26245,7 +26245,7 @@
             "title": "Description"
           },
           "status": {
-            "$ref": "#/components/schemas/backbone_api__app__routers__integrations__Status"
+            "$ref": "#/components/schemas/backbone_api__app__routers__datastores__Status"
           },
           "api": {
             "$ref": "#/components/schemas/Api"
@@ -29230,7 +29230,7 @@
             "description": "Tax rate (e.g. 21.0)"
           },
           "type": {
-            "$ref": "#/components/schemas/backbone_common__models__accounting__common__VatCodeType",
+            "$ref": "#/components/schemas/backbone_common__models__invoicing__common__VatCodeType",
             "description": "Type"
           },
           "code": {
@@ -29248,7 +29248,7 @@
           "scope": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_common__models__invoicing__common__VatCodeScope"
+                "$ref": "#/components/schemas/backbone_common__models__accounting__common__VatCodeScope"
               },
               {
                 "type": "null"
@@ -35482,8 +35482,7 @@
           "redirect_url": {
             "anyOf": [
               {
-                "type": "string",
-                "maxLength": 255
+                "type": "string"
               },
               {
                 "type": "null"
@@ -38039,8 +38038,7 @@
           "redirect_url": {
             "anyOf": [
               {
-                "type": "string",
-                "maxLength": 255
+                "type": "string"
               },
               {
                 "type": "null"
@@ -38765,7 +38763,7 @@
             "title": "Url"
           },
           "status": {
-            "$ref": "#/components/schemas/backbone_api__app__routers__integrations__Status"
+            "$ref": "#/components/schemas/backbone_api__app__routers__datastores__Status"
           },
           "integrationid": {
             "anyOf": [
@@ -38795,7 +38793,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_api__app__routers__integrations__Status"
+                "$ref": "#/components/schemas/backbone_api__app__routers__datastores__Status"
               },
               {
                 "type": "null"
@@ -39099,7 +39097,7 @@
             "title": "Data"
           },
           "status": {
-            "$ref": "#/components/schemas/backbone_api__app__routers__integrations__Status"
+            "$ref": "#/components/schemas/backbone_api__app__routers__datastores__Status"
           },
           "agent": {
             "anyOf": [
@@ -39212,6 +39210,14 @@
         "type": "object",
         "title": "PostConnectionItem"
       },
+      "backbone_api__app__routers__datastores__Status": {
+        "type": "string",
+        "enum": [
+          "active",
+          "inactive"
+        ],
+        "title": "Status"
+      },
       "backbone_api__app__routers__integrations__CredentialItem": {
         "properties": {
           "name": {
@@ -39257,14 +39263,6 @@
           "resource"
         ],
         "title": "PostConnectionItem"
-      },
-      "backbone_api__app__routers__integrations__Status": {
-        "type": "string",
-        "enum": [
-          "active",
-          "inactive"
-        ],
-        "title": "Status"
       },
       "backbone_api__app__routers__syncs__ConnectionItem": {
         "properties": {
@@ -39322,15 +39320,15 @@
         ],
         "title": "InvoiceType"
       },
-      "backbone_common__models__accounting__common__VatCodeType": {
+      "backbone_common__models__accounting__common__VatCodeScope": {
         "type": "string",
         "enum": [
-          "sale",
-          "purchase",
-          "both",
+          "nat",
+          "eu",
+          "int",
           "unknown"
         ],
-        "title": "VatCodeType"
+        "title": "VatCodeScope"
       },
       "backbone_common__models__accounting__common__WithholdingTax": {
         "properties": {
@@ -40343,15 +40341,15 @@
         ],
         "title": "ProductItem"
       },
-      "backbone_common__models__invoicing__common__VatCodeScope": {
+      "backbone_common__models__invoicing__common__VatCodeType": {
         "type": "string",
         "enum": [
-          "nat",
-          "eu",
-          "int",
+          "sale",
+          "purchase",
+          "both",
           "unknown"
         ],
-        "title": "VatCodeScope"
+        "title": "VatCodeType"
       },
       "backbone_common__models__invoicing__common__WithholdingTax": {
         "properties": {
