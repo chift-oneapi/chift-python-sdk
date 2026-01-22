@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.4 - 2026-01-19
+- ecommerce: revert make quantity float
+
 ## 0.5.3 - 2026-01-19
 - consumer: update redirect url length
 
