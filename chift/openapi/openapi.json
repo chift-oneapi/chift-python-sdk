@@ -884,7 +884,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/backbone_api__app__routers__datastores__Status"
+                  "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
                 },
                 {
                   "type": "null"
@@ -1099,7 +1099,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/backbone_api__app__routers__datastores__Status"
+                  "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
                 },
                 {
                   "type": "null"
@@ -2291,7 +2291,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/backbone_api__app__routers__datastores__Status"
+                  "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
                 },
                 {
                   "type": "null"
@@ -17414,7 +17414,7 @@
             "description": "VAT rate associated with the VAT code. This is the percentage rate applied to the amount when this VAT code is used."
           },
           "type": {
-            "$ref": "#/components/schemas/backbone_common__models__invoicing__common__VatCodeType",
+            "$ref": "#/components/schemas/backbone_common__models__accounting__common__VatCodeType",
             "description": "Type of the VAT code, indicating whether it is a sales tax or purchase tax. This helps in understanding how the VAT code is applied in transactions."
           },
           "deductible_account": {
@@ -24126,7 +24126,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_api__app__routers__datastores__Status"
+                "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
               },
               {
                 "type": "null"
@@ -25548,7 +25548,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_api__app__routers__datastores__Status"
+                "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
               },
               {
                 "type": "null"
@@ -25587,7 +25587,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_api__app__routers__datastores__Status"
+                "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
               },
               {
                 "type": "null"
@@ -26245,7 +26245,7 @@
             "title": "Description"
           },
           "status": {
-            "$ref": "#/components/schemas/backbone_api__app__routers__datastores__Status"
+            "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
           },
           "api": {
             "$ref": "#/components/schemas/Api"
@@ -29230,7 +29230,7 @@
             "description": "Tax rate (e.g. 21.0)"
           },
           "type": {
-            "$ref": "#/components/schemas/backbone_common__models__invoicing__common__VatCodeType",
+            "$ref": "#/components/schemas/backbone_common__models__accounting__common__VatCodeType",
             "description": "Type"
           },
           "code": {
@@ -30838,6 +30838,15 @@
         ],
         "title": "MiscellaneousOperationStatusOut"
       },
+      "Mode": {
+        "type": "string",
+        "enum": [
+          "EAT_IN",
+          "TAKEAWAY",
+          "DELIVERY"
+        ],
+        "title": "Mode"
+      },
       "MultipleMatchingIn": {
         "properties": {
           "matchings": {
@@ -31715,9 +31724,8 @@
             "description": "Technical id of the product variant in Chift"
           },
           "quantity": {
-            "type": "number",
-            "title": "Quantity",
-            "description": "Quantity of the product variant in the order line."
+            "type": "integer",
+            "title": "Quantity"
           },
           "tax_rate": {
             "type": "number",
@@ -31774,12 +31782,11 @@
             "description": "Product variant"
           },
           "quantity": {
-            "type": "number",
-            "title": "Quantity",
-            "description": "Quantity of the product variant in the order line."
+            "type": "integer",
+            "title": "Quantity"
           },
           "current_quantity": {
-            "type": "number",
+            "type": "integer",
             "title": "Current Quantity",
             "description": "Quantity without refunds and returns."
           },
@@ -33090,6 +33097,20 @@
               1
             ]
           },
+          "mode": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Mode"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Delivery Mode",
+            "examples": [
+              "eat_in"
+            ]
+          },
           "currency": {
             "anyOf": [
               {
@@ -34350,6 +34371,20 @@
             "default": "0",
             "examples": [
               1
+            ]
+          },
+          "mode": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Mode"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Delivery Mode",
+            "examples": [
+              "eat_in"
             ]
           },
           "currency": {
@@ -36463,9 +36498,8 @@
             "description": "Product variant"
           },
           "quantity": {
-            "type": "number",
-            "title": "Quantity",
-            "description": "Quantity of the product variant in the order line."
+            "type": "integer",
+            "title": "Quantity"
           },
           "untaxed_amount": {
             "type": "number",
@@ -36658,9 +36692,8 @@
             "description": "Product variant"
           },
           "quantity": {
-            "type": "number",
-            "title": "Quantity",
-            "description": "Quantity of the product variant in the order line."
+            "type": "integer",
+            "title": "Quantity"
           },
           "untaxed_amount": {
             "type": "number",
@@ -38763,7 +38796,7 @@
             "title": "Url"
           },
           "status": {
-            "$ref": "#/components/schemas/backbone_api__app__routers__datastores__Status"
+            "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
           },
           "integrationid": {
             "anyOf": [
@@ -38793,7 +38826,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_api__app__routers__datastores__Status"
+                "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
               },
               {
                 "type": "null"
@@ -39097,7 +39130,7 @@
             "title": "Data"
           },
           "status": {
-            "$ref": "#/components/schemas/backbone_api__app__routers__datastores__Status"
+            "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
           },
           "agent": {
             "anyOf": [
@@ -39210,14 +39243,6 @@
         "type": "object",
         "title": "PostConnectionItem"
       },
-      "backbone_api__app__routers__datastores__Status": {
-        "type": "string",
-        "enum": [
-          "active",
-          "inactive"
-        ],
-        "title": "Status"
-      },
       "backbone_api__app__routers__integrations__CredentialItem": {
         "properties": {
           "name": {
@@ -39302,6 +39327,14 @@
         "type": "object",
         "title": "ConnectionItem"
       },
+      "backbone_api__app__routers__webhooks__Status": {
+        "type": "string",
+        "enum": [
+          "active",
+          "inactive"
+        ],
+        "title": "Status"
+      },
       "backbone_common__models__accounting__common__DocumentType": {
         "type": "string",
         "enum": [
@@ -39329,6 +39362,16 @@
           "unknown"
         ],
         "title": "VatCodeScope"
+      },
+      "backbone_common__models__accounting__common__VatCodeType": {
+        "type": "string",
+        "enum": [
+          "sale",
+          "purchase",
+          "both",
+          "unknown"
+        ],
+        "title": "VatCodeType"
       },
       "backbone_common__models__accounting__common__WithholdingTax": {
         "properties": {
@@ -40340,16 +40383,6 @@
           "name"
         ],
         "title": "ProductItem"
-      },
-      "backbone_common__models__invoicing__common__VatCodeType": {
-        "type": "string",
-        "enum": [
-          "sale",
-          "purchase",
-          "both",
-          "unknown"
-        ],
-        "title": "VatCodeType"
       },
       "backbone_common__models__invoicing__common__WithholdingTax": {
         "properties": {
