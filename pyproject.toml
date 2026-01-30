@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "chift"
-version = "0.5.4"
+version = "0.5.5"
 description = "Chift API client"
 authors = ["Henry Hertoghe <henry.hertoghe@chift.eu>"]
 readme = "README.md"
@@ -21,6 +21,7 @@ coverage = "6.5.0"
 build = "*"
 twine = "*"
 datamodel-code-generator = "^0.28.5"
+python-dateutil = "^2.9.0.post0"
 
 [build-system]
 requires = ["poetry-core"]
