@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.5 - 2026-01-30
+- mixins: reapply client state between calls to get_all
+
 ## 0.5.4 - 2026-01-19
 - ecommerce: revert make quantity float
 

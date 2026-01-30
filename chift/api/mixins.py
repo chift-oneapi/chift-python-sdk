@@ -262,10 +262,6 @@ class PaginationMixin(BaseMixin, Generic[T]):
     ) -> Generator[dict, Any, None]:
         if not client:
             client = ChiftClient()
-        client.consumer_id = self.consumer_id
-        client.connection_id = self.connection_id
-        client.raw_data = raw_data
-        client.client_request_id = None
 
         if not params:
             params = {}
@@ -276,6 +272,11 @@ class PaginationMixin(BaseMixin, Generic[T]):
         count = 0
 
         while True:
+            # client state can switch between calls to get_all
+            client.consumer_id = self.consumer_id
+            client.connection_id = self.connection_id
+            client.raw_data = raw_data
+            client.client_request_id = None
             json_data = client.get_all(
                 self.chift_vertical,
                 self.chift_model,
