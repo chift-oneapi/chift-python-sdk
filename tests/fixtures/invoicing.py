@@ -1,6 +1,8 @@
 import datetime
 from uuid import uuid4
 
+from dateutil.relativedelta import relativedelta
+
 today = datetime.date.today().strftime("%Y-%m-%d")
 new_invoice_id = f"invoice-{uuid4().hex[:8]}"
 new_invoice_number = f"INV-{datetime.date.today().strftime('%Y%m')}-TEST"
@@ -237,11 +239,7 @@ INVOICE_CREATE = {
     ],
     "partner_id": "contact-test-123",
     "invoice_number": new_invoice_number,
-    "due_date": datetime.date.today()
-    .replace(
-        month=datetime.date.today().month + 1 if datetime.date.today().month < 12 else 1
-    )
-    .strftime("%Y-%m-%d"),
+    "due_date": (datetime.date.today() + relativedelta(months=1)).isoformat(),
     "reference": None,
     "payment_communication": new_invoice_number,
     "customer_memo": None,

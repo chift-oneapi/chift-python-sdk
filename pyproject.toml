@@ -21,6 +21,7 @@ coverage = "6.5.0"
 build = "*"
 twine = "*"
 datamodel-code-generator = "^0.28.5"
+python-dateutil = "^2.9.0.post0"
 
 [build-system]
 requires = ["poetry-core"]
