@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.6 - 2026-02-17
+- update pos model
+
 ## 0.5.5 - 2026-01-30
 - mixins: reapply client state between calls to get_all
 

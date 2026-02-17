@@ -1779,6 +1779,21 @@ class Mode(Enum):
     EAT_IN = "EAT_IN"
     TAKEAWAY = "TAKEAWAY"
     DELIVERY = "DELIVERY"
+    UNKNOWN = "UNKNOWN"
+
+class Source(Enum):
+    WEB = "WEB"
+    MOBILE = "MOBILE"
+    KIOSK = "KIOSK"
+    POS = "POS"
+    REMOTE_POS = "REMOTE_POS"
+    JUSTEAT = "JUSTEAT"
+    FOODORA = "FOODORA"
+    UBEREATS = "UBEREATS"
+    GLOVO = "GLOVO"
+    DELIVEROO = "DELIVEROO"
+    SMILEIN = "SMILEIN"
+    UNKNOWN = "UNKNOWN"
 
 
 class MultipleMatchingIn(BaseModel):
@@ -7083,7 +7098,8 @@ class PMSOrderItem(BaseModel):
         examples=[1],
         title="Delivery Fee",
     )
-    mode: Optional[Mode] = Field(None, description="Delivery Mode", examples=["eat_in"])
+    mode: Optional[Mode] = Field(Mode.unknown, description="Delivery Mode", examples=["eat_in"])
+    source: Optional[Source] = Field(Source.unknown, description="Source of the order", examples=["web"])
     currency: Optional[str] = Field(
         None, description="Currency of the order", examples=["EUR"], title="Currency"
     )
