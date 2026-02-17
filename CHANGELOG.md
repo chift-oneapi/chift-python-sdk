@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.8 - 2026-02-18
+- models: rename duplicate models
+
 ## 0.5.7 - 2026-02-17
 - update pos model
 

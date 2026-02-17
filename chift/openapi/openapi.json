@@ -434,7 +434,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/backbone_api__app__routers__connections__ConnectionItem"
+                    "$ref": "#/components/schemas/ConnectionItem"
                   },
                   "title": "Response Connections Get Connections"
                 }
@@ -492,7 +492,7 @@
               "schema": {
                 "anyOf": [
                   {
-                    "$ref": "#/components/schemas/backbone_api__app__routers__connections__PostConnectionItem"
+                    "$ref": "#/components/schemas/PostConnectionItem"
                   },
                   {
                     "type": "null"
@@ -884,7 +884,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
+                  "$ref": "#/components/schemas/IntegationStatus"
                 },
                 {
                   "type": "null"
@@ -1099,7 +1099,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
+                  "$ref": "#/components/schemas/Status"
                 },
                 {
                   "type": "null"
@@ -2291,7 +2291,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
+                  "$ref": "#/components/schemas/DatastoreStatus"
                 },
                 {
                   "type": "null"
@@ -4342,6 +4342,24 @@
               "title": "Ignore Accounting Id"
             },
             "description": "If set to true, Chift will not wait for the invoice to be processed to return, use this when you do not need the ID in the return value.Note that this might also change the output of the call."
+          },
+          {
+            "name": "force_currency_exchange",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": false,
+              "title": "Force Currency Exchange"
+            },
+            "description": "Boolean flag indicating whether to force the use of the provided currency exchange rate instead of the rate used by the accounting software. "
           }
         ],
         "requestBody": {
@@ -4488,6 +4506,24 @@
               "title": "Ignore Accounting Id"
             },
             "description": "If set to true, Chift will not wait for the invoice to be processed to return, use this when you do not need the ID in the return value.Note that this might also change the output of the call."
+          },
+          {
+            "name": "force_currency_exchange",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": false,
+              "title": "Force Currency Exchange"
+            },
+            "description": "Boolean flag indicating whether to force the use of the provided currency exchange rate instead of the rate used by the accounting software. "
           }
         ],
         "requestBody": {
@@ -4577,7 +4613,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/backbone_common__models__accounting__common__InvoiceType"
+              "$ref": "#/components/schemas/InvoiceType"
             }
           },
           {
@@ -4700,7 +4736,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/backbone_common__models__common__PaymentStatus"
+                  "$ref": "#/components/schemas/PaymentStatus"
                 },
                 {
                   "type": "null"
@@ -4829,7 +4865,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/backbone_common__models__accounting__common__InvoiceType"
+              "$ref": "#/components/schemas/InvoiceType"
             }
           },
           {
@@ -4952,7 +4988,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/backbone_common__models__common__PaymentStatus"
+                  "$ref": "#/components/schemas/PaymentStatus"
                 },
                 {
                   "type": "null"
@@ -8525,7 +8561,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/backbone_common__models__accounting__common__DocumentType"
+              "$ref": "#/components/schemas/DocumentType"
             }
           },
           {
@@ -8982,6 +9018,24 @@
               "title": "Financial Counterpart Account"
             },
             "description": "Number of ledger account representing bank account in accounting. Required in cases where the connector does not allow direct linking of the ledger account representing the bank account and the journal representing the bank account, making it necessary to specify it here."
+          },
+          {
+            "name": "force_currency_exchange",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": false,
+              "title": "Force Currency Exchange"
+            },
+            "description": "Boolean flag indicating whether to force the use of the provided currency exchange rate instead of the rate used by the accounting software. "
           }
         ],
         "requestBody": {
@@ -11724,7 +11778,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/backbone_common__models__commerce__common__ProductItem"
+                  "$ref": "#/components/schemas/ProductItem-Output"
                 }
               }
             }
@@ -12836,7 +12890,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/backbone_common__models__invoicing__common__InvoiceType"
+                  "$ref": "#/components/schemas/InvoicingInvoiceType"
                 },
                 {
                   "type": "null"
@@ -12853,7 +12907,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/backbone_common__models__common__PaymentStatus"
+                  "$ref": "#/components/schemas/PaymentStatus"
                 },
                 {
                   "type": "null"
@@ -12979,7 +13033,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/backbone_common__models__invoicing__common__InvoiceItem"
+                "$ref": "#/components/schemas/InvoiceItem-Input"
               }
             }
           }
@@ -13418,7 +13472,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/backbone_common__models__invoicing__common__ProductItem"
+                "$ref": "#/components/schemas/ProductItem-Input"
               }
             }
           }
@@ -15122,7 +15176,7 @@
         ],
         "summary": "Retrieve all transactions",
         "description": "Returns a list of transactions. Optionally transaction type and dates can be defined to retrieve transactions of a certain type from a certain date to another date",
-        "operationId": "payment_get_transaction",
+        "operationId": "payment_get_transactions",
         "parameters": [
           {
             "name": "consumer_id",
@@ -17399,7 +17453,7 @@
           "scope": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_common__models__accounting__common__VatCodeScope"
+                "$ref": "#/components/schemas/VatCodeScope"
               },
               {
                 "type": "null"
@@ -17414,7 +17468,7 @@
             "description": "VAT rate associated with the VAT code. This is the percentage rate applied to the amount when this VAT code is used."
           },
           "type": {
-            "$ref": "#/components/schemas/backbone_common__models__accounting__common__VatCodeType",
+            "$ref": "#/components/schemas/VatCodeType",
             "description": "Type of the VAT code, indicating whether it is a sales tax or purchase tax. This helps in understanding how the VAT code is applied in transactions."
           },
           "deductible_account": {
@@ -17615,6 +17669,105 @@
         "type": "object",
         "title": "AddressItem"
       },
+      "AddressItemIn": {
+        "properties": {
+          "address_type": {
+            "$ref": "#/components/schemas/AddressType"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Number"
+          },
+          "box": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Box"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "mobile": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mobile"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "street": {
+            "type": "string",
+            "title": "Street"
+          },
+          "city": {
+            "type": "string",
+            "title": "City"
+          },
+          "postal_code": {
+            "type": "string",
+            "title": "Postal Code"
+          },
+          "country": {
+            "type": "string",
+            "title": "Country",
+            "description": "Format: ISO 3166-1 codes."
+          }
+        },
+        "type": "object",
+        "required": [
+          "address_type",
+          "street",
+          "city",
+          "postal_code",
+          "country"
+        ],
+        "title": "AddressItemIn"
+      },
       "AddressItemInInvoicing": {
         "properties": {
           "address_type": {
@@ -17713,6 +17866,129 @@
           "country"
         ],
         "title": "AddressItemInInvoicing"
+      },
+      "AddressItemOut": {
+        "properties": {
+          "address_type": {
+            "$ref": "#/components/schemas/AddressType"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Number"
+          },
+          "box": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Box"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "mobile": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mobile"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "street": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Street"
+          },
+          "city": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "City"
+          },
+          "postal_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Postal Code"
+          },
+          "country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Country",
+            "description": "Format: ISO 3166-1 codes."
+          }
+        },
+        "type": "object",
+        "required": [
+          "address_type"
+        ],
+        "title": "AddressItemOut"
       },
       "AddressItemOutInvoicing": {
         "properties": {
@@ -18359,7 +18635,7 @@
             "title": "Base64 String"
           },
           "document_type": {
-            "$ref": "#/components/schemas/backbone_common__models__invoicing__common__DocumentType"
+            "$ref": "#/components/schemas/InvoicingDocumentType"
           }
         },
         "type": "object",
@@ -19455,7 +19731,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_common__models__banking__common__TransactionStatus"
+                "$ref": "#/components/schemas/BankingTransactionStatus"
               },
               {
                 "type": "null"
@@ -19481,6 +19757,15 @@
           "execution_date"
         ],
         "title": "BankingTransactionItem"
+      },
+      "BankingTransactionStatus": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "declined",
+          "completed"
+        ],
+        "title": "BankingTransactionStatus"
       },
       "BookYear": {
         "properties": {
@@ -21595,7 +21880,7 @@
         "properties": {
           "items": {
             "items": {
-              "$ref": "#/components/schemas/backbone_common__models__pos__common__ProductCategoryItem"
+              "$ref": "#/components/schemas/ProductCategoryItem"
             },
             "type": "array",
             "title": "Items"
@@ -21663,7 +21948,7 @@
         "properties": {
           "items": {
             "items": {
-              "$ref": "#/components/schemas/backbone_common__models__commerce__common__ProductItem"
+              "$ref": "#/components/schemas/ProductItem-Output"
             },
             "type": "array",
             "title": "Items"
@@ -22079,7 +22364,7 @@
           },
           "addresses": {
             "items": {
-              "$ref": "#/components/schemas/backbone_common__models__common__AddressItemIn"
+              "$ref": "#/components/schemas/AddressItemIn"
             },
             "type": "array",
             "title": "Addresses",
@@ -22378,7 +22663,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/backbone_common__models__common__AddressItemOut"
+                  "$ref": "#/components/schemas/AddressItemOut"
                 },
                 "type": "array"
               },
@@ -22389,6 +22674,18 @@
             "title": "Addresses",
             "description": "List of addresses associated with the client.",
             "default": []
+          },
+          "third_party_account": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Third Party Account",
+            "description": "Third party account number/code representing the client in the accounting software."
           }
         },
         "type": "object",
@@ -22618,7 +22915,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/backbone_common__models__common__AddressItemOut"
+                  "$ref": "#/components/schemas/AddressItemOut"
                 },
                 "type": "array"
               },
@@ -22747,6 +23044,223 @@
         ],
         "title": "ClosureStates"
       },
+      "CommerceAddressItemIn": {
+        "properties": {
+          "first_name": {
+            "type": "string",
+            "title": "First Name"
+          },
+          "last_name": {
+            "type": "string",
+            "title": "Last Name"
+          },
+          "street": {
+            "type": "string",
+            "title": "Street"
+          },
+          "number": {
+            "type": "string",
+            "title": "Number"
+          },
+          "box": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Box"
+          },
+          "city": {
+            "type": "string",
+            "title": "City"
+          },
+          "postal_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Postal Code"
+          },
+          "country": {
+            "type": "string",
+            "title": "Country",
+            "description": "Format: ISO 3166-1 codes."
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          }
+        },
+        "type": "object",
+        "required": [
+          "first_name",
+          "last_name",
+          "street",
+          "number",
+          "city",
+          "country"
+        ],
+        "title": "CommerceAddressItemIn"
+      },
+      "CommerceAddressItemOut": {
+        "properties": {
+          "address_type": {
+            "$ref": "#/components/schemas/AddressType"
+          },
+          "company_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company Name"
+          },
+          "first_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "First Name"
+          },
+          "last_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Name"
+          },
+          "street": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Street"
+          },
+          "number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Number"
+          },
+          "box": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Box"
+          },
+          "city": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "City"
+          },
+          "postal_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Postal Code"
+          },
+          "country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Country",
+            "description": "Format: ISO 3166-1 codes."
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          }
+        },
+        "type": "object",
+        "required": [
+          "address_type"
+        ],
+        "title": "CommerceAddressItemOut"
+      },
       "CommerceCustomerItem": {
         "properties": {
           "id": {
@@ -22841,7 +23355,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/backbone_common__models__commerce__common__AddressItemOut"
+                  "$ref": "#/components/schemas/CommerceAddressItemOut"
                 },
                 "type": "array"
               },
@@ -22871,6 +23385,29 @@
           "source_ref"
         ],
         "title": "CommerceCustomerItem"
+      },
+      "CommerceDiscountItem": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "description",
+          "amount"
+        ],
+        "title": "CommerceDiscountItem"
       },
       "CommerceLocationItem": {
         "properties": {
@@ -22921,6 +23458,59 @@
         ],
         "title": "CommerceLocationItemOut"
       },
+      "CommerceProductCategoryItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Technical id of the category in Chift"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "CommerceProductCategoryItem"
+      },
+      "CommerceProductPriceItem": {
+        "properties": {
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "price": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "currency"
+        ],
+        "title": "CommerceProductPriceItem"
+      },
+      "CommerceTransactionStatus": {
+        "type": "string",
+        "enum": [
+          "failed",
+          "pending",
+          "success"
+        ],
+        "title": "CommerceTransactionStatus"
+      },
       "CommonAttributeItem": {
         "properties": {
           "name": {
@@ -22941,6 +23531,75 @@
           "values"
         ],
         "title": "CommonAttributeItem"
+      },
+      "ConnectionItem": {
+        "properties": {
+          "connectionid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Connectionid"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "integration": {
+            "type": "string",
+            "title": "Integration"
+          },
+          "integrationid": {
+            "type": "integer",
+            "title": "Integrationid"
+          },
+          "api": {
+            "type": "string",
+            "title": "Api"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ConnectionStatus"
+          },
+          "agent": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LocalAgentInfo"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "For local agent only. Indicates whether the local agent is up and running"
+          }
+        },
+        "type": "object",
+        "required": [
+          "connectionid",
+          "name",
+          "integration",
+          "integrationid",
+          "api",
+          "status"
+        ],
+        "title": "ConnectionItem"
+      },
+      "ConnectionStatus": {
+        "type": "string",
+        "enum": [
+          "active",
+          "inactive"
+        ],
+        "title": "ConnectionStatus"
       },
       "ConsumerItem": {
         "properties": {
@@ -23747,7 +24406,7 @@
           },
           "connections": {
             "items": {
-              "$ref": "#/components/schemas/backbone_api__app__routers__syncs__ConnectionItem"
+              "$ref": "#/components/schemas/SyncsConnectionItem"
             },
             "type": "array",
             "title": "Connections"
@@ -24074,6 +24733,24 @@
         ],
         "title": "CreateSyncMappingToFieldItem"
       },
+      "CredentialItem": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "value": {
+            "type": "string",
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "value"
+        ],
+        "title": "CredentialItem"
+      },
       "DataItem": {
         "properties": {
           "data": {
@@ -24126,7 +24803,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
+                "$ref": "#/components/schemas/DatastoreStatus"
               },
               {
                 "type": "null"
@@ -24209,6 +24886,54 @@
         ],
         "title": "DatastoreDef"
       },
+      "DatastoreStatus": {
+        "type": "string",
+        "enum": [
+          "active",
+          "inactive"
+        ],
+        "title": "DatastoreStatus"
+      },
+      "DiscountItem": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "Name of the discount",
+            "examples": [
+              "Percentage discount"
+            ]
+          },
+          "total": {
+            "type": "number",
+            "title": "Total",
+            "description": "Total amount of the discount",
+            "examples": [
+              10
+            ]
+          },
+          "type": {
+            "$ref": "#/components/schemas/DiscountType",
+            "description": "Type of the discount",
+            "default": "UNKNOWN",
+            "examples": [
+              "offered"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "total"
+        ],
+        "title": "DiscountItem"
+      },
       "DiscountType": {
         "type": "string",
         "enum": [
@@ -24217,6 +24942,14 @@
           "LOSS"
         ],
         "title": "DiscountType"
+      },
+      "DocumentType": {
+        "type": "string",
+        "enum": [
+          "invoice",
+          "entry"
+        ],
+        "title": "DocumentType"
       },
       "EmployeeItem": {
         "properties": {
@@ -24956,7 +25689,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/backbone_common__models__commerce__common__DiscountItem"
+                  "$ref": "#/components/schemas/CommerceDiscountItem"
                 },
                 "type": "array"
               },
@@ -25548,7 +26281,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
+                "$ref": "#/components/schemas/DatastoreStatus"
               },
               {
                 "type": "null"
@@ -25587,7 +26320,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
+                "$ref": "#/components/schemas/DatastoreStatus"
               },
               {
                 "type": "null"
@@ -26223,6 +26956,14 @@
         "title": "ImportMode",
         "description": "Enumeration of import modes for flow execution."
       },
+      "IntegationStatus": {
+        "type": "string",
+        "enum": [
+          "active",
+          "inactive"
+        ],
+        "title": "IntegationStatus"
+      },
       "IntegrationItem": {
         "properties": {
           "integrationid": {
@@ -26245,7 +26986,7 @@
             "title": "Description"
           },
           "status": {
-            "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
+            "$ref": "#/components/schemas/IntegationStatus"
           },
           "api": {
             "$ref": "#/components/schemas/Api"
@@ -26262,7 +27003,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/backbone_api__app__routers__integrations__PostConnectionItem"
+                  "$ref": "#/components/schemas/IntegrationsPostConnectionItem"
                 },
                 "type": "array"
               },
@@ -26294,7 +27035,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/backbone_api__app__routers__integrations__CredentialItem"
+                  "$ref": "#/components/schemas/IntegrationsCredentialItem"
                 },
                 "type": "array"
               },
@@ -26343,6 +27084,52 @@
           "icon_url"
         ],
         "title": "IntegrationItem"
+      },
+      "IntegrationsCredentialItem": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "optional": {
+            "type": "boolean",
+            "title": "Optional",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "IntegrationsCredentialItem"
+      },
+      "IntegrationsPostConnectionItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "optional": {
+            "type": "boolean",
+            "title": "Optional"
+          },
+          "resource": {
+            "type": "string",
+            "title": "Resource"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "optional",
+          "resource"
+        ],
+        "title": "IntegrationsPostConnectionItem"
       },
       "InventoryDetailsItem": {
         "properties": {
@@ -26435,6 +27222,241 @@
         "type": "object",
         "title": "InvoiceCorrection"
       },
+      "InvoiceItem-Input": {
+        "properties": {
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "description": "Currency matching target sofware name"
+          },
+          "invoice_type": {
+            "$ref": "#/components/schemas/InvoicingInvoiceType",
+            "description": "Invoice type"
+          },
+          "status": {
+            "$ref": "#/components/schemas/InvoiceStatus",
+            "description": "Status"
+          },
+          "invoice_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Invoice Date",
+            "description": "Invoicing date"
+          },
+          "tax_amount": {
+            "type": "number",
+            "title": "Tax Amount",
+            "description": "Taxes amount"
+          },
+          "untaxed_amount": {
+            "type": "number",
+            "title": "Untaxed Amount",
+            "description": "Untaxed amount"
+          },
+          "total": {
+            "type": "number",
+            "title": "Total",
+            "description": "Total amount incl. taxes"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/InvoiceLineItem"
+            },
+            "type": "array",
+            "title": "Lines",
+            "description": "Invoice lines",
+            "default": []
+          },
+          "partner_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Partner Id",
+            "description": "Technical id of the vendor/customer in Chift"
+          },
+          "invoice_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Invoice Number",
+            "description": "Number/sequence"
+          },
+          "due_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Due Date",
+            "description": "Due date"
+          },
+          "reference": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference",
+            "description": "Reference"
+          },
+          "payment_communication": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Communication",
+            "description": "Payment communication"
+          },
+          "customer_memo": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Memo",
+            "description": "Customer note/memo"
+          },
+          "journal_ref": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FieldRef"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Journal"
+          },
+          "italian_specificities": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ItalianSpecificities-Input"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Specificities for Italy"
+          }
+        },
+        "type": "object",
+        "required": [
+          "currency",
+          "invoice_type",
+          "status",
+          "invoice_date",
+          "tax_amount",
+          "untaxed_amount",
+          "total"
+        ],
+        "title": "InvoiceItem"
+      },
+      "InvoiceItem-Output": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "$ref": "#/components/schemas/Ref",
+            "description": "Technical id in the target software"
+          },
+          "invoice_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Invoice Number",
+            "description": "Number/sequence",
+            "examples": [
+              "INV-12345"
+            ]
+          },
+          "creation_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Creation Date",
+            "description": "Creation date of the invoice",
+            "examples": [
+              "2023-10-01T12:00:00"
+            ]
+          },
+          "closing_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Closing Date",
+            "description": "Closing date of the invoice",
+            "examples": [
+              "2023-10-10T12:00:00"
+            ]
+          },
+          "partners": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/InvoicePartnerItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Partners",
+            "description": "List of partners related to the invoice"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "source_ref",
+          "invoice_number"
+        ],
+        "title": "InvoiceItem"
+      },
       "InvoiceItemDueDatesOut": {
         "properties": {
           "due_date": {
@@ -26483,7 +27505,7 @@
       "InvoiceItemInMonoAnalyticPlan": {
         "properties": {
           "invoice_type": {
-            "$ref": "#/components/schemas/backbone_common__models__accounting__common__InvoiceType",
+            "$ref": "#/components/schemas/InvoiceType",
             "description": "Specifies the type of invoice"
           },
           "invoice_number": {
@@ -26569,7 +27591,7 @@
           "withholding_tax": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_common__models__accounting__common__WithholdingTax"
+                "$ref": "#/components/schemas/WithholdingTax"
               },
               {
                 "type": "null"
@@ -26758,7 +27780,7 @@
       "InvoiceItemInMultiAnalyticPlans": {
         "properties": {
           "invoice_type": {
-            "$ref": "#/components/schemas/backbone_common__models__accounting__common__InvoiceType",
+            "$ref": "#/components/schemas/InvoiceType",
             "description": "Specifies the type of invoice"
           },
           "invoice_number": {
@@ -26844,7 +27866,7 @@
           "withholding_tax": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_common__models__accounting__common__WithholdingTax"
+                "$ref": "#/components/schemas/WithholdingTax"
               },
               {
                 "type": "null"
@@ -27047,7 +28069,7 @@
             "description": "Currency matching target sofware name"
           },
           "invoice_type": {
-            "$ref": "#/components/schemas/backbone_common__models__invoicing__common__InvoiceType",
+            "$ref": "#/components/schemas/InvoicingInvoiceType",
             "description": "Invoice type"
           },
           "status": {
@@ -27272,7 +28294,7 @@
       "InvoiceItemOutMonoAnalyticPlan": {
         "properties": {
           "invoice_type": {
-            "$ref": "#/components/schemas/backbone_common__models__accounting__common__InvoiceType",
+            "$ref": "#/components/schemas/InvoiceType",
             "description": "Specifies the type of invoice"
           },
           "invoice_number": {
@@ -27358,7 +28380,7 @@
           "withholding_tax": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_common__models__accounting__common__WithholdingTax"
+                "$ref": "#/components/schemas/WithholdingTax"
               },
               {
                 "type": "null"
@@ -27529,7 +28551,7 @@
       "InvoiceItemOutMultiAnalyticPlans": {
         "properties": {
           "invoice_type": {
-            "$ref": "#/components/schemas/backbone_common__models__accounting__common__InvoiceType",
+            "$ref": "#/components/schemas/InvoiceType",
             "description": "Specifies the type of invoice"
           },
           "invoice_number": {
@@ -27615,7 +28637,7 @@
           "withholding_tax": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_common__models__accounting__common__WithholdingTax"
+                "$ref": "#/components/schemas/WithholdingTax"
               },
               {
                 "type": "null"
@@ -27800,7 +28822,7 @@
             "description": "Currency matching target sofware name"
           },
           "invoice_type": {
-            "$ref": "#/components/schemas/backbone_common__models__invoicing__common__InvoiceType",
+            "$ref": "#/components/schemas/InvoicingInvoiceType",
             "description": "Invoice type"
           },
           "status": {
@@ -28911,6 +29933,16 @@
         ],
         "title": "InvoiceStatusOut"
       },
+      "InvoiceType": {
+        "type": "string",
+        "enum": [
+          "customer_invoice",
+          "customer_refund",
+          "supplier_invoice",
+          "supplier_refund"
+        ],
+        "title": "InvoiceType"
+      },
       "InvoicingBankAccountItem": {
         "properties": {
           "id": {
@@ -29074,6 +30106,26 @@
         ],
         "title": "InvoicingBankTransactionItem"
       },
+      "InvoicingDocumentType": {
+        "type": "string",
+        "enum": [
+          "customer_document",
+          "supplier_document",
+          "employee_expense"
+        ],
+        "title": "InvoicingDocumentType"
+      },
+      "InvoicingInvoiceType": {
+        "type": "string",
+        "enum": [
+          "customer_invoice",
+          "customer_refund",
+          "supplier_invoice",
+          "supplier_refund",
+          "all"
+        ],
+        "title": "InvoicingInvoiceType"
+      },
       "InvoicingPaymentItem": {
         "properties": {
           "id": {
@@ -29086,7 +30138,7 @@
             "description": "Technical id in the target software"
           },
           "status": {
-            "$ref": "#/components/schemas/backbone_common__models__payment__common__PaymentStatus",
+            "$ref": "#/components/schemas/PaymentPaymentStatus",
             "description": "Payment status"
           },
           "description": {
@@ -29230,7 +30282,7 @@
             "description": "Tax rate (e.g. 21.0)"
           },
           "type": {
-            "$ref": "#/components/schemas/backbone_common__models__accounting__common__VatCodeType",
+            "$ref": "#/components/schemas/InvoicingVatCodeType",
             "description": "Type"
           },
           "code": {
@@ -29248,7 +30300,7 @@
           "scope": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_common__models__accounting__common__VatCodeScope"
+                "$ref": "#/components/schemas/InvoicingVatCodeScope"
               },
               {
                 "type": "null"
@@ -29280,6 +30332,68 @@
           "type"
         ],
         "title": "InvoicingVatCode"
+      },
+      "InvoicingVatCodeScope": {
+        "type": "string",
+        "enum": [
+          "nat",
+          "eu",
+          "int",
+          "unknown"
+        ],
+        "title": "InvoicingVatCodeScope"
+      },
+      "InvoicingVatCodeType": {
+        "type": "string",
+        "enum": [
+          "sale",
+          "purchase",
+          "both",
+          "unknown"
+        ],
+        "title": "InvoicingVatCodeType"
+      },
+      "InvoicingWithholdingTax": {
+        "properties": {
+          "rate": {
+            "type": "number",
+            "title": "Rate",
+            "description": "Rate"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount",
+            "description": "Amount"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WithholdingTaxReason"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Reason"
+          },
+          "payment_reason": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WithholdingTaxPaymentReason"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Payment reason"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rate",
+          "amount"
+        ],
+        "title": "InvoicingWithholdingTax"
       },
       "IssueEvent": {
         "properties": {
@@ -29426,7 +30540,7 @@
           "withholding_tax": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_common__models__invoicing__common__WithholdingTax"
+                "$ref": "#/components/schemas/InvoicingWithholdingTax"
               },
               {
                 "type": "null"
@@ -29477,7 +30591,7 @@
           "withholding_tax": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_common__models__invoicing__common__WithholdingTax"
+                "$ref": "#/components/schemas/InvoicingWithholdingTax"
               },
               {
                 "type": "null"
@@ -31343,10 +32457,10 @@
             "$ref": "#/components/schemas/OrderCustomerItem"
           },
           "billing_address": {
-            "$ref": "#/components/schemas/backbone_common__models__commerce__common__AddressItemIn"
+            "$ref": "#/components/schemas/CommerceAddressItemIn"
           },
           "shipping_address": {
-            "$ref": "#/components/schemas/backbone_common__models__commerce__common__AddressItemIn"
+            "$ref": "#/components/schemas/CommerceAddressItemIn"
           },
           "currency": {
             "type": "string",
@@ -31430,7 +32544,7 @@
           "billing_address": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_common__models__commerce__common__AddressItemOut"
+                "$ref": "#/components/schemas/CommerceAddressItemOut"
               },
               {
                 "type": "null"
@@ -31440,7 +32554,7 @@
           "shipping_address": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_common__models__commerce__common__AddressItemOut"
+                "$ref": "#/components/schemas/CommerceAddressItemOut"
               },
               {
                 "type": "null"
@@ -31835,7 +32949,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/backbone_common__models__commerce__common__DiscountItem"
+                  "$ref": "#/components/schemas/CommerceDiscountItem"
                 },
                 "type": "array"
               },
@@ -31912,7 +33026,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/backbone_common__models__commerce__common__ProductCategoryItem"
+                  "$ref": "#/components/schemas/CommerceProductCategoryItem"
                 },
                 "type": "array"
               },
@@ -32212,7 +33326,7 @@
             "title": "Amount"
           },
           "status": {
-            "$ref": "#/components/schemas/backbone_common__models__commerce__common__TransactionStatus"
+            "$ref": "#/components/schemas/CommerceTransactionStatus"
           }
         },
         "type": "object",
@@ -33252,7 +34366,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/backbone_common__models__pms__common__InvoiceItem"
+                  "$ref": "#/components/schemas/InvoiceItem-Output"
                 },
                 "type": "array"
               },
@@ -33384,7 +34498,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/backbone_common__models__pos_pms__DiscountItem"
+                  "$ref": "#/components/schemas/DiscountItem"
                 },
                 "type": "array"
               },
@@ -33519,7 +34633,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_common__models__pos_pms__PaymentStatus"
+                "$ref": "#/components/schemas/PosPaymentStatus"
               },
               {
                 "type": "null"
@@ -34094,7 +35208,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/backbone_common__models__pos_pms__DiscountItem"
+                  "$ref": "#/components/schemas/DiscountItem"
                 },
                 "type": "array"
               },
@@ -34595,7 +35709,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_common__models__pos_pms__PaymentStatus"
+                "$ref": "#/components/schemas/PosPaymentStatus"
               },
               {
                 "type": "null"
@@ -34699,7 +35813,7 @@
           },
           "prices": {
             "items": {
-              "$ref": "#/components/schemas/backbone_common__models__pos__common__ProductPriceItem"
+              "$ref": "#/components/schemas/ProductPriceItem"
             },
             "type": "array",
             "title": "Prices",
@@ -35005,7 +36119,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/backbone_common__models__common__AddressItemOut"
+                  "$ref": "#/components/schemas/AddressItemOut"
                 },
                 "type": "array"
               },
@@ -35016,6 +36130,18 @@
             "title": "Addresses",
             "description": "List of addresses associated with the client.",
             "default": []
+          },
+          "third_party_account": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Third Party Account",
+            "description": "Third party account number/code representing the client in the accounting software."
           }
         },
         "type": "object",
@@ -35047,7 +36173,8 @@
           "name": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "string",
+                "maxLength": 80
               },
               {
                 "type": "null"
@@ -35060,7 +36187,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/backbone_api__app__routers__connections__CredentialItem"
+                  "$ref": "#/components/schemas/CredentialItem"
                 },
                 "type": "array"
               },
@@ -35176,7 +36303,7 @@
             "description": "Technical id in the target software"
           },
           "status": {
-            "$ref": "#/components/schemas/backbone_common__models__payment__common__PaymentStatus",
+            "$ref": "#/components/schemas/PaymentPaymentStatus",
             "description": "Payment status"
           },
           "description": {
@@ -35295,6 +36422,19 @@
         ],
         "title": "PaymentMethods"
       },
+      "PaymentPaymentStatus": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "completed",
+          "partially_completed",
+          "canceled",
+          "failed",
+          "unknown",
+          "authorized"
+        ],
+        "title": "PaymentPaymentStatus"
+      },
       "PaymentReporting": {
         "properties": {
           "method": {
@@ -35361,6 +36501,15 @@
         ],
         "title": "PaymentReportingMethod"
       },
+      "PaymentStatus": {
+        "type": "string",
+        "enum": [
+          "all",
+          "unpaid",
+          "paid"
+        ],
+        "title": "PaymentStatus"
+      },
       "PaymentTermAccountInfo": {
         "properties": {
           "amount": {
@@ -35380,6 +36529,18 @@
           "iban"
         ],
         "title": "PaymentTermAccountInfo"
+      },
+      "PosPaymentStatus": {
+        "type": "string",
+        "enum": [
+          "Pending",
+          "Completed",
+          "Canceled",
+          "Failed",
+          "Unknown",
+          "Authorised"
+        ],
+        "title": "PosPaymentStatus"
       },
       "PostAddressItem": {
         "properties": {
@@ -35478,6 +36639,77 @@
           "postal_code"
         ],
         "title": "PostAddressItem"
+      },
+      "PostConnectionItem": {
+        "properties": {
+          "integrationid": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Integrationid",
+            "description": "Can be used to specify the integration code of a specific connector. If specified, the url will point directly to the connection page of the connector and will redirect on save to the redirect url of the consumer if specified."
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 80
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "Can be used to specify the name of the connection. Must be used in combination with an integrationid."
+          },
+          "credentials": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/CredentialItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Credentials",
+            "description": "Can be used to specify the credentials of your connection. Must be used in combination with an integrationid and a name. Please use the getIntegrations route to see the available credentials for each integration"
+          },
+          "country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Country",
+            "description": "ISO 3166-1 alpha-2 country code to filter connectors by country. Ignored if integrationid is provided."
+          },
+          "redirect": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Redirect",
+            "description": "Indicates whether you want to return to the consumer's redirectUrl after creation (true) or whether you want to stay on the connection selection page (false)(This field is ignored if integrationid is provided)",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "PostConnectionItem"
       },
       "PostConsumerItem": {
         "properties": {
@@ -35626,6 +36858,62 @@
         "type": "object",
         "title": "PostSyncFlowEventData"
       },
+      "ProductCategoryItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique identifier of the category",
+            "examples": [
+              "371ca583-d218-4900-b236-397532cf0e52"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name given to the category",
+            "examples": [
+              "Pizza"
+            ]
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Description of the category",
+            "examples": [
+              "Delicious pizza"
+            ]
+          },
+          "id_parent": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id Parent",
+            "description": "Indicates if the category belongs to a parent category",
+            "examples": [
+              "371ca583-d218-4900-b236-397532cf0e55"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "ProductCategoryItem"
+      },
       "ProductCostItem": {
         "properties": {
           "amount": {
@@ -35643,6 +36931,285 @@
           "currency"
         ],
         "title": "ProductCostItem"
+      },
+      "ProductItem-Input": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name"
+          },
+          "unit_price": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit Price",
+            "description": "Unit price"
+          },
+          "tax_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tax Id",
+            "description": "Technical id of the tax in Chift"
+          },
+          "code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Code",
+            "description": "Reference/code"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit",
+            "description": "Unit of measure matching target software name"
+          },
+          "category": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category",
+            "description": "Category matching target software name"
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency",
+            "description": "Currency matching target software name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Description"
+          },
+          "cost": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cost",
+            "description": "Cost of the product",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "ProductItem"
+      },
+      "ProductItem-Output": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "$ref": "#/components/schemas/Ref",
+            "description": "Technical id in the target software"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "description_html": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description Html"
+          },
+          "categories": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/CommerceProductCategoryItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Categories",
+            "default": []
+          },
+          "created_on": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created On"
+          },
+          "last_updated_on": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Updated On"
+          },
+          "variants": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ProductVariantItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Variants",
+            "default": []
+          },
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProductStatus"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sku": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sku"
+          },
+          "common_attributes": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/CommonAttributeItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Common Attributes",
+            "description": "List of attributes that are shared by all variants of the product.",
+            "default": []
+          },
+          "variant_attributes_options": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/VariantAttributeOptionItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Variant Attributes Options",
+            "default": []
+          },
+          "common_images": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ImageItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Common Images",
+            "description": "List of images that are shared by all variants of the product.",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "source_ref",
+          "name"
+        ],
+        "title": "ProductItem"
       },
       "ProductItemOut": {
         "properties": {
@@ -35779,6 +37346,38 @@
         ],
         "title": "ProductItemOut"
       },
+      "ProductPriceItem": {
+        "properties": {
+          "unit_price": {
+            "type": "number",
+            "title": "Unit Price",
+            "description": "Unit price (without tax) of the product",
+            "examples": [
+              10
+            ]
+          },
+          "tax_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tax Rate",
+            "description": "Tax rate applied to the product",
+            "examples": [
+              10
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "unit_price"
+        ],
+        "title": "ProductPriceItem"
+      },
       "ProductStatus": {
         "type": "string",
         "enum": [
@@ -35835,7 +37434,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/backbone_common__models__commerce__common__ProductCategoryItem"
+                  "$ref": "#/components/schemas/CommerceProductCategoryItem"
                 },
                 "type": "array"
               },
@@ -35896,7 +37495,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/backbone_common__models__commerce__common__ProductPriceItem"
+                  "$ref": "#/components/schemas/CommerceProductPriceItem"
                 },
                 "type": "array"
               },
@@ -36217,7 +37816,7 @@
           },
           "connections": {
             "items": {
-              "$ref": "#/components/schemas/backbone_api__app__routers__syncs__ConnectionItem"
+              "$ref": "#/components/schemas/SyncsConnectionItem"
             },
             "type": "array",
             "title": "Connections"
@@ -36430,7 +38029,7 @@
             "description": "Technical id in the target software"
           },
           "status": {
-            "$ref": "#/components/schemas/backbone_common__models__payment__common__PaymentStatus",
+            "$ref": "#/components/schemas/PaymentPaymentStatus",
             "description": "Payment status"
           },
           "description": {
@@ -36835,6 +38434,14 @@
         ],
         "title": "States"
       },
+      "Status": {
+        "type": "string",
+        "enum": [
+          "active",
+          "inactive"
+        ],
+        "title": "Status"
+      },
       "SupplierItemIn": {
         "properties": {
           "external_reference": {
@@ -37051,7 +38658,7 @@
           },
           "addresses": {
             "items": {
-              "$ref": "#/components/schemas/backbone_common__models__common__AddressItemIn"
+              "$ref": "#/components/schemas/AddressItemIn"
             },
             "type": "array",
             "title": "Addresses",
@@ -37350,7 +38957,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/backbone_common__models__common__AddressItemOut"
+                  "$ref": "#/components/schemas/AddressItemOut"
                 },
                 "type": "array"
               },
@@ -37361,6 +38968,18 @@
             "title": "Addresses",
             "description": "List of addresses associated with the supplier.",
             "default": []
+          },
+          "third_party_account": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Third Party Account",
+            "description": "Third party account number/code representing the client in the accounting software."
           }
         },
         "type": "object",
@@ -37590,7 +39209,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/backbone_common__models__common__AddressItemOut"
+                  "$ref": "#/components/schemas/AddressItemOut"
                 },
                 "type": "array"
               },
@@ -37714,6 +39333,44 @@
         ],
         "title": "SyncConsumerStatus"
       },
+      "SyncsConnectionItem": {
+        "properties": {
+          "one_api": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "One Api"
+          },
+          "connection_type": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Connection Type"
+          },
+          "display_order": {
+            "type": "integer",
+            "title": "Display Order",
+            "default": 0
+          },
+          "display_hidden": {
+            "type": "boolean",
+            "title": "Display Hidden",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "SyncsConnectionItem"
+      },
       "TaxInfo": {
         "properties": {
           "tax_code": {
@@ -37736,7 +39393,7 @@
               }
             ],
             "title": "Vat Account",
-            "description": "VAT account of the tax line. This is the account number used to book the tax amount. The account is mandatory if tax amount is different from 0 and will be used when we need to pass this information to the accounting software."
+            "description": "VAT ledger account of the tax line. This is the ledger account number used to book the tax amount. The account is mandatory if tax amount is different from 0. The ledger account will ONLY be used when it is mandatory to pass this information to the accounting software."
           },
           "reversed_vat_account": {
             "anyOf": [
@@ -37748,7 +39405,7 @@
               }
             ],
             "title": "Reversed Vat Account",
-            "description": "Reversed VAT account of the tax line. This is the account number used to book the reversed tax amount. The account is mandatory if you are using a reversed VAT code."
+            "description": "Reversed VAT ledger account of the tax line. This is the ledger account number used to book the reversed tax amount. The account is mandatory if you are using a reversed VAT code. The ledger account will ONLY be used when it is mandatory to pass this information to the accounting software."
           },
           "description": {
             "anyOf": [
@@ -38163,7 +39820,7 @@
           "invoice_type": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_common__models__invoicing__common__InvoiceType"
+                "$ref": "#/components/schemas/InvoicingInvoiceType"
               },
               {
                 "type": "null"
@@ -38543,7 +40200,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/backbone_common__models__commerce__common__ProductCategoryItem"
+                  "$ref": "#/components/schemas/CommerceProductCategoryItem"
                 },
                 "type": "array"
               },
@@ -38604,7 +40261,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/backbone_common__models__commerce__common__ProductPriceItem"
+                  "$ref": "#/components/schemas/CommerceProductPriceItem"
                 },
                 "type": "array"
               },
@@ -38758,6 +40415,26 @@
         ],
         "title": "VariantItem"
       },
+      "VatCodeScope": {
+        "type": "string",
+        "enum": [
+          "nat",
+          "eu",
+          "int",
+          "unknown"
+        ],
+        "title": "VatCodeScope"
+      },
+      "VatCodeType": {
+        "type": "string",
+        "enum": [
+          "sale",
+          "purchase",
+          "both",
+          "unknown"
+        ],
+        "title": "VatCodeType"
+      },
       "WebhookInstanceGetItem": {
         "properties": {
           "webhookid": {
@@ -38796,7 +40473,7 @@
             "title": "Url"
           },
           "status": {
-            "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
+            "$ref": "#/components/schemas/Status"
           },
           "integrationid": {
             "anyOf": [
@@ -38826,7 +40503,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
+                "$ref": "#/components/schemas/Status"
               },
               {
                 "type": "null"
@@ -39045,6 +40722,32 @@
         ],
         "title": "WelfareFundType"
       },
+      "WithholdingTax": {
+        "properties": {
+          "tax_rate": {
+            "type": "number",
+            "title": "Tax Rate",
+            "description": "Rate of the withholding tax. Normal withholding tax should have a negative tax rate."
+          },
+          "tax_code": {
+            "type": "string",
+            "title": "Tax Code",
+            "description": "Tax code of the withholding tax. This is the Id of the Tax Code in the accounting software."
+          },
+          "tax_amount": {
+            "type": "number",
+            "title": "Tax Amount",
+            "description": "Amount of the withholding tax. This is the amount of the withholding tax that will be applied to the invoice. It should be negative for normal withholding tax."
+          }
+        },
+        "type": "object",
+        "required": [
+          "tax_rate",
+          "tax_code",
+          "tax_amount"
+        ],
+        "title": "WithholdingTax"
+      },
       "WithholdingTaxPaymentReason": {
         "type": "string",
         "enum": [
@@ -39093,1573 +40796,6 @@
           "RT06"
         ],
         "title": "WithholdingTaxReason"
-      },
-      "backbone_api__app__routers__connections__ConnectionItem": {
-        "properties": {
-          "connectionid": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Connectionid"
-          },
-          "name": {
-            "type": "string",
-            "title": "Name"
-          },
-          "integration": {
-            "type": "string",
-            "title": "Integration"
-          },
-          "integrationid": {
-            "type": "integer",
-            "title": "Integrationid"
-          },
-          "api": {
-            "type": "string",
-            "title": "Api"
-          },
-          "data": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Data"
-          },
-          "status": {
-            "$ref": "#/components/schemas/backbone_api__app__routers__webhooks__Status"
-          },
-          "agent": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/LocalAgentInfo"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "For local agent only. Indicates whether the local agent is up and running"
-          }
-        },
-        "type": "object",
-        "required": [
-          "connectionid",
-          "name",
-          "integration",
-          "integrationid",
-          "api",
-          "status"
-        ],
-        "title": "ConnectionItem"
-      },
-      "backbone_api__app__routers__connections__CredentialItem": {
-        "properties": {
-          "key": {
-            "type": "string",
-            "title": "Key"
-          },
-          "value": {
-            "type": "string",
-            "title": "Value"
-          }
-        },
-        "type": "object",
-        "required": [
-          "key",
-          "value"
-        ],
-        "title": "CredentialItem"
-      },
-      "backbone_api__app__routers__connections__PostConnectionItem": {
-        "properties": {
-          "integrationid": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Integrationid",
-            "description": "Can be used to specify the integration code of a specific connector. If specified, the url will point directly to the connection page of the connector and will redirect on save to the redirect url of the consumer if specified."
-          },
-          "name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Name",
-            "description": "Can be used to specify the name of the connection. Must be used in combination with an integrationid."
-          },
-          "credentials": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/backbone_api__app__routers__connections__CredentialItem"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Credentials",
-            "description": "Can be used to specify the credentials of your connection. Must be used in combination with an integrationid and a name. Please use the getIntegrations route to see the available credentials for each integration"
-          },
-          "country": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Country",
-            "description": "ISO 3166-1 alpha-2 country code to filter connectors by country. Ignored if integrationid is provided."
-          },
-          "redirect": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Redirect",
-            "description": "Indicates whether you want to return to the consumer's redirectUrl after creation (true) or whether you want to stay on the connection selection page (false)(This field is ignored if integrationid is provided)",
-            "default": false
-          }
-        },
-        "type": "object",
-        "title": "PostConnectionItem"
-      },
-      "backbone_api__app__routers__integrations__CredentialItem": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "title": "Name"
-          },
-          "optional": {
-            "type": "boolean",
-            "title": "Optional",
-            "default": false
-          }
-        },
-        "type": "object",
-        "required": [
-          "name"
-        ],
-        "title": "CredentialItem"
-      },
-      "backbone_api__app__routers__integrations__PostConnectionItem": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "title": "Id"
-          },
-          "title": {
-            "type": "string",
-            "title": "Title"
-          },
-          "optional": {
-            "type": "boolean",
-            "title": "Optional"
-          },
-          "resource": {
-            "type": "string",
-            "title": "Resource"
-          }
-        },
-        "type": "object",
-        "required": [
-          "id",
-          "title",
-          "optional",
-          "resource"
-        ],
-        "title": "PostConnectionItem"
-      },
-      "backbone_api__app__routers__syncs__ConnectionItem": {
-        "properties": {
-          "one_api": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "One Api"
-          },
-          "connection_type": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Connection Type"
-          },
-          "display_order": {
-            "type": "integer",
-            "title": "Display Order",
-            "default": 0
-          },
-          "display_hidden": {
-            "type": "boolean",
-            "title": "Display Hidden",
-            "default": false
-          }
-        },
-        "type": "object",
-        "title": "ConnectionItem"
-      },
-      "backbone_api__app__routers__webhooks__Status": {
-        "type": "string",
-        "enum": [
-          "active",
-          "inactive"
-        ],
-        "title": "Status"
-      },
-      "backbone_common__models__accounting__common__DocumentType": {
-        "type": "string",
-        "enum": [
-          "invoice",
-          "entry"
-        ],
-        "title": "DocumentType"
-      },
-      "backbone_common__models__accounting__common__InvoiceType": {
-        "type": "string",
-        "enum": [
-          "customer_invoice",
-          "customer_refund",
-          "supplier_invoice",
-          "supplier_refund"
-        ],
-        "title": "InvoiceType"
-      },
-      "backbone_common__models__accounting__common__VatCodeScope": {
-        "type": "string",
-        "enum": [
-          "nat",
-          "eu",
-          "int",
-          "unknown"
-        ],
-        "title": "VatCodeScope"
-      },
-      "backbone_common__models__accounting__common__VatCodeType": {
-        "type": "string",
-        "enum": [
-          "sale",
-          "purchase",
-          "both",
-          "unknown"
-        ],
-        "title": "VatCodeType"
-      },
-      "backbone_common__models__accounting__common__WithholdingTax": {
-        "properties": {
-          "tax_rate": {
-            "type": "number",
-            "title": "Tax Rate",
-            "description": "Rate of the withholding tax. Normal withholding tax should have a negative tax rate."
-          },
-          "tax_code": {
-            "type": "string",
-            "title": "Tax Code",
-            "description": "Tax code of the withholding tax. This is the Id of the Tax Code in the accounting software."
-          },
-          "tax_amount": {
-            "type": "number",
-            "title": "Tax Amount",
-            "description": "Amount of the withholding tax. This is the amount of the withholding tax that will be applied to the invoice. It should be negative for normal withholding tax."
-          }
-        },
-        "type": "object",
-        "required": [
-          "tax_rate",
-          "tax_code",
-          "tax_amount"
-        ],
-        "title": "WithholdingTax"
-      },
-      "backbone_common__models__banking__common__TransactionStatus": {
-        "type": "string",
-        "enum": [
-          "pending",
-          "declined",
-          "completed"
-        ],
-        "title": "TransactionStatus"
-      },
-      "backbone_common__models__commerce__common__AddressItemIn": {
-        "properties": {
-          "first_name": {
-            "type": "string",
-            "title": "First Name"
-          },
-          "last_name": {
-            "type": "string",
-            "title": "Last Name"
-          },
-          "street": {
-            "type": "string",
-            "title": "Street"
-          },
-          "number": {
-            "type": "string",
-            "title": "Number"
-          },
-          "box": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Box"
-          },
-          "city": {
-            "type": "string",
-            "title": "City"
-          },
-          "postal_code": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Postal Code"
-          },
-          "country": {
-            "type": "string",
-            "title": "Country",
-            "description": "Format: ISO 3166-1 codes."
-          },
-          "phone": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Phone"
-          },
-          "email": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Email"
-          }
-        },
-        "type": "object",
-        "required": [
-          "first_name",
-          "last_name",
-          "street",
-          "number",
-          "city",
-          "country"
-        ],
-        "title": "AddressItemIn"
-      },
-      "backbone_common__models__commerce__common__AddressItemOut": {
-        "properties": {
-          "address_type": {
-            "$ref": "#/components/schemas/AddressType"
-          },
-          "company_name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Company Name"
-          },
-          "first_name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "First Name"
-          },
-          "last_name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Last Name"
-          },
-          "street": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Street"
-          },
-          "number": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Number"
-          },
-          "box": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Box"
-          },
-          "city": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "City"
-          },
-          "postal_code": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Postal Code"
-          },
-          "country": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Country",
-            "description": "Format: ISO 3166-1 codes."
-          },
-          "phone": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Phone"
-          },
-          "email": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Email"
-          }
-        },
-        "type": "object",
-        "required": [
-          "address_type"
-        ],
-        "title": "AddressItemOut"
-      },
-      "backbone_common__models__commerce__common__DiscountItem": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "title": "Name"
-          },
-          "description": {
-            "type": "string",
-            "title": "Description"
-          },
-          "amount": {
-            "type": "number",
-            "title": "Amount"
-          }
-        },
-        "type": "object",
-        "required": [
-          "name",
-          "description",
-          "amount"
-        ],
-        "title": "DiscountItem"
-      },
-      "backbone_common__models__commerce__common__ProductCategoryItem": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "title": "Id",
-            "description": "Technical id of the category in Chift"
-          },
-          "name": {
-            "type": "string",
-            "title": "Name"
-          }
-        },
-        "type": "object",
-        "required": [
-          "id",
-          "name"
-        ],
-        "title": "ProductCategoryItem"
-      },
-      "backbone_common__models__commerce__common__ProductItem": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "title": "Id",
-            "description": "Technical id in Chift"
-          },
-          "source_ref": {
-            "$ref": "#/components/schemas/Ref",
-            "description": "Technical id in the target software"
-          },
-          "name": {
-            "type": "string",
-            "title": "Name"
-          },
-          "description": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Description"
-          },
-          "description_html": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Description Html"
-          },
-          "categories": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/backbone_common__models__commerce__common__ProductCategoryItem"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Categories",
-            "default": []
-          },
-          "created_on": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Created On"
-          },
-          "last_updated_on": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Last Updated On"
-          },
-          "variants": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/ProductVariantItem"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Variants",
-            "default": []
-          },
-          "status": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/ProductStatus"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "sku": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Sku"
-          },
-          "common_attributes": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/CommonAttributeItem"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Common Attributes",
-            "description": "List of attributes that are shared by all variants of the product.",
-            "default": []
-          },
-          "variant_attributes_options": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/VariantAttributeOptionItem"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Variant Attributes Options",
-            "default": []
-          },
-          "common_images": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/ImageItem"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Common Images",
-            "description": "List of images that are shared by all variants of the product.",
-            "default": []
-          }
-        },
-        "type": "object",
-        "required": [
-          "id",
-          "source_ref",
-          "name"
-        ],
-        "title": "ProductItem"
-      },
-      "backbone_common__models__commerce__common__ProductPriceItem": {
-        "properties": {
-          "currency": {
-            "type": "string",
-            "title": "Currency"
-          },
-          "price": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Price",
-            "default": 0
-          }
-        },
-        "type": "object",
-        "required": [
-          "currency"
-        ],
-        "title": "ProductPriceItem"
-      },
-      "backbone_common__models__commerce__common__TransactionStatus": {
-        "type": "string",
-        "enum": [
-          "failed",
-          "pending",
-          "success"
-        ],
-        "title": "TransactionStatus"
-      },
-      "backbone_common__models__common__AddressItemIn": {
-        "properties": {
-          "address_type": {
-            "$ref": "#/components/schemas/AddressType"
-          },
-          "name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Name"
-          },
-          "number": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Number"
-          },
-          "box": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Box"
-          },
-          "phone": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Phone"
-          },
-          "mobile": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Mobile"
-          },
-          "email": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Email"
-          },
-          "street": {
-            "type": "string",
-            "title": "Street"
-          },
-          "city": {
-            "type": "string",
-            "title": "City"
-          },
-          "postal_code": {
-            "type": "string",
-            "title": "Postal Code"
-          },
-          "country": {
-            "type": "string",
-            "title": "Country",
-            "description": "Format: ISO 3166-1 codes."
-          }
-        },
-        "type": "object",
-        "required": [
-          "address_type",
-          "street",
-          "city",
-          "postal_code",
-          "country"
-        ],
-        "title": "AddressItemIn"
-      },
-      "backbone_common__models__common__AddressItemOut": {
-        "properties": {
-          "address_type": {
-            "$ref": "#/components/schemas/AddressType"
-          },
-          "name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Name"
-          },
-          "number": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Number"
-          },
-          "box": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Box"
-          },
-          "phone": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Phone"
-          },
-          "mobile": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Mobile"
-          },
-          "email": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Email"
-          },
-          "street": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Street"
-          },
-          "city": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "City"
-          },
-          "postal_code": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Postal Code"
-          },
-          "country": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Country",
-            "description": "Format: ISO 3166-1 codes."
-          }
-        },
-        "type": "object",
-        "required": [
-          "address_type"
-        ],
-        "title": "AddressItemOut"
-      },
-      "backbone_common__models__common__PaymentStatus": {
-        "type": "string",
-        "enum": [
-          "all",
-          "unpaid",
-          "paid"
-        ],
-        "title": "PaymentStatus"
-      },
-      "backbone_common__models__invoicing__common__DocumentType": {
-        "type": "string",
-        "enum": [
-          "customer_document",
-          "supplier_document",
-          "employee_expense"
-        ],
-        "title": "DocumentType"
-      },
-      "backbone_common__models__invoicing__common__InvoiceItem": {
-        "properties": {
-          "currency": {
-            "type": "string",
-            "title": "Currency",
-            "description": "Currency matching target sofware name"
-          },
-          "invoice_type": {
-            "$ref": "#/components/schemas/backbone_common__models__invoicing__common__InvoiceType",
-            "description": "Invoice type"
-          },
-          "status": {
-            "$ref": "#/components/schemas/InvoiceStatus",
-            "description": "Status"
-          },
-          "invoice_date": {
-            "type": "string",
-            "format": "date",
-            "title": "Invoice Date",
-            "description": "Invoicing date"
-          },
-          "tax_amount": {
-            "type": "number",
-            "title": "Tax Amount",
-            "description": "Taxes amount"
-          },
-          "untaxed_amount": {
-            "type": "number",
-            "title": "Untaxed Amount",
-            "description": "Untaxed amount"
-          },
-          "total": {
-            "type": "number",
-            "title": "Total",
-            "description": "Total amount incl. taxes"
-          },
-          "lines": {
-            "items": {
-              "$ref": "#/components/schemas/InvoiceLineItem"
-            },
-            "type": "array",
-            "title": "Lines",
-            "description": "Invoice lines",
-            "default": []
-          },
-          "partner_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Partner Id",
-            "description": "Technical id of the vendor/customer in Chift"
-          },
-          "invoice_number": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Invoice Number",
-            "description": "Number/sequence"
-          },
-          "due_date": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Due Date",
-            "description": "Due date"
-          },
-          "reference": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Reference",
-            "description": "Reference"
-          },
-          "payment_communication": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Payment Communication",
-            "description": "Payment communication"
-          },
-          "customer_memo": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Customer Memo",
-            "description": "Customer note/memo"
-          },
-          "journal_ref": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/FieldRef"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Journal"
-          },
-          "italian_specificities": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/ItalianSpecificities-Input"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Specificities for Italy"
-          }
-        },
-        "type": "object",
-        "required": [
-          "currency",
-          "invoice_type",
-          "status",
-          "invoice_date",
-          "tax_amount",
-          "untaxed_amount",
-          "total"
-        ],
-        "title": "InvoiceItem"
-      },
-      "backbone_common__models__invoicing__common__InvoiceType": {
-        "type": "string",
-        "enum": [
-          "customer_invoice",
-          "customer_refund",
-          "supplier_invoice",
-          "supplier_refund",
-          "all"
-        ],
-        "title": "InvoiceType"
-      },
-      "backbone_common__models__invoicing__common__ProductItem": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "title": "Name",
-            "description": "Name"
-          },
-          "unit_price": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Unit Price",
-            "description": "Unit price"
-          },
-          "tax_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Tax Id",
-            "description": "Technical id of the tax in Chift"
-          },
-          "code": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Code",
-            "description": "Reference/code"
-          },
-          "unit": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Unit",
-            "description": "Unit of measure matching target software name"
-          },
-          "category": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Category",
-            "description": "Category matching target software name"
-          },
-          "currency": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Currency",
-            "description": "Currency matching target software name"
-          },
-          "description": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Description",
-            "description": "Description"
-          },
-          "cost": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Cost",
-            "description": "Cost of the product",
-            "default": 0
-          }
-        },
-        "type": "object",
-        "required": [
-          "name"
-        ],
-        "title": "ProductItem"
-      },
-      "backbone_common__models__invoicing__common__WithholdingTax": {
-        "properties": {
-          "rate": {
-            "type": "number",
-            "title": "Rate",
-            "description": "Rate"
-          },
-          "amount": {
-            "type": "number",
-            "title": "Amount",
-            "description": "Amount"
-          },
-          "reason": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/WithholdingTaxReason"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Reason"
-          },
-          "payment_reason": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/WithholdingTaxPaymentReason"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Payment reason"
-          }
-        },
-        "type": "object",
-        "required": [
-          "rate",
-          "amount"
-        ],
-        "title": "WithholdingTax"
-      },
-      "backbone_common__models__payment__common__PaymentStatus": {
-        "type": "string",
-        "enum": [
-          "pending",
-          "completed",
-          "partially_completed",
-          "canceled",
-          "failed",
-          "unknown",
-          "authorized"
-        ],
-        "title": "PaymentStatus"
-      },
-      "backbone_common__models__pms__common__InvoiceItem": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "title": "Id",
-            "description": "Technical id in Chift"
-          },
-          "source_ref": {
-            "$ref": "#/components/schemas/Ref",
-            "description": "Technical id in the target software"
-          },
-          "invoice_number": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Invoice Number",
-            "description": "Number/sequence",
-            "examples": [
-              "INV-12345"
-            ]
-          },
-          "creation_date": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Creation Date",
-            "description": "Creation date of the invoice",
-            "examples": [
-              "2023-10-01T12:00:00"
-            ]
-          },
-          "closing_date": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Closing Date",
-            "description": "Closing date of the invoice",
-            "examples": [
-              "2023-10-10T12:00:00"
-            ]
-          },
-          "partners": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/InvoicePartnerItem"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Partners",
-            "description": "List of partners related to the invoice"
-          }
-        },
-        "type": "object",
-        "required": [
-          "id",
-          "source_ref",
-          "invoice_number"
-        ],
-        "title": "InvoiceItem"
-      },
-      "backbone_common__models__pos__common__ProductCategoryItem": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "title": "Id",
-            "description": "Unique identifier of the category",
-            "examples": [
-              "371ca583-d218-4900-b236-397532cf0e52"
-            ]
-          },
-          "name": {
-            "type": "string",
-            "title": "Name",
-            "description": "Name given to the category",
-            "examples": [
-              "Pizza"
-            ]
-          },
-          "description": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Description",
-            "description": "Description of the category",
-            "examples": [
-              "Delicious pizza"
-            ]
-          },
-          "id_parent": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Id Parent",
-            "description": "Indicates if the category belongs to a parent category",
-            "examples": [
-              "371ca583-d218-4900-b236-397532cf0e55"
-            ]
-          }
-        },
-        "type": "object",
-        "required": [
-          "id",
-          "name"
-        ],
-        "title": "ProductCategoryItem"
-      },
-      "backbone_common__models__pos__common__ProductPriceItem": {
-        "properties": {
-          "unit_price": {
-            "type": "number",
-            "title": "Unit Price",
-            "description": "Unit price (without tax) of the product",
-            "examples": [
-              10
-            ]
-          },
-          "tax_rate": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Tax Rate",
-            "description": "Tax rate applied to the product",
-            "examples": [
-              10
-            ]
-          }
-        },
-        "type": "object",
-        "required": [
-          "unit_price"
-        ],
-        "title": "ProductPriceItem"
-      },
-      "backbone_common__models__pos_pms__DiscountItem": {
-        "properties": {
-          "name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Name",
-            "description": "Name of the discount",
-            "examples": [
-              "Percentage discount"
-            ]
-          },
-          "total": {
-            "type": "number",
-            "title": "Total",
-            "description": "Total amount of the discount",
-            "examples": [
-              10
-            ]
-          },
-          "type": {
-            "$ref": "#/components/schemas/DiscountType",
-            "description": "Type of the discount",
-            "default": "UNKNOWN",
-            "examples": [
-              "offered"
-            ]
-          }
-        },
-        "type": "object",
-        "required": [
-          "total"
-        ],
-        "title": "DiscountItem"
-      },
-      "backbone_common__models__pos_pms__PaymentStatus": {
-        "type": "string",
-        "enum": [
-          "Pending",
-          "Completed",
-          "Canceled",
-          "Failed",
-          "Unknown",
-          "Authorised"
-        ],
-        "title": "PaymentStatus"
       }
     },
     "securitySchemes": {
