@@ -7100,10 +7100,10 @@ class PMSOrderItem(BaseModel):
         title="Delivery Fee",
     )
     mode: Optional[Mode] = Field(
-        Mode.unknown, description="Delivery Mode", examples=["eat_in"]
+        "UNKNOWN", description="Delivery Mode", examples=["eat_in"]
     )
     source: Optional[Source] = Field(
-        Source.unknown, description="Source of the order", examples=["web"]
+        "UNKNOWN", description="Source of the order", examples=["web"]
     )
     currency: Optional[str] = Field(
         None, description="Currency of the order", examples=["EUR"], title="Currency"
@@ -7227,7 +7227,12 @@ class POSOrderItem(BaseModel):
         examples=[1],
         title="Delivery Fee",
     )
-    mode: Optional[Mode] = Field(None, description="Delivery Mode", examples=["eat_in"])
+    mode: Optional[Mode] = Field(
+        "UNKNOWN", description="Delivery Mode", examples=["eat_in"]
+    )
+    source: Optional[Source] = Field(
+        "UNKNOWN", description="Source of the order", examples=["web"]
+    )
     currency: Optional[str] = Field(
         None, description="Currency of the order", examples=["EUR"], title="Currency"
     )
