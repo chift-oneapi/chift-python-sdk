@@ -1781,6 +1781,7 @@ class Mode(Enum):
     DELIVERY = "DELIVERY"
     UNKNOWN = "UNKNOWN"
 
+
 class Source(Enum):
     WEB = "WEB"
     MOBILE = "MOBILE"
@@ -7098,8 +7099,12 @@ class PMSOrderItem(BaseModel):
         examples=[1],
         title="Delivery Fee",
     )
-    mode: Optional[Mode] = Field(Mode.unknown, description="Delivery Mode", examples=["eat_in"])
-    source: Optional[Source] = Field(Source.unknown, description="Source of the order", examples=["web"])
+    mode: Optional[Mode] = Field(
+        Mode.unknown, description="Delivery Mode", examples=["eat_in"]
+    )
+    source: Optional[Source] = Field(
+        Source.unknown, description="Source of the order", examples=["web"]
+    )
     currency: Optional[str] = Field(
         None, description="Currency of the order", examples=["EUR"], title="Currency"
     )
