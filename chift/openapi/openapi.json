@@ -11710,7 +11710,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ChiftPage_ProductItem_"
+                  "$ref": "#/components/schemas/ChiftPage_CommerceProductItem_"
                 }
               }
             }
@@ -11778,7 +11778,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProductItem-Output"
+                  "$ref": "#/components/schemas/CommerceProductItem"
                 }
               }
             }
@@ -13472,7 +13472,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductItem-Input"
+                "$ref": "#/components/schemas/ProductItem"
               }
             }
           }
@@ -20652,6 +20652,40 @@
         ],
         "title": "ChiftPage[CommerceLocationItemOut]"
       },
+      "ChiftPage_CommerceProductItem_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CommerceProductItem"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Page"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "title": "ChiftPage[CommerceProductItem]"
+      },
       "ChiftPage_ContactItemOut_": {
         "properties": {
           "items": {
@@ -21943,40 +21977,6 @@
           "size"
         ],
         "title": "ChiftPage[ProductItemOut]"
-      },
-      "ChiftPage_ProductItem_": {
-        "properties": {
-          "items": {
-            "items": {
-              "$ref": "#/components/schemas/ProductItem-Output"
-            },
-            "type": "array",
-            "title": "Items"
-          },
-          "total": {
-            "type": "integer",
-            "minimum": 0.0,
-            "title": "Total"
-          },
-          "page": {
-            "type": "integer",
-            "minimum": 1.0,
-            "title": "Page"
-          },
-          "size": {
-            "type": "integer",
-            "minimum": 1.0,
-            "title": "Size"
-          }
-        },
-        "type": "object",
-        "required": [
-          "items",
-          "total",
-          "page",
-          "size"
-        ],
-        "title": "ChiftPage[ProductItem]"
       },
       "ChiftPage_RefundItemOut_": {
         "properties": {
@@ -23476,6 +23476,174 @@
           "name"
         ],
         "title": "CommerceProductCategoryItem"
+      },
+      "CommerceProductItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "$ref": "#/components/schemas/Ref",
+            "description": "Technical id in the target software"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "description_html": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description Html"
+          },
+          "categories": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/CommerceProductCategoryItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Categories",
+            "default": []
+          },
+          "created_on": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created On"
+          },
+          "last_updated_on": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Updated On"
+          },
+          "variants": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ProductVariantItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Variants",
+            "default": []
+          },
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProductStatus"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sku": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sku"
+          },
+          "common_attributes": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/CommonAttributeItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Common Attributes",
+            "description": "List of attributes that are shared by all variants of the product.",
+            "default": []
+          },
+          "variant_attributes_options": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/VariantAttributeOptionItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Variant Attributes Options",
+            "default": []
+          },
+          "common_images": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ImageItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Common Images",
+            "description": "List of images that are shared by all variants of the product.",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "source_ref",
+          "name"
+        ],
+        "title": "CommerceProductItem"
       },
       "CommerceProductPriceItem": {
         "properties": {
@@ -30282,7 +30450,7 @@
             "description": "Tax rate (e.g. 21.0)"
           },
           "type": {
-            "$ref": "#/components/schemas/InvoicingVatCodeType",
+            "$ref": "#/components/schemas/VatCodeType",
             "description": "Type"
           },
           "code": {
@@ -30300,7 +30468,7 @@
           "scope": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/InvoicingVatCodeScope"
+                "$ref": "#/components/schemas/VatCodeScope"
               },
               {
                 "type": "null"
@@ -30332,26 +30500,6 @@
           "type"
         ],
         "title": "InvoicingVatCode"
-      },
-      "InvoicingVatCodeScope": {
-        "type": "string",
-        "enum": [
-          "nat",
-          "eu",
-          "int",
-          "unknown"
-        ],
-        "title": "InvoicingVatCodeScope"
-      },
-      "InvoicingVatCodeType": {
-        "type": "string",
-        "enum": [
-          "sale",
-          "purchase",
-          "both",
-          "unknown"
-        ],
-        "title": "InvoicingVatCodeType"
       },
       "InvoicingWithholdingTax": {
         "properties": {
@@ -31957,7 +32105,8 @@
         "enum": [
           "EAT_IN",
           "TAKEAWAY",
-          "DELIVERY"
+          "DELIVERY",
+          "UNKNOWN"
         ],
         "title": "Mode"
       },
@@ -34221,8 +34370,24 @@
               }
             ],
             "description": "Delivery Mode",
+            "default": "UNKNOWN",
             "examples": [
               "eat_in"
+            ]
+          },
+          "source": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Source"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Source of the order",
+            "default": "UNKNOWN",
+            "examples": [
+              "web"
             ]
           },
           "currency": {
@@ -34633,7 +34798,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/PosPaymentStatus"
+                "$ref": "#/components/schemas/POSPaymentStatus"
               },
               {
                 "type": "null"
@@ -35497,8 +35662,24 @@
               }
             ],
             "description": "Delivery Mode",
+            "default": "UNKNOWN",
             "examples": [
               "eat_in"
+            ]
+          },
+          "source": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Source"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Source of the order",
+            "default": "UNKNOWN",
+            "examples": [
+              "web"
             ]
           },
           "currency": {
@@ -35709,7 +35890,7 @@
           "status": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/PosPaymentStatus"
+                "$ref": "#/components/schemas/POSPaymentStatus"
               },
               {
                 "type": "null"
@@ -35758,6 +35939,18 @@
           "total"
         ],
         "title": "POSPaymentItem"
+      },
+      "POSPaymentStatus": {
+        "type": "string",
+        "enum": [
+          "Pending",
+          "Completed",
+          "Canceled",
+          "Failed",
+          "Unknown",
+          "Authorised"
+        ],
+        "title": "POSPaymentStatus"
       },
       "POSProductItem": {
         "properties": {
@@ -36530,18 +36723,6 @@
         ],
         "title": "PaymentTermAccountInfo"
       },
-      "PosPaymentStatus": {
-        "type": "string",
-        "enum": [
-          "Pending",
-          "Completed",
-          "Canceled",
-          "Failed",
-          "Unknown",
-          "Authorised"
-        ],
-        "title": "PosPaymentStatus"
-      },
       "PostAddressItem": {
         "properties": {
           "name": {
@@ -36932,7 +37113,7 @@
         ],
         "title": "ProductCostItem"
       },
-      "ProductItem-Input": {
+      "ProductItem": {
         "properties": {
           "name": {
             "type": "string",
@@ -37039,174 +37220,6 @@
         },
         "type": "object",
         "required": [
-          "name"
-        ],
-        "title": "ProductItem"
-      },
-      "ProductItem-Output": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "title": "Id",
-            "description": "Technical id in Chift"
-          },
-          "source_ref": {
-            "$ref": "#/components/schemas/Ref",
-            "description": "Technical id in the target software"
-          },
-          "name": {
-            "type": "string",
-            "title": "Name"
-          },
-          "description": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Description"
-          },
-          "description_html": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Description Html"
-          },
-          "categories": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/CommerceProductCategoryItem"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Categories",
-            "default": []
-          },
-          "created_on": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Created On"
-          },
-          "last_updated_on": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Last Updated On"
-          },
-          "variants": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/ProductVariantItem"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Variants",
-            "default": []
-          },
-          "status": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/ProductStatus"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "sku": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Sku"
-          },
-          "common_attributes": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/CommonAttributeItem"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Common Attributes",
-            "description": "List of attributes that are shared by all variants of the product.",
-            "default": []
-          },
-          "variant_attributes_options": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/VariantAttributeOptionItem"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Variant Attributes Options",
-            "default": []
-          },
-          "common_images": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/ImageItem"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Common Images",
-            "description": "List of images that are shared by all variants of the product.",
-            "default": []
-          }
-        },
-        "type": "object",
-        "required": [
-          "id",
-          "source_ref",
           "name"
         ],
         "title": "ProductItem"
@@ -38424,6 +38437,24 @@
           "total"
         ],
         "title": "ShippingRefund"
+      },
+      "Source": {
+        "type": "string",
+        "enum": [
+          "WEB",
+          "MOBILE",
+          "KIOSK",
+          "POS",
+          "REMOTE_POS",
+          "JUSTEAT",
+          "FOODORA",
+          "UBEREATS",
+          "GLOVO",
+          "DELIVEROO",
+          "SMILEIN",
+          "UNKNOWN"
+        ],
+        "title": "Source"
       },
       "States": {
         "type": "string",
