@@ -12,9 +12,6 @@ from .openapi import (
     AnalyticAccountItemOutMultiAnalyticPlans,
     AnalyticPlanItem,
     AttachmentItemOut,
-    BackboneApiAppRoutersConnectionsConnectionItem,
-    BackboneCommonModelsCommerceCommonProductItem,
-    BackboneCommonModelsPosCommonProductCategoryItem,
     BalanceItemOut,
     BankAccountItemOut,
     BankingAccountItem,
@@ -27,6 +24,8 @@ from .openapi import (
     ClosureItem,
     CommerceCustomerItem,
     CommerceLocationItemOut,
+    CommerceProductItem,
+    ConnectionItem,
     ConsumerItem,
     ContactItemOut,
     CountryItem,
@@ -78,6 +77,7 @@ from .openapi import (
     POSOrderItem,
     POSPaymentItem,
     POSProductItem,
+    ProductCategoryItem,
     ProductItemOut,
     ReadFlowItem,
     ReadSyncItem,
@@ -300,7 +300,7 @@ class WebhookType(WebhookItem):
 
 
 # connections
-class Connection(BackboneApiAppRoutersConnectionsConnectionItem):
+class Connection(ConnectionItem):
     pass
 
 
@@ -479,7 +479,7 @@ class Closure(ClosureItem):
     pass
 
 
-class POSProductCategory(BackboneCommonModelsPosCommonProductCategoryItem):
+class POSProductCategory(ProductCategoryItem):
     pass
 
 
@@ -535,7 +535,7 @@ class CommerceCustomer(CommerceCustomerItem):
     pass
 
 
-class CommerceProduct(BackboneCommonModelsCommerceCommonProductItem):
+class CommerceProduct(CommerceProductItem):
     pass
 
 
