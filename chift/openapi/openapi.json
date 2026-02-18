@@ -37962,6 +37962,23 @@
         ],
         "title": "ReadSyncMappingItem"
       },
+      "ReadSyncSkipMappingItem": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "skip_reason": {
+            "$ref": "#/components/schemas/SyncSkipReason"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "skip_reason"
+        ],
+        "title": "ReadSyncSkipMappingItem"
+      },
       "Ref": {
         "properties": {
           "id": {
@@ -39306,6 +39323,21 @@
             "title": "Link Mappings",
             "description": "Values of the mappings requested for the sync for the specific consumer"
           },
+          "skip_mappings": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ReadSyncSkipMappingItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Skip Mappings",
+            "description": "List of mappings which are ignored due to specific configuration of the consumer"
+          },
           "link_metadata": {
             "anyOf": [
               {
@@ -39363,6 +39395,14 @@
           "inactive"
         ],
         "title": "SyncConsumerStatus"
+      },
+      "SyncSkipReason": {
+        "type": "string",
+        "enum": [
+          "presync",
+          "challenge"
+        ],
+        "title": "SyncSkipReason"
       },
       "SyncsConnectionItem": {
         "properties": {
