@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.9 - 2026-02-18
+- syncs: add skip_mappings field to sync configuration
+
 ## 0.5.8 - 2026-02-18
 - models: rename duplicate models
 
