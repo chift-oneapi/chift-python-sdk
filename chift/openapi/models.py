@@ -65,6 +65,7 @@ from .openapi import PaymentItemOut, PaymentMethodItem
 from .openapi import PaymentMethods as PaymentMethodsModel
 from .openapi import (
     PMSAccountingCategoryItem,
+    PMSAccountingTransactionItem,
     PMSClosureItem,
     PMSCustomerItem,
     PMSInvoiceFullItem,
@@ -534,6 +535,10 @@ class PMSCustomer(PMSCustomerItem):
 
 
 class PMSTax(PMSTaxRateItem):
+    pass
+
+
+class PMSTransaction(PMSAccountingTransactionItem):
     pass
 
 
