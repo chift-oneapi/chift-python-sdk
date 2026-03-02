@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.13 - 2026-03-13
+- pms: add transactions model
+
 # 0.5.12 - 2026-03-13
 - Fix exception raising when response status is 401
 
