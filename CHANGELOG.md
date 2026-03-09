@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.10 - 2026-03-09
+- update create bank transaction data model
+- add "Get bookyears" for accounting
+
 ## 0.5.9 - 2026-02-18
 - syncs: add skip_mappings field to sync configuration
 
