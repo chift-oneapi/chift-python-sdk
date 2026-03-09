@@ -9,10 +9,6 @@
     {
       "url": "https://api.chift.eu",
       "description": "Chift"
-    },
-    {
-      "url": "http://127.0.0.1:8000",
-      "description": "Chift-Local"
     }
   ],
   "paths": {
@@ -3089,7 +3085,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -3101,11 +3096,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -3191,7 +3185,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -3203,11 +3196,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -3294,7 +3286,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -3306,11 +3297,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -3449,9 +3439,25 @@
           "400": {
             "content": {
               "application/json": {
-                "example": {
-                  "message": "A client/supplier already exist with the same code/id in the accounting system.",
-                  "status": "error"
+                "examples": {
+                  "Invalid company_id": {
+                    "value": {
+                      "message": "The format of the company_id doesn't seem to be correct.",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid VAT Number": {
+                    "value": {
+                      "message": "The VAT number doesn't seem to be correct. Please remove dots and whitespaces. The expected format is the following BE0784930037",
+                      "status": "error"
+                    }
+                  },
+                  "Client already exists": {
+                    "value": {
+                      "message": "A client/supplier already exist with the same code/id in the accounting system.",
+                      "status": "error"
+                    }
+                  }
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ChiftError"
@@ -3498,7 +3504,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -3510,11 +3515,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -3680,9 +3684,19 @@
           "400": {
             "content": {
               "application/json": {
-                "example": {
-                  "message": "The VAT number doesn't seem to be correct. Please remove dots and whitespaces. The expected format is the following: BE0784930037",
-                  "status": "error"
+                "examples": {
+                  "Invalid company_id": {
+                    "value": {
+                      "message": "The format of the company_id doesn't seem to be correct.",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid VAT Number": {
+                    "value": {
+                      "message": "The VAT number doesn't seem to be correct. Please remove dots and whitespaces. The expected format is the following: BE0784930037",
+                      "status": "error"
+                    }
+                  }
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ChiftError"
@@ -3894,9 +3908,25 @@
           "400": {
             "content": {
               "application/json": {
-                "example": {
-                  "message": "A client/supplier already exist with the same code/id in the accounting system.",
-                  "status": "error"
+                "examples": {
+                  "Invalid company_id": {
+                    "value": {
+                      "message": "The format of the company_id doesn't seem to be correct.",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid VAT Number": {
+                    "value": {
+                      "message": "The VAT number doesn't seem to be correct. Please remove dots and whitespaces. The expected format is the following: BE0784930037",
+                      "status": "error"
+                    }
+                  },
+                  "Supplier already exists": {
+                    "value": {
+                      "message": "A client/supplier already exist with the same code/id in the accounting system.",
+                      "status": "error"
+                    }
+                  }
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ChiftError"
@@ -3943,7 +3973,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -3955,11 +3984,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -4055,103 +4083,6 @@
       }
     },
     "/consumers/{consumer_id}/accounting/suppliers/{supplier_id}": {
-      "get": {
-        "tags": [
-          "Accounting",
-          "Suppliers"
-        ],
-        "summary": "Get one supplier",
-        "description": "Returns one accounting supplier",
-        "operationId": "accounting_get_supplier",
-        "parameters": [
-          {
-            "name": "consumer_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Consumer Id"
-            }
-          },
-          {
-            "name": "supplier_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Supplier Id"
-            }
-          },
-          {
-            "name": "folder_id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Folder Id"
-            },
-            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SupplierItemOut"
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Error while trying to perform your request",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "The client/supplier doesn't exist in the accounting system.",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Not Found"
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
       "patch": {
         "tags": [
           "Accounting",
@@ -4222,8 +4153,115 @@
           "400": {
             "content": {
               "application/json": {
+                "examples": {
+                  "Invalid company_id": {
+                    "value": {
+                      "message": "The format of the company_id doesn't seem to be correct.",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid VAT Number": {
+                    "value": {
+                      "message": "The VAT number doesn't seem to be correct. Please remove dots and whitespaces. The expected format is the following: BE0784930037",
+                      "status": "error"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
                 "example": {
-                  "message": "The VAT number doesn't seem to be correct. Please remove dots and whitespaces. The expected format is the following: BE0784930037",
+                  "message": "The client/supplier doesn't exist in the accounting system.",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Accounting",
+          "Suppliers"
+        ],
+        "summary": "Get one supplier",
+        "description": "Returns one accounting supplier",
+        "operationId": "accounting_get_supplier",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "supplier_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Supplier Id"
+            }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Folder Id"
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupplierItemOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
                   "status": "error"
                 },
                 "schema": {
@@ -4386,9 +4424,79 @@
           "400": {
             "content": {
               "application/json": {
-                "example": {
-                  "message": "The document is not a valid base64 string representing a PDF.",
-                  "status": "error"
+                "examples": {
+                  "Invalid VAT Code": {
+                    "value": {
+                      "message": "The format of the VAT Code doesn't seem to be correct.",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid journal Id": {
+                    "value": {
+                      "message": "The format of the journal_id doesn't seem to be correct.",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid analytic account": {
+                    "value": {
+                      "message": "The format of the analytic account doesn't seem to be correct.",
+                      "status": "error"
+                    }
+                  },
+                  "Unsupported date": {
+                    "value": {
+                      "message": "The accounting system is not set up for this invoice date.",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid journal scope": {
+                    "value": {
+                      "message": "The journal cannot be used with this type of invoice.",
+                      "status": "error"
+                    }
+                  },
+                  "Duplicate invoice number": {
+                    "value": {
+                      "message": "The invoice number is already used in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Invoice number too long": {
+                    "value": {
+                      "message": "The invoice number has a maximal length of 8 characters in the accounting system. (Only applicable to Winbooks).",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid untaxed amount": {
+                    "value": {
+                      "message": "You cannot create an invoice with an untaxed amount of 0.",
+                      "status": "error"
+                    }
+                  },
+                  "Invoice couldn't be created": {
+                    "value": {
+                      "message": "The invoice couldn't be created in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "No invoice lines": {
+                    "value": {
+                      "message": "Please add at least one invoice line.",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid forced financial period": {
+                    "value": {
+                      "message": "The forced financial period must be must be 6 numbers (e.g. 02 for february and 20222 => 022022)",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid PDF": {
+                    "value": {
+                      "message": "The document is not a valid base64 string representing a PDF.",
+                      "status": "error"
+                    }
+                  }
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ChiftError"
@@ -4400,9 +4508,55 @@
           "404": {
             "content": {
               "application/json": {
-                "example": {
-                  "message": "The currency 'x' doesn't exist in the accounting system.",
-                  "status": "error"
+                "examples": {
+                  "VAT Code not found": {
+                    "value": {
+                      "message": "The Tax Code doens't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Journal not found": {
+                    "value": {
+                      "message": "The journal doesn't exist in the accounting system",
+                      "status": "error"
+                    }
+                  },
+                  "Multiple journals found": {
+                    "value": {
+                      "message": "Multiple journals were found. Please indicate the wanted journal in the request.",
+                      "status": "error"
+                    }
+                  },
+                  "Partner not found": {
+                    "value": {
+                      "message": "The partner doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Account not found": {
+                    "value": {
+                      "message": "The account number 'x' doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Analytic account not found": {
+                    "value": {
+                      "message": "The analytic account 'x' doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Analytic plan not found": {
+                    "value": {
+                      "message": "The analytic plan doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Currency not found": {
+                    "value": {
+                      "message": "The currency 'x' doesn't exist in the accounting system",
+                      "status": "error"
+                    }
+                  }
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ChiftError"
@@ -4550,9 +4704,79 @@
           "400": {
             "content": {
               "application/json": {
-                "example": {
-                  "message": "The document is not a valid base64 string representing a PDF.",
-                  "status": "error"
+                "examples": {
+                  "Invalid VAT Code": {
+                    "value": {
+                      "message": "The format of the VAT Code doesn't seem to be correct.",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid journal Id": {
+                    "value": {
+                      "message": "The format of the journal_id doesn't seem to be correct.",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid analytic account": {
+                    "value": {
+                      "message": "The format of the analytic account doesn't seem to be correct.",
+                      "status": "error"
+                    }
+                  },
+                  "Unsupported date": {
+                    "value": {
+                      "message": "The accounting system is not set up for this invoice date.",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid journal scope": {
+                    "value": {
+                      "message": "The journal cannot be used with this type of invoice.",
+                      "status": "error"
+                    }
+                  },
+                  "Duplicate invoice number": {
+                    "value": {
+                      "message": "The invoice number is already used in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Invoice number too long": {
+                    "value": {
+                      "message": "The invoice number has a maximal length of 8 characters in the accounting system. (Only applicable to Winbooks).",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid untaxed amount": {
+                    "value": {
+                      "message": "You cannot create an invoice with an untaxed amount of 0.",
+                      "status": "error"
+                    }
+                  },
+                  "Invoice couldn't be created": {
+                    "value": {
+                      "message": "The invoice couldn't be created in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "No invoice lines": {
+                    "value": {
+                      "message": "Please add at least one invoice line.",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid forced financial period": {
+                    "value": {
+                      "message": "The forced financial period must be must be 6 numbers (e.g. 02 for february and 20222 => 022022)",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid PDF": {
+                    "value": {
+                      "message": "The document is not a valid base64 string representing a PDF.",
+                      "status": "error"
+                    }
+                  }
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ChiftError"
@@ -4564,9 +4788,55 @@
           "404": {
             "content": {
               "application/json": {
-                "example": {
-                  "message": "The currency 'x' doesn't exist in the accounting system.",
-                  "status": "error"
+                "examples": {
+                  "VAT Code not found": {
+                    "value": {
+                      "message": "The Tax Code doens't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Journal not found": {
+                    "value": {
+                      "message": "The journal doesn't exist in the accounting system",
+                      "status": "error"
+                    }
+                  },
+                  "Multiple journals found": {
+                    "value": {
+                      "message": "Multiple journals were found. Please indicate the wanted journal in the request.",
+                      "status": "error"
+                    }
+                  },
+                  "Partner not found": {
+                    "value": {
+                      "message": "The partner doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Account not found": {
+                    "value": {
+                      "message": "The account number 'x' doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Analytic account not found": {
+                    "value": {
+                      "message": "The analytic account 'x' doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Analytic plan not found": {
+                    "value": {
+                      "message": "The analytic plan doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Currency not found": {
+                    "value": {
+                      "message": "The currency 'x' doesn't exist in the accounting system",
+                      "status": "error"
+                    }
+                  }
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ChiftError"
@@ -4623,7 +4893,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -4635,11 +4904,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -4875,7 +5143,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -4887,11 +5154,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -5398,279 +5664,6 @@
         }
       }
     },
-    "/consumers/{consumer_id}/accounting/accounts": {
-      "post": {
-        "tags": [
-          "Accounting",
-          "Ledger accounts"
-        ],
-        "summary": "Create ledger account",
-        "description": "Create a new ledger account in the chart of accounts",
-        "operationId": "accounting_create_ledger_account",
-        "parameters": [
-          {
-            "name": "consumer_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Consumer Id"
-            }
-          },
-          {
-            "name": "folder_id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Folder Id"
-            },
-            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LedgerAccountItemIn"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AccountItem"
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "A ledger account already exists with the same number in the accounting system.",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/consumers/{consumer_id}/accounting/bank-accounts": {
-      "get": {
-        "tags": [
-          "Accounting",
-          "Bank accounts"
-        ],
-        "summary": "Get bank accounts",
-        "description": "Returns a list of bank accounts in the accounting system",
-        "operationId": "accounting_get_bank_accounts",
-        "parameters": [
-          {
-            "name": "consumer_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Consumer Id"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "description": "Page number",
-              "default": 1,
-              "title": "Page"
-            },
-            "description": "Page number"
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
-              "minimum": 1,
-              "maximum": 100
-            },
-            "description": "Page size"
-          },
-          {
-            "name": "folder_id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Folder Id"
-            },
-            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftPage_BankAccountItemOut_"
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Error while trying to perform your request",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Accounting",
-          "Bank accounts"
-        ],
-        "summary": "Create bank account",
-        "description": "Create a new bank account in the accounting system",
-        "operationId": "accounting_create_bank_account",
-        "parameters": [
-          {
-            "name": "consumer_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Consumer Id"
-            }
-          },
-          {
-            "name": "folder_id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Folder Id"
-            },
-            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/BankAccountItemIn"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BankAccountItemOut"
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "A bank account/journal already exists with the same code in the accounting system.",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/consumers/{consumer_id}/accounting/analytic-accounts": {
       "post": {
         "tags": [
@@ -5782,7 +5775,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -5794,11 +5786,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -6410,7 +6401,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -6422,11 +6412,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -6513,7 +6502,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -6525,11 +6513,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -6711,7 +6698,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -6723,11 +6709,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -7072,9 +7057,25 @@
           "400": {
             "content": {
               "application/json": {
-                "example": {
-                  "message": "The entry is not balanced.",
-                  "status": "error"
+                "examples": {
+                  "Could not create entry (sage 100)": {
+                    "value": {
+                      "message": "The entry couldn't be created in the accounting system. The journal is already open via the Sage 100 interface.",
+                      "status": "error"
+                    }
+                  },
+                  "Can not link entry to multiple partner": {
+                    "value": {
+                      "message": "A sale/purchase entry cannot be linked to multiple partner accounts.",
+                      "status": "error"
+                    }
+                  },
+                  "Unbalanced entry": {
+                    "value": {
+                      "message": "The entry is not balanced.",
+                      "status": "error"
+                    }
+                  }
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ChiftError"
@@ -7086,9 +7087,37 @@
           "404": {
             "content": {
               "application/json": {
-                "example": {
-                  "message": "The currency doesn't exist or is not active in the accounting system.",
-                  "status": "error"
+                "examples": {
+                  "Unsupported journal": {
+                    "value": {
+                      "message": "Only entries in a sale or purchase journal can be created.",
+                      "status": "error"
+                    }
+                  },
+                  "Journal not found": {
+                    "value": {
+                      "message": "The journal doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Account not found": {
+                    "value": {
+                      "message": "The account number doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Partner not found": {
+                    "value": {
+                      "message": "The client/supplier doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Currency not found": {
+                    "value": {
+                      "message": "The currency doesn't exist or is not active in the accounting system.",
+                      "status": "error"
+                    }
+                  }
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ChiftError"
@@ -7100,9 +7129,73 @@
           "422": {
             "content": {
               "application/json": {
-                "example": {
-                  "message": "Debit and credit cannot be both positive.",
-                  "status": "error"
+                "examples": {
+                  "Partner missing": {
+                    "value": {
+                      "message": "Please provide a client/supplier account in the partner_id field.",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid supplier": {
+                    "value": {
+                      "message": "The partner must be a supplier.",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid client": {
+                    "value": {
+                      "message": "The partner must be a client/customer.",
+                      "status": "error"
+                    }
+                  },
+                  "Missing collective account": {
+                    "value": {
+                      "message": "Please provide a client/supplier collective account.",
+                      "status": "error"
+                    }
+                  },
+                  "Missing product": {
+                    "value": {
+                      "message": "Please provide at least one charge/product account.",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid currency format": {
+                    "value": {
+                      "message": "The currency format is not correct. Please use the ISO 4217 codes.",
+                      "status": "error"
+                    }
+                  },
+                  "Multi currency error": {
+                    "value": {
+                      "message": "Only one currency can be used.",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid exchange rates": {
+                    "value": {
+                      "message": "Exchange rates must be equal.",
+                      "status": "error"
+                    }
+                  },
+                  "Debit/credit both negative": {
+                    "value": {
+                      "message": "Debit and credit cannot be negative.",
+                      "status": "error"
+                    }
+                  },
+                  "Debit/credit no positive": {
+                    "value": {
+                      "message": "Debit or credit must be positive.",
+                      "status": "error"
+                    }
+                  },
+                  "Debit/credit both positive": {
+                    "value": {
+                      "message": "Debit and credit cannot be both positive.",
+                      "status": "error"
+                    }
+                  }
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ChiftError"
@@ -7150,7 +7243,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -7162,11 +7254,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -7267,7 +7358,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -7279,11 +7369,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -7312,109 +7401,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ChiftPage_AccountingPaymentMethod_"
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Error while trying to perform your request",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/consumers/{consumer_id}/accounting/payment-terms": {
-      "get": {
-        "tags": [
-          "Accounting",
-          "Invoices"
-        ],
-        "summary": "Get payment terms",
-        "description": "Get payment terms",
-        "operationId": "accounting_get_payment_terms",
-        "parameters": [
-          {
-            "name": "consumer_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Consumer Id"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "description": "Page number",
-              "default": 1,
-              "title": "Page"
-            },
-            "description": "Page number"
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
-              "minimum": 1,
-              "maximum": 100
-            },
-            "description": "Page size"
-          },
-          {
-            "name": "folder_id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Folder Id"
-            },
-            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftPage_AccountingPaymentTerms_"
                 }
               }
             }
@@ -7525,6 +7511,107 @@
         }
       }
     },
+    "/consumers/{consumer_id}/accounting/payment-terms": {
+      "get": {
+        "tags": [
+          "Accounting",
+          "Invoices"
+        ],
+        "summary": "Get payment terms",
+        "description": "Get payment terms",
+        "operationId": "accounting_get_payment_terms",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Size"
+            },
+            "description": "Page size"
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Folder Id"
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_AccountingPaymentTerms_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/accounting/journals": {
       "get": {
         "tags": [
@@ -7552,7 +7639,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -7564,11 +7650,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -7755,7 +7840,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -7767,11 +7851,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -7893,9 +7976,55 @@
           "400": {
             "content": {
               "application/json": {
-                "example": {
-                  "message": "The account 'x' cannot be used for this type of line.",
-                  "status": "error"
+                "examples": {
+                  "Invalid journal_id": {
+                    "value": {
+                      "message": "The format of the journal_id doesn't seem to be correct.",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid analytic account": {
+                    "value": {
+                      "message": "The format of the analytic account doesn't seem to be correct.",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid partner_id": {
+                    "value": {
+                      "message": "The format of the field 'partner_id' doesn't seem to be correct.",
+                      "status": "error"
+                    }
+                  },
+                  "No lines": {
+                    "value": {
+                      "message": "Please add at least one line.",
+                      "status": "error"
+                    }
+                  },
+                  "Unbalanced operation": {
+                    "value": {
+                      "message": "The operation is not balanced. The sum of the lines must be zero.",
+                      "status": "error"
+                    }
+                  },
+                  "Missing partner_id": {
+                    "value": {
+                      "message": "A lines of type 'customer_account' or 'supplier_account' must have a 'partner_id' filled in.",
+                      "status": "error"
+                    }
+                  },
+                  "Journal wrong scope": {
+                    "value": {
+                      "message": "The given journal cannot be used with this type of operation.",
+                      "status": "error"
+                    }
+                  },
+                  "Account wrong scope": {
+                    "value": {
+                      "message": "The account 'x' cannot be used for this type of line.",
+                      "status": "error"
+                    }
+                  }
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ChiftError"
@@ -7907,9 +8036,43 @@
           "404": {
             "content": {
               "application/json": {
-                "example": {
-                  "message": "The currency 'x' doesn't exist in the accounting system.",
-                  "status": "error"
+                "examples": {
+                  "Journal not found": {
+                    "value": {
+                      "message": "The journal doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Multiple journals found": {
+                    "value": {
+                      "message": "Multiple journals were found. Please indicate the wanted journal in the request.",
+                      "status": "error"
+                    }
+                  },
+                  "Partner not found": {
+                    "value": {
+                      "message": "The client/supplier doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Account not found": {
+                    "value": {
+                      "message": "The account number 'x' doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Analytic account not found": {
+                    "value": {
+                      "message": "The analytic account 'x' doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Currency not found": {
+                    "value": {
+                      "message": "The currency 'x' doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  }
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ChiftError"
@@ -7956,7 +8119,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -7968,11 +8130,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -8230,9 +8391,55 @@
           "400": {
             "content": {
               "application/json": {
-                "example": {
-                  "message": "Entry 'x' doesn't have the correct status.",
-                  "status": "error"
+                "examples": {
+                  "Invalid format": {
+                    "value": {
+                      "message": "The entries format doesn't seem to be correct.",
+                      "status": "error"
+                    }
+                  },
+                  "Unbalanced entry": {
+                    "value": {
+                      "message": "The amounts of the entries are not balanced.",
+                      "status": "error"
+                    }
+                  },
+                  "Already matched": {
+                    "value": {
+                      "message": "Entry 'x' is already matched in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Partner mismatch": {
+                    "value": {
+                      "message": "The entries have different clients/suppliers.",
+                      "status": "error"
+                    }
+                  },
+                  "Entry missing account": {
+                    "value": {
+                      "message": "Entry 'x' doesn't have a receivable/payable account.",
+                      "status": "error"
+                    }
+                  },
+                  "Entry missing partner": {
+                    "value": {
+                      "message": "Entry 'x' is not linked to a client/supplier.",
+                      "status": "error"
+                    }
+                  },
+                  "Could not match": {
+                    "value": {
+                      "message": "An error occured during the matching process. Please retry again later.",
+                      "status": "error"
+                    }
+                  },
+                  "Entry invalid status": {
+                    "value": {
+                      "message": "Entry 'x' doesn't have the correct status.",
+                      "status": "error"
+                    }
+                  }
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ChiftError"
@@ -8334,9 +8541,55 @@
           "400": {
             "content": {
               "application/json": {
-                "example": {
-                  "message": "Entry 'x' doesn't have the correct status.",
-                  "status": "error"
+                "examples": {
+                  "Invalid format": {
+                    "value": {
+                      "message": "The entries format doesn't seem to be correct.",
+                      "status": "error"
+                    }
+                  },
+                  "Unbalanced entry": {
+                    "value": {
+                      "message": "The amounts of the entries are not balanced.",
+                      "status": "error"
+                    }
+                  },
+                  "Already matched": {
+                    "value": {
+                      "message": "Entry 'x' is already matched in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Partner mismatch": {
+                    "value": {
+                      "message": "The entries have different clients/suppliers.",
+                      "status": "error"
+                    }
+                  },
+                  "Entry missing account": {
+                    "value": {
+                      "message": "Entry 'x' doesn't have a receivable/payable account.",
+                      "status": "error"
+                    }
+                  },
+                  "Entry missing partner": {
+                    "value": {
+                      "message": "Entry 'x' is not linked to a client/supplier.",
+                      "status": "error"
+                    }
+                  },
+                  "Could not match": {
+                    "value": {
+                      "message": "An error occured during the matching process. Please retry again later.",
+                      "status": "error"
+                    }
+                  },
+                  "Entry invalid status": {
+                    "value": {
+                      "message": "Entry 'x' doesn't have the correct status.",
+                      "status": "error"
+                    }
+                  }
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ChiftError"
@@ -8358,6 +8611,124 @@
               }
             },
             "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/accounting/attachments": {
+      "get": {
+        "tags": [
+          "Accounting",
+          "Attachments"
+        ],
+        "summary": "Get attachments",
+        "description": "Returns a list of all attachments linked to an accounting entry",
+        "operationId": "accounting_get_attachments",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Size"
+            },
+            "description": "Page size"
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Folder Id"
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/DocumentType"
+            }
+          },
+          {
+            "name": "document_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Document Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_AttachmentItemOut_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
           },
           "422": {
             "description": "Validation Error",
@@ -8454,9 +8825,19 @@
           "400": {
             "content": {
               "application/json": {
-                "example": {
-                  "message": "An attachment already exists for this invoice.",
-                  "status": "error"
+                "examples": {
+                  "Invalid PDF": {
+                    "value": {
+                      "message": "The document is not a vlaid base64 string representing a PDF.",
+                      "status": "error"
+                    }
+                  },
+                  "Attachment already exists": {
+                    "value": {
+                      "message": "An attachmmend already exists for this invoice.",
+                      "status": "error"
+                    }
+                  }
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ChiftError"
@@ -8478,126 +8859,6 @@
               }
             },
             "description": "Not Found"
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/consumers/{consumer_id}/accounting/attachments": {
-      "get": {
-        "tags": [
-          "Accounting",
-          "Attachments"
-        ],
-        "summary": "Get attachments",
-        "description": "Returns a list of all attachments linked to an accounting entry",
-        "operationId": "accounting_get_attachments",
-        "parameters": [
-          {
-            "name": "consumer_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Consumer Id"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "description": "Page number",
-              "default": 1,
-              "title": "Page"
-            },
-            "description": "Page number"
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
-              "minimum": 1,
-              "maximum": 100
-            },
-            "description": "Page size"
-          },
-          {
-            "name": "folder_id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Folder Id"
-            },
-            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
-          },
-          {
-            "name": "type",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/DocumentType"
-            }
-          },
-          {
-            "name": "document_id",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Document Id"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftPage_AttachmentItemOut_"
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Error while trying to perform your request",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Bad Request"
           },
           "422": {
             "description": "Validation Error",
@@ -8639,7 +8900,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -8651,11 +8911,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -8776,7 +9035,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -8788,11 +9046,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -8862,6 +9119,277 @@
         }
       }
     },
+    "/consumers/{consumer_id}/accounting/bank-accounts": {
+      "get": {
+        "tags": [
+          "Accounting",
+          "Bank accounts"
+        ],
+        "summary": "Get bank accounts",
+        "description": "Returns a list of bank accounts in the accounting system",
+        "operationId": "accounting_get_bank_accounts",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Size"
+            },
+            "description": "Page size"
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Folder Id"
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_BankAccountItemOut_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Accounting",
+          "Bank accounts"
+        ],
+        "summary": "Create bank account",
+        "description": "Create a new bank account in the accounting system",
+        "operationId": "accounting_create_bank_account",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Folder Id"
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BankAccountItemIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BankAccountItemOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "A bank account/journal already exists with the same code in the accounting system.",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/accounting/bank-transactions": {
+      "post": {
+        "tags": [
+          "Accounting",
+          "Bank transactions"
+        ],
+        "summary": "Create bank transactions",
+        "description": "Create new bank transactions",
+        "operationId": "accounting_create_bank_transactions",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Folder Id"
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BankStatementItemIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BankStatementItemOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The format of the bank_statement_id doesn't seem to be correct.",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/accounting/employees": {
       "get": {
         "tags": [
@@ -8889,7 +9417,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -8901,11 +9428,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -9036,6 +9562,17 @@
               "title": "Force Currency Exchange"
             },
             "description": "Boolean flag indicating whether to force the use of the provided currency exchange rate instead of the rate used by the accounting software. "
+          },
+          {
+            "name": "ignore_accounting_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Ignore Accounting Id"
+            },
+            "description": "If set to true, Chift will not wait for the entry to be processed to return, use this when you do not need the ID in the return value.Note that this might also change the output of the call."
           }
         ],
         "requestBody": {
@@ -9062,9 +9599,31 @@
           "400": {
             "content": {
               "application/json": {
-                "example": {
-                  "message": "The account 'x' cannot be used for this type of line.",
-                  "status": "error"
+                "examples": {
+                  "Invalid Journal Id": {
+                    "value": {
+                      "message": "The format of the journal_id doesn't seem to be correct.",
+                      "status": "error"
+                    }
+                  },
+                  "No items": {
+                    "value": {
+                      "message": "Please add at least one item.",
+                      "status": "error"
+                    }
+                  },
+                  "Journal wrong scope": {
+                    "value": {
+                      "message": "The given journal cannot be used with this type of operation.",
+                      "status": "error"
+                    }
+                  },
+                  "Account wrong scope": {
+                    "value": {
+                      "message": "The account 'x' cannot be used for this type of line.",
+                      "status": "error"
+                    }
+                  }
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ChiftError"
@@ -9076,9 +9635,31 @@
           "404": {
             "content": {
               "application/json": {
-                "example": {
-                  "message": "The currency 'x' doesn't exist in the accounting system.",
-                  "status": "error"
+                "examples": {
+                  "Journal not found": {
+                    "value": {
+                      "message": "The journal doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Partner not found": {
+                    "value": {
+                      "message": "The client/supplier/employee doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Account not found": {
+                    "value": {
+                      "message": "The account number 'x' doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Currency not found": {
+                    "value": {
+                      "message": "The currency 'x' doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  }
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ChiftError"
@@ -9213,7 +9794,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -9225,11 +9805,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -9283,6 +9862,92 @@
               "application/json": {
                 "example": {
                   "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/accounting/accounts": {
+      "post": {
+        "tags": [
+          "Accounting",
+          "Ledger accounts"
+        ],
+        "summary": "Create ledger account",
+        "description": "Create a new ledger account in the chart of accounts",
+        "operationId": "accounting_create_ledger_account",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Folder Id"
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LedgerAccountItemIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountItem"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "A ledger account already exists with the same number in the accounting system.",
                   "status": "error"
                 },
                 "schema": {
@@ -9407,92 +10072,6 @@
         }
       }
     },
-    "/consumers/{consumer_id}/accounting/bank-transactions": {
-      "post": {
-        "tags": [
-          "Accounting",
-          "Bank transactions"
-        ],
-        "summary": "Create bank transactions",
-        "description": "Create new bank transactions",
-        "operationId": "accounting_create_bank_transactions",
-        "parameters": [
-          {
-            "name": "consumer_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Consumer Id"
-            }
-          },
-          {
-            "name": "folder_id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Folder Id"
-            },
-            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/BankStatementItemIn"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BankStatementItemOut"
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "The format of the bank_statement_id doesn't seem to be correct.",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/consumers/{consumer_id}/pos/orders": {
       "get": {
         "tags": [
@@ -9520,7 +10099,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -9532,11 +10110,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -9930,7 +10507,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -9942,11 +10518,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           }
@@ -10044,7 +10619,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -10056,11 +10630,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -10306,7 +10879,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -10318,11 +10890,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -10438,7 +11009,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -10450,11 +11020,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -10810,7 +11379,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -10822,11 +11390,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -10951,7 +11518,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -10963,11 +11529,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -11082,7 +11647,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -11094,11 +11658,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -11304,7 +11867,8 @@
     "/consumers/{consumer_id}/pos/objectives": {
       "get": {
         "tags": [
-          "Point of Sale"
+          "Point of Sale",
+          "Objectives"
         ],
         "summary": "Get objectives",
         "description": "Return the total amount and the tax amount for a specific period",
@@ -11327,7 +11891,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -11339,11 +11902,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -11453,6 +12015,121 @@
         }
       }
     },
+    "/consumers/{consumer_id}/pos/report": {
+      "get": {
+        "tags": [
+          "Point of Sale",
+          "Closures"
+        ],
+        "summary": "Get report for a specific date (E-reporting)",
+        "description": "The endpoints returns the report for a specific date containing the required data for e-reporting",
+        "operationId": "pos_get_report",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "Date"
+            },
+            "description": "Filter based on the business date"
+          },
+          {
+            "name": "location_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Location Id"
+            },
+            "description": "Unique identifier of the location. If none passed, we will use the selected location by the end-user. If no location was selected, we will return an error."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportItem"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to authenticate to {ConnectorName}",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/commerce/customers": {
       "get": {
         "tags": [
@@ -11480,7 +12157,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -11492,11 +12168,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           }
@@ -11625,7 +12300,7 @@
       "get": {
         "tags": [
           "eCommerce",
-          "Products & variants"
+          "Products and variants"
         ],
         "summary": "Get all products",
         "description": "Returns a list of all the products",
@@ -11648,7 +12323,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -11660,11 +12334,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -11746,7 +12419,7 @@
       "get": {
         "tags": [
           "eCommerce",
-          "Products & variants"
+          "Products and variants"
         ],
         "summary": "Get one specific product",
         "description": "Returns a specific product",
@@ -11828,7 +12501,7 @@
       "get": {
         "tags": [
           "eCommerce",
-          "Products & variants"
+          "Products and variants"
         ],
         "summary": "Get one specific product variant",
         "description": "Returns a specific product variant",
@@ -11910,7 +12583,7 @@
       "post": {
         "tags": [
           "eCommerce",
-          "Products & variants"
+          "Products and variants"
         ],
         "summary": "Update available quantity",
         "description": "Update available quantity of a product variant in a specific location",
@@ -11974,9 +12647,19 @@
           "404": {
             "content": {
               "application/json": {
-                "example": {
-                  "message": "The location doesn't exist.",
-                  "status": "error"
+                "examples": {
+                  "Variant not found": {
+                    "value": {
+                      "message": "The variant doesn't exist.",
+                      "status": "error"
+                    }
+                  },
+                  "Location not found": {
+                    "value": {
+                      "message": "The location doesn't exist.",
+                      "status": "error"
+                    }
+                  }
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ChiftError"
@@ -12025,7 +12708,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -12037,11 +12719,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           }
@@ -12111,7 +12792,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -12123,11 +12803,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -12254,9 +12933,19 @@
           "400": {
             "content": {
               "application/json": {
-                "example": {
-                  "message": "The date format of the field 'Date To' is not valid. The expected format is the following: YYYY-MM-DD.",
-                  "status": "error"
+                "examples": {
+                  "Invalid date_from": {
+                    "value": {
+                      "message": "The date format of the field 'Date From' is not valid. The expected format is the following: YYYY-MM-DD.",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid date_to": {
+                    "value": {
+                      "message": "The date format of the field 'Date To' is not valid. The expected format is the following: YYYY-MM-DD.",
+                      "status": "error"
+                    }
+                  }
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ChiftError"
@@ -12321,9 +13010,25 @@
           "400": {
             "content": {
               "application/json": {
-                "example": {
-                  "message": "The country format is not correct. Please use the ISO 3166-1 codes.",
-                  "status": "error"
+                "examples": {
+                  "No lines": {
+                    "value": {
+                      "message": "The order must contain at least one line.",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid currency": {
+                    "value": {
+                      "message": "The currency format is not correct. Please use the ISO 4217 codes.",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid country": {
+                    "value": {
+                      "message": "The country format is not correct. Please use the ISO 3166-1 codes.",
+                      "status": "error"
+                    }
+                  }
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ChiftError"
@@ -12335,9 +13040,19 @@
           "422": {
             "content": {
               "application/json": {
-                "example": {
-                  "message": "The phone number is already used by another client.",
-                  "status": "error"
+                "examples": {
+                  "Invalid phone number": {
+                    "value": {
+                      "message": "The phone number doesnt seem to be valid. The number must begin with the country code.",
+                      "status": "error"
+                    }
+                  },
+                  "Phone number used": {
+                    "value": {
+                      "message": "The phone number is already used by another client.",
+                      "status": "error"
+                    }
+                  }
                 },
                 "schema": {
                   "$ref": "#/components/schemas/ChiftError"
@@ -12476,7 +13191,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -12488,11 +13202,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           }
@@ -12562,7 +13275,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -12574,11 +13286,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -12657,7 +13368,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -12669,11 +13379,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           }
@@ -12743,7 +13452,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -12755,11 +13463,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           }
@@ -12802,6 +13509,647 @@
         }
       }
     },
+    "/consumers/{consumer_id}/invoicing/contacts": {
+      "get": {
+        "tags": [
+          "Invoicing",
+          "Contacts"
+        ],
+        "summary": "Retrieve all contacts",
+        "description": "Returns a list of all the contacts. Optionally contact type can be defined to retrieve contact from a certain type.",
+        "operationId": "invoicing_get_contacts",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Size"
+            },
+            "description": "Page size"
+          },
+          {
+            "name": "contact_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ContactType",
+              "default": "all"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_ContactItemOut_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Invoicing",
+          "Contacts"
+        ],
+        "summary": "Create a contact",
+        "description": "Create a new contact.",
+        "operationId": "invoicing_post_contacts",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactItemIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactItemOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/invoicing/contacts/{contact_id}": {
+      "get": {
+        "tags": [
+          "Invoicing",
+          "Contacts"
+        ],
+        "summary": "Retrieve one contact",
+        "description": "Returns a contact",
+        "operationId": "invoicing_get_contact",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "contact_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Contact Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactItemOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The contact doesn't exist.",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/invoicing/products": {
+      "get": {
+        "tags": [
+          "Invoicing",
+          "Products"
+        ],
+        "summary": "Retrieve all products",
+        "description": "Returns a list of all the products",
+        "operationId": "invoicing_get_products",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Size"
+            },
+            "description": "Page size"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_ProductItemOut_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Invoicing",
+          "Products"
+        ],
+        "summary": "Create a product",
+        "description": "Create a new product.",
+        "operationId": "invoicing_post_products",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductItem"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductItemOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/invoicing/products/{product_id}": {
+      "get": {
+        "tags": [
+          "Invoicing",
+          "Products"
+        ],
+        "summary": "Retrieve one product",
+        "description": "Returns a product",
+        "operationId": "invoicing_get_product",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "product_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Product Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductItemOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The product doesn't exist.",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/invoicing/taxes": {
+      "get": {
+        "tags": [
+          "Invoicing",
+          "Taxes"
+        ],
+        "summary": "Retrieve all taxes",
+        "description": "Returns a list of all the taxes",
+        "operationId": "invoicing_get_taxes",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Size"
+            },
+            "description": "Page size"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_InvoicingVatCode_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/invoicing/taxes/{tax_id}": {
+      "get": {
+        "tags": [
+          "Invoicing",
+          "Taxes"
+        ],
+        "summary": "Retrieve one tax",
+        "description": "Returns a tax",
+        "operationId": "invoicing_get_tax",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "tax_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Tax Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoicingVatCode"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The tax doesn't exist.",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/invoicing/invoices": {
       "get": {
         "tags": [
@@ -12829,7 +14177,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -12841,11 +14188,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -13194,267 +14540,14 @@
         }
       }
     },
-    "/consumers/{consumer_id}/invoicing/taxes": {
-      "get": {
-        "tags": [
-          "Invoicing",
-          "Taxes"
-        ],
-        "summary": "Retrieve all taxes",
-        "description": "Returns a list of all the taxes",
-        "operationId": "invoicing_get_taxes",
-        "parameters": [
-          {
-            "name": "consumer_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Consumer Id"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "description": "Page number",
-              "default": 1,
-              "title": "Page"
-            },
-            "description": "Page number"
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
-              "minimum": 1,
-              "maximum": 100
-            },
-            "description": "Page size"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftPage_InvoicingVatCode_"
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Error while trying to perform your request",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/consumers/{consumer_id}/invoicing/taxes/{tax_id}": {
-      "get": {
-        "tags": [
-          "Invoicing",
-          "Taxes"
-        ],
-        "summary": "Retrieve one tax",
-        "description": "Returns a tax",
-        "operationId": "invoicing_get_tax",
-        "parameters": [
-          {
-            "name": "consumer_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Consumer Id"
-            }
-          },
-          {
-            "name": "tax_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Tax Id"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/InvoicingVatCode"
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Error while trying to perform your request",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "The tax doesn't exist.",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Not Found"
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/consumers/{consumer_id}/invoicing/products": {
-      "get": {
-        "tags": [
-          "Invoicing",
-          "Products"
-        ],
-        "summary": "Retrieve all products",
-        "description": "Returns a list of all the products",
-        "operationId": "invoicing_get_products",
-        "parameters": [
-          {
-            "name": "consumer_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Consumer Id"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "description": "Page number",
-              "default": 1,
-              "title": "Page"
-            },
-            "description": "Page number"
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
-              "minimum": 1,
-              "maximum": 100
-            },
-            "description": "Page size"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftPage_ProductItemOut_"
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Error while trying to perform your request",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
+    "/consumers/{consumer_id}/invoicing/upload-document": {
       "post": {
         "tags": [
-          "Invoicing",
-          "Products"
+          "Invoicing"
         ],
-        "summary": "Create a product",
-        "description": "Create a new product.",
-        "operationId": "invoicing_post_products",
+        "summary": "Upload a document (PDF)",
+        "description": "Upload a document (PDF)",
+        "operationId": "invoicing_upload_document",
         "parameters": [
           {
             "name": "consumer_id",
@@ -13472,18 +14565,18 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductItem"
+                "$ref": "#/components/schemas/AttachmentItemIn"
               }
             }
           }
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProductItemOut"
+                  "$ref": "#/components/schemas/UploadDocumentItemOut"
                 }
               }
             }
@@ -13492,7 +14585,7 @@
             "content": {
               "application/json": {
                 "example": {
-                  "message": "Error while trying to perform your request",
+                  "message": "The document is not a valid base64 string representing a PDF.",
                   "status": "error"
                 },
                 "schema": {
@@ -13501,88 +14594,6 @@
               }
             },
             "description": "Bad Request"
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/consumers/{consumer_id}/invoicing/products/{product_id}": {
-      "get": {
-        "tags": [
-          "Invoicing",
-          "Products"
-        ],
-        "summary": "Retrieve one product",
-        "description": "Returns a product",
-        "operationId": "invoicing_get_product",
-        "parameters": [
-          {
-            "name": "consumer_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Consumer Id"
-            }
-          },
-          {
-            "name": "product_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Product Id"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductItemOut"
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Error while trying to perform your request",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "The product doesn't exist.",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Not Found"
           },
           "422": {
             "description": "Validation Error",
@@ -13624,7 +14635,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -13636,11 +14646,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           }
@@ -13765,250 +14774,6 @@
         }
       }
     },
-    "/consumers/{consumer_id}/invoicing/contacts": {
-      "get": {
-        "tags": [
-          "Invoicing",
-          "Contacts"
-        ],
-        "summary": "Retrieve all contacts",
-        "description": "Returns a list of all the contacts. Optionally contact type can be defined to retrieve contact from a certain type.",
-        "operationId": "invoicing_get_contacts",
-        "parameters": [
-          {
-            "name": "consumer_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Consumer Id"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "description": "Page number",
-              "default": 1,
-              "title": "Page"
-            },
-            "description": "Page number"
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
-              "minimum": 1,
-              "maximum": 100
-            },
-            "description": "Page size"
-          },
-          {
-            "name": "contact_type",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "$ref": "#/components/schemas/ContactType",
-              "default": "all"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftPage_ContactItemOut_"
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Error while trying to perform your request",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Invoicing",
-          "Contacts"
-        ],
-        "summary": "Create a contact",
-        "description": "Create a new contact.",
-        "operationId": "invoicing_post_contacts",
-        "parameters": [
-          {
-            "name": "consumer_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Consumer Id"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ContactItemIn"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ContactItemOut"
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Error while trying to perform your request",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/consumers/{consumer_id}/invoicing/contacts/{contact_id}": {
-      "get": {
-        "tags": [
-          "Invoicing",
-          "Contacts"
-        ],
-        "summary": "Retrieve one contact",
-        "description": "Returns a contact",
-        "operationId": "invoicing_get_contact",
-        "parameters": [
-          {
-            "name": "consumer_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Consumer Id"
-            }
-          },
-          {
-            "name": "contact_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Contact Id"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ContactItemOut"
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Error while trying to perform your request",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "The contact doesn't exist.",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Not Found"
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/consumers/{consumer_id}/invoicing/payments": {
       "get": {
         "tags": [
@@ -14036,7 +14801,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -14048,11 +14812,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -14156,7 +14919,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -14168,11 +14930,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           }
@@ -14242,7 +15003,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -14254,11 +15014,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           }
@@ -14328,7 +15087,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -14340,11 +15098,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -14450,74 +15207,6 @@
         }
       }
     },
-    "/consumers/{consumer_id}/invoicing/upload-document": {
-      "post": {
-        "tags": [
-          "Invoicing"
-        ],
-        "summary": "Upload a document (PDF)",
-        "description": "Upload a document (PDF)",
-        "operationId": "invoicing_upload_document",
-        "parameters": [
-          {
-            "name": "consumer_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Consumer Id"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AttachmentItemIn"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UploadDocumentItemOut"
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "The document is not a valid base64 string representing a PDF.",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/consumers/{consumer_id}/banking/financial-institutions": {
       "get": {
         "tags": [
@@ -14545,7 +15234,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -14557,11 +15245,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           }
@@ -14631,7 +15318,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -14643,11 +15329,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           }
@@ -14717,7 +15402,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -14729,11 +15413,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -14880,7 +15563,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -14892,11 +15574,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -15010,22 +15691,12 @@
             }
           },
           {
-            "name": "transaction_id",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Transaction Id"
-            }
-          },
-          {
             "name": "page",
             "in": "query",
             "required": false,
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -15037,11 +15708,21 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
+              "maximum": 100,
+              "minimum": 1,
               "default": 50,
               "title": "Size"
             },
             "description": "Page size"
+          },
+          {
+            "name": "transaction_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Transaction Id"
+            }
           }
         ],
         "responses": {
@@ -15109,7 +15790,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -15121,11 +15801,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           }
@@ -15195,7 +15874,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -15207,11 +15885,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -15367,7 +16044,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -15379,11 +16055,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -15569,7 +16244,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -15581,11 +16255,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -15706,7 +16379,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -15718,11 +16390,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -15865,7 +16536,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -15877,11 +16547,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -16015,7 +16684,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -16027,11 +16695,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           }
@@ -16240,7 +16907,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -16252,11 +16918,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           }
@@ -16354,7 +17019,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -16366,11 +17030,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -16488,7 +17151,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -16500,11 +17162,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           },
@@ -16618,7 +17279,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -16630,11 +17290,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           }
@@ -16845,7 +17504,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "description": "Page number",
               "default": 1,
               "title": "Page"
             },
@@ -16857,11 +17515,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "description": "Page size",
-              "default": 50,
-              "title": "Size",
+              "maximum": 100,
               "minimum": 1,
-              "maximum": 100
+              "default": 50,
+              "title": "Size"
             },
             "description": "Page size"
           }
@@ -18936,6 +19593,12 @@
             "title": "Bank Account Id",
             "description": "Unique ID of the bank account in the accounting system"
           },
+          "currency": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Currency",
+            "description": "Currency of the bank statement. This must be the same as the currency of the bank account."
+          },
           "external_bank_statement_id": {
             "type": "string",
             "minLength": 1,
@@ -18979,6 +19642,7 @@
         "required": [
           "bank_statement_date",
           "bank_account_id",
+          "currency",
           "external_bank_statement_id",
           "items"
         ],
@@ -18997,6 +19661,12 @@
             "minLength": 1,
             "title": "Bank Account Id",
             "description": "Unique ID of the bank account in the accounting system"
+          },
+          "currency": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Currency",
+            "description": "Currency of the bank statement. This must be the same as the currency of the bank account."
           },
           "id": {
             "anyOf": [
@@ -19035,34 +19705,25 @@
         "required": [
           "bank_statement_date",
           "bank_account_id",
+          "currency",
           "items"
         ],
         "title": "BankStatementItemOut"
       },
-      "BankTransactionItemAccountType": {
-        "type": "string",
-        "enum": [
-          "customer_account",
-          "supplier_account",
-          "employee_account",
-          "general_account"
-        ],
-        "title": "BankTransactionItemAccountType"
-      },
-      "BankTransactionItemIn": {
+      "BankTransactionCounterpartItem": {
         "properties": {
-          "account_type": {
+          "counterpart_type": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/BankTransactionItemAccountType"
+                "$ref": "#/components/schemas/BankTransactionCounterpartType"
               },
               {
                 "type": "null"
               }
             ],
-            "description": "Account type; mandatory if account is provided"
+            "description": "Type of the counterpart"
           },
-          "account": {
+          "id": {
             "anyOf": [
               {
                 "type": "string"
@@ -19071,8 +19732,80 @@
                 "type": "null"
               }
             ],
-            "title": "Account",
-            "description": "Account identifier"
+            "title": "Id",
+            "description": "ID of the counterpart in the accounting system"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "Name of the counterpart",
+            "examples": [
+              "John Doe"
+            ]
+          },
+          "iban": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Iban",
+            "description": "IBAN of the counterpart",
+            "examples": [
+              "BE61310126985517"
+            ]
+          },
+          "bank_account": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bank Account",
+            "description": "Bank account number of the counterpart",
+            "examples": [
+              "310126985517"
+            ]
+          }
+        },
+        "type": "object",
+        "title": "BankTransactionCounterpartItem"
+      },
+      "BankTransactionCounterpartType": {
+        "type": "string",
+        "enum": [
+          "customer",
+          "supplier",
+          "employee"
+        ],
+        "title": "BankTransactionCounterpartType"
+      },
+      "BankTransactionItemIn": {
+        "properties": {
+          "general_ledger_account": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "General Ledger Account",
+            "description": "Number of the general ledger account to book the transaction against."
           },
           "description": {
             "anyOf": [
@@ -19097,12 +19830,6 @@
             ],
             "title": "External Transaction Id",
             "description": "External transaction ID"
-          },
-          "date": {
-            "type": "string",
-            "format": "date",
-            "title": "Date",
-            "description": "Transaction date"
           },
           "amount": {
             "type": "number",
@@ -19135,12 +19862,6 @@
             "description": "Tax amount",
             "default": 0
           },
-          "currency": {
-            "type": "string",
-            "minLength": 1,
-            "title": "Currency",
-            "description": "Transaction currency"
-          },
           "currency_exchange_rate": {
             "anyOf": [
               {
@@ -19153,30 +19874,28 @@
             "title": "Currency Exchange Rate",
             "description": "Exchange rate applicable at the transaction date",
             "default": 1
+          },
+          "counterpart": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BankTransactionCounterpartItem"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Counterpart of the transaction"
           }
         },
         "type": "object",
         "required": [
-          "date",
-          "amount",
-          "currency"
+          "amount"
         ],
         "title": "BankTransactionItemIn"
       },
       "BankTransactionItemOut": {
         "properties": {
-          "account_type": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/BankTransactionItemAccountType"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Account type; mandatory if account is provided"
-          },
-          "account": {
+          "general_ledger_account": {
             "anyOf": [
               {
                 "type": "string"
@@ -19185,8 +19904,8 @@
                 "type": "null"
               }
             ],
-            "title": "Account",
-            "description": "Account identifier"
+            "title": "General Ledger Account",
+            "description": "Number of the general ledger account to book the transaction against."
           },
           "description": {
             "anyOf": [
@@ -19211,12 +19930,6 @@
             ],
             "title": "External Transaction Id",
             "description": "External transaction ID"
-          },
-          "date": {
-            "type": "string",
-            "format": "date",
-            "title": "Date",
-            "description": "Transaction date"
           },
           "amount": {
             "type": "number",
@@ -19249,12 +19962,6 @@
             "description": "Tax amount",
             "default": 0
           },
-          "currency": {
-            "type": "string",
-            "minLength": 1,
-            "title": "Currency",
-            "description": "Transaction currency"
-          },
           "currency_exchange_rate": {
             "anyOf": [
               {
@@ -19267,6 +19974,17 @@
             "title": "Currency Exchange Rate",
             "description": "Exchange rate applicable at the transaction date",
             "default": 1
+          },
+          "counterpart": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BankTransactionCounterpartItem"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Counterpart of the transaction"
           },
           "id": {
             "anyOf": [
@@ -19283,9 +20001,7 @@
         },
         "type": "object",
         "required": [
-          "date",
-          "amount",
-          "currency"
+          "amount"
         ],
         "title": "BankTransactionItemOut"
       },
@@ -38155,6 +38871,233 @@
           "total"
         ],
         "title": "RefundOrderLineItem"
+      },
+      "ReportCategory": {
+        "type": "string",
+        "enum": [
+          "Supply of goods subject to value-added tax.",
+          "Services subject to value-added tax.",
+          "Supply of goods and provision of services not subject to value-added tax in France, including intra-Community distance sales mentioned in 1° of I of Article 258 A and in Article 259 B of the French General Tax Code.",
+          "Transactions subject to the regimes provided for in e) of 1 of Article 266 and in Articles 268 and 297 A of the French General Tax Code (VAT margin scheme)."
+        ],
+        "title": "ReportCategory"
+      },
+      "ReportItem": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date",
+            "description": "Date of the report",
+            "examples": [
+              "2025-01-01"
+            ]
+          },
+          "location_id": {
+            "type": "string",
+            "title": "Location Id",
+            "description": "Unique identifier of the location",
+            "examples": [
+              "371ca583-d218-4900-b236-397532cf0e52"
+            ]
+          },
+          "orders": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ReportOrders"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Orders",
+            "description": "List of orders related to the report",
+            "default": []
+          },
+          "payments": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ReportPayments"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payments",
+            "description": "List of payments related to the report",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "location_id"
+        ],
+        "title": "ReportItem"
+      },
+      "ReportOrders": {
+        "properties": {
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "description": "Currency of the report (ISO 4217)",
+            "examples": [
+              "EUR"
+            ]
+          },
+          "total": {
+            "type": "number",
+            "title": "Total",
+            "description": "Total amount including tax of the sales",
+            "examples": [
+              10
+            ]
+          },
+          "tax_amount": {
+            "type": "number",
+            "title": "Tax Amount",
+            "description": "Total amount of the taxes",
+            "examples": [
+              1
+            ]
+          },
+          "tax_duedatetypecode": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 3
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tax Duedatetypecode",
+            "description": "Code giving specific meaning to a date, time or period",
+            "examples": [
+              "4"
+            ]
+          },
+          "category": {
+            "$ref": "#/components/schemas/ReportCategory",
+            "description": "Category of the orders",
+            "examples": [
+              "TLB1"
+            ]
+          },
+          "total_orders": {
+            "type": "integer",
+            "title": "Total Orders",
+            "description": "Total number of orders for the period",
+            "examples": [
+              10
+            ]
+          },
+          "taxes": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/TotalTaxItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Taxes",
+            "description": "List of taxes related to the report",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "currency",
+          "total",
+          "tax_amount",
+          "category",
+          "total_orders"
+        ],
+        "title": "ReportOrders"
+      },
+      "ReportPayments": {
+        "properties": {
+          "tax_rate": {
+            "type": "number",
+            "title": "Tax Rate",
+            "description": "Tax rate",
+            "examples": [
+              "10"
+            ]
+          },
+          "tax_amount": {
+            "type": "number",
+            "title": "Tax Amount",
+            "description": "Tax amount",
+            "examples": [
+              "1"
+            ]
+          },
+          "total": {
+            "type": "number",
+            "title": "Total",
+            "description": "Total amount including tax",
+            "examples": [
+              "11"
+            ]
+          },
+          "payment_method_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Method Id",
+            "description": "Unique identifier of the payment method used for the payment",
+            "examples": [
+              "payment_method-1"
+            ]
+          },
+          "payment_method_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Method Name",
+            "description": "Chift's name of the payment method used for the payment",
+            "examples": [
+              "Cash"
+            ]
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "description": "Currency of the payment (ISO 4217)",
+            "examples": [
+              "EUR"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "tax_rate",
+          "tax_amount",
+          "total",
+          "currency"
+        ],
+        "title": "ReportPayments"
       },
       "ReservationItem": {
         "properties": {

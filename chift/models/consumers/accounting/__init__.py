@@ -18,6 +18,7 @@ from chift.openapi.models import AnalyticPlan as AnalyticPlanModel
 from chift.openapi.models import Attachment as AttachmentModel
 from chift.openapi.models import BankAccount as BankAccountModel
 from chift.openapi.models import BankStatement as BankStatementModel
+from chift.openapi.models import BookYear as BookYearModel
 from chift.openapi.models import Client as ClientModel
 from chift.openapi.models import Employee as EmployeeModel
 from chift.openapi.models import Expense as ExpenseModel
@@ -64,6 +65,7 @@ class AccountingRouter:
         self.Custom = Custom(consumer_id, connection_id)
         self.Balance = Balance(consumer_id, connection_id)
         self.Payment = Payment(consumer_id, connection_id)
+        self.BookYear = BookYear(consumer_id, connection_id)
         self.Expense = Expense(consumer_id, connection_id)
         self.Folder = Folder(consumer_id, connection_id)
 
@@ -316,6 +318,12 @@ class BankTransaction(CreateMixin[BankStatementModel]):
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "bank-transactions"
     model = BankStatementModel
+
+
+class BookYear(PaginationMixin[BookYearModel]):
+    chift_vertical: ClassVar = "accounting"
+    chift_model: ClassVar = "bookyears"
+    model = BookYearModel
 
 
 class Balance(CreateMixin[AccountBalanceModel]):

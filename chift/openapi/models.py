@@ -19,6 +19,9 @@ from .openapi import (
     BankingFinancialInstitutionItem,
     BankingTransactionItem,
     BankStatementItemOut,
+)
+from .openapi import BookYear as BookYearModel
+from .openapi import (
     CategoryItem,
     ClientItemOut,
     ClosureItem,
@@ -406,6 +409,10 @@ class Outstanding(OutstandingItem):
 
 
 class Journal(JournalModel):
+    pass
+
+
+class BookYear(BookYearModel):
     pass
 
 
