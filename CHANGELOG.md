@@ -1,5 +1,8 @@
 # Changelog
 
+# 0.5.11 - 2026-03-13
+- add create/update/delete endpoints in the Invoicing API
+
 ## 0.5.10 - 2026-03-09
 - update create bank transaction data model
 - add "Get bookyears" for accounting

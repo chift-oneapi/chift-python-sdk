@@ -14890,6 +14890,151 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "Invoicing",
+          "Payments"
+        ],
+        "summary": "Create a payment (invoicing)",
+        "description": "Create a payment (invoicing)",
+        "operationId": "invoicing_create_payment",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvoicingPaymentItemIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoicingPaymentItem"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/invoicing/payments/{payment_id}": {
+      "patch": {
+        "tags": [
+          "Invoicing",
+          "Payments"
+        ],
+        "summary": "Update a payment (invoicing)",
+        "description": "Update a payment (invoicing)",
+        "operationId": "invoicing_update_payment",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "payment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Payment Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvoicingPaymentItemUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoicingPaymentItem"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/consumers/{consumer_id}/invoicing/payment-methods": {
@@ -31118,6 +31263,112 @@
           "payment_date"
         ],
         "title": "InvoicingPaymentItem"
+      },
+      "InvoicingPaymentItemIn": {
+        "properties": {
+          "amount": {
+            "type": "number",
+            "title": "Amount",
+            "description": "Payment amount"
+          },
+          "payment_method_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Method Id",
+            "description": "The technical ID of the payment method in the invoicing system"
+          },
+          "invoice_id": {
+            "type": "string",
+            "title": "Invoice Id",
+            "description": "The technical ID of the invoice in the invoicing system to which the payment will be linked"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date",
+            "description": "The date of the payment"
+          },
+          "reference": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference",
+            "description": "Reference of the payment"
+          }
+        },
+        "type": "object",
+        "required": [
+          "amount",
+          "invoice_id",
+          "date"
+        ],
+        "title": "InvoicingPaymentItemIn"
+      },
+      "InvoicingPaymentItemUpdate": {
+        "properties": {
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount",
+            "description": "Payment amount"
+          },
+          "payment_method_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Method Id",
+            "description": "The technical ID of the payment method in the invoicing system"
+          },
+          "date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Date",
+            "description": "The date of the payment"
+          },
+          "reference": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference",
+            "description": "Reference of the payment"
+          }
+        },
+        "type": "object",
+        "title": "InvoicingPaymentItemUpdate"
       },
       "InvoicingPaymentMethodItem": {
         "properties": {
