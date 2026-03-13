@@ -2,7 +2,13 @@ from __future__ import annotations
 
 from typing import ClassVar
 
-from chift.api.mixins import CreateMixin, PaginationMixin, ReadMixin, UpdateMixin
+from chift.api.mixins import (
+    CreateMixin,
+    DeleteMixin,
+    PaginationMixin,
+    ReadMixin,
+    UpdateMixin,
+)
 from chift.openapi.models import Contact as ContactModel
 from chift.openapi.models import Invoice as InvoiceModel
 from chift.openapi.models import InvoicingBankAccount as BankAccountModel
@@ -76,7 +82,10 @@ class Tax(ReadMixin[TaxModel], PaginationMixin[TaxModel]):
 
 
 class Payment(
+    CreateMixin[PaymentModel],
+    UpdateMixin[PaymentModel],
     PaginationMixin[PaymentModel],
+    DeleteMixin,
 ):
     chift_vertical: ClassVar = "invoicing"
     chift_model: ClassVar = "payments"
