@@ -1,5 +1,8 @@
 # Changelog
 
+# 0.5.12 - 2026-03-13
+- Fix exception raising when response status is 401
+
 # 0.5.11 - 2026-03-13
 - add create/update/delete endpoints in the Invoicing API
 

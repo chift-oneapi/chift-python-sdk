@@ -202,10 +202,18 @@ class ChiftClient:
             self.raw_data = None
 
         if req.status_code == httplib.UNAUTHORIZED:
+            try:
+                err = req.json()
+            except Exception:
+                raise exceptions.ChiftException(
+                    "Application authentication failed",
+                    error_code=req.status_code,
+                    detail=req.text,
+                )
+            message = err.get("message", "Application authentication failed")
+            error_code = err.get("error_code", req.status_code)
             raise exceptions.ChiftException(
-                "Application authentication failed",
-                error_code=req.status_code,
-                detail=req.text,
+                message, error_code=error_code, detail=err.get("detail", req.text)
             )
 
         if req.status_code == 204:
