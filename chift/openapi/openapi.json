@@ -17733,6 +17733,154 @@
           }
         }
       }
+    },
+    "/consumers/{consumer_id}/pms/accounting-transactions": {
+      "get": {
+        "tags": [
+          "Property Management System",
+          "Taxes"
+        ],
+        "summary": "Get the accounting transactions (PMS)",
+        "description": "Returns a list of the accounting transactions",
+        "operationId": "pms_get_accounting_transactions",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Size"
+            },
+            "description": "Page size"
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "Date From"
+            }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "Date To"
+            }
+          },
+          {
+            "name": "location_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Location Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_PMSAccountingTransactionItem_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to authenticate to {ConnectorName}",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -19748,7 +19896,7 @@
             "type": "string",
             "minLength": 1,
             "title": "External Bank Statement Id",
-            "description": "External bank statement ID"
+            "description": "External bank statement ID. To be compatible with all software, we recommend to use only digits with a maximum length of 10."
           },
           "opening_balance": {
             "anyOf": [
@@ -22226,6 +22374,40 @@
           "size"
         ],
         "title": "ChiftPage[PMSAccountingCategoryItem]"
+      },
+      "ChiftPage_PMSAccountingTransactionItem_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/PMSAccountingTransactionItem"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Page"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "title": "ChiftPage[PMSAccountingTransactionItem]"
       },
       "ChiftPage_PMSCustomerItem_": {
         "properties": {
@@ -25809,13 +25991,19 @@
             "type": "string",
             "format": "date-time",
             "title": "Created On"
+          },
+          "modified_on": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Modified On"
           }
         },
         "type": "object",
         "required": [
           "data",
           "id",
-          "created_on"
+          "created_on",
+          "modified_on"
         ],
         "title": "DataItemOut"
       },
@@ -27082,6 +27270,17 @@
             "title": "Description",
             "description": "Text description for this line item. This is typically used to provide additional context or information."
           },
+          "tax_info": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TaxInfo"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Tax information related to the financial entry line item. The provided tax amount is added to the amount of the line item. This is only supported for general accounts."
+          },
           "automated_matching_number": {
             "anyOf": [
               {
@@ -27131,6 +27330,17 @@
             ],
             "title": "Description",
             "description": "Text description for this line item. This is typically used to provide additional context or information."
+          },
+          "tax_info": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TaxInfo"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Tax information related to the financial entry line item. The provided tax amount is added to the amount of the line item. This is only supported for general accounts."
           },
           "automated_matching_number": {
             "anyOf": [
@@ -28149,6 +28359,11 @@
           "resource": {
             "type": "string",
             "title": "Resource"
+          },
+          "config": {
+            "$ref": "#/components/schemas/IntegrationsPostConnectionItemConfig",
+            "description": "Dict of enabled post-connections on this integration.",
+            "default": {}
           }
         },
         "type": "object",
@@ -28159,6 +28374,22 @@
           "resource"
         ],
         "title": "IntegrationsPostConnectionItem"
+      },
+      "IntegrationsPostConnectionItemConfig": {
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "title": "Enabled",
+            "default": false
+          },
+          "allow_multiple": {
+            "type": "boolean",
+            "title": "Allow Multiple",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "IntegrationsPostConnectionItemConfig"
       },
       "InventoryDetailsItem": {
         "properties": {
@@ -31294,7 +31525,7 @@
             "title": "Date",
             "description": "The date of the payment"
           },
-          "reference": {
+          "description": {
             "anyOf": [
               {
                 "type": "string"
@@ -31303,15 +31534,21 @@
                 "type": "null"
               }
             ],
-            "title": "Reference",
-            "description": "Reference of the payment"
+            "title": "Description",
+            "description": "Description of the payment"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "description": "Currency of the payment"
           }
         },
         "type": "object",
         "required": [
           "amount",
           "invoice_id",
-          "date"
+          "date",
+          "currency"
         ],
         "title": "InvoicingPaymentItemIn"
       },
@@ -31354,7 +31591,7 @@
             "title": "Date",
             "description": "The date of the payment"
           },
-          "reference": {
+          "description": {
             "anyOf": [
               {
                 "type": "string"
@@ -31363,8 +31600,8 @@
                 "type": "null"
               }
             ],
-            "title": "Reference",
-            "description": "Reference of the payment"
+            "title": "Description",
+            "description": "Description of the payment"
           }
         },
         "type": "object",
@@ -34778,6 +35015,262 @@
         ],
         "title": "PMSAccountingCategoryItem"
       },
+      "PMSAccountingTransactionItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "$ref": "#/components/schemas/Ref",
+            "description": "Technical id in the target software"
+          },
+          "group_id": {
+            "type": "string",
+            "title": "Group Id",
+            "description": "Group id of the transaction"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Date",
+            "description": "Datetime of the transaction.This is the date when the transaction is recorded in the pms system."
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount",
+            "description": "Total amount"
+          },
+          "is_tax_line": {
+            "type": "boolean",
+            "title": "Is Tax Line",
+            "description": "Indicates the transaction is tax line"
+          },
+          "sub_group_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sub Group Id",
+            "description": "Sub group id of the transaction"
+          },
+          "tax_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tax Code",
+            "description": "Indicates the tax code used for the transaction. This is the Id of the Tax Code in the pms software."
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Text description for this transaction.",
+            "default": ""
+          },
+          "currency_exchange_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency Exchange Rate",
+            "description": "Exchange rate applicable at the transaction date.",
+            "default": 1
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "description": "Indicates the currency of the operation (e.g., EUR, USD)."
+          },
+          "transaction_type": {
+            "$ref": "#/components/schemas/PMSAccountingTransactionType",
+            "description": "Type of transaction",
+            "examples": [
+              "pos"
+            ]
+          },
+          "accounting_category_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Accounting Category Id",
+            "description": "Used by a PMS to give specific accounting categories to a transaction item.",
+            "examples": [
+              "371ca583-d218-4900-b236-397532cf0e2"
+            ]
+          },
+          "ledger_account_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ledger Account Code",
+            "description": "Ledger account code assigned to the category",
+            "examples": [
+              "123456"
+            ]
+          },
+          "status": {
+            "$ref": "#/components/schemas/PMSAccountingTransactionStatus",
+            "description": "string indicating if invoice has been posted (finalized) in the pms system.",
+            "examples": [
+              "posted"
+            ]
+          },
+          "origin": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PMSAccountingTransactionOrigin"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Type of origin of the transaction item",
+            "examples": [
+              {
+                "id": "1",
+                "type": "payment"
+              }
+            ]
+          },
+          "partner_id": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ChiftId"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Reference to the partner related to this transaction"
+          },
+          "reference": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference",
+            "description": "Optional reference field used to store an external or contextual identifier related to the transaction."
+          },
+          "location_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Location Id",
+            "description": "ID of the location this transaction belongs to"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "source_ref",
+          "group_id",
+          "date",
+          "amount",
+          "is_tax_line",
+          "currency",
+          "transaction_type",
+          "status",
+          "origin"
+        ],
+        "title": "PMSAccountingTransactionItem"
+      },
+      "PMSAccountingTransactionOrigin": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Technical id in the target software",
+            "examples": [
+              "1"
+            ]
+          },
+          "type": {
+            "$ref": "#/components/schemas/PMSAccountingTransactionOriginType",
+            "description": "Type of the transaction",
+            "examples": [
+              "invoice"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "type"
+        ],
+        "title": "PMSAccountingTransactionOrigin"
+      },
+      "PMSAccountingTransactionOriginType": {
+        "type": "string",
+        "enum": [
+          "payment",
+          "invoice",
+          "order"
+        ],
+        "title": "PMSAccountingTransactionOriginType"
+      },
+      "PMSAccountingTransactionStatus": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "posted"
+        ],
+        "title": "PMSAccountingTransactionStatus"
+      },
+      "PMSAccountingTransactionType": {
+        "type": "string",
+        "enum": [
+          "payment",
+          "room",
+          "addon",
+          "invoice",
+          "pos",
+          "fee",
+          "tax",
+          "reservation",
+          "other"
+        ],
+        "title": "PMSAccountingTransactionType"
+      },
       "PMSClosureItem": {
         "properties": {
           "date": {
@@ -35950,6 +36443,21 @@
             "description": "Percentage of the tax rate",
             "examples": [
               21.0
+            ]
+          },
+          "is_city_tax": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is City Tax",
+            "description": "Indicates if the tax is a city tax (or tourist tax)",
+            "examples": [
+              false
             ]
           }
         },
@@ -37854,6 +38362,31 @@
             "title": "Redirect",
             "description": "Indicates whether you want to return to the consumer's redirectUrl after creation (true) or whether you want to stay on the connection selection page (false)(This field is ignored if integrationid is provided)",
             "default": false
+          },
+          "apis": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "Point of Sale",
+                    "eCommerce",
+                    "Accounting",
+                    "Invoicing",
+                    "Banking",
+                    "Custom",
+                    "Payment",
+                    "Property Management System"
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Apis",
+            "description": "Can be used to filter connectors by APIs. Ignored if integrationid is provided."
           }
         },
         "type": "object",
