@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.14 - 2026-03-25
+- commerce: add new field `taxable` in `ProductVariantItem`, `VariantItem` models
+- sync: add new models `ChiftPageSyncExecutionItem`, `SyncExecutionItem`
+- sync: add new field `parentexecutionid` in `ChainExecutionItem` model
+
 ## 0.5.13 - 2026-03-13
 - pms: add transactions model
 
