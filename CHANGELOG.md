@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.15 - 2026-03-26
+- accounting: add iter-all to `invoice` model
+
 ## 0.5.14 - 2026-03-25
 - commerce: add new field `taxable` in `ProductVariantItem`, `VariantItem` models
 - sync: add new models `ChiftPageSyncExecutionItem`, `SyncExecutionItem`
