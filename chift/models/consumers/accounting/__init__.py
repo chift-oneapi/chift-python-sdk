@@ -190,6 +190,10 @@ class Invoice(
         self.extra_path = f"type/{invoice_type}"
         return super().all(params=params, limit=limit, client=client)
 
+    def iter_all(self, invoice_type, params=None, client=None, limit=None):
+        self.extra_path = f"type/{invoice_type}"
+        return super().iter_all(params=params, limit=limit, client=client)
+
 
 class InvoiceMultiPlan(
     ReadMixin[InvoiceMultiPlanAccountingModel],
