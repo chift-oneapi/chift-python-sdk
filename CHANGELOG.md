@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.16 - 2026-03-26
+- banking: update models
+
 ## 0.5.15 - 2026-03-26
 - accounting: add iter-all to `invoice` model
 
