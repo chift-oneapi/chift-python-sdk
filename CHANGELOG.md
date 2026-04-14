@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.16 - 2026-14-26
+- banking: add new values `cashback` and `interest` in `OperationType` Enum
+- banking: add new fields `bank_account_id` and `open_balance` in `BankingTransactionItem` model
+- commerce: add new field `vat` in `CommerceAddressItemOut` model
+
 ## 0.5.15 - 2026-03-26
 - accounting: add iter-all to `invoice` model
 
