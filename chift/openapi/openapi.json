@@ -105,6 +105,14 @@
         "summary": "Get consumers",
         "description": "Returns the list of consumers linked to your account.",
         "operationId": "consumers_get_consumers",
+        "security": [
+          {
+            "mcp_auth": [
+              "consumers",
+              "consumers.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "search",
@@ -173,6 +181,13 @@
         "summary": "Create new consumer",
         "description": "Create a new consumer that will have the possibility to use the enabled integrations",
         "operationId": "consumers_create_consumer",
+        "security": [
+          {
+            "mcp_auth": [
+              "consumers"
+            ]
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -233,6 +248,14 @@
         "summary": "Get one consumer",
         "description": "Returns the specified consumer",
         "operationId": "consumers_get_consumer",
+        "security": [
+          {
+            "mcp_auth": [
+              "consumers",
+              "consumers.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -289,6 +312,13 @@
         "summary": "Update one consumer",
         "description": "Update one consumer in Chift",
         "operationId": "consumers_update_consumer",
+        "security": [
+          {
+            "mcp_auth": [
+              "consumers"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -359,6 +389,13 @@
         "summary": "Delete one consumer",
         "description": "Endpoint that deletes one consumer in Chift",
         "operationId": "consumers_delete_consumer",
+        "security": [
+          {
+            "mcp_auth": [
+              "consumers"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -410,6 +447,14 @@
         "summary": "Get connections",
         "description": "Returns a list of the connections (active or inactive) linked to your consumer",
         "operationId": "connections_get_connections",
+        "security": [
+          {
+            "mcp_auth": [
+              "connections",
+              "connections.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -470,6 +515,13 @@
         "summary": "Add new connection",
         "description": "Returns the url that can be used by your client to enable his integrations.",
         "operationId": "connections_create_connection",
+        "security": [
+          {
+            "mcp_auth": [
+              "connections"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -597,6 +649,13 @@
         "summary": "Update an existing connection",
         "description": "Returns the url that can be used by your client to update the connection",
         "operationId": "connections_update_connection",
+        "security": [
+          {
+            "mcp_auth": [
+              "connections"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -720,6 +779,13 @@
         "summary": "Delete one connection",
         "description": "Endpoint that deletes one connection of a consumer in Chift",
         "operationId": "connections_delete_connection",
+        "security": [
+          {
+            "mcp_auth": [
+              "connections"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -795,6 +861,14 @@
         "summary": "Get transaction information",
         "description": "Returns transaction info by client_request_id",
         "operationId": "get_transaction_by_client_request_id_consumers__consumer_id__connections__connection_id__transactions_get",
+        "security": [
+          {
+            "mcp_auth": [
+              "connections",
+              "connections.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "connection_id",
@@ -1768,7 +1842,7 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 100,
+              "maximum": 500,
               "minimum": 1,
               "default": 50,
               "title": "Size"
@@ -3219,6 +3293,16 @@
         ],
         "summary": "Get Folders",
         "operationId": "accounting_get_folders",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.folders",
+              "accounting.folders.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -3281,6 +3365,16 @@
         ],
         "summary": "Get Bookyears",
         "operationId": "accounting_get_bookyears",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.bookyears",
+              "accounting.bookyears.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -3381,6 +3475,16 @@
         ],
         "summary": "Get Analytic Plans",
         "operationId": "accounting_get_analytic_plans",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.analytic_plans",
+              "accounting.analytic_plans.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -3482,6 +3586,16 @@
         "summary": "Get schemes",
         "description": "Get GL schemes existing in the accounting system. A scheme (e.g., RGS, SBR) provides a standardized classification structure for organizing accounts for reporting purposes.",
         "operationId": "accounting_get_schemes",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.schemes",
+              "accounting.schemes.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -3583,6 +3697,14 @@
         "summary": "Create client",
         "description": "Create a new client",
         "operationId": "accounting_create_client",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.clients"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -3700,6 +3822,16 @@
         "summary": "Get clients",
         "description": "Returns a list of accounting clients",
         "operationId": "accounting_get_clients",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.clients",
+              "accounting.clients.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -3836,6 +3968,14 @@
         "summary": "Update client",
         "description": "Endpoint that gives the possibility to update an accounting client",
         "operationId": "accounting_update_client",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.clients"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -3953,6 +4093,16 @@
         "summary": "Get one client",
         "description": "Returns a specific accounting client",
         "operationId": "accounting_get_client",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.clients",
+              "accounting.clients.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -4052,6 +4202,14 @@
         "summary": "Create supplier",
         "description": "Create a new supplier",
         "operationId": "accounting_create_supplier",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.suppliers"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -4169,6 +4327,16 @@
         "summary": "Get suppliers",
         "description": "Returns a list of accounting suppliers",
         "operationId": "accounting_get_suppliers",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.suppliers",
+              "accounting.suppliers.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -4305,6 +4473,14 @@
         "summary": "Update one supplier",
         "description": "Update an accounting supplier",
         "operationId": "accounting_update_supplier",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.suppliers"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -4422,6 +4598,16 @@
         "summary": "Get one supplier",
         "description": "Returns one accounting supplier",
         "operationId": "accounting_get_supplier",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.suppliers",
+              "accounting.suppliers.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -4521,6 +4707,14 @@
         "summary": "Create sale/purchase entry",
         "description": "Create a new sale/purchase accounting entry",
         "operationId": "accounting_create_invoice",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.invoices"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -4801,6 +4995,14 @@
         "summary": "Create sale/purchase entry (Multiple plans)",
         "description": "Create a new sale/purchase entry with multiple analytic plans in the accounting",
         "operationId": "accounting_create_invoice_multiple_plans",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.invoices"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -5081,6 +5283,16 @@
         "summary": "Get invoices by type (sale/purchase entries)",
         "description": "Returns a list of invoices by a specific type (=sale/purchase entries). Each line of the invoice will include the analytic account linked to default analytic plan. Optionally dates can be defined to retrieve invoice from a certain date to another date",
         "operationId": "accounting_get_invoices_by_type",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.invoices",
+              "accounting.invoices.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -5331,6 +5543,16 @@
         "summary": "Get invoices by type (sale/purchase entries - Multiple Analytic Plans)",
         "description": "Returns a list of invoices by a specific type (=sale/purchase entries) with invoice lines including multiple analytic plans. Optionally dates can be defined to retrieve invoice from a certain date to another date",
         "operationId": "accounting_get_invoices_by_type_multi_analytic_plans",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.invoices",
+              "accounting.invoices.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -5581,6 +5803,16 @@
         "summary": "Get one invoice (sale/purchase entry)",
         "description": "Returns a specific invoice (sale/purchase entry). Each line will include the analytic account linked to default analytic plan",
         "operationId": "accounting_get_invoice",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.invoices",
+              "accounting.invoices.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -5734,6 +5966,16 @@
         "summary": "Get one invoice (sale/purchase entry - Multiple Analytic Plans)",
         "description": "Returns a specific invoice (=sale/purchase entry) with invoice lines /oincluding multiple analytic plans",
         "operationId": "accounting_get_invoice_multi_analytic_plans",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.invoices",
+              "accounting.invoices.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -5887,6 +6129,14 @@
         "summary": "Create analytic account",
         "description": "Create a new analytic account in the default analytic plan",
         "operationId": "accounting_create_analytic_account",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.analytic_accounts"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -5971,6 +6221,16 @@
         "summary": "Get analytic accounts",
         "description": "Returns all analytic accounts of the default analytic plan",
         "operationId": "accounting_get_analytic_accounts",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.analytic_accounts",
+              "accounting.analytic_accounts.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -6072,6 +6332,14 @@
         "summary": "Create analytic account (Multiple Analytic Plans)",
         "description": "Create a new analytic account in a specific analytic plan",
         "operationId": "accounting_create_analytic_account_multi_plans",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.analytic_accounts"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -6167,6 +6435,14 @@
         "summary": "Update analytic account",
         "description": "Update one specific analytic account in the default analytic plan",
         "operationId": "accounting_update_analytic_account",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.analytic_accounts"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -6274,6 +6550,16 @@
         "summary": "Get analytic account",
         "description": "Returns one specific analytic account of the default analytic plan",
         "operationId": "accounting_get_analytic_account",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.analytic_accounts",
+              "accounting.analytic_accounts.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -6373,6 +6659,14 @@
         "summary": "Update analytic account (Multiple Analytic Plans)",
         "description": "Update one specific analytic account in a specific analytic plan",
         "operationId": "accounting_update_analytic_account_multi_plans",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.analytic_accounts"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -6489,6 +6783,16 @@
         "summary": "Get analytic account (Multiple Analytic Plans)",
         "description": "Returns one specific analytic account of a specific analytic plan",
         "operationId": "accounting_get_analytic_account_multi_plans",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.analytic_accounts",
+              "accounting.analytic_accounts.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -6597,6 +6901,16 @@
         "summary": "Get analytic accounts (Multiple Analytic Plans)",
         "description": "Returns all analytic accounts of all analytic plans",
         "operationId": "accounting_get_analytic_accounts_multi_plans",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.analytic_accounts",
+              "accounting.analytic_accounts.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -6698,6 +7012,16 @@
         "summary": "Get journal entries",
         "description": "Returns a list of journal entries. Each item will include the analytic account linked to default analytic plan. Optionally, you can retrieve journal entries linked to a specific client/supplier using the partner_id parameter. When retrieving entries linked to a specific client/supplier, some journal items of an entry (e.g. a miscellaneous operation) could be excluding resulting in an unbalanced journal entry.",
         "operationId": "accounting_get_journal_entries",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.journal_entries",
+              "accounting.journal_entries.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -6894,6 +7218,16 @@
         "summary": "Get journal entries (Multiple Analytic Plans)",
         "description": "Returns a list of journal entries with invoice items including multiple analytic plan.Optionally, you can retrieve journal entries linked to a specific client/supplier using the partner_id parameter. When retrieving entries linked to a specific client/supplier, some journal items of an entry (e.g. a miscellaneous operation) could be excluding resulting in an unbalanced journal entry.",
         "operationId": "accounting_get_journal_entries_multi_plan",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.journal_entries",
+              "accounting.journal_entries.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -7090,6 +7424,16 @@
         "summary": "Get one journal entry",
         "description": "Returns a single journal entry by ID.",
         "operationId": "accounting_get_journal_entry",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.journal_entries",
+              "accounting.journal_entries.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -7189,6 +7533,14 @@
         "summary": "Create Journal Entry",
         "description": "Create a new Journal Entry in the accounting system",
         "operationId": "accounting_create_generic_journal_entry",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.journal_entries"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -7430,6 +7782,16 @@
         "summary": "Get payments by invoice ID",
         "description": "Get payments of a specific invoice based on its ID",
         "operationId": "accounting_get_payments_by_invoice",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.invoices",
+              "accounting.invoices.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -7554,6 +7916,16 @@
         "summary": "Get payment methods",
         "description": "Get payment methods",
         "operationId": "accounting_get_payment_methods",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.invoices",
+              "accounting.invoices.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -7655,6 +8027,14 @@
         "summary": "Create an invoice payment",
         "description": "Create invoice payment",
         "operationId": "accounting_create_invoice_payment",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.invoices"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -7734,6 +8114,16 @@
         "summary": "Get payment terms",
         "description": "Get payment terms",
         "operationId": "accounting_get_payment_terms",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.invoices",
+              "accounting.invoices.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -7835,6 +8225,16 @@
         "summary": "Get journals",
         "description": "Get journals existing in the accounting system",
         "operationId": "accounting_get_journals",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.journals",
+              "accounting.journals.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -7936,6 +8336,14 @@
         "summary": "Create journal",
         "description": "Create a journal in the accounting system",
         "operationId": "accounting_create_journal",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.journals"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -8036,6 +8444,16 @@
         "summary": "Get vat codes",
         "description": "Get vat codes existing in the accounting system",
         "operationId": "accounting_get_vat_codes",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.vat_codes",
+              "accounting.vat_codes.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -8137,6 +8555,14 @@
         "summary": "Create miscellaneous operation",
         "description": "Create a new miscellaneous operation",
         "operationId": "accounting_create_miscellaneous_operation",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.miscellaneous_operations"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -8315,6 +8741,16 @@
         "summary": "Get miscellaneous operations",
         "description": "Get miscellaneous operations from the the accounting system",
         "operationId": "accounting_get_miscellaneous_operations",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.miscellaneous_operations",
+              "accounting.miscellaneous_operations.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -8467,6 +8903,16 @@
         "summary": "Get one miscellaneous operation",
         "description": "Get a specific miscellaneous operation from the the accounting system",
         "operationId": "accounting_get_miscellaneous_operation",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.miscellaneous_operations",
+              "accounting.miscellaneous_operations.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -8552,6 +8998,14 @@
         "summary": "Match entries",
         "description": "Match existing entries in the accounting system",
         "operationId": "accounting_match_entries",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.journal_entries"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -8698,6 +9152,14 @@
         "summary": "Match multiple entries",
         "description": "Match existing entries in the accounting system",
         "operationId": "accounting_match_entries_multiple",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.journal_entries"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -8848,6 +9310,16 @@
         "summary": "Get attachments",
         "description": "Returns a list of all attachments linked to an accounting entry",
         "operationId": "accounting_get_attachments",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.attachments",
+              "accounting.attachments.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -8966,6 +9438,14 @@
         "summary": "Attach a document (PDF)",
         "description": "Attach a document (PDF) to the invoice entry",
         "operationId": "accounting_add_attachment",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.attachments"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -9096,6 +9576,16 @@
         "summary": "Get chart of accounts",
         "description": "Get all accounts in the chart of accounts",
         "operationId": "accounting_get_chart_of_accounts",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.ledger_accounts",
+              "accounting.ledger_accounts.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -9231,6 +9721,16 @@
         "summary": "Get the balance of accounts",
         "description": "Get the balance of accounts in the accounting plan (chart of accounts) between specific months",
         "operationId": "accounting_get_accounts_balances",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.ledger_accounts",
+              "accounting.ledger_accounts.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -9342,6 +9842,16 @@
         "summary": "Get bank accounts",
         "description": "Returns a list of bank accounts in the accounting system",
         "operationId": "accounting_get_bank_accounts",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.bank_accounts",
+              "accounting.bank_accounts.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -9441,6 +9951,14 @@
         "summary": "Create bank account",
         "description": "Create a new bank account in the accounting system",
         "operationId": "accounting_create_bank_account",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.bank_accounts"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -9527,6 +10045,14 @@
         "summary": "Create bank transactions",
         "description": "Create new bank transactions",
         "operationId": "accounting_create_bank_transactions",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.bank_transactions"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -9613,6 +10139,16 @@
         "summary": "Get employees",
         "description": "Returns a list of the employees linked to the company",
         "operationId": "accounting_get_employees",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.employees",
+              "accounting.employees.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -9714,6 +10250,14 @@
         "summary": "Create a financial entry",
         "description": "Create a new financial entry (Bank or Cash operation)",
         "operationId": "accounting_create_financial_entries",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.journal_entries"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -9904,6 +10448,14 @@
         "summary": "Create an expense",
         "description": "Create a new employee expense",
         "operationId": "accounting_create_expense",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.expenses"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -9990,6 +10542,16 @@
         "summary": "Get clients/suppliers outstanding items",
         "description": "Returns a list of all clients/suppliers outstanding items",
         "operationId": "accounting_get_outstandings",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.outstandings",
+              "accounting.outstandings.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -10107,6 +10669,14 @@
         "summary": "Create ledger account",
         "description": "Create a new ledger account in the chart of accounts",
         "operationId": "accounting_create_ledger_account",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.ledger_accounts"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -10193,6 +10763,16 @@
         "summary": "Export entries in FEC format",
         "description": "Returns accounting entries according to the FEC format",
         "operationId": "accounting_export_fec",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.exports",
+              "accounting.exports.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -10295,6 +10875,16 @@
         "summary": "Get orders",
         "description": "Returns a list of the orders",
         "operationId": "pos_get_orders",
+        "security": [
+          {
+            "mcp_auth": [
+              "pos",
+              "pos.read",
+              "pos.orders",
+              "pos.orders.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -10487,6 +11077,16 @@
         "summary": "Get one order",
         "description": "Returns a single order",
         "operationId": "pos_get_order",
+        "security": [
+          {
+            "mcp_auth": [
+              "pos",
+              "pos.read",
+              "pos.orders",
+              "pos.orders.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -10596,6 +11196,14 @@
         "summary": "Update order",
         "description": "Update one order",
         "operationId": "pos_update_pos_customer",
+        "security": [
+          {
+            "mcp_auth": [
+              "pos",
+              "pos.orders"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -10703,6 +11311,16 @@
         "summary": "Get locations",
         "description": "Returns a list of the locations",
         "operationId": "pos_get_locations",
+        "security": [
+          {
+            "mcp_auth": [
+              "pos",
+              "pos.read",
+              "pos.locations",
+              "pos.locations.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -10815,6 +11433,16 @@
         "summary": "Get payments",
         "description": "Returns a list of payments",
         "operationId": "pos_get_payments",
+        "security": [
+          {
+            "mcp_auth": [
+              "pos",
+              "pos.read",
+              "pos.payments",
+              "pos.payments.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -10949,6 +11577,16 @@
         "summary": "Get sales",
         "description": "Returns the summary of the sales",
         "operationId": "pos_get_sales",
+        "security": [
+          {
+            "mcp_auth": [
+              "pos",
+              "pos.read",
+              "pos.orders",
+              "pos.orders.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -11075,6 +11713,16 @@
         "summary": "Get payment methods (POS)",
         "description": "Returns the list of payment methods (POS)",
         "operationId": "pos_get_payments_methods",
+        "security": [
+          {
+            "mcp_auth": [
+              "pos",
+              "pos.read",
+              "pos.payment_methods",
+              "pos.payment_methods.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -11205,6 +11853,16 @@
         "summary": "Get customers",
         "description": "Returns the list of customers",
         "operationId": "pos_get_customers",
+        "security": [
+          {
+            "mcp_auth": [
+              "pos",
+              "pos.read",
+              "pos.customers",
+              "pos.customers.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -11366,6 +12024,14 @@
         "summary": "Create one customer",
         "description": "Create a customer",
         "operationId": "pos_create_pos_customer",
+        "security": [
+          {
+            "mcp_auth": [
+              "pos",
+              "pos.customers"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -11464,6 +12130,16 @@
         "summary": "Get one customer",
         "description": "Returns a specific customer",
         "operationId": "pos_get_customer",
+        "security": [
+          {
+            "mcp_auth": [
+              "pos",
+              "pos.read",
+              "pos.customers",
+              "pos.customers.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -11575,6 +12251,16 @@
         "summary": "Get product categories",
         "description": "Returns a list of product categories",
         "operationId": "pos_get_product_categories",
+        "security": [
+          {
+            "mcp_auth": [
+              "pos",
+              "pos.read",
+              "pos.categories",
+              "pos.categories.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -11714,6 +12400,16 @@
         "summary": "Get products",
         "description": "Returns a list of products",
         "operationId": "pos_get_products",
+        "security": [
+          {
+            "mcp_auth": [
+              "pos",
+              "pos.read",
+              "pos.products",
+              "pos.products.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -11843,6 +12539,16 @@
         "summary": "Get accounting categories",
         "description": "Returns a list of accounting categories. When not available for a specific POS, it will return the same values as the product categories.",
         "operationId": "pos_get_accounting_categories",
+        "security": [
+          {
+            "mcp_auth": [
+              "pos",
+              "pos.read",
+              "pos.categories",
+              "pos.categories.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -11972,6 +12678,16 @@
         "summary": "Get closure info for a specific day",
         "description": "Returns whether the closure was already done for a specific day or not",
         "operationId": "pos_get_closure",
+        "security": [
+          {
+            "mcp_auth": [
+              "pos",
+              "pos.read",
+              "pos.closure",
+              "pos.closure.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -12087,6 +12803,16 @@
         "summary": "Get objectives",
         "description": "Return the total amount and the tax amount for a specific period",
         "operationId": "pos_get_objectives",
+        "security": [
+          {
+            "mcp_auth": [
+              "pos",
+              "pos.read",
+              "pos.objectives",
+              "pos.objectives.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -12238,6 +12964,16 @@
         "summary": "Get report for a specific date (E-reporting)",
         "description": "The endpoints returns the report for a specific date containing the required data for e-reporting",
         "operationId": "pos_get_report",
+        "security": [
+          {
+            "mcp_auth": [
+              "pos",
+              "pos.read",
+              "pos.closure",
+              "pos.closure.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -12353,6 +13089,16 @@
         "summary": "Get all customers",
         "description": "Returns a list of all the customers",
         "operationId": "ecommerce_get_customers",
+        "security": [
+          {
+            "mcp_auth": [
+              "commerce",
+              "commerce.read",
+              "commerce.customers",
+              "commerce.customers.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -12437,6 +13183,16 @@
         "summary": "Get one specific customer",
         "description": "Returns a specific customer",
         "operationId": "ecommerce_get_customer",
+        "security": [
+          {
+            "mcp_auth": [
+              "commerce",
+              "commerce.read",
+              "commerce.customers",
+              "commerce.customers.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -12519,6 +13275,16 @@
         "summary": "Get all products",
         "description": "Returns a list of all the products",
         "operationId": "ecommerce_get_products",
+        "security": [
+          {
+            "mcp_auth": [
+              "commerce",
+              "commerce.read",
+              "commerce.products_variants",
+              "commerce.products_variants.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -12638,6 +13404,16 @@
         "summary": "Get one specific product",
         "description": "Returns a specific product",
         "operationId": "ecommerce_get_product",
+        "security": [
+          {
+            "mcp_auth": [
+              "commerce",
+              "commerce.read",
+              "commerce.products_variants",
+              "commerce.products_variants.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -12720,6 +13496,16 @@
         "summary": "Get one specific product variant",
         "description": "Returns a specific product variant",
         "operationId": "ecommerce_get_variant",
+        "security": [
+          {
+            "mcp_auth": [
+              "commerce",
+              "commerce.read",
+              "commerce.products_variants",
+              "commerce.products_variants.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -12802,6 +13588,14 @@
         "summary": "Update available quantity",
         "description": "Update available quantity of a product variant in a specific location",
         "operationId": "ecommerce_update_variant_quantity",
+        "security": [
+          {
+            "mcp_auth": [
+              "commerce",
+              "commerce.products_variants"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -12904,6 +13698,16 @@
         "summary": "Get all locations",
         "description": "Returns a list of all locations",
         "operationId": "ecommerce_get_locations",
+        "security": [
+          {
+            "mcp_auth": [
+              "commerce",
+              "commerce.read",
+              "commerce.locations",
+              "commerce.locations.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -12988,6 +13792,16 @@
         "summary": "Get all orders",
         "description": "Returns a list of all the orders",
         "operationId": "ecommerce_get_orders",
+        "security": [
+          {
+            "mcp_auth": [
+              "commerce",
+              "commerce.read",
+              "commerce.orders",
+              "commerce.orders.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -13188,6 +14002,14 @@
         "summary": "Create an order",
         "description": "Create a new order",
         "operationId": "ecommerce_create_order",
+        "security": [
+          {
+            "mcp_auth": [
+              "commerce",
+              "commerce.orders"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -13287,6 +14109,16 @@
         "summary": "Get one specific order",
         "description": "Returns a specific order",
         "operationId": "ecommerce_get_order",
+        "security": [
+          {
+            "mcp_auth": [
+              "commerce",
+              "commerce.read",
+              "commerce.orders",
+              "commerce.orders.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -13387,6 +14219,16 @@
         "summary": "Get all payment methods",
         "description": "Returns the list of the payment methods",
         "operationId": "ecommerce_get_payments_methods",
+        "security": [
+          {
+            "mcp_auth": [
+              "commerce",
+              "commerce.read",
+              "commerce.payment_methods",
+              "commerce.payment_methods.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -13471,6 +14313,16 @@
         "summary": "Get all product categories",
         "description": "Returns the list of the product categories",
         "operationId": "ecommerce_get_product_categories",
+        "security": [
+          {
+            "mcp_auth": [
+              "commerce",
+              "commerce.read",
+              "commerce.categories",
+              "commerce.categories.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -13564,6 +14416,16 @@
         "summary": "Get all tax rates",
         "description": "Returns the list of all tax rates",
         "operationId": "ecommerce_get_taxes",
+        "security": [
+          {
+            "mcp_auth": [
+              "commerce",
+              "commerce.read",
+              "commerce.taxes",
+              "commerce.taxes.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -13648,6 +14510,16 @@
         "summary": "Get all countries",
         "description": "Returns the list of all activated countries",
         "operationId": "ecommerce_get_countries",
+        "security": [
+          {
+            "mcp_auth": [
+              "commerce",
+              "commerce.read",
+              "commerce.countries",
+              "commerce.countries.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -13732,6 +14604,16 @@
         "summary": "Retrieve all contacts",
         "description": "Returns a list of all the contacts. Optionally contact type can be defined to retrieve contact from a certain type.",
         "operationId": "invoicing_get_contacts",
+        "security": [
+          {
+            "mcp_auth": [
+              "invoicing",
+              "invoicing.read",
+              "invoicing.contacts",
+              "invoicing.contacts.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -13823,6 +14705,14 @@
         "summary": "Create a contact",
         "description": "Create a new contact.",
         "operationId": "invoicing_post_contacts",
+        "security": [
+          {
+            "mcp_auth": [
+              "invoicing",
+              "invoicing.contacts"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -13892,6 +14782,16 @@
         "summary": "Retrieve one contact",
         "description": "Returns a contact",
         "operationId": "invoicing_get_contact",
+        "security": [
+          {
+            "mcp_auth": [
+              "invoicing",
+              "invoicing.read",
+              "invoicing.contacts",
+              "invoicing.contacts.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -13974,6 +14874,16 @@
         "summary": "Retrieve all products",
         "description": "Returns a list of all the products",
         "operationId": "invoicing_get_products",
+        "security": [
+          {
+            "mcp_auth": [
+              "invoicing",
+              "invoicing.read",
+              "invoicing.products",
+              "invoicing.products.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -14056,6 +14966,14 @@
         "summary": "Create a product",
         "description": "Create a new product.",
         "operationId": "invoicing_post_products",
+        "security": [
+          {
+            "mcp_auth": [
+              "invoicing",
+              "invoicing.products"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -14125,6 +15043,16 @@
         "summary": "Retrieve one product",
         "description": "Returns a product",
         "operationId": "invoicing_get_product",
+        "security": [
+          {
+            "mcp_auth": [
+              "invoicing",
+              "invoicing.read",
+              "invoicing.products",
+              "invoicing.products.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -14207,6 +15135,16 @@
         "summary": "Retrieve all taxes",
         "description": "Returns a list of all the taxes",
         "operationId": "invoicing_get_taxes",
+        "security": [
+          {
+            "mcp_auth": [
+              "invoicing",
+              "invoicing.read",
+              "invoicing.taxes",
+              "invoicing.taxes.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -14291,6 +15229,16 @@
         "summary": "Retrieve one tax",
         "description": "Returns a tax",
         "operationId": "invoicing_get_tax",
+        "security": [
+          {
+            "mcp_auth": [
+              "invoicing",
+              "invoicing.read",
+              "invoicing.taxes",
+              "invoicing.taxes.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -14373,6 +15321,16 @@
         "summary": "Retrieve all invoices",
         "description": "Returns a list of invoices. Optionally invoice type and dates can be defined to retrieve invoices of a certain type from a certain date to another date",
         "operationId": "invoicing_get_invoices",
+        "security": [
+          {
+            "mcp_auth": [
+              "invoicing",
+              "invoicing.read",
+              "invoicing.invoices",
+              "invoicing.invoices.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -14576,6 +15534,14 @@
         "summary": "Create an invoice",
         "description": "Create a new invoice.",
         "operationId": "invoicing_post_invoices",
+        "security": [
+          {
+            "mcp_auth": [
+              "invoicing",
+              "invoicing.invoices"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -14645,6 +15611,16 @@
         "summary": "Retrieve one invoice",
         "description": "Returns a invoice",
         "operationId": "invoicing_get_invoice",
+        "security": [
+          {
+            "mcp_auth": [
+              "invoicing",
+              "invoicing.read",
+              "invoicing.invoices",
+              "invoicing.invoices.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -14762,6 +15738,13 @@
         "summary": "Upload a document (PDF)",
         "description": "Upload a document (PDF)",
         "operationId": "invoicing_upload_document",
+        "security": [
+          {
+            "mcp_auth": [
+              "invoicing"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -14831,6 +15814,16 @@
         "summary": "Retrieve all opportunities",
         "description": "Returns a list of all the opportunities",
         "operationId": "invoicing_get_opportunities",
+        "security": [
+          {
+            "mcp_auth": [
+              "invoicing",
+              "invoicing.read",
+              "invoicing.opportunities",
+              "invoicing.opportunities.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -14915,6 +15908,16 @@
         "summary": "Retrieve one opportunity",
         "description": "Returns an opportunity",
         "operationId": "invoicing_get_opportunity",
+        "security": [
+          {
+            "mcp_auth": [
+              "invoicing",
+              "invoicing.read",
+              "invoicing.opportunities",
+              "invoicing.opportunities.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -14997,6 +16000,16 @@
         "summary": "Retrieve all payments (invoicing)",
         "description": "Returns a list of payments",
         "operationId": "invoicing_get_payments",
+        "security": [
+          {
+            "mcp_auth": [
+              "invoicing",
+              "invoicing.read",
+              "invoicing.payments",
+              "invoicing.payments.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -15113,6 +16126,14 @@
         "summary": "Create a payment (invoicing)",
         "description": "Create a payment (invoicing)",
         "operationId": "invoicing_create_payment",
+        "security": [
+          {
+            "mcp_auth": [
+              "invoicing",
+              "invoicing.payments"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -15182,6 +16203,14 @@
         "summary": "Update a payment (invoicing)",
         "description": "Update a payment (invoicing)",
         "operationId": "invoicing_update_payment",
+        "security": [
+          {
+            "mcp_auth": [
+              "invoicing",
+              "invoicing.payments"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -15260,6 +16289,16 @@
         "summary": "Retrieve all payment methods",
         "description": "Returns the list of payment methods",
         "operationId": "invoicing_get_payments_methods",
+        "security": [
+          {
+            "mcp_auth": [
+              "invoicing",
+              "invoicing.read",
+              "invoicing.payment_methods",
+              "invoicing.payment_methods.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -15344,6 +16383,16 @@
         "summary": "Retrieve all Bank Accounts",
         "description": "Returns the list of bank accounts",
         "operationId": "invoicing_get_bank_accounts",
+        "security": [
+          {
+            "mcp_auth": [
+              "invoicing",
+              "invoicing.read",
+              "invoicing.bank_accounts",
+              "invoicing.bank_accounts.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -15428,6 +16477,16 @@
         "summary": "Retrieve all Bank Transactions",
         "description": "Returns the list of bank transactions",
         "operationId": "invoicing_get_bank_transactions",
+        "security": [
+          {
+            "mcp_auth": [
+              "invoicing",
+              "invoicing.read",
+              "invoicing.bank_transactions",
+              "invoicing.bank_transactions.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -15575,6 +16634,16 @@
         "summary": "Get list of financial institutions",
         "description": "Returns the list of financial institutions the user consent access to",
         "operationId": "banking_get_financial_institutions",
+        "security": [
+          {
+            "mcp_auth": [
+              "banking",
+              "banking.read",
+              "banking.financial_institutions",
+              "banking.financial_institutions.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -15659,6 +16728,16 @@
         "summary": "Get list of banking accounts",
         "description": "Returns the list of banking accounts",
         "operationId": "banking_get_accounts",
+        "security": [
+          {
+            "mcp_auth": [
+              "banking",
+              "banking.read",
+              "banking.banking_accounts",
+              "banking.banking_accounts.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -15743,6 +16822,16 @@
         "summary": "Get list of financial transactions",
         "description": "Returns the list of transactions of an account",
         "operationId": "banking_get_account_transactions",
+        "security": [
+          {
+            "mcp_auth": [
+              "banking",
+              "banking.read",
+              "banking.transactions",
+              "banking.transactions.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -15904,6 +16993,16 @@
         "summary": "Get aggregated list of account counterparts found in transactions",
         "description": "Returns the aggregated list of account counterpats found in transactions. Useful for categorisation.",
         "operationId": "banking_get_account_counterparts",
+        "security": [
+          {
+            "mcp_auth": [
+              "banking",
+              "banking.read",
+              "banking.banking_accounts",
+              "banking.banking_accounts.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -16038,6 +17137,16 @@
         "summary": "Get Attachments",
         "description": "Returns a list of all attachments linked to a transaction",
         "operationId": "banking_get_attachments",
+        "security": [
+          {
+            "mcp_auth": [
+              "banking",
+              "banking.read",
+              "banking.attachments",
+              "banking.attachments.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -16131,6 +17240,16 @@
         "summary": "Retrieve all balances",
         "description": "Returns a list of balances.",
         "operationId": "payment_get_balances",
+        "security": [
+          {
+            "mcp_auth": [
+              "payment",
+              "payment.read",
+              "payment.balances",
+              "payment.balances.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -16215,6 +17334,16 @@
         "summary": "Retrieve all transactions",
         "description": "Returns a list of transactions. Optionally transaction type and dates can be defined to retrieve transactions of a certain type from a certain date to another date",
         "operationId": "payment_get_transactions",
+        "security": [
+          {
+            "mcp_auth": [
+              "payment",
+              "payment.read",
+              "payment.transactions",
+              "payment.transactions.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -16385,6 +17514,16 @@
         "summary": "Retrieve all payments",
         "description": "Returns a list of payments.",
         "operationId": "payment_get_payments",
+        "security": [
+          {
+            "mcp_auth": [
+              "payment",
+              "payment.read",
+              "payment.payments",
+              "payment.payments.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -16503,6 +17642,16 @@
         "summary": "Get a payment",
         "description": "Returns a specific payment.",
         "operationId": "payment_get_payment",
+        "security": [
+          {
+            "mcp_auth": [
+              "payment",
+              "payment.read",
+              "payment.payments",
+              "payment.payments.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -16585,6 +17734,16 @@
         "summary": "Retrieve all refunds",
         "description": "Returns a list of refunds.",
         "operationId": "payment_get_refunds",
+        "security": [
+          {
+            "mcp_auth": [
+              "payment",
+              "payment.read",
+              "payment.refunds",
+              "payment.refunds.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -16720,6 +17879,16 @@
         "summary": "Get orders (PMS)",
         "description": "Returns a list of the orders",
         "operationId": "pms_get_orders",
+        "security": [
+          {
+            "mcp_auth": [
+              "pms",
+              "pms.read",
+              "pms.orders",
+              "pms.orders.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -16877,6 +18046,16 @@
         "summary": "Get invoices (PMS)",
         "description": "Returns a list of the invoices",
         "operationId": "pms_get_invoices",
+        "security": [
+          {
+            "mcp_auth": [
+              "pms",
+              "pms.read",
+              "pms.invoices",
+              "pms.invoices.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -17025,6 +18204,16 @@
         "summary": "Get customers (PMS)",
         "description": "Returns a list of all the customers",
         "operationId": "pms_get_customers",
+        "security": [
+          {
+            "mcp_auth": [
+              "pms",
+              "pms.read",
+              "pms.customers",
+              "pms.customers.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -17138,6 +18327,16 @@
         "summary": "Get one customer (PMS)",
         "description": "Returns a specific customer",
         "operationId": "pms_get_customer",
+        "security": [
+          {
+            "mcp_auth": [
+              "pms",
+              "pms.read",
+              "pms.customers",
+              "pms.customers.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -17248,6 +18447,16 @@
         "summary": "Get locations (PMS)",
         "description": "Returns a list of the locations",
         "operationId": "pms_get_locations",
+        "security": [
+          {
+            "mcp_auth": [
+              "pms",
+              "pms.read",
+              "pms.locations",
+              "pms.locations.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -17360,6 +18569,16 @@
         "summary": "Get payments (PMS)",
         "description": "Returns a list of payments",
         "operationId": "pms_get_payments",
+        "security": [
+          {
+            "mcp_auth": [
+              "pms",
+              "pms.read",
+              "pms.payments",
+              "pms.payments.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -17492,6 +18711,16 @@
         "summary": "Get payment methods (PMS)",
         "description": "Returns the list of payment methods",
         "operationId": "pms_get_payments_methods",
+        "security": [
+          {
+            "mcp_auth": [
+              "pms",
+              "pms.read",
+              "pms.payment_methods",
+              "pms.payment_methods.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -17620,6 +18849,16 @@
         "summary": "Get accounting categories (PMS)",
         "description": "Returns a list of accounting categories. When not available for a specific PMS,it will return the same values as the product categories.",
         "operationId": "pms_get_accounting_categories",
+        "security": [
+          {
+            "mcp_auth": [
+              "pms",
+              "pms.read",
+              "pms.categories",
+              "pms.categories.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -17732,6 +18971,16 @@
         "summary": "Get closure info for a specific day (PMS)",
         "description": "Returns whether the closure was already done for a specific day or not",
         "operationId": "pms_get_closure",
+        "security": [
+          {
+            "mcp_auth": [
+              "pms",
+              "pms.read",
+              "pms.closure_info",
+              "pms.closure_info.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -17845,6 +19094,16 @@
         "summary": "Get tax rates (PMS)",
         "description": "Returns a list of the tax rates",
         "operationId": "pms_get_taxes",
+        "security": [
+          {
+            "mcp_auth": [
+              "pms",
+              "pms.read",
+              "pms.taxes",
+              "pms.taxes.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -17957,6 +19216,16 @@
         "summary": "Get the accounting transactions (PMS)",
         "description": "Returns a list of the accounting transactions",
         "operationId": "pms_get_accounting_transactions",
+        "security": [
+          {
+            "mcp_auth": [
+              "pms",
+              "pms.read",
+              "pms.taxes",
+              "pms.taxes.read"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "consumer_id",
@@ -20763,6 +22032,21 @@
               "transaction-123"
             ]
           },
+          "bank_account_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bank Account Id",
+            "description": "Identifier of the bank account linked to the transaction",
+            "examples": [
+              "account-123"
+            ]
+          },
           "amount": {
             "type": "number",
             "title": "Amount",
@@ -20950,6 +22234,19 @@
             "examples": [
               "pending"
             ]
+          },
+          "open_balance": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Open Balance",
+            "description": "Opening balance of the account at the time of the transaction",
+            "examples": [1000]
           },
           "attachments_info": {
             "$ref": "#/components/schemas/ItemAttachmentInfoOut",
@@ -24540,6 +25837,17 @@
               }
             ],
             "title": "Email"
+          },
+          "vat": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vat"
           }
         },
         "type": "object",
@@ -33729,6 +35037,8 @@
           "swift_income",
           "pay_later",
           "financing_installment",
+          "cashback",
+          "interest",
           "other"
         ],
         "title": "OperationType"
@@ -42134,6 +43444,13 @@
           "type": {
             "type": "string",
             "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
           }
         },
         "type": "object",
