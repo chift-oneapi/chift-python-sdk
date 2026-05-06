@@ -81,6 +81,7 @@ from .openapi import (
     POSOrderItem,
     POSPaymentItem,
     POSProductItem,
+    POSTaxRateItem,
     ProductCategoryItem,
     ProductItemOut,
     ReadFlowItem,
@@ -496,6 +497,10 @@ class POSAccountingCategory(AccountingCategoryItem):
 
 
 class POSProduct(POSProductItem):
+    pass
+
+
+class POSTax(POSTaxRateItem):
     pass
 
 

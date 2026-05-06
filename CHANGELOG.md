@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.17 - 2026-05-06
+- pos: add `Tax` model and `get tax rates` endpoint (`/pos/tax-rates`)
+
 ## 0.5.16 - 2026-14-26
 - banking: add new values `cashback` and `interest` in `OperationType` Enum
 - banking: add new fields `bank_account_id` and `open_balance` in `BankingTransactionItem` model
