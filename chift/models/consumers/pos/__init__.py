@@ -10,6 +10,7 @@ from chift.openapi.models import PaymentMethods as PaymentMethodsModel
 from chift.openapi.models import POSAccountingCategory as AccountingCategoryModel
 from chift.openapi.models import POSProduct as ProductModel
 from chift.openapi.models import POSProductCategory as ProductCategoryModel
+from chift.openapi.models import POSTax as TaxModel
 from chift.openapi.models import Sales as SalesModel
 
 
@@ -25,6 +26,7 @@ class PosRouter:
         self.Product = Product(consumer_id, connection_id)
         self.ProductCategory = ProductCategory(consumer_id, connection_id)
         self.AccountingCategory = AccountingCategory(consumer_id, connection_id)
+        self.Tax = Tax(consumer_id, connection_id)
 
 
 class Customer(
@@ -87,3 +89,9 @@ class AccountingCategory(PaginationMixin[AccountingCategoryModel]):
     chift_vertical: ClassVar = "pos"
     chift_model: ClassVar = "accounting-categories"
     model = AccountingCategoryModel
+
+
+class Tax(PaginationMixin[TaxModel]):
+    chift_vertical: ClassVar = "pos"
+    chift_model: ClassVar = "tax-rates"
+    model = TaxModel

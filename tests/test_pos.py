@@ -139,3 +139,17 @@ def test_productcategories_all(pos_consumer: Consumer):
     assert categories
     for category in categories:
         assert category.id
+
+
+@pytest.mark.mock_chift_response(
+    pos.TAX_ALL, pos.TAX_ALL["items"][0], pos.TAX_ALL["items"][1]
+)
+def test_tax_all(pos_consumer: Consumer):
+    consumer = pos_consumer
+    taxes = consumer.pos.Tax.all(limit=2)
+
+    assert taxes
+
+    for tax in taxes:
+        assert tax.id
+        assert tax.rate is not None

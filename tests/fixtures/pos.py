@@ -253,6 +253,26 @@ PAYMENT_METHOD_ALL = {
     "page": 1,
     "size": 10,
 }
+TAX_ALL = {
+    "items": [
+        {
+            "id": "tax-001",
+            "label": "VAT 21%",
+            "rate": 21.0,
+            "tax_code": "VAT21",
+        },
+        {
+            "id": "tax-002",
+            "label": "VAT 6%",
+            "rate": 6.0,
+            "tax_code": "VAT06",
+        },
+    ],
+    "total": 2,
+    "page": 1,
+    "size": 10,
+}
+
 PAYMENT_ALL = {
     "items": [
         {
