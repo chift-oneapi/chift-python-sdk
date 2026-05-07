@@ -5,7 +5,9 @@
     "description": "The Chift API is a universal API giving you access to financial data from the software of your clients. It helps software companies to offer native integrations to their clients without the effort needed to maintain those native integrations. By using the APIs (Accounting, POS, eCommerce) of Chift, you connect once and allow your clients to use their software packages.",
     "version": "1.0.0"
   },
-  "servers": [{ "url": "https://api.chift.eu", "description": "Chift" }],
+  "servers": [
+    { "url": "https://api.chift.eu", "description": "Chift" }
+  ],
   "paths": {
     "/token": {
       "post": {
@@ -17304,7 +17306,20 @@
       },
       "AttachmentItem": {
         "properties": {
-          "base64_string": { "type": "string", "title": "Base64 String" }
+          "base64_string": { "type": "string", "title": "Base64 String" },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1,
+                "pattern": "^[a-zA-Z0-9\\-_ ]{1,196}+(?:.pdf)?$"
+              },
+              { "type": "null" }
+            ],
+            "title": "Name",
+            "description": "A name for the PDF file to be created for accounting software that support it."
+          }
         },
         "type": "object",
         "required": ["base64_string"],
@@ -17516,6 +17531,19 @@
             "anyOf": [{ "type": "string" }, { "type": "null" }],
             "title": "Pdf",
             "description": "Base64 PDF attachment of the bank statement."
+          },
+          "pdf_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1,
+                "pattern": "^[a-zA-Z0-9\\-_ ]{1,196}+(?:.pdf)?$"
+              },
+              { "type": "null" }
+            ],
+            "title": "Pdf Name",
+            "description": "A name for the PDF file to be created for accounting software that support it."
           },
           "items": {
             "items": { "$ref": "#/components/schemas/BankTransactionItemIn" },
@@ -20944,6 +20972,19 @@
             "title": "Pdf",
             "description": "Base64 PDF attachment of the expense document."
           },
+          "pdf_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1,
+                "pattern": "^[a-zA-Z0-9\\-_ ]{1,196}+(?:.pdf)?$"
+              },
+              { "type": "null" }
+            ],
+            "title": "Pdf Name",
+            "description": "A name for the PDF file to be created for accounting software that support it."
+          },
           "lines": {
             "items": { "$ref": "#/components/schemas/ExpenseLineItem" },
             "type": "array",
@@ -21017,6 +21058,19 @@
             "anyOf": [{ "type": "string" }, { "type": "null" }],
             "title": "Pdf",
             "description": "Base64 PDF attachment of the expense document."
+          },
+          "pdf_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1,
+                "pattern": "^[a-zA-Z0-9\\-_ ]{1,196}+(?:.pdf)?$"
+              },
+              { "type": "null" }
+            ],
+            "title": "Pdf Name",
+            "description": "A name for the PDF file to be created for accounting software that support it."
           },
           "lines": {
             "items": { "$ref": "#/components/schemas/ExpenseLineItem" },
@@ -21382,6 +21436,19 @@
             "anyOf": [{ "type": "string" }, { "type": "null" }],
             "title": "Pdf",
             "description": "Base 64 string representing the PDF attached to the sale/purchase entry."
+          },
+          "pdf_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1,
+                "pattern": "^[a-zA-Z0-9\\-_ ]{1,196}+(?:.pdf)?$"
+              },
+              { "type": "null" }
+            ],
+            "title": "Pdf Name",
+            "description": "A name for the PDF file to be created for accounting software that support it."
           }
         },
         "type": "object",
@@ -21857,6 +21924,19 @@
             "anyOf": [{ "type": "string" }, { "type": "null" }],
             "title": "Pdf",
             "description": "Base 64 string representing the PDF attached to the item."
+          },
+          "pdf_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1,
+                "pattern": "^[a-zA-Z0-9\\-_ ]{1,196}+(?:.pdf)?$"
+              },
+              { "type": "null" }
+            ],
+            "title": "Pdf Name",
+            "description": "A name for the PDF file to be created for accounting software that support it."
           },
           "posted": {
             "anyOf": [{ "type": "boolean" }, { "type": "null" }],
@@ -22467,6 +22547,19 @@
             "title": "Pdf",
             "description": "Base 64 string representing the PDF attached to the invoice."
           },
+          "pdf_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1,
+                "pattern": "^[a-zA-Z0-9\\-_ ]{1,196}+(?:.pdf)?$"
+              },
+              { "type": "null" }
+            ],
+            "title": "Pdf Name",
+            "description": "A name for the PDF file to be created for accounting software that support it."
+          },
           "currency_exchange_rate": {
             "anyOf": [{ "type": "number" }, { "type": "null" }],
             "title": "Currency Exchange Rate",
@@ -22633,6 +22726,19 @@
             "anyOf": [{ "type": "string" }, { "type": "null" }],
             "title": "Pdf",
             "description": "Base 64 string representing the PDF attached to the invoice."
+          },
+          "pdf_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1,
+                "pattern": "^[a-zA-Z0-9\\-_ ]{1,196}+(?:.pdf)?$"
+              },
+              { "type": "null" }
+            ],
+            "title": "Pdf Name",
+            "description": "A name for the PDF file to be created for accounting software that support it."
           },
           "currency_exchange_rate": {
             "anyOf": [{ "type": "number" }, { "type": "null" }],
