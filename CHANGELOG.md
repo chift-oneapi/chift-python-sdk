@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.18 - 2026-05-07
+- accounting: add pdf_name and name in different models to support specifying a name for a pdf
+
 ## 0.5.17 - 2026-05-06
 - pos: add `Tax` model and `get tax rates` endpoint (`/pos/tax-rates`)
 
