@@ -8,7 +8,28 @@ As models are kept in sync thanks to openapi, you need to regenerate `openapi.py
 We generate the models used in this SDK thanks to  [datamodel-code-generator](https://github.com/koxudaxi/datamodel-code-generator/)
 
 ```bash
-PYTHONPATH=. datamodel-codegen --input ./openapi.json --output openapi.py --output-model-type pydantic_v2.BaseModel --custom-formatters chift_formatter --use-double-quotes
+PYTHONPATH=. datamodel-codegen --input ./openapi.json --output openapi.py --output-model-type pydantic_v2.BaseModel --custom-formatters chift_formatter --use-double-quotes --allow-extra-fields
+```
+
+you can also add a function in your zshrc (or equivalent) to make it easier:
+
+```bash
+generate_openapi_models() {                                                                                                                                                                                                                                                                                       
+local url=${1:-http://127.0.0.1:8000/openapi.json}                                                                                                                                                                                                                                                              
+curl -s "$url" | jq > openapi.json &&                                                                                                                                                                                                                                                                           
+datamodel-codegen \                                                                                                                                                                                                                                                                                             
+  --input ./openapi.json \                                                                                                                                                                                                                                                                                      
+  --output openapi.py \                                                                                                                                                                                                                                                                                         
+  --output-model-type pydantic_v2.BaseModel \                                                                                                                                                                                                                                                                   
+  --use-double-quotes \                                                                                                                                                                                                                                                                                         
+  --allow-extra-fields \                                                                                                                                                                                                                                                                                        
+  --target-python-version 3.11 &&                                                                                                                                                                                                                                                                               
+  python3 -c "import re; p='openapi.py'; c=open(p).read(); c=re.sub(r'\\bfrom datetime import date, datetime\\b', 'from datetime import date as Date\\nfrom datetime import datetime as DateTime', c); c=re.sub(r'(:\\s*(?:Optional\\[\\s*)?)datetime(?=\\s*(?:\\]\\s*)?(?:=|$))', r'\\1DateTime', c, flags=re.M);
+c=re.sub(r'(:\\s*(?:Optional\\[\\s*)?)date(?=\\s*(?:\\]\\s*)?(?:=|$))', r'\\1Date', c, flags=re.M); open(p,'w').write(c)"                                                                                                                                                                                        
+cd ..                                                                                                                                                                                                                                                                                                           
+cd ..                                                                                                                                                                                                                                                                                                           
+make fmt                                                                                                                                                                                                                                                                                                        
+} 
 ```
 
 Then, those models are mapped to the one used in the python SDK in ```models.py```

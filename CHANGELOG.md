@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.0 - 2026-05-08
+- models: allow extra fields
+
 ## 0.5.18 - 2026-05-07
 - accounting: add pdf_name and name in different models to support specifying a name for a pdf
 
