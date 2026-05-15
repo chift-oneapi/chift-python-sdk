@@ -64,6 +64,7 @@ from .openapi import Payment as PaymentModel
 from .openapi import PaymentItemOut, PaymentMethodItem
 from .openapi import PaymentMethods as PaymentMethodsModel
 from .openapi import (
+    PayoutItemOut,
     PMSAccountingCategoryItem,
     PMSAccountingTransactionItem,
     PMSClosureItem,
@@ -600,6 +601,10 @@ class PaymentPayment(PaymentItemOut):
 
 
 class PaymentRefund(RefundItemOut):
+    pass
+
+
+class PaymentPayout(PayoutItemOut):
     pass
 
 

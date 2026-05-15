@@ -9,6 +9,7 @@ from chift.api.mixins import (
 )
 from chift.openapi.models import PaymentBalance as PaymentBalanceModel
 from chift.openapi.models import PaymentPayment as PaymentItemModel
+from chift.openapi.models import PaymentPayout as PayoutItemModel
 from chift.openapi.models import PaymentRefund as RefundItemModel
 from chift.openapi.models import PaymentTransaction as TransactionModel
 
@@ -19,6 +20,7 @@ class PaymentRouter:
         self.Balance = Balance(consumer_id, connection_id)
         self.Payment = Payment(consumer_id, connection_id)
         self.Refund = Refund(consumer_id, connection_id)
+        self.Payout = Payout(consumer_id, connection_id)
 
 
 class Transaction(PaginationMixin[TransactionModel]):
@@ -43,3 +45,9 @@ class Refund(PaginationMixin[RefundItemModel]):
     chift_vertical: ClassVar = "payment"
     chift_model: ClassVar = "refunds"
     model = RefundItemModel
+
+
+class Payout(PaginationMixin[PayoutItemModel]):
+    chift_vertical: ClassVar = "payment"
+    chift_model: ClassVar = "payouts"
+    model = PayoutItemModel
