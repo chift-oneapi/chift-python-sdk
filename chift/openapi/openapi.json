@@ -30402,6 +30402,18 @@
             "type": "boolean",
             "title": "Optional",
             "default": false
+          },
+          "visibility": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Visibility"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Visibility of the credential. If connector is selected, it should be defined when the connector is activated on your environment. If consumer is selected, the end-user will have to provide the credential when creating the connection. If both is selected, the credential can be defined when the connector is activated on your environment or when the end-user creates the connection (it will not be available for the end-user when it's activated at connector-level)",
+            "default": "both"
           }
         },
         "type": "object",
@@ -44637,6 +44649,15 @@
           "unknown"
         ],
         "title": "VatCodeType"
+      },
+      "Visibility": {
+        "type": "string",
+        "enum": [
+          "consumer",
+          "connector",
+          "both"
+        ],
+        "title": "Visibility"
       },
       "WebhookInstanceGetItem": {
         "properties": {
