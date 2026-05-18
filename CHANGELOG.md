@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.1 - 2026-05-15
+- payments: add payout endpoint
+- banking: add custom endpoint
+
 ## 0.6.0 - 2026-05-08
 - models: allow extra fields
 
@@ -25,10 +29,10 @@
 ## 0.5.13 - 2026-03-13
 - pms: add transactions model
 
-# 0.5.12 - 2026-03-13
+## 0.5.12 - 2026-03-13
 - Fix exception raising when response status is 401
 
-# 0.5.11 - 2026-03-13
+## 0.5.11 - 2026-03-13
 - add create/update/delete endpoints in the Invoicing API
 
 ## 0.5.10 - 2026-03-09

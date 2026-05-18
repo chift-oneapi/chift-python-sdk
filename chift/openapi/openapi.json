@@ -17626,6 +17626,23 @@
             "description": "Get all transactions for a specific balance"
           },
           {
+            "name": "payout_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Payout Id"
+            },
+            "description": "Get all transactions linked to a specific payout"
+          },
+          {
             "name": "date_from",
             "in": "query",
             "required": false,
@@ -18032,6 +18049,134 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ChiftPage_RefundItemOut_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/payment/payouts": {
+      "get": {
+        "tags": [
+          "Payment",
+          "Payouts"
+        ],
+        "summary": "Retrieve all payouts",
+        "description": "Returns a list of payouts (periodic bank transfers made by the processor to the merchant).",
+        "operationId": "payment_get_payouts",
+        "security": [
+          {
+            "mcp_auth": [
+              "payment",
+              "payment.read",
+              "payment.payouts",
+              "payment.payouts.read"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Size"
+            },
+            "description": "Page size"
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date From"
+            }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date To"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_PayoutItemOut_"
                 }
               }
             }
@@ -24737,6 +24882,40 @@
         ],
         "title": "ChiftPage[Payment]"
       },
+      "ChiftPage_PayoutItemOut_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/PayoutItemOut"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Page"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "title": "ChiftPage[PayoutItemOut]"
+      },
       "ChiftPage_ProductCategoryItem_": {
         "properties": {
           "items": {
@@ -30223,6 +30402,18 @@
             "type": "boolean",
             "title": "Optional",
             "default": false
+          },
+          "visibility": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Visibility"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Visibility of the credential. If connector is selected, it should be defined when the connector is activated on your environment. If consumer is selected, the end-user will have to provide the credential when creating the connection. If both is selected, the credential can be defined when the connector is activated on your environment or when the end-user creates the connection (it will not be available for the end-user when it's activated at connector-level)",
+            "default": "both"
           }
         },
         "type": "object",
@@ -40211,6 +40402,98 @@
         ],
         "title": "PaymentTermAccountInfo"
       },
+      "PayoutItemOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "$ref": "#/components/schemas/Ref",
+            "description": "Technical id in the target software"
+          },
+          "status": {
+            "$ref": "#/components/schemas/PayoutStatus",
+            "description": "Payout status"
+          },
+          "type": {
+            "$ref": "#/components/schemas/PayoutType",
+            "description": "Payout type"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount",
+            "description": "Amount transferred to the merchant"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "description": "Currency"
+          },
+          "fee": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fee",
+            "description": "Total fee applied by the processor"
+          },
+          "extra_fee": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Extra Fee",
+            "description": "Extra fee, if exposed by the processor"
+          },
+          "payment_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Payment Date",
+            "description": "Date at which the payout was made"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "source_ref",
+          "status",
+          "type",
+          "amount",
+          "currency",
+          "payment_date"
+        ],
+        "title": "PayoutItemOut"
+      },
+      "PayoutStatus": {
+        "type": "string",
+        "enum": [
+          "scheduled",
+          "in_transit",
+          "paid",
+          "failed",
+          "canceled"
+        ],
+        "title": "PayoutStatus"
+      },
+      "PayoutType": {
+        "type": "string",
+        "enum": [
+          "payout",
+          "bank_account",
+          "other"
+        ],
+        "title": "PayoutType"
+      },
       "PostAddressItem": {
         "properties": {
           "name": {
@@ -44366,6 +44649,15 @@
           "unknown"
         ],
         "title": "VatCodeType"
+      },
+      "Visibility": {
+        "type": "string",
+        "enum": [
+          "consumer",
+          "connector",
+          "both"
+        ],
+        "title": "Visibility"
       },
       "WebhookInstanceGetItem": {
         "properties": {
