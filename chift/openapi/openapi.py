@@ -3356,6 +3356,9 @@ class TransactionItemOut(BaseModel):
     )
     refund_id: Optional[str] = Field(None, title="Refund Id")
     payment_id: Optional[str] = Field(None, title="Payment Id")
+    description: Optional[str] = Field(
+        None, description="Description linked to the transaction", title="Description"
+    )
 
 
 class TriggerPriority(Enum):

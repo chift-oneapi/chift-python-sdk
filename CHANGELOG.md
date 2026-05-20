@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.2 - 2026-05-20
+- add description to Transaction model 
+
 ## 0.6.1 - 2026-05-15
 - payments: add payout endpoint
 - banking: add custom endpoint
