@@ -6570,6 +6570,119 @@
         }
       }
     },
+    "/consumers/{consumer_id}/accounting/invoices/id/{invoice_id}/payments": {
+      "get": {
+        "tags": ["Accounting", "Invoices"],
+        "summary": "Get payments by invoice ID",
+        "description": "Get payments of a specific invoice based on its ID",
+        "operationId": "accounting_get_payments_by_invoice",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.invoices",
+              "accounting.invoices.read"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "invoice_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Invoice Id" }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Size"
+            },
+            "description": "Page size"
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Folder Id"
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ChiftPage_Payment_" }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The ID of the invoice doesn't have the correct format.",
+                  "status": "error"
+                },
+                "schema": { "$ref": "#/components/schemas/ChiftError" }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The given invoice doesn't exist in the accounting system.",
+                  "status": "error"
+                },
+                "schema": { "$ref": "#/components/schemas/ChiftError" }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/accounting/payment-methods": {
       "get": {
         "tags": ["Accounting", "Invoices"],
@@ -7101,6 +7214,380 @@
         }
       }
     },
+    "/consumers/{consumer_id}/accounting/miscellaneous-operation": {
+      "post": {
+        "tags": ["Accounting", "Miscellaneous operations"],
+        "summary": "Create miscellaneous operation",
+        "description": "Create a new miscellaneous operation",
+        "operationId": "accounting_create_miscellaneous_operation",
+        "security": [
+          { "mcp_auth": ["accounting", "accounting.miscellaneous_operations"] }
+        ],
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Folder Id"
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MiscellaneousOperationIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MiscellaneousOperationOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Invalid journal_id": {
+                    "value": {
+                      "message": "The format of the journal_id doesn't seem to be correct.",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid analytic account": {
+                    "value": {
+                      "message": "The format of the analytic account doesn't seem to be correct.",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid partner_id": {
+                    "value": {
+                      "message": "The format of the field 'partner_id' doesn't seem to be correct.",
+                      "status": "error"
+                    }
+                  },
+                  "No lines": {
+                    "value": {
+                      "message": "Please add at least one line.",
+                      "status": "error"
+                    }
+                  },
+                  "Unbalanced operation": {
+                    "value": {
+                      "message": "The operation is not balanced. The sum of the lines must be zero.",
+                      "status": "error"
+                    }
+                  },
+                  "Missing partner_id": {
+                    "value": {
+                      "message": "A lines of type 'customer_account' or 'supplier_account' must have a 'partner_id' filled in.",
+                      "status": "error"
+                    }
+                  },
+                  "Journal wrong scope": {
+                    "value": {
+                      "message": "The given journal cannot be used with this type of operation.",
+                      "status": "error"
+                    }
+                  },
+                  "Account wrong scope": {
+                    "value": {
+                      "message": "The account 'x' cannot be used for this type of line.",
+                      "status": "error"
+                    }
+                  }
+                },
+                "schema": { "$ref": "#/components/schemas/ChiftError" }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Journal not found": {
+                    "value": {
+                      "message": "The journal doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Multiple journals found": {
+                    "value": {
+                      "message": "Multiple journals were found. Please indicate the wanted journal in the request.",
+                      "status": "error"
+                    }
+                  },
+                  "Partner not found": {
+                    "value": {
+                      "message": "The client/supplier doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Account not found": {
+                    "value": {
+                      "message": "The account number 'x' doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Analytic account not found": {
+                    "value": {
+                      "message": "The analytic account 'x' doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Currency not found": {
+                    "value": {
+                      "message": "The currency 'x' doesn't exist in the accounting system.",
+                      "status": "error"
+                    }
+                  }
+                },
+                "schema": { "$ref": "#/components/schemas/ChiftError" }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Accounting", "Miscellaneous operations"],
+        "summary": "Get miscellaneous operations",
+        "description": "Get miscellaneous operations from the the accounting system",
+        "operationId": "accounting_get_miscellaneous_operations",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.miscellaneous_operations",
+              "accounting.miscellaneous_operations.read"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Size"
+            },
+            "description": "Page size"
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Folder Id"
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                { "type": "string", "format": "date" },
+                { "type": "null" }
+              ],
+              "title": "Date From"
+            }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                { "type": "string", "format": "date" },
+                { "type": "null" }
+              ],
+              "title": "Date To"
+            }
+          },
+          {
+            "name": "journal_ids",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Journal Ids"
+            },
+            "description": "Journal Ids used to filter the invoices. The Ids are separed by ','"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_MiscellaneousOperationOut_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": { "$ref": "#/components/schemas/ChiftError" }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/accounting/miscellaneous-operation/{operation_id}": {
+      "get": {
+        "tags": ["Accounting", "Miscellaneous operations"],
+        "summary": "Get one miscellaneous operation",
+        "description": "Get a specific miscellaneous operation from the the accounting system",
+        "operationId": "accounting_get_miscellaneous_operation",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.miscellaneous_operations",
+              "accounting.miscellaneous_operations.read"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "operation_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Operation Id" }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Folder Id"
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MiscellaneousOperationOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": { "$ref": "#/components/schemas/ChiftError" }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/accounting/matching": {
       "post": {
         "tags": ["Accounting", "Journal entries"],
@@ -7146,6 +7633,141 @@
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/MatchingOut" }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Invalid format": {
+                    "value": {
+                      "message": "The entries format doesn't seem to be correct.",
+                      "status": "error"
+                    }
+                  },
+                  "Unbalanced entry": {
+                    "value": {
+                      "message": "The amounts of the entries are not balanced.",
+                      "status": "error"
+                    }
+                  },
+                  "Already matched": {
+                    "value": {
+                      "message": "Entry 'x' is already matched in the accounting system.",
+                      "status": "error"
+                    }
+                  },
+                  "Partner mismatch": {
+                    "value": {
+                      "message": "The entries have different clients/suppliers.",
+                      "status": "error"
+                    }
+                  },
+                  "Entry missing account": {
+                    "value": {
+                      "message": "Entry 'x' doesn't have a receivable/payable account.",
+                      "status": "error"
+                    }
+                  },
+                  "Entry missing partner": {
+                    "value": {
+                      "message": "Entry 'x' is not linked to a client/supplier.",
+                      "status": "error"
+                    }
+                  },
+                  "Could not match": {
+                    "value": {
+                      "message": "An error occured during the matching process. Please retry again later.",
+                      "status": "error"
+                    }
+                  },
+                  "Entry invalid status": {
+                    "value": {
+                      "message": "Entry 'x' doesn't have the correct status.",
+                      "status": "error"
+                    }
+                  }
+                },
+                "schema": { "$ref": "#/components/schemas/ChiftError" }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Entry 'x' doesn't exist in the accounting system.",
+                  "status": "error"
+                },
+                "schema": { "$ref": "#/components/schemas/ChiftError" }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/accounting/matching-multiple": {
+      "post": {
+        "tags": ["Accounting", "Journal entries"],
+        "summary": "Match multiple entries",
+        "description": "Match existing entries in the accounting system",
+        "operationId": "accounting_match_entries_multiple",
+        "security": [
+          { "mcp_auth": ["accounting", "accounting.journal_entries"] }
+        ],
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Folder Id"
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/MultipleMatchingIn" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MultipleMatchingOut"
+                  },
+                  "title": "Response Accounting Match Entries Multiple"
+                }
               }
             }
           },
@@ -12594,7 +13216,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/InvoiceItem-Input" }
+              "schema": { "$ref": "#/components/schemas/InvoiceItemIn" }
             }
           }
         },
@@ -14041,6 +14663,93 @@
         }
       }
     },
+    "/consumers/{consumer_id}/payment/locations": {
+      "get": {
+        "tags": ["Payment", "Locations"],
+        "summary": "Retrieve all locations",
+        "description": "Returns a list of locations.",
+        "operationId": "payment_get_locations",
+        "security": [
+          {
+            "mcp_auth": [
+              "payment",
+              "payment.read",
+              "payment.locations",
+              "payment.locations.read"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Size"
+            },
+            "description": "Page size"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_PaymentLocationItem_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": { "$ref": "#/components/schemas/ChiftError" }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/payment/balances": {
       "get": {
         "tags": ["Payment", "Balances"],
@@ -14249,6 +14958,16 @@
               ],
               "title": "Date To"
             }
+          },
+          {
+            "name": "location_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Location Id"
+            },
+            "description": "Get all transactions for a specific location"
           }
         ],
         "responses": {
@@ -14360,6 +15079,16 @@
               ],
               "title": "Date To"
             }
+          },
+          {
+            "name": "location_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Location Id"
+            },
+            "description": "Get all transactions for a specific location"
           }
         ],
         "responses": {
@@ -14559,6 +15288,16 @@
               ],
               "title": "Date To"
             }
+          },
+          {
+            "name": "location_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Location Id"
+            },
+            "description": "Get all transactions for a specific location"
           }
         ],
         "responses": {
@@ -14670,6 +15409,16 @@
               ],
               "title": "Date To"
             }
+          },
+          {
+            "name": "location_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Location Id"
+            },
+            "description": "Get all transactions for a specific location"
           }
         ],
         "responses": {
@@ -15026,6 +15775,36 @@
               "title": "Size"
             },
             "description": "Page size"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Search"
+            },
+            "description": "Filter based on other parameters than the email/phone, e.g. firstname, lastname"
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Email"
+            },
+            "description": "Filter based on email of customer"
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Phone"
+            },
+            "description": "Filter based on phone of customer"
           }
         ],
         "responses": {
@@ -17032,20 +17811,16 @@
             "description": "Currency"
           },
           "create_date": {
-            "type": "string",
-            "format": "date-time",
+            "anyOf": [
+              { "type": "string", "format": "date-time" },
+              { "type": "null" }
+            ],
             "title": "Create Date",
             "description": "Create Date"
           }
         },
         "type": "object",
-        "required": [
-          "id",
-          "source_ref",
-          "available_amount",
-          "currency",
-          "create_date"
-        ],
+        "required": ["id", "source_ref", "available_amount", "currency"],
         "title": "BalanceItemOut"
       },
       "BankAccountItemIn": {
@@ -18386,6 +19161,23 @@
         "required": ["items", "total", "page", "size"],
         "title": "ChiftPage[Journal]"
       },
+      "ChiftPage_MiscellaneousOperationOut_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/MiscellaneousOperationOut"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": { "type": "integer", "minimum": 0.0, "title": "Total" },
+          "page": { "type": "integer", "minimum": 1.0, "title": "Page" },
+          "size": { "type": "integer", "minimum": 1.0, "title": "Size" }
+        },
+        "type": "object",
+        "required": ["items", "total", "page", "size"],
+        "title": "ChiftPage[MiscellaneousOperationOut]"
+      },
       "ChiftPage_ObjectivesItem_": {
         "properties": {
           "items": {
@@ -18690,6 +19482,21 @@
         "required": ["items", "total", "page", "size"],
         "title": "ChiftPage[PaymentItemOut]"
       },
+      "ChiftPage_PaymentLocationItem_": {
+        "properties": {
+          "items": {
+            "items": { "$ref": "#/components/schemas/PaymentLocationItem" },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": { "type": "integer", "minimum": 0.0, "title": "Total" },
+          "page": { "type": "integer", "minimum": 1.0, "title": "Page" },
+          "size": { "type": "integer", "minimum": 1.0, "title": "Size" }
+        },
+        "type": "object",
+        "required": ["items", "total", "page", "size"],
+        "title": "ChiftPage[PaymentLocationItem]"
+      },
       "ChiftPage_PaymentMethodItem_": {
         "properties": {
           "items": {
@@ -18719,6 +19526,21 @@
         "type": "object",
         "required": ["items", "total", "page", "size"],
         "title": "ChiftPage[PaymentMethods]"
+      },
+      "ChiftPage_Payment_": {
+        "properties": {
+          "items": {
+            "items": { "$ref": "#/components/schemas/Payment" },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": { "type": "integer", "minimum": 0.0, "title": "Total" },
+          "page": { "type": "integer", "minimum": 1.0, "title": "Page" },
+          "size": { "type": "integer", "minimum": 1.0, "title": "Size" }
+        },
+        "type": "object",
+        "required": ["items", "total", "page", "size"],
+        "title": "ChiftPage[Payment]"
       },
       "ChiftPage_PayoutItemOut_": {
         "properties": {
@@ -21979,7 +22801,86 @@
         "type": "object",
         "title": "InvoiceCorrection"
       },
-      "InvoiceItem-Input": {
+      "InvoiceItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Technical id in Chift"
+          },
+          "source_ref": {
+            "$ref": "#/components/schemas/Ref",
+            "description": "Technical id in the target software"
+          },
+          "invoice_number": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Invoice Number",
+            "description": "Number/sequence",
+            "examples": ["INV-12345"]
+          },
+          "creation_date": {
+            "anyOf": [
+              { "type": "string", "format": "date-time" },
+              { "type": "null" }
+            ],
+            "title": "Creation Date",
+            "description": "Creation date of the invoice",
+            "examples": ["2023-10-01T12:00:00"]
+          },
+          "closing_date": {
+            "anyOf": [
+              { "type": "string", "format": "date-time" },
+              { "type": "null" }
+            ],
+            "title": "Closing Date",
+            "description": "Closing date of the invoice",
+            "examples": ["2023-10-10T12:00:00"]
+          },
+          "partners": {
+            "anyOf": [
+              {
+                "items": { "$ref": "#/components/schemas/InvoicePartnerItem" },
+                "type": "array"
+              },
+              { "type": "null" }
+            ],
+            "title": "Partners",
+            "description": "List of partners related to the invoice"
+          }
+        },
+        "type": "object",
+        "required": ["id", "source_ref", "invoice_number"],
+        "title": "InvoiceItem"
+      },
+      "InvoiceItemDueDatesOut": {
+        "properties": {
+          "due_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Due Date",
+            "description": "Due date of the item."
+          },
+          "payment_method": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Payment Method",
+            "description": "Payment method used to pay the invoice on that due date."
+          },
+          "payment_method_id": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Payment Method Id",
+            "description": "Technical ID of the payment method used to pay the invoice on that due date."
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount",
+            "description": "Amount due for the invoice on that due date. A positive amount represents debit on customer invoices and supplier refunds or credit on supplier invoices and customer refunds. A negative amount represents credit on customer invoices and supplier refunds or debit on supplier invoices and customer refunds."
+          }
+        },
+        "type": "object",
+        "required": ["due_date", "amount"],
+        "title": "InvoiceItemDueDatesOut"
+      },
+      "InvoiceItemIn": {
         "properties": {
           "currency": {
             "type": "string",
@@ -21987,7 +22888,7 @@
             "description": "Currency matching target sofware name"
           },
           "invoice_type": {
-            "$ref": "#/components/schemas/InvoicingInvoiceType",
+            "$ref": "#/components/schemas/InvoicingCreateInvoiceType",
             "description": "Invoice type"
           },
           "status": {
@@ -22080,86 +22981,7 @@
           "untaxed_amount",
           "total"
         ],
-        "title": "InvoiceItem"
-      },
-      "InvoiceItem-Output": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "title": "Id",
-            "description": "Technical id in Chift"
-          },
-          "source_ref": {
-            "$ref": "#/components/schemas/Ref",
-            "description": "Technical id in the target software"
-          },
-          "invoice_number": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
-            "title": "Invoice Number",
-            "description": "Number/sequence",
-            "examples": ["INV-12345"]
-          },
-          "creation_date": {
-            "anyOf": [
-              { "type": "string", "format": "date-time" },
-              { "type": "null" }
-            ],
-            "title": "Creation Date",
-            "description": "Creation date of the invoice",
-            "examples": ["2023-10-01T12:00:00"]
-          },
-          "closing_date": {
-            "anyOf": [
-              { "type": "string", "format": "date-time" },
-              { "type": "null" }
-            ],
-            "title": "Closing Date",
-            "description": "Closing date of the invoice",
-            "examples": ["2023-10-10T12:00:00"]
-          },
-          "partners": {
-            "anyOf": [
-              {
-                "items": { "$ref": "#/components/schemas/InvoicePartnerItem" },
-                "type": "array"
-              },
-              { "type": "null" }
-            ],
-            "title": "Partners",
-            "description": "List of partners related to the invoice"
-          }
-        },
-        "type": "object",
-        "required": ["id", "source_ref", "invoice_number"],
-        "title": "InvoiceItem"
-      },
-      "InvoiceItemDueDatesOut": {
-        "properties": {
-          "due_date": {
-            "type": "string",
-            "format": "date",
-            "title": "Due Date",
-            "description": "Due date of the item."
-          },
-          "payment_method": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
-            "title": "Payment Method",
-            "description": "Payment method used to pay the invoice on that due date."
-          },
-          "payment_method_id": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
-            "title": "Payment Method Id",
-            "description": "Technical ID of the payment method used to pay the invoice on that due date."
-          },
-          "amount": {
-            "type": "number",
-            "title": "Amount",
-            "description": "Amount due for the invoice on that due date. A positive amount represents debit on customer invoices and supplier refunds or credit on supplier invoices and customer refunds. A negative amount represents credit on customer invoices and supplier refunds or debit on supplier invoices and customer refunds."
-          }
-        },
-        "type": "object",
-        "required": ["due_date", "amount"],
-        "title": "InvoiceItemDueDatesOut"
+        "title": "InvoiceItemIn"
       },
       "InvoiceItemInMonoAnalyticPlan": {
         "properties": {
@@ -23882,6 +24704,16 @@
         ],
         "title": "InvoicingBankTransactionItem"
       },
+      "InvoicingCreateInvoiceType": {
+        "type": "string",
+        "enum": [
+          "customer_invoice",
+          "customer_refund",
+          "supplier_invoice",
+          "supplier_refund"
+        ],
+        "title": "InvoicingCreateInvoiceType"
+      },
       "InvoicingDocumentType": {
         "type": "string",
         "enum": ["customer_document", "supplier_document", "employee_expense"],
@@ -24975,10 +25807,190 @@
         "required": ["matching_number", "balance"],
         "title": "MatchingOut"
       },
+      "MiscellaneousOperationIn": {
+        "properties": {
+          "operation_number": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Operation Number"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "description": "Indicates the currency of the operation (e.g., EUR, USD)."
+          },
+          "currency_exchange_rate": {
+            "anyOf": [{ "type": "number" }, { "type": "null" }],
+            "title": "Currency Exchange Rate",
+            "description": "Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the folder's default currency.",
+            "default": 1
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/MiscellaneousOperationLine"
+            },
+            "type": "array",
+            "title": "Lines"
+          },
+          "operation_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Operation Date"
+          },
+          "journal_id": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Journal Id",
+            "description": "Indicates the journal used in for the operation. If the journal is not given, the journal will be automatically set if only one journal exists otherwise an error will be thrown."
+          },
+          "status": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/MiscellaneousOperationStatusIn" },
+              { "type": "null" }
+            ],
+            "default": "posted"
+          }
+        },
+        "type": "object",
+        "required": ["currency", "lines", "operation_date"],
+        "title": "MiscellaneousOperationIn"
+      },
+      "MiscellaneousOperationLine": {
+        "properties": {
+          "line_number": {
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
+            "title": "Line Number",
+            "description": "Line number of the operation line. This is used to order the lines in the operation. It is automatically set to 1 if not provided.",
+            "default": 1
+          },
+          "description": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Description",
+            "description": "Text description used to provide additional context or information about the operation line."
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount",
+            "description": "Positive for Credit and negative for Debit."
+          },
+          "type": {
+            "$ref": "#/components/schemas/MiscellaneousOperationLineType"
+          },
+          "account_number": {
+            "type": "string",
+            "title": "Account Number",
+            "description": "Indicates the account number used in the operation line. This is the ledger account number in the chart of accounts."
+          },
+          "partner_id": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Partner Id",
+            "description": "Must be filled in if it is a 'customer_account' or 'supplier_account' line type."
+          },
+          "analytic_account": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Analytic Account",
+            "description": "Analytic account used in the operation line. This is the id of a analytic account - no distribution possible. It is used to track the operation line in the analytic accounting system."
+          }
+        },
+        "type": "object",
+        "required": ["amount", "type", "account_number"],
+        "title": "MiscellaneousOperationLine"
+      },
+      "MiscellaneousOperationLineType": {
+        "type": "string",
+        "enum": ["customer_account", "supplier_account", "general_account"],
+        "title": "MiscellaneousOperationLineType"
+      },
+      "MiscellaneousOperationOut": {
+        "properties": {
+          "operation_number": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Operation Number"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "description": "Indicates the currency of the operation (e.g., EUR, USD)."
+          },
+          "currency_exchange_rate": {
+            "anyOf": [{ "type": "number" }, { "type": "null" }],
+            "title": "Currency Exchange Rate",
+            "description": "Indicates the exchange rate at the date of the operation. Must be filled in when creating the operation in another currency from the folder's default currency.",
+            "default": 1
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/MiscellaneousOperationLine"
+            },
+            "type": "array",
+            "title": "Lines"
+          },
+          "operation_date": {
+            "anyOf": [
+              { "type": "string", "format": "date" },
+              { "type": "null" }
+            ],
+            "title": "Operation Date",
+            "description": "Accounting date of the miscellaneous operation. It is automatically set to '1970-01-01' if the value is not available/empty in the accounting system.",
+            "default": "1970-01-01"
+          },
+          "journal_id": {
+            "type": "string",
+            "title": "Journal Id",
+            "description": "Indicates the journal used in for the operation."
+          },
+          "status": {
+            "$ref": "#/components/schemas/MiscellaneousOperationStatusOut"
+          },
+          "id": { "type": "string", "title": "Id" }
+        },
+        "type": "object",
+        "required": ["currency", "lines", "journal_id", "status", "id"],
+        "title": "MiscellaneousOperationOut"
+      },
+      "MiscellaneousOperationStatusIn": {
+        "type": "string",
+        "enum": ["draft", "posted"],
+        "title": "MiscellaneousOperationStatusIn"
+      },
+      "MiscellaneousOperationStatusOut": {
+        "type": "string",
+        "enum": ["cancelled", "draft", "posted", "matched"],
+        "title": "MiscellaneousOperationStatusOut"
+      },
       "Mode": {
         "type": "string",
         "enum": ["EAT_IN", "TAKEAWAY", "DELIVERY", "UNKNOWN"],
         "title": "Mode"
+      },
+      "MultipleMatchingIn": {
+        "properties": {
+          "matchings": {
+            "items": { "$ref": "#/components/schemas/MatchingIn" },
+            "type": "array",
+            "title": "Matchings"
+          }
+        },
+        "type": "object",
+        "required": ["matchings"],
+        "title": "MultipleMatchingIn"
+      },
+      "MultipleMatchingOut": {
+        "properties": {
+          "matching_number": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Matching Number"
+          },
+          "processed": { "type": "boolean", "title": "Processed" },
+          "error_msg": {
+            "anyOf": [
+              { "additionalProperties": true, "type": "object" },
+              { "type": "null" }
+            ],
+            "title": "Error Msg"
+          }
+        },
+        "type": "object",
+        "required": ["processed"],
+        "title": "MultipleMatchingOut"
       },
       "NextDocumentNumber": {
         "properties": {
@@ -26632,7 +27644,7 @@
           "bills": {
             "anyOf": [
               {
-                "items": { "$ref": "#/components/schemas/InvoiceItem-Output" },
+                "items": { "$ref": "#/components/schemas/InvoiceItem" },
                 "type": "array"
               },
               { "type": "null" }
@@ -27705,7 +28717,7 @@
               { "type": "null" }
             ],
             "title": "Credentials",
-            "description": "Can be used to update the credentials of an existing connection. Please use the getIntegrations route to see the available credentials for each integration"
+            "description": "Can be used to update the credentials of an existing connection. Please use the getIntegrations route to see the available credentials for each integration. Note: The preferred approach to let a consumer change their credentials is to call this endpoint without passing credentials in the body of the request, which will return a link that can be reshared with the consumer to update their credentials through the Chift UI."
           }
         },
         "type": "object",
@@ -27815,6 +28827,25 @@
           "payment_date"
         ],
         "title": "PaymentItemOut"
+      },
+      "PaymentLocationItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique identifier of the location",
+            "examples": ["371ca583-d218-4900-b236-397532cf0e52"]
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name given to the location",
+            "examples": ["Restaurant de la Paix"]
+          }
+        },
+        "type": "object",
+        "required": ["id", "name"],
+        "title": "PaymentLocationItem"
       },
       "PaymentMethodItem": {
         "properties": {
