@@ -68,6 +68,7 @@ class AccountingRouter:
         self.BookYear = BookYear(consumer_id, connection_id)
         self.Expense = Expense(consumer_id, connection_id)
         self.Folder = Folder(consumer_id, connection_id)
+        self.Batch = Batch(consumer_id, connection_id)
 
 
 class AnalyticPlan(PaginationMixin[AnalyticPlanModel]):
@@ -311,6 +312,13 @@ class Attachment(CreateMixin[MatchingModel], PaginationMixin[AttachmentModel]):
         self.extra_path = f"pdf/{invoice_id}"
         return super().create(data=data, client=client, params=params, map_model=False)
 
+    def upload(self, data, client=None, params=None):
+        """Upload a standalone attachment/document (POST accounting/attachments)."""
+        self.chift_model = "attachments"
+        self.chift_model_create = "attachments"
+        self.extra_path = None
+        return super().create(data=data, client=client, params=params, map_model=False)
+
 
 class BankAccount(CreateMixin[BankAccountModel], PaginationMixin[BankAccountModel]):
     chift_vertical: ClassVar = "accounting"
@@ -383,3 +391,12 @@ class Folder(ListMixin[FolderModel]):
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "folders"
     model = FolderModel
+
+
+class Batch(CreateMixin):
+    chift_vertical: ClassVar = "accounting"
+    chift_model: ClassVar = "batch"
+
+    def create(self, model, data, client=None, params=None):
+        self.extra_path = model
+        return super().create(data=data, client=client, params=params, map_model=False)

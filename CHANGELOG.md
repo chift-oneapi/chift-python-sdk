@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.4 - 2026-06-02
+- accounting: batch endpoint
+
 ## 0.6.3 - 2026-05-29
 - update to the models (payment, invoicing)
 
