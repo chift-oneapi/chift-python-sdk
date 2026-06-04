@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.5 - 2026-06-04
+- banking: add get open balance endpoint
+
 ## 0.6.4 - 2026-06-02
 - accounting: batch endpoint
 
