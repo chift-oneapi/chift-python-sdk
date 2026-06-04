@@ -17,6 +17,7 @@ from .openapi import (
     BankingAccountItem,
     BankingCounterPartItem,
     BankingFinancialInstitutionItem,
+    BankingOpenBalanceItem,
     BankingTransactionItem,
     BankStatementItemOut,
 )
@@ -628,6 +629,10 @@ class BankingCounterpart(BankingCounterPartItem):
 
 
 class BankingAttachment(AttachmentItemOut):
+    pass
+
+
+class BankingOpenBalance(BankingOpenBalanceItem):
     pass
 
 
