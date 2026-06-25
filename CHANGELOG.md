@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.5 - 2026-06-25
+- pms: add invoice_ref field on payments
+
 ## 0.6.4 - 2026-06-02
 - accounting: batch endpoint
 
