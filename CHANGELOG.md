@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.6 - 2026-06-30
+- pms: add optional `is_company` field to the `PMSCustomerItem` model
+
 ## 0.6.5 - 2026-06-25
 - pms: add invoice_ref field on payments
 
