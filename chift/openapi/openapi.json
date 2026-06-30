@@ -20219,7 +20219,7 @@
       "get": {
         "tags": [
           "Property Management System",
-          "Taxes"
+          "Accounting transactions"
         ],
         "summary": "Get the accounting transactions (PMS)",
         "description": "Returns a list of the accounting transactions",
@@ -20229,8 +20229,8 @@
             "mcp_auth": [
               "pms",
               "pms.read",
-              "pms.taxes",
-              "pms.taxes.read"
+              "pms.accounting_transactions",
+              "pms.accounting_transactions.read"
             ]
           }
         ],
@@ -22413,6 +22413,18 @@
             "title": "Is Primary",
             "description": "Indicates whether this is the default bank account for this third-party. Only one bank account per third-party can have is_primary set to true. Defaults to true.",
             "default": true
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency",
+            "description": "Indicates the currency of the bank account (e.g., EUR)."
           },
           "iban": {
             "anyOf": [
@@ -28561,23 +28573,12 @@
           "config": {
             "anyOf": [
               {
-                "additionalProperties": {
-                  "items": {
-                    "additionalProperties": true,
-                    "type": "object"
-                  },
-                  "type": "array"
-                },
-                "propertyNames": {
-                  "const": "presync"
-                },
-                "type": "object"
+                "$ref": "#/components/schemas/SyncConfig"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Config"
+            ]
           },
           "connections": {
             "items": {
@@ -38630,6 +38631,19 @@
             ],
             "title": "Addresses",
             "description": "List of addresses related to the customer"
+          },
+          "is_company": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Company",
+            "description": "Indicates if the client is an individual or a company.",
+            "default": false
           }
         },
         "type": "object",
@@ -42769,23 +42783,12 @@
           "config": {
             "anyOf": [
               {
-                "additionalProperties": {
-                  "items": {
-                    "additionalProperties": true,
-                    "type": "object"
-                  },
-                  "type": "array"
-                },
-                "propertyNames": {
-                  "const": "presync"
-                },
-                "type": "object"
+                "$ref": "#/components/schemas/SyncConfig"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Config"
+            ]
           },
           "connections": {
             "items": {
@@ -44536,6 +44539,32 @@
         },
         "type": "object",
         "title": "SupplierItemUpdate"
+      },
+      "SyncConfig": {
+        "properties": {
+          "datalayer": {
+            "type": "boolean",
+            "title": "Datalayer",
+            "default": false
+          },
+          "presync": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Presync"
+          }
+        },
+        "type": "object",
+        "title": "SyncConfig"
       },
       "SyncConsumerItem": {
         "properties": {
