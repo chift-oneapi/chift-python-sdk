@@ -68,6 +68,7 @@ class ChiftClient:
     consumer_id = None
     connection_id = None
     raw_data = None
+    datalayer = None
     client_request_id = None
     related_chain_execution_id = None
     sync_id = None
@@ -167,6 +168,9 @@ class ChiftClient:
         if self.raw_data:
             headers["x-chift-raw-data"] = "true"
 
+        if self.datalayer:
+            headers["x-chift-datalayer"] = "true"
+
         if self.client_request_id:
             headers["x-chift-client-requestid"] = self.client_request_id
 
@@ -197,9 +201,10 @@ class ChiftClient:
                 f"After {self.max_retries} retries, the request failed."
             )
         finally:
-            # reset client_request_id and raw_data
+            # reset client_request_id, raw_data and datalayer
             self.client_request_id = None
             self.raw_data = None
+            self.datalayer = None
 
         if req.status_code == httplib.UNAUTHORIZED:
             try:

@@ -23,12 +23,20 @@ class BaseMixin(object):
 
 
 class DeleteMixin(BaseMixin, Generic[T]):
-    def delete(self, chift_id, client=None, params=None, client_request_id=None) -> T:
+    def delete(
+        self,
+        chift_id,
+        client=None,
+        params=None,
+        client_request_id=None,
+        datalayer=False,
+    ) -> T:
         if not client:
             client = ChiftClient()
         client.consumer_id = self.consumer_id
         client.connection_id = self.connection_id
         client.raw_data = False
+        client.datalayer = datalayer
         client.client_request_id = client_request_id
 
         return client.delete_one(
@@ -49,6 +57,7 @@ class ReadMixin(BaseMixin, Generic[T]):
         params=None,
         map_model: Literal[True] = True,
         raw_data: Literal[False] = False,
+        datalayer: bool = False,
     ) -> T: ...
 
     @overload
@@ -59,6 +68,7 @@ class ReadMixin(BaseMixin, Generic[T]):
         params=None,
         map_model: Literal[False] = False,
         raw_data: Literal[False] = False,
+        datalayer: bool = False,
     ) -> dict: ...
 
     @overload
@@ -69,6 +79,7 @@ class ReadMixin(BaseMixin, Generic[T]):
         params=None,
         map_model: Literal[True] = True,
         raw_data: Literal[True] = True,
+        datalayer: bool = False,
     ) -> ObjectWithRawData[T]: ...
 
     @overload
@@ -79,16 +90,24 @@ class ReadMixin(BaseMixin, Generic[T]):
         params=None,
         map_model: Literal[False] = False,
         raw_data: Literal[True] = True,
+        datalayer: bool = False,
     ) -> dict: ...
 
     def get(
-        self, chift_id, client=None, params=None, map_model=True, raw_data=False
+        self,
+        chift_id,
+        client=None,
+        params=None,
+        map_model=True,
+        raw_data=False,
+        datalayer=False,
     ) -> T | dict | ObjectWithRawData[T]:
         if not client:
             client = ChiftClient()
         client.consumer_id = self.consumer_id
         client.connection_id = self.connection_id
         client.raw_data = raw_data
+        client.datalayer = datalayer
         client.client_request_id = None
 
         json_data = client.get_one(
@@ -118,6 +137,7 @@ class CreateMixin(BaseMixin, Generic[T]):
         params=None,
         map_model: Literal[True] = True,
         client_request_id=None,
+        datalayer: bool = False,
     ) -> T: ...
 
     @overload
@@ -128,6 +148,7 @@ class CreateMixin(BaseMixin, Generic[T]):
         params=None,
         map_model: Literal[False] = False,
         client_request_id=None,
+        datalayer: bool = False,
     ) -> dict: ...
 
     # we have a few post routes which are used as get (e.g. chart-of-accounts/balance)
@@ -139,16 +160,24 @@ class CreateMixin(BaseMixin, Generic[T]):
         params=None,
         map_model: Literal[False] = False,
         client_request_id=None,
+        datalayer: bool = False,
     ) -> list[T]: ...
 
     def create(
-        self, data, client=None, params=None, map_model=True, client_request_id=None
+        self,
+        data,
+        client=None,
+        params=None,
+        map_model=True,
+        client_request_id=None,
+        datalayer=False,
     ) -> T | dict | list[T]:
         if not client:
             client = ChiftClient()
         client.consumer_id = self.consumer_id
         client.connection_id = self.connection_id
         client.raw_data = False
+        client.datalayer = datalayer
         client.client_request_id = client_request_id
 
         json_data = client.post_one(
@@ -184,6 +213,8 @@ class CreateMixin(BaseMixin, Generic[T]):
 
                 if json_data.get("items") and count < total:
                     page += 1
+                    # make_request resets datalayer after each call, re-apply it
+                    client.datalayer = datalayer
                     json_data = client.post_one(
                         self.chift_vertical,
                         self.chift_model_create,
@@ -211,6 +242,7 @@ class UpdateMixin(BaseMixin, Generic[T]):
         params=None,
         map_model: Literal[True] = True,
         client_request_id=None,
+        datalayer: bool = False,
     ) -> T: ...
 
     @overload
@@ -222,6 +254,7 @@ class UpdateMixin(BaseMixin, Generic[T]):
         params=None,
         map_model: Literal[False] = False,
         client_request_id=None,
+        datalayer: bool = False,
     ) -> dict: ...
 
     def update(
@@ -232,12 +265,14 @@ class UpdateMixin(BaseMixin, Generic[T]):
         params=None,
         map_model=True,
         client_request_id=None,
+        datalayer=False,
     ) -> T | dict:
         if not client:
             client = ChiftClient()
         client.consumer_id = self.consumer_id
         client.connection_id = self.connection_id
         client.raw_data = False
+        client.datalayer = datalayer
         client.client_request_id = client_request_id
 
         json_data = client.update_one(
@@ -259,6 +294,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         client=None,
         limit=None,
         raw_data=False,
+        datalayer=False,
     ) -> Generator[dict, Any, None]:
         if not client:
             client = ChiftClient()
@@ -276,6 +312,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
             client.consumer_id = self.consumer_id
             client.connection_id = self.connection_id
             client.raw_data = raw_data
+            client.datalayer = datalayer
             client.client_request_id = None
             json_data = client.get_all(
                 self.chift_vertical,
@@ -300,6 +337,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         map_model: Literal[True] = True,
         limit=None,
         raw_data: Literal[False] = False,
+        datalayer: bool = False,
     ) -> list[T]: ...
 
     @overload
@@ -310,6 +348,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         map_model: Literal[False] = False,
         limit=None,
         raw_data: Literal[False] = False,
+        datalayer: bool = False,
     ) -> list[dict]: ...
 
     @overload
@@ -320,10 +359,17 @@ class PaginationMixin(BaseMixin, Generic[T]):
         map_model=False,
         limit=False,
         raw_data: Literal[True] = True,
+        datalayer: bool = False,
     ) -> dict: ...
 
     def all(
-        self, params=None, client=None, map_model=True, limit=None, raw_data=False
+        self,
+        params=None,
+        client=None,
+        map_model=True,
+        limit=None,
+        raw_data=False,
+        datalayer=False,
     ) -> list[T | dict] | dict:
         all_items = []
         for page in self.__iter_page(
@@ -331,6 +377,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
             client=client,
             limit=limit,
             raw_data=raw_data,
+            datalayer=datalayer,
         ):
             if raw_data:
                 return page.get("raw_data") or {}
@@ -347,6 +394,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         client=None,
         map_model: Literal[True] = True,
         limit=None,
+        datalayer: bool = False,
     ) -> Generator[T, Any, None]: ...
 
     @overload
@@ -356,6 +404,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         client=None,
         map_model: Literal[False] = False,
         limit=None,
+        datalayer: bool = False,
     ) -> Generator[dict, Any, None]: ...
 
     def iter_all(
@@ -364,12 +413,14 @@ class PaginationMixin(BaseMixin, Generic[T]):
         client=None,
         map_model=True,
         limit=None,
+        datalayer=False,
     ) -> Generator[T | dict, Any, None]:
         for page in self.__iter_page(
             params=params,
             client=client,
             limit=limit,
             raw_data=False,
+            datalayer=datalayer,
         ):
             for item in page.get("items", []):
                 if map_model:
@@ -379,12 +430,13 @@ class PaginationMixin(BaseMixin, Generic[T]):
 
 
 class ListMixin(BaseMixin, Generic[T]):
-    def all(self, params=None, client=None) -> list[T]:
+    def all(self, params=None, client=None, datalayer=False) -> list[T]:
         if not client:
             client = ChiftClient()
         client.consumer_id = self.consumer_id
         client.connection_id = self.connection_id
         client.raw_data = False
+        client.datalayer = datalayer
         client.client_request_id = None
 
         json_data = client.get_all(
