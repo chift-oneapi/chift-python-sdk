@@ -1,6 +1,6 @@
 from typing import Any, Generator, Generic, Literal, TypeVar, overload
 
-from chift.api.client import ChiftClient
+from chift.api.client import ChiftClient, DatalayerMode
 from chift.openapi.models import ObjectWithRawData
 
 T = TypeVar("T")
@@ -57,7 +57,7 @@ class ReadMixin(BaseMixin, Generic[T]):
         params=None,
         map_model: Literal[True] = True,
         raw_data: Literal[False] = False,
-        datalayer: bool = False,
+        datalayer: DatalayerMode = False,
     ) -> T: ...
 
     @overload
@@ -68,7 +68,7 @@ class ReadMixin(BaseMixin, Generic[T]):
         params=None,
         map_model: Literal[False] = False,
         raw_data: Literal[False] = False,
-        datalayer: bool = False,
+        datalayer: DatalayerMode = False,
     ) -> dict: ...
 
     @overload
@@ -79,7 +79,7 @@ class ReadMixin(BaseMixin, Generic[T]):
         params=None,
         map_model: Literal[True] = True,
         raw_data: Literal[True] = True,
-        datalayer: bool = False,
+        datalayer: DatalayerMode = False,
     ) -> ObjectWithRawData[T]: ...
 
     @overload
@@ -90,7 +90,7 @@ class ReadMixin(BaseMixin, Generic[T]):
         params=None,
         map_model: Literal[False] = False,
         raw_data: Literal[True] = True,
-        datalayer: bool = False,
+        datalayer: DatalayerMode = False,
     ) -> dict: ...
 
     def get(
@@ -137,7 +137,7 @@ class CreateMixin(BaseMixin, Generic[T]):
         params=None,
         map_model: Literal[True] = True,
         client_request_id=None,
-        datalayer: bool = False,
+        datalayer: DatalayerMode = False,
     ) -> T: ...
 
     @overload
@@ -148,7 +148,7 @@ class CreateMixin(BaseMixin, Generic[T]):
         params=None,
         map_model: Literal[False] = False,
         client_request_id=None,
-        datalayer: bool = False,
+        datalayer: DatalayerMode = False,
     ) -> dict: ...
 
     # we have a few post routes which are used as get (e.g. chart-of-accounts/balance)
@@ -160,7 +160,7 @@ class CreateMixin(BaseMixin, Generic[T]):
         params=None,
         map_model: Literal[False] = False,
         client_request_id=None,
-        datalayer: bool = False,
+        datalayer: DatalayerMode = False,
     ) -> list[T]: ...
 
     def create(
@@ -242,7 +242,7 @@ class UpdateMixin(BaseMixin, Generic[T]):
         params=None,
         map_model: Literal[True] = True,
         client_request_id=None,
-        datalayer: bool = False,
+        datalayer: DatalayerMode = False,
     ) -> T: ...
 
     @overload
@@ -254,7 +254,7 @@ class UpdateMixin(BaseMixin, Generic[T]):
         params=None,
         map_model: Literal[False] = False,
         client_request_id=None,
-        datalayer: bool = False,
+        datalayer: DatalayerMode = False,
     ) -> dict: ...
 
     def update(
@@ -337,7 +337,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         map_model: Literal[True] = True,
         limit=None,
         raw_data: Literal[False] = False,
-        datalayer: bool = False,
+        datalayer: DatalayerMode = False,
     ) -> list[T]: ...
 
     @overload
@@ -348,7 +348,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         map_model: Literal[False] = False,
         limit=None,
         raw_data: Literal[False] = False,
-        datalayer: bool = False,
+        datalayer: DatalayerMode = False,
     ) -> list[dict]: ...
 
     @overload
@@ -359,7 +359,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         map_model=False,
         limit=False,
         raw_data: Literal[True] = True,
-        datalayer: bool = False,
+        datalayer: DatalayerMode = False,
     ) -> dict: ...
 
     def all(
@@ -394,7 +394,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         client=None,
         map_model: Literal[True] = True,
         limit=None,
-        datalayer: bool = False,
+        datalayer: DatalayerMode = False,
     ) -> Generator[T, Any, None]: ...
 
     @overload
@@ -404,7 +404,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         client=None,
         map_model: Literal[False] = False,
         limit=None,
-        datalayer: bool = False,
+        datalayer: DatalayerMode = False,
     ) -> Generator[dict, Any, None]: ...
 
     def iter_all(

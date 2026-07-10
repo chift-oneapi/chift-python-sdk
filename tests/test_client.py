@@ -45,6 +45,16 @@ def test_datalayer_header_sent(chift, monkeypatch):
     assert captured.get("x-chift-datalayer") == "true"
 
 
+def test_datalayer_header_if_available(chift, monkeypatch):
+    captured = _capture_headers(monkeypatch)
+    chift_client = _build_client(chift)
+    chift_client.datalayer = "if_available"
+
+    chift_client.get("/some/path")
+
+    assert captured.get("x-chift-datalayer") == "if_available"
+
+
 def test_datalayer_header_absent_by_default(chift, monkeypatch):
     captured = _capture_headers(monkeypatch)
     chift_client = _build_client(chift)

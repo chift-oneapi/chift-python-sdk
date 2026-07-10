@@ -2,12 +2,19 @@ import base64
 import http.client as httplib
 import json
 from datetime import datetime
+from typing import Literal, Union
 
 import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 
 from chift.api import exceptions
+
+# Accepted values for the `datalayer` parameter, mapping to the `x-chift-datalayer` header:
+#   False / None    -> header omitted (live connector, "classic" mode)
+#   True            -> "true"         (require the datalayer, error if it can't serve)
+#   "if_available"  -> "if_available" (use the datalayer when available, else fall back to classic)
+DatalayerMode = Union[bool, Literal["if_available"]]
 
 
 class ChiftAuth(requests.auth.AuthBase):
@@ -169,7 +176,9 @@ class ChiftClient:
             headers["x-chift-raw-data"] = "true"
 
         if self.datalayer:
-            headers["x-chift-datalayer"] = "true"
+            headers["x-chift-datalayer"] = (
+                self.datalayer if isinstance(self.datalayer, str) else "true"
+            )
 
         if self.client_request_id:
             headers["x-chift-client-requestid"] = self.client_request_id

@@ -1,7 +1,7 @@
 # Changelog
 
 ## 0.6.7 - 2026-07-10
-- client: add `datalayer` parameter on request methods to send the `x-chift-datalayer` header
+- client: add `datalayer` parameter on request methods to send the `x-chift-datalayer` header. Supports both modes: `datalayer=True` (`"true"`) and `datalayer="if_available"`
 
 ## 0.6.6 - 2026-06-30
 - pms: add optional `is_company` field to the `PMSCustomerItem` model
