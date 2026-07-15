@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.8 - 2026-07-15
+- fix: `Consumer.create()` (and other classmethod managers) no longer raise `AttributeError: 'Consumer' has no attribute 'chift_model_create'`; `CreateMixin.create` resolves the create path with a fallback to `chift_model`
+
 ## 0.6.7 - 2026-07-10
 - client: add `datalayer` parameter on request methods to send the `x-chift-datalayer` header. Supports both modes: `datalayer=True` (`"true"`) and `datalayer="if_available"`
 
