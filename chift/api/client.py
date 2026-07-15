@@ -2,12 +2,19 @@ import base64
 import http.client as httplib
 import json
 from datetime import datetime
+from typing import Literal, Union
 
 import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 
 from chift.api import exceptions
+
+# Accepted values for the `datalayer` parameter, mapping to the `x-chift-datalayer` header:
+#   False / None    -> header omitted (live connector, "classic" mode)
+#   True            -> "true"         (require the datalayer, error if it can't serve)
+#   "if_available"  -> "if_available" (use the datalayer when available, else fall back to classic)
+DatalayerMode = Union[bool, Literal["if_available"]]
 
 
 class ChiftAuth(requests.auth.AuthBase):
@@ -68,6 +75,7 @@ class ChiftClient:
     consumer_id = None
     connection_id = None
     raw_data = None
+    datalayer = None
     client_request_id = None
     related_chain_execution_id = None
     sync_id = None
@@ -167,6 +175,11 @@ class ChiftClient:
         if self.raw_data:
             headers["x-chift-raw-data"] = "true"
 
+        if self.datalayer:
+            headers["x-chift-datalayer"] = (
+                self.datalayer if isinstance(self.datalayer, str) else "true"
+            )
+
         if self.client_request_id:
             headers["x-chift-client-requestid"] = self.client_request_id
 
@@ -197,9 +210,10 @@ class ChiftClient:
                 f"After {self.max_retries} retries, the request failed."
             )
         finally:
-            # reset client_request_id and raw_data
+            # reset client_request_id, raw_data and datalayer
             self.client_request_id = None
             self.raw_data = None
+            self.datalayer = None
 
         if req.status_code == httplib.UNAUTHORIZED:
             try:
