@@ -84,3 +84,23 @@ def test_client_consumer_id(chift):
     assert consumer
 
     assert consumer.invoicing.Invoice.consumer_id == consumer.consumerid
+
+
+def test_consumer_create_classmethod_resolves_create_path(chift, monkeypatch):
+    # Regression: Consumer.create() is a classmethod, so CreateMixin.create must resolve the
+    # create path without relying on BaseMixin.__init__ having set chift_model_create.
+    captured = {}
+
+    def fake_post_one(self, vertical, model, data, extra_path=None, params=None):
+        captured["vertical"] = vertical
+        captured["model"] = model
+        return {"consumerid": "00000000-0000-0000-0000-000000000001", **data}
+
+    monkeypatch.setattr(ChiftClient, "post_one", fake_post_one)
+    chift_client = _build_client(chift)
+
+    consumer = chift.Consumer.create({"name": "Acme"}, client=chift_client)
+
+    assert captured["vertical"] == "consumers"
+    assert captured["model"] is None
+    assert consumer.name == "Acme"
