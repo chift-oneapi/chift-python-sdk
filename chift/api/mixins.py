@@ -183,7 +183,9 @@ class CreateMixin(BaseMixin, Generic[T]):
         # Resolve the create path with the same fallback as BaseMixin.__init__ so create() also
         # works when invoked through a classmethod manager (e.g. Consumer.create), where __init__
         # has not run and chift_model_create is therefore unset on the class.
-        chift_model_create = getattr(self, "chift_model_create", None) or self.chift_model
+        chift_model_create = (
+            getattr(self, "chift_model_create", None) or self.chift_model
+        )
 
         json_data = client.post_one(
             self.chift_vertical,
