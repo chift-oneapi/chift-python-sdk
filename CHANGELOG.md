@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.9 - 2026-07-20
+- banking: add get opening balance endpoint (`consumer.banking.OpeningBalance`)
+- banking: rename `open_balance` to `opening_balance` in `BankingTransactionItem` model
+
 ## 0.6.8 - 2026-07-15
 - fix: `Consumer.create()` (and other classmethod managers) no longer raise `AttributeError: 'Consumer' has no attribute 'chift_model_create'`; `CreateMixin.create` resolves the create path with a fallback to `chift_model`
 

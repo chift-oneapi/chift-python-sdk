@@ -1,12 +1,13 @@
 from typing import ClassVar
 
-from chift.api.mixins import CreateMixin, ListMixin, PaginationMixin
+from chift.api.mixins import CreateMixin, ListMixin, PaginationMixin, ReadMixin
 from chift.openapi.models import BankingAccount as BankingAccountModel
 from chift.openapi.models import BankingAttachment as BankingAttachmentModel
 from chift.openapi.models import BankingCounterpart as BankingCounterpartModel
 from chift.openapi.models import (
     BankingFinancialInstitution as FinancialInstitutionModel,
 )
+from chift.openapi.models import BankingOpeningBalance as BankingOpeningBalanceModel
 from chift.openapi.models import BankingTransaction as BankingTransactionModel
 
 
@@ -17,6 +18,7 @@ class BankingRouter:
         self.Transaction = Transaction(consumer_id, connection_id)
         self.Counterpart = Counterpart(consumer_id, connection_id)
         self.Attachment = Attachment(consumer_id, connection_id)
+        self.OpeningBalance = OpeningBalance(consumer_id, connection_id)
         self.Custom = Custom(consumer_id, connection_id)
 
 
@@ -48,6 +50,34 @@ class Attachment(ListMixin[BankingAttachmentModel]):
     chift_vertical: ClassVar = "banking"
     chift_model: ClassVar = "attachments"
     model = BankingAttachmentModel
+
+
+class OpeningBalance(ReadMixin[BankingOpeningBalanceModel]):
+    chift_vertical: ClassVar = "banking"
+    chift_model: ClassVar = "opening-balance"
+    model = BankingOpeningBalanceModel
+
+    def get(
+        self,
+        client=None,
+        params=None,
+        map_model=True,
+        raw_data=False,
+        datalayer=False,
+    ):
+        """Fetch the opening balance for an account on a specific date.
+
+        This endpoint has no path id and is filtered via query params, so ``chift_id`` is
+        forced to ``None``. ``params`` should include ``account_id`` and ``date``.
+        """
+        return super().get(
+            chift_id=None,
+            client=client,
+            params=params,
+            map_model=map_model,
+            raw_data=raw_data,
+            datalayer=datalayer,
+        )
 
 
 class Custom(CreateMixin):

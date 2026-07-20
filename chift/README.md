@@ -17,6 +17,17 @@ you can also add a function in your zshrc (or equivalent) to make it easier:
 generate_openapi_models() {                                                                                                                                                                                                                                                                                       
 local url=${1:-http://127.0.0.1:8000/openapi.json}                                                                                                                                                                                                                                                              
 curl -s "$url" | jq > openapi.json &&                                                                                                                                                                                                                                                                           
+python3 -c "
+import json
+with open('openapi.json') as f:
+    data = json.load(f)
+if 'servers' in data:
+    data['servers'] = [s for s in data['servers'] if '127.0.0.1' not in s.get('url', '') and 'localhost' not in s.get('url', '')]
+    if not data['servers']:
+        del data['servers']
+with open('openapi.json', 'w') as f:
+    json.dump(data, f, indent=2)
+" &&
 datamodel-codegen \                                                                                                                                                                                                                                                                                             
   --input ./openapi.json \                                                                                                                                                                                                                                                                                      
   --output openapi.py \                                                                                                                                                                                                                                                                                         
