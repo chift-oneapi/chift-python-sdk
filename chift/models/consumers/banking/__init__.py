@@ -57,12 +57,27 @@ class OpeningBalance(ReadMixin[BankingOpeningBalanceModel]):
     chift_model: ClassVar = "opening-balance"
     model = BankingOpeningBalanceModel
 
-    def get(self, client=None, params=None):
+    def get(
+        self,
+        client=None,
+        params=None,
+        map_model=True,
+        raw_data=False,
+        datalayer=False,
+    ):
         """Fetch the opening balance for an account on a specific date.
 
-        ``params`` should include ``account_id`` and ``date``.
+        This endpoint has no path id and is filtered via query params, so ``chift_id`` is
+        forced to ``None``. ``params`` should include ``account_id`` and ``date``.
         """
-        return super().get(chift_id=None, client=client, params=params)
+        return super().get(
+            chift_id=None,
+            client=client,
+            params=params,
+            map_model=map_model,
+            raw_data=raw_data,
+            datalayer=datalayer,
+        )
 
 
 class Custom(CreateMixin):
