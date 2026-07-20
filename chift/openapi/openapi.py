@@ -739,6 +739,33 @@ class BankingFinancialInstitutionItem(BaseModel):
     )
 
 
+class BankingOpeningBalanceItem(BaseModel):
+    model_config = ConfigDict(
+        extra="allow",
+    )
+    account_id: str = Field(
+        ...,
+        description="Identifier of the banking account",
+        examples=["account-123"],
+        title="Account Id",
+    )
+    date: Date = Field(
+        ...,
+        description="Date for which the opening balance is reported",
+        examples=["2025-01-15"],
+        title="Date",
+    )
+    opening_balance: Optional[float] = Field(
+        None,
+        description="Opening balance of the account on the given date",
+        examples=[1000.0],
+        title="Opening Balance",
+    )
+    currency: Optional[str] = Field(
+        None, description="Currency of the balance", examples=["EUR"], title="Currency"
+    )
+
+
 class BankingTransactionStatus(Enum):
     pending = "pending"
     declined = "declined"
@@ -7422,11 +7449,11 @@ class BankingTransactionItem(BaseModel):
     status: Optional[BankingTransactionStatus] = Field(
         None, description="Status of the transaction", examples=["pending"]
     )
-    open_balance: Optional[float] = Field(
+    opening_balance: Optional[float] = Field(
         None,
         description="Opening balance of the account at the time of the transaction",
         examples=[1000.0],
-        title="Open Balance",
+        title="Opening Balance",
     )
     attachments_info: Optional[ItemAttachmentInfoOut] = Field(
         None,

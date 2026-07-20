@@ -17463,6 +17463,119 @@
         }
       }
     },
+    "/consumers/{consumer_id}/banking/opening-balance": {
+      "get": {
+        "tags": [
+          "Banking",
+          "Banking accounts"
+        ],
+        "summary": "Get opening balance for an account on a specific date",
+        "description": "Returns the opening balance for a banking account on a given date",
+        "operationId": "banking_get_opening_balance",
+        "security": [
+          {
+            "mcp_auth": [
+              "banking",
+              "banking.read",
+              "banking.banking_accounts",
+              "banking.banking_accounts.read"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Size"
+            },
+            "description": "Page size"
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "Date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BankingOpeningBalanceItem"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/banking/transactions": {
       "get": {
         "tags": [
@@ -23167,6 +23280,63 @@
         ],
         "title": "BankingFinancialInstitutionItem"
       },
+      "BankingOpeningBalanceItem": {
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "title": "Account Id",
+            "description": "Identifier of the banking account",
+            "examples": [
+              "account-123"
+            ]
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date",
+            "description": "Date for which the opening balance is reported",
+            "examples": [
+              "2025-01-15"
+            ]
+          },
+          "opening_balance": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Opening Balance",
+            "description": "Opening balance of the account on the given date",
+            "examples": [
+              1000.0
+            ]
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency",
+            "description": "Currency of the balance",
+            "examples": [
+              "EUR"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "account_id",
+          "date"
+        ],
+        "title": "BankingOpeningBalanceItem"
+      },
       "BankingTransactionItem": {
         "properties": {
           "id": {
@@ -23386,7 +23556,7 @@
               "pending"
             ]
           },
-          "open_balance": {
+          "opening_balance": {
             "anyOf": [
               {
                 "type": "number"
@@ -23395,7 +23565,7 @@
                 "type": "null"
               }
             ],
-            "title": "Open Balance",
+            "title": "Opening Balance",
             "description": "Opening balance of the account at the time of the transaction",
             "examples": [
               1000.0
