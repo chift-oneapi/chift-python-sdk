@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.6.10 - 2026-07-24
+- datalayer: add `fiscal_years_back`, `full_history`, and `entity_filter` options to `DatalayerEnableBody` for finer control over sync scope
+- accounting: add `active` field to `FolderItem` to indicate whether a folder is active in the target software (separate from `selected`)
+- accounting: add `due_dates` to `OutstandingItem` (new `OutstandingItemDueDatesOut` model: `due_date`, `payment_method`, `payment_method_id`, `amount`)
+- pos/pms: add modifiers support — new `ModifierLine`, `ModifierOptionItem`, `ModifiersItem` models; `PMSOrderLineItem.modifiers` and `POSItem.modifiers` added
+- pos: add `modifier_groups_ids` to `POSProductItem`
+- pos: add `order_id` to `POSPaymentItem`
+- pos: add `invoice_id` to `POSOrderItem`
+- syncs: add `manual_mapping` field to sync field mapping input/output
+- syncs: `ReadSyncItem`/`CreateSyncItem.config` changed from the typed `SyncConfig` model to a generic object (`SyncConfig` model removed)
+- analytics: add public Cube query API models (`CubeLoadQuery`, `CubeLeafFilter`/`CubeAndFilter`/`CubeOrFilter`, `CubeOrderItem`, `CubeTimeDimension`, `QueryResponse`, `PublicCubeMetaCube`, `PublicCubeMetaMember`, `PublicCubeRelationship`)
+
 ## 0.6.9 - 2026-07-20
 - banking: add get opening balance endpoint (`consumer.banking.OpeningBalance`)
 - banking: rename `open_balance` to `opening_balance` in `BankingTransactionItem` model
