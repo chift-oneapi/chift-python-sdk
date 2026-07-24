@@ -2343,7 +2343,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+
+                }
               }
             }
           },
@@ -2437,7 +2439,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+
+                }
               }
             }
           },
@@ -2605,7 +2609,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+
+                }
               }
             }
           },
@@ -2784,7 +2790,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+
+                }
               }
             }
           },
@@ -3228,7 +3236,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+
+                }
               }
             }
           },
@@ -3245,6 +3255,102 @@
               }
             },
             "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/datalab/cube-schemas": {
+      "get": {
+        "tags": [
+          "Datalab"
+        ],
+        "summary": "Get Cube Schemas",
+        "operationId": "datalab_get_cube_schemas",
+        "security": [
+          {
+            "mcp_auth": [
+              "pos.datalab",
+              "commerce.datalab",
+              "accounting.datalab",
+              "invoicing.datalab",
+              "communication.datalab",
+              "banking.datalab",
+              "custom.datalab",
+              "payment.datalab",
+              "pms.datalab"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PublicCubeMetaCube"
+                  },
+                  "title": "Response Datalab Get Cube Schemas"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/datalab/query-db": {
+      "post": {
+        "tags": [
+          "Datalab"
+        ],
+        "summary": "Query Db",
+        "operationId": "datalab_query_db",
+        "security": [
+          {
+            "mcp_auth": [
+              "pos.datalab",
+              "commerce.datalab",
+              "accounting.datalab",
+              "invoicing.datalab",
+              "communication.datalab",
+              "banking.datalab",
+              "custom.datalab",
+              "payment.datalab",
+              "pms.datalab"
+            ]
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CubeLoadQuery"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueryResponse"
+                }
+              }
+            }
           },
           "422": {
             "description": "Validation Error",
@@ -3541,6 +3647,61 @@
               }
             },
             "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/local-agents/releases": {
+      "get": {
+        "tags": [
+          "Connectors",
+          "Local Agents"
+        ],
+        "summary": "Get Releases",
+        "operationId": "get_releases_local_agents_releases_get",
+        "parameters": [
+          {
+            "name": "connector",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "const": "cockpit",
+                  "type": "string"
+                }
+              ],
+              "title": "Connector"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReleaseItem"
+                  },
+                  "title": "Response Get Releases Local Agents Releases Get"
+                }
+              }
+            }
           },
           "422": {
             "description": "Validation Error",
@@ -5384,7 +5545,7 @@
                   },
                   "Invalid forced financial period": {
                     "value": {
-                      "message": "The forced financial period must be must be 6 numbers (e.g. 02 for february and 20222 => 022022)",
+                      "message": "The forced financial period must be must be 6 numbers (e.g. 02 for february and 20222 =\u003E 022022)",
                       "status": "error"
                     }
                   },
@@ -5672,7 +5833,7 @@
                   },
                   "Invalid forced financial period": {
                     "value": {
-                      "message": "The forced financial period must be must be 6 numbers (e.g. 02 for february and 20222 => 022022)",
+                      "message": "The forced financial period must be must be 6 numbers (e.g. 02 for february and 20222 =\u003E 022022)",
                       "status": "error"
                     }
                   },
@@ -11380,6 +11541,145 @@
               }
             },
             "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/pos/modifiers": {
+      "get": {
+        "tags": [
+          "Point of Sale",
+          "Modifiers"
+        ],
+        "summary": "Get Modifiers",
+        "description": "Returns a list of the modifiers",
+        "operationId": "pos_get_modifiers",
+        "security": [
+          {
+            "mcp_auth": [
+              "pos",
+              "pos.read",
+              "pos.modifiers",
+              "pos.modifiers.read"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Size"
+            },
+            "description": "Page size"
+          },
+          {
+            "name": "location_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Location Id"
+            },
+            "description": "Unique identifier of the location. If none passed, products from all locations will be returned unless the location was selected by the end-user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_ModifiersItem_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to authenticate to {ConnectorName}",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The resource {Method} - {Resource} is not supported by {ConnectorName}",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
           },
           "422": {
             "description": "Validation Error",
@@ -17463,119 +17763,6 @@
         }
       }
     },
-    "/consumers/{consumer_id}/banking/opening-balance": {
-      "get": {
-        "tags": [
-          "Banking",
-          "Banking accounts"
-        ],
-        "summary": "Get opening balance for an account on a specific date",
-        "description": "Returns the opening balance for a banking account on a given date",
-        "operationId": "banking_get_opening_balance",
-        "security": [
-          {
-            "mcp_auth": [
-              "banking",
-              "banking.read",
-              "banking.banking_accounts",
-              "banking.banking_accounts.read"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "name": "consumer_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Consumer Id"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "default": 1,
-              "title": "Page"
-            },
-            "description": "Page number"
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
-              "default": 50,
-              "title": "Size"
-            },
-            "description": "Page size"
-          },
-          {
-            "name": "account_id",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Account Id"
-            }
-          },
-          {
-            "name": "date",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "date",
-              "title": "Date"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BankingOpeningBalanceItem"
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Error while trying to perform your request",
-                  "status": "error"
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/consumers/{consumer_id}/banking/transactions": {
       "get": {
         "tags": [
@@ -17963,6 +18150,119 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ChiftPage_AttachmentItemOut_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/banking/opening-balance": {
+      "get": {
+        "tags": [
+          "Banking",
+          "Banking accounts"
+        ],
+        "summary": "Get opening balance for an account on a specific date",
+        "description": "Returns the opening balance for a banking account on a given date",
+        "operationId": "banking_get_opening_balance",
+        "security": [
+          {
+            "mcp_auth": [
+              "banking",
+              "banking.read",
+              "banking.banking_accounts",
+              "banking.banking_accounts.read"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Size"
+            },
+            "description": "Page size"
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "Date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BankingOpeningBalanceItem"
                 }
               }
             }
@@ -20592,7 +20892,7 @@
           "number": {
             "type": "string",
             "title": "Number",
-            "description": "The account number in the chart of accounts. Must be unique within the accounting folder. In some countries (e.g., France, Belgium, Spain), the number structure is constrained by local accounting rules and must follow official charts of accounts (e.g., Plan Comptable G\u00e9n\u00e9ral)."
+            "description": "The account number in the chart of accounts. Must be unique within the accounting folder. In some countries (e.g., France, Belgium, Spain), the number structure is constrained by local accounting rules and must follow official charts of accounts (e.g., Plan Comptable Général)."
           },
           "name": {
             "type": "string",
@@ -20903,7 +21203,7 @@
           },
           "amount": {
             "type": "number",
-            "exclusiveMinimum": 0.0,
+            "exclusiveMinimum": 0,
             "title": "Amount",
             "description": "Paid amount dedicated to the invoice. The amount must be positive and follows the sign of the linked invoice."
           }
@@ -22140,9 +22440,7 @@
             "type": "integer",
             "title": "Status Code",
             "description": "HTTP status code returned by the original request.",
-            "examples": [
-              200
-            ]
+            "examples": [200]
           },
           "created_entity_id": {
             "anyOf": [
@@ -23061,9 +23359,7 @@
             "type": "number",
             "title": "Current Balance",
             "description": "Current balance of the account",
-            "examples": [
-              1000
-            ]
+            "examples": [1000]
           },
           "current_balance_last_update_date": {
             "anyOf": [
@@ -23085,9 +23381,7 @@
             "type": "number",
             "title": "Available Balance",
             "description": "Available balance of the account",
-            "examples": [
-              1000
-            ]
+            "examples": [1000]
           },
           "available_balance_last_update_date": {
             "anyOf": [
@@ -23156,9 +23450,7 @@
             "title": "Active",
             "description": "Indicates if the account is active",
             "default": true,
-            "examples": [
-              true
-            ]
+            "examples": [true]
           }
         },
         "type": "object",
@@ -23310,9 +23602,7 @@
             ],
             "title": "Opening Balance",
             "description": "Opening balance of the account on the given date",
-            "examples": [
-              1000.0
-            ]
+            "examples": [1000]
           },
           "currency": {
             "anyOf": [
@@ -23366,9 +23656,7 @@
             "type": "number",
             "title": "Amount",
             "description": "Amount of the transaction",
-            "examples": [
-              1000
-            ]
+            "examples": [1000]
           },
           "tax_amount": {
             "anyOf": [
@@ -23381,9 +23669,7 @@
             ],
             "title": "Tax Amount",
             "description": "VAT amount of the transaction",
-            "examples": [
-              200
-            ]
+            "examples": [200]
           },
           "currency": {
             "type": "string",
@@ -23507,9 +23793,7 @@
             "title": "Internal Transaction",
             "description": "Indicates if the transaction is internal",
             "default": false,
-            "examples": [
-              false
-            ]
+            "examples": [false]
           },
           "operation_type": {
             "anyOf": [
@@ -23567,9 +23851,7 @@
             ],
             "title": "Opening Balance",
             "description": "Opening balance of the account at the time of the transaction",
-            "examples": [
-              1000.0
-            ]
+            "examples": [1000]
           },
           "attachments_info": {
             "$ref": "#/components/schemas/ItemAttachmentInfoOut",
@@ -23792,17 +24074,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -23826,17 +24108,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -23860,17 +24142,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -23894,17 +24176,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -23928,17 +24210,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -23962,17 +24244,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -23996,17 +24278,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24030,17 +24312,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24064,17 +24346,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24098,17 +24380,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24132,17 +24414,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24166,17 +24448,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24200,17 +24482,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24234,17 +24516,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24268,17 +24550,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24302,17 +24584,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24336,17 +24618,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24370,17 +24652,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24404,17 +24686,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24438,17 +24720,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24472,17 +24754,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24506,17 +24788,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24540,17 +24822,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24574,17 +24856,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24608,17 +24890,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24642,17 +24924,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24676,17 +24958,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24710,17 +24992,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24744,17 +25026,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24778,17 +25060,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24812,17 +25094,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24846,17 +25128,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24880,17 +25162,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24914,17 +25196,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24948,17 +25230,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -24982,17 +25264,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25016,17 +25298,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25050,17 +25332,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25073,6 +25355,40 @@
         ],
         "title": "ChiftPage[MiscellaneousOperationOut]"
       },
+      "ChiftPage_ModifiersItem_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ModifiersItem"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0,
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1,
+            "title": "Page"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "title": "Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "title": "ChiftPage[ModifiersItem]"
+      },
       "ChiftPage_ObjectivesItem_": {
         "properties": {
           "items": {
@@ -25084,17 +25400,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25118,17 +25434,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25152,17 +25468,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25186,17 +25502,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25220,17 +25536,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25254,17 +25570,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25288,17 +25604,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25322,17 +25638,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25356,17 +25672,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25390,17 +25706,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25424,17 +25740,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25458,17 +25774,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25492,17 +25808,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25526,17 +25842,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25560,17 +25876,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25594,17 +25910,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25628,17 +25944,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25662,17 +25978,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25696,17 +26012,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25730,17 +26046,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25764,17 +26080,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25798,17 +26114,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25832,17 +26148,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25866,17 +26182,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25900,17 +26216,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25934,17 +26250,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -25968,17 +26284,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -26002,17 +26318,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -26036,17 +26352,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -26070,17 +26386,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -26104,17 +26420,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -26138,17 +26454,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -26172,17 +26488,17 @@
           },
           "total": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Total"
           },
           "page": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Page"
           },
           "size": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Size"
           }
         },
@@ -27103,17 +27419,13 @@
             "title": "Tip",
             "description": "Total amount of the tips of the payment. Tips are not part of the total of the payment",
             "default": "0",
-            "examples": [
-              1
-            ]
+            "examples": [1]
           },
           "total": {
             "type": "number",
             "title": "Total",
             "description": "Total amount including tax",
-            "examples": [
-              11
-            ]
+            "examples": [11]
           }
         },
         "type": "object",
@@ -28743,12 +29055,20 @@
           "config": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/SyncConfig"
+                "additionalProperties": true,
+                "propertyNames": {
+                  "enum": [
+                    "datalayer",
+                    "presync"
+                  ]
+                },
+                "type": "object"
               },
               {
                 "type": "null"
               }
-            ]
+            ],
+            "title": "Config"
           },
           "connections": {
             "items": {
@@ -28986,6 +29306,11 @@
               }
             ],
             "title": "Logic"
+          },
+          "manual_mapping": {
+            "type": "boolean",
+            "title": "Manual Mapping",
+            "default": false
           }
         },
         "type": "object",
@@ -29069,6 +29394,11 @@
               }
             ],
             "title": "Logic"
+          },
+          "manual_mapping": {
+            "type": "boolean",
+            "title": "Manual Mapping",
+            "default": false
           }
         },
         "type": "object",
@@ -29096,6 +29426,358 @@
           "value"
         ],
         "title": "CredentialItem"
+      },
+      "CubeAndFilter": {
+        "properties": {
+          "and": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/CubeLeafFilter"
+                },
+                {
+                  "$ref": "#/components/schemas/CubeAndFilter"
+                },
+                {
+                  "$ref": "#/components/schemas/CubeOrFilter"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "And"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "and"
+        ],
+        "title": "CubeAndFilter",
+        "description": "Cube REST API logical AND filter."
+      },
+      "CubeLeafFilter": {
+        "properties": {
+          "member": {
+            "type": "string",
+            "title": "Member"
+          },
+          "operator": {
+            "type": "string",
+            "title": "Operator"
+          },
+          "values": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Values"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "member",
+          "operator"
+        ],
+        "title": "CubeLeafFilter",
+        "description": "Cube REST API leaf filter: member + operator + values."
+      },
+      "CubeLoadQuery": {
+        "properties": {
+          "measures": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Measures"
+          },
+          "dimensions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Dimensions"
+          },
+          "segments": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Segments"
+          },
+          "filters": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/CubeLeafFilter"
+                },
+                {
+                  "$ref": "#/components/schemas/CubeAndFilter"
+                },
+                {
+                  "$ref": "#/components/schemas/CubeOrFilter"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Filters"
+          },
+          "timeDimensions": {
+            "items": {
+              "$ref": "#/components/schemas/CubeTimeDimension"
+            },
+            "type": "array",
+            "title": "Timedimensions"
+          },
+          "order": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string",
+                  "enum": [
+                    "asc",
+                    "desc"
+                  ]
+                },
+                "type": "object"
+              },
+              {
+                "items": {
+                  "$ref": "#/components/schemas/CubeOrderItem"
+                },
+                "type": "array"
+              },
+              {
+                "items": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Order"
+          },
+          "limit": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Limit"
+          },
+          "offset": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Offset"
+          },
+          "timezone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timezone"
+          },
+          "total": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total"
+          },
+          "renewQuery": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Renewquery"
+          },
+          "ungrouped": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ungrouped"
+          }
+        },
+        "type": "object",
+        "title": "CubeLoadQuery"
+      },
+      "CubeOrFilter": {
+        "properties": {
+          "or": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/CubeLeafFilter"
+                },
+                {
+                  "$ref": "#/components/schemas/CubeAndFilter"
+                },
+                {
+                  "$ref": "#/components/schemas/CubeOrFilter"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Or"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "or"
+        ],
+        "title": "CubeOrFilter",
+        "description": "Cube REST API logical OR filter."
+      },
+      "CubeOrderItem": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id"
+          },
+          "member": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Member"
+          },
+          "desc": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Desc"
+          },
+          "direction": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "asc",
+                  "desc"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Direction"
+          }
+        },
+        "type": "object",
+        "title": "CubeOrderItem"
+      },
+      "CubeTimeDimension": {
+        "properties": {
+          "dimension": {
+            "type": "string",
+            "title": "Dimension"
+          },
+          "dateRange": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Daterange"
+          },
+          "compareDateRange": {
+            "anyOf": [
+              {
+                "items": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comparedaterange"
+          },
+          "granularity": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Granularity"
+          }
+        },
+        "type": "object",
+        "required": [
+          "dimension"
+        ],
+        "title": "CubeTimeDimension"
       },
       "DataItem": {
         "properties": {
@@ -29189,6 +29871,43 @@
             ],
             "title": "From Date",
             "description": "Date from which the data is synced. Defaults to one year ago when omitted."
+          },
+          "fiscal_years_back": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fiscal Years Back",
+            "description": "Sync from the start of the book year this many fiscal years back (accounting only). 0 syncs from the start of the current fiscal year."
+          },
+          "full_history": {
+            "type": "boolean",
+            "title": "Full History",
+            "description": "Sync the whole history, without a lower date bound. Mirrors the 'infinite' automatic-activation policy.",
+            "default": false
+          },
+          "entity_filter": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entity Filter",
+            "description": "Restrict the datalayer to specific entities of the connection instead of every one the end-user selected, keyed by entity kind applicable to the connection's vertical (e.g. `folder_ids`, `location_ids`). The ids are validated against the ones available on the connection when the sync runs. Omit to sync every selected entity."
           }
         },
         "type": "object",
@@ -29305,9 +30024,7 @@
             "type": "number",
             "title": "Total",
             "description": "Total amount of the discount",
-            "examples": [
-              10
-            ]
+            "examples": [10]
           },
           "type": {
             "$ref": "#/components/schemas/DiscountType",
@@ -29546,7 +30263,9 @@
             ],
             "title": "Data",
             "description": "Object containing the configuration of the flow for the consumer",
-            "default": {}
+            "default": {
+
+            }
           }
         },
         "type": "object",
@@ -29588,6 +30307,43 @@
           "title"
         ],
         "title": "ErrorInfo"
+      },
+      "ExecutionResult": {
+        "properties": {
+          "column": {
+            "type": "string",
+            "title": "Column"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "data": {
+            "items": {
+
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "type": {
+            "type": "string",
+            "title": "Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "column",
+          "data",
+          "type"
+        ],
+        "title": "ExecutionResult"
       },
       "ExecutionType": {
         "type": "string",
@@ -31046,6 +31802,20 @@
               }
             ],
             "title": "Selected",
+            "description": "Indicates whether the folder was selected during the Chift activation process. Only selected folders can be used in subsequent requests. Requests targeting a folder that was not selected will be rejected. If only one folder is selected, it will be used by default when no folder is specified in the request.",
+            "default": true
+          },
+          "active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Active",
+            "description": "Indicates whether the folder is currently active in the target accounting software. Requests targeting an inactive folder will fail on the target software side.",
             "default": true
           },
           "vat": {
@@ -31367,7 +32137,7 @@
                 "type": "null"
               }
             ],
-            "description": "(For certain specific connectors only) Details of the third-party account (client/supplier) to be created if it does not already exist in the accounting system. Some softwares do not support creating third-party accounts via API; in such cases, this information must be provided to allow the accounting software to automatically create the missing account (e.g., for Tiime)."
+            "description": "(For certain specific connectors only) Details of the account (third-party or general ledger) to be created if it does not already exist in the accounting system. Some softwares do not support creating accounts via API; in such cases, this information must be provided to allow the accounting software to automatically create the missing account (e.g., for Tiime)."
           }
         },
         "type": "object",
@@ -31638,7 +32408,9 @@
           "config": {
             "$ref": "#/components/schemas/IntegrationsPostConnectionItemConfig",
             "description": "Dict of enabled post-connections on this integration.",
-            "default": {}
+            "default": {
+
+            }
           }
         },
         "type": "object",
@@ -31692,7 +32464,7 @@
           },
           "available_quantity": {
             "type": "number",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Available Quantity"
           }
         },
@@ -32072,7 +32844,7 @@
               }
             ],
             "title": "Invoice Number",
-            "description": "Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system\u2019s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details"
+            "description": "Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details"
           },
           "currency": {
             "type": "string",
@@ -32362,7 +33134,7 @@
               }
             ],
             "title": "Invoice Number",
-            "description": "Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system\u2019s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details"
+            "description": "Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details"
           },
           "currency": {
             "type": "string",
@@ -32891,7 +33663,7 @@
               }
             ],
             "title": "Invoice Number",
-            "description": "Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system\u2019s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details"
+            "description": "Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details"
           },
           "currency": {
             "type": "string",
@@ -33153,7 +33925,7 @@
               }
             ],
             "title": "Invoice Number",
-            "description": "Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system\u2019s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details"
+            "description": "Unique 'number' of the invoice instance in the accounting software. This is an internal reference number. if not specified, will be automatically generated according to the system’s numbering rules. It does not necessarily match the number displayed on an invoice.It is recommended to use this number for idempotency to prevent duplicate entries. Refer to the idempotency documentation in the Developer Guides for more details"
           },
           "currency": {
             "type": "string",
@@ -33679,7 +34451,7 @@
             "type": "number",
             "title": "Discount Amount",
             "description": "Line discount amount excl. taxes, (unit_price * quantity) - discount_amount = untaxed_amount",
-            "default": 0.0
+            "default": 0
           },
           "tax_amount": {
             "type": "number",
@@ -33843,7 +34615,7 @@
           "untaxed_amount": {
             "type": "number",
             "title": "Untaxed Amount",
-            "description": "Amount excluding tax for the line item (i.e., unit_price \u00d7 quantity)."
+            "description": "Amount excluding tax for the line item (i.e., unit_price × quantity)."
           },
           "tax_rate": {
             "type": "number",
@@ -33944,7 +34716,7 @@
           "untaxed_amount": {
             "type": "number",
             "title": "Untaxed Amount",
-            "description": "Amount excluding tax for the line item (i.e., unit_price \u00d7 quantity)."
+            "description": "Amount excluding tax for the line item (i.e., unit_price × quantity)."
           },
           "tax_rate": {
             "type": "number",
@@ -34036,7 +34808,7 @@
             "type": "number",
             "title": "Discount Amount",
             "description": "Line discount amount excl. taxes, (unit_price * quantity) - discount_amount = untaxed_amount",
-            "default": 0.0
+            "default": 0
           },
           "tax_amount": {
             "type": "number",
@@ -34216,7 +34988,7 @@
           "untaxed_amount": {
             "type": "number",
             "title": "Untaxed Amount",
-            "description": "Amount excluding tax for the line item (i.e., unit_price \u00d7 quantity)."
+            "description": "Amount excluding tax for the line item (i.e., unit_price × quantity)."
           },
           "tax_rate": {
             "type": "number",
@@ -34334,7 +35106,7 @@
           "untaxed_amount": {
             "type": "number",
             "title": "Untaxed Amount",
-            "description": "Amount excluding tax for the line item (i.e., unit_price \u00d7 quantity)."
+            "description": "Amount excluding tax for the line item (i.e., unit_price × quantity)."
           },
           "tax_rate": {
             "type": "number",
@@ -34657,7 +35429,7 @@
             ],
             "title": "Currency Exchange Rate",
             "description": "Exchange rate at the date of the transaction",
-            "default": 1.0
+            "default": 1
           },
           "accounting_code": {
             "anyOf": [
@@ -35355,7 +36127,7 @@
         "properties": {
           "status": {
             "$ref": "#/components/schemas/ItemAttachmentInfoStatus",
-            "description": "Indicates whether an attachment (e.g. PDF or image) is available for this entry, and how to retrieve it. 'yes': one or more attachments are available directly \u2014 each entry in the attachments array contains a filename and a download URL. 'yes_to_request': an attachment exists but cannot be returned inline. Call GET /accounting/attachments with type and document_id to retrieve the file as a base64-encoded string. The attachments array may be empty in this case. 'no': no attachment is linked to this entry. 'unknown': the connector does not support attachment detection for this provider."
+            "description": "Indicates whether an attachment (e.g. PDF or image) is available for this entry, and how to retrieve it. 'yes': one or more attachments are available directly — each entry in the attachments array contains a filename and a download URL. 'yes_to_request': an attachment exists but cannot be returned inline. Call GET /accounting/attachments with type and document_id to retrieve the file as a base64-encoded string. The attachments array may be empty in this case. 'no': no attachment is linked to this entry. 'unknown': the connector does not support attachment detection for this provider."
           },
           "attachments": {
             "anyOf": [
@@ -35370,7 +36142,7 @@
               }
             ],
             "title": "Attachments",
-            "description": "List of attachments available directly for this entry. Populated only when status is 'yes'. When status is 'yes_to_request', this list is empty \u2014 use GET /accounting/attachments to fetch the file content.",
+            "description": "List of attachments available directly for this entry. Populated only when status is 'yes'. When status is 'yes_to_request', this list is empty — use GET /accounting/attachments to fetch the file content.",
             "default": []
           }
         },
@@ -36178,7 +36950,7 @@
             "type": "string",
             "minLength": 3,
             "title": "Number",
-            "description": "The account number in the chart of accounts. Must be unique within the accounting folder. In some countries (e.g., France, Belgium, Spain), the number structure is constrained by local accounting rules and must follow official charts of accounts (e.g., Plan Comptable G\u00e9n\u00e9ral)."
+            "description": "The account number in the chart of accounts. Must be unique within the accounting folder. In some countries (e.g., France, Belgium, Spain), the number structure is constrained by local accounting rules and must follow official charts of accounts (e.g., Plan Comptable Général)."
           },
           "type": {
             "anyOf": [
@@ -36659,6 +37431,174 @@
         ],
         "title": "Mode"
       },
+      "ModifierLine": {
+        "properties": {
+          "modifier_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Modifier Id",
+            "description": "Unique identifier of the modifier line item",
+            "examples": [
+              "123"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the modifier",
+            "examples": [
+              "Ketchup"
+            ]
+          },
+          "modifier_group_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Modifier Group Id",
+            "description": "Unique identifier of the modifier group line item",
+            "examples": [
+              "123"
+            ]
+          },
+          "quantity": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quantity",
+            "description": "Quantity of the modifier line item",
+            "default": "1",
+            "examples": [1]
+          },
+          "unit_price": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit Price",
+            "description": "Unit price (without tax) of the modifier line item",
+            "default": "0",
+            "examples": [10]
+          },
+          "total": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total",
+            "description": "Total amount including tax of the modifier line item",
+            "default": "0",
+            "examples": [11]
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "ModifierLine"
+      },
+      "ModifierOptionItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique identifier of the modifier option",
+            "examples": [
+              "371ca583-d218-4900-b236-397532cf0e52"
+            ]
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "Name of the modifier option",
+            "examples": [
+              "Extra Cheese"
+            ]
+          },
+          "price": {
+            "type": "number",
+            "title": "Price",
+            "description": "Price of the modifier option"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "price"
+        ],
+        "title": "ModifierOptionItem"
+      },
+      "ModifiersItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique identifier of the modifier",
+            "examples": [
+              "371ca583-d218-4900-b236-397532cf0e52"
+            ]
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "Name of the modifier",
+            "examples": [
+              "Toppings"
+            ]
+          },
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/ModifierOptionItem"
+            },
+            "type": "array",
+            "title": "Options",
+            "description": "List of options of the modifier"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "options"
+        ],
+        "title": "ModifiersItem"
+      },
       "MultipleMatchingIn": {
         "properties": {
           "matchings": {
@@ -36787,17 +37727,13 @@
             "type": "number",
             "title": "Total",
             "description": "Total amount including tax of the sales",
-            "examples": [
-              10
-            ]
+            "examples": [10]
           },
           "tax_amount": {
             "type": "number",
             "title": "Tax Amount",
             "description": "Total amount of the taxes",
-            "examples": [
-              1
-            ]
+            "examples": [1]
           },
           "date": {
             "type": "string",
@@ -38185,6 +39121,22 @@
             "title": "Due Date",
             "description": "Due date of the outstanding item."
           },
+          "due_dates": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/OutstandingItemDueDatesOut"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Due Dates",
+            "description": "List of all due dates of the outstanding.",
+            "default": []
+          },
           "currency": {
             "type": "string",
             "title": "Currency",
@@ -38287,6 +39239,51 @@
           "posted"
         ],
         "title": "OutstandingItem"
+      },
+      "OutstandingItemDueDatesOut": {
+        "properties": {
+          "due_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Due Date",
+            "description": "Due date of the outstanding item."
+          },
+          "payment_method": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Method",
+            "description": "Payment method used to pay the outstanding on that due date."
+          },
+          "payment_method_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Method Id",
+            "description": "Technical ID of the payment method used to pay the outstanding on that due date."
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount",
+            "description": "Amount due for the outstanding on that due date."
+          }
+        },
+        "type": "object",
+        "required": [
+          "due_date",
+          "amount"
+        ],
+        "title": "OutstandingItemDueDatesOut"
       },
       "OutstandingType": {
         "type": "string",
@@ -38939,25 +39936,19 @@
             "type": "number",
             "title": "Tax Amount",
             "description": "Taxes amount",
-            "examples": [
-              21.0
-            ]
+            "examples": [21]
           },
           "untaxed_amount": {
             "type": "number",
             "title": "Untaxed Amount",
             "description": "Untaxed amount",
-            "examples": [
-              100.0
-            ]
+            "examples": [100]
           },
           "total": {
             "type": "number",
             "title": "Total",
             "description": "Total amount incl. taxes",
-            "examples": [
-              121.0
-            ]
+            "examples": [121]
           }
         },
         "type": "object",
@@ -39114,17 +40105,13 @@
             "type": "number",
             "title": "Total",
             "description": "Total amount including tax of the order",
-            "examples": [
-              11
-            ]
+            "examples": [11]
           },
           "tax_amount": {
             "type": "number",
             "title": "Tax Amount",
             "description": "Total amount of the taxes of the order",
-            "examples": [
-              1
-            ]
+            "examples": [1]
           },
           "total_discount": {
             "anyOf": [
@@ -39138,9 +40125,7 @@
             "title": "Total Discount",
             "description": "Total amount of the discounts of the order",
             "default": "0",
-            "examples": [
-              10
-            ]
+            "examples": [10]
           },
           "total_refund": {
             "anyOf": [
@@ -39154,9 +40139,7 @@
             "title": "Total Refund",
             "description": "Total amount of the refunds of the order",
             "default": "0",
-            "examples": [
-              5
-            ]
+            "examples": [5]
           },
           "total_tip": {
             "anyOf": [
@@ -39170,9 +40153,7 @@
             "title": "Total Tip",
             "description": "Total amount of the tips of the order. Tips are not part of the total of the order",
             "default": "0",
-            "examples": [
-              1
-            ]
+            "examples": [1]
           },
           "delivery_fee": {
             "anyOf": [
@@ -39186,9 +40167,7 @@
             "title": "Delivery Fee",
             "description": "Total amount of the delivery fees of the order",
             "default": "0",
-            "examples": [
-              1
-            ]
+            "examples": [1]
           },
           "mode": {
             "anyOf": [
@@ -39261,9 +40240,7 @@
             ],
             "title": "Loyalty",
             "description": "Loyalty points of the order",
-            "examples": [
-              100
-            ]
+            "examples": [100]
           },
           "customer_id": {
             "anyOf": [
@@ -39322,9 +40299,7 @@
             ],
             "title": "Guests",
             "description": "Number of guests linked to the order",
-            "examples": [
-              1
-            ]
+            "examples": [1]
           },
           "items": {
             "items": {
@@ -39431,33 +40406,25 @@
             "type": "number",
             "title": "Quantity",
             "description": "Quantity of the order line item",
-            "examples": [
-              1
-            ]
+            "examples": [1]
           },
           "unit_price": {
             "type": "number",
             "title": "Unit Price",
             "description": "Unit price (without tax) of the order line item",
-            "examples": [
-              10
-            ]
+            "examples": [10]
           },
           "total": {
             "type": "number",
             "title": "Total",
             "description": "Total amount including tax of the order line item",
-            "examples": [
-              11
-            ]
+            "examples": [11]
           },
           "tax_amount": {
             "type": "number",
             "title": "Tax Amount",
             "description": "Total amount of the taxes of the order line item",
-            "examples": [
-              1
-            ]
+            "examples": [1]
           },
           "tax_rate": {
             "anyOf": [
@@ -39470,9 +40437,7 @@
             ],
             "title": "Tax Rate",
             "description": "Tax rate of the order line item",
-            "examples": [
-              10
-            ]
+            "examples": [10]
           },
           "tax_id": {
             "anyOf": [
@@ -39620,9 +40585,7 @@
             "type": "number",
             "title": "Total",
             "description": "Total amount of the payment",
-            "examples": [
-              11
-            ]
+            "examples": [11]
           },
           "tip": {
             "anyOf": [
@@ -39636,9 +40599,7 @@
             "title": "Tip",
             "description": "Total amount of the tips of the payment. Tips are not part of the total of the payment",
             "default": "0",
-            "examples": [
-              1
-            ]
+            "examples": [1]
           },
           "status": {
             "anyOf": [
@@ -39769,7 +40730,7 @@
             "title": "Extra",
             "description": "Original name of the payment method",
             "examples": [
-              "Esp\u00e8ces"
+              "Espèces"
             ]
           },
           "ledger_account_code": {
@@ -39841,9 +40802,7 @@
             ],
             "title": "Rate",
             "description": "Percentage of the tax rate",
-            "examples": [
-              21.0
-            ]
+            "examples": [21]
           },
           "is_city_tax": {
             "anyOf": [
@@ -39856,9 +40815,7 @@
             ],
             "title": "Is City Tax",
             "description": "Indicates if the tax is a city tax (or tourist tax)",
-            "examples": [
-              false
-            ]
+            "examples": [false]
           }
         },
         "type": "object",
@@ -40115,9 +41072,7 @@
             ],
             "title": "Loyalty",
             "description": "Loyalty points of the customer",
-            "examples": [
-              100
-            ]
+            "examples": [100]
           },
           "birthdate": {
             "anyOf": [
@@ -40186,33 +41141,25 @@
             "type": "number",
             "title": "Quantity",
             "description": "Quantity of the order line item",
-            "examples": [
-              1
-            ]
+            "examples": [1]
           },
           "unit_price": {
             "type": "number",
             "title": "Unit Price",
             "description": "Unit price (without tax) of the order line item",
-            "examples": [
-              10
-            ]
+            "examples": [10]
           },
           "total": {
             "type": "number",
             "title": "Total",
             "description": "Total amount including tax of the order line item",
-            "examples": [
-              11
-            ]
+            "examples": [11]
           },
           "tax_amount": {
             "type": "number",
             "title": "Tax Amount",
             "description": "Total amount of the taxes of the order line item",
-            "examples": [
-              1
-            ]
+            "examples": [1]
           },
           "tax_rate": {
             "anyOf": [
@@ -40225,9 +41172,7 @@
             ],
             "title": "Tax Rate",
             "description": "Tax rate of the order line item",
-            "examples": [
-              10
-            ]
+            "examples": [10]
           },
           "tax_id": {
             "anyOf": [
@@ -40307,6 +41252,22 @@
             "examples": [
               "123"
             ]
+          },
+          "modifiers": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ModifierLine"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Modifiers",
+            "description": "List of modifiers",
+            "default": []
           }
         },
         "type": "object",
@@ -40466,17 +41427,13 @@
             "type": "number",
             "title": "Total",
             "description": "Total amount including tax of the order",
-            "examples": [
-              11
-            ]
+            "examples": [11]
           },
           "tax_amount": {
             "type": "number",
             "title": "Tax Amount",
             "description": "Total amount of the taxes of the order",
-            "examples": [
-              1
-            ]
+            "examples": [1]
           },
           "total_discount": {
             "anyOf": [
@@ -40490,9 +41447,7 @@
             "title": "Total Discount",
             "description": "Total amount of the discounts of the order",
             "default": "0",
-            "examples": [
-              10
-            ]
+            "examples": [10]
           },
           "total_refund": {
             "anyOf": [
@@ -40506,9 +41461,7 @@
             "title": "Total Refund",
             "description": "Total amount of the refunds of the order",
             "default": "0",
-            "examples": [
-              5
-            ]
+            "examples": [5]
           },
           "total_tip": {
             "anyOf": [
@@ -40522,9 +41475,7 @@
             "title": "Total Tip",
             "description": "Total amount of the tips of the order. Tips are not part of the total of the order",
             "default": "0",
-            "examples": [
-              1
-            ]
+            "examples": [1]
           },
           "delivery_fee": {
             "anyOf": [
@@ -40538,9 +41489,7 @@
             "title": "Delivery Fee",
             "description": "Total amount of the delivery fees of the order",
             "default": "0",
-            "examples": [
-              1
-            ]
+            "examples": [1]
           },
           "mode": {
             "anyOf": [
@@ -40613,9 +41562,7 @@
             ],
             "title": "Loyalty",
             "description": "Loyalty points of the order",
-            "examples": [
-              100
-            ]
+            "examples": [100]
           },
           "customer_id": {
             "anyOf": [
@@ -40674,9 +41621,7 @@
             ],
             "title": "Guests",
             "description": "Number of guests linked to the order",
-            "examples": [
-              1
-            ]
+            "examples": [1]
           },
           "payments": {
             "items": {
@@ -40693,6 +41638,21 @@
             "type": "array",
             "title": "Items",
             "description": "List of item lines in the order"
+          },
+          "invoice_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Invoice Id",
+            "description": "ID of the invoice linked to the order. Only available for specific POS and if the order is linked to an invoice (B2B)",
+            "examples": [
+              "invoice-123"
+            ]
           }
         },
         "type": "object",
@@ -40757,9 +41717,7 @@
             "type": "number",
             "title": "Total",
             "description": "Total amount of the payment",
-            "examples": [
-              11
-            ]
+            "examples": [11]
           },
           "tip": {
             "anyOf": [
@@ -40773,9 +41731,7 @@
             "title": "Tip",
             "description": "Total amount of the tips of the payment. Tips are not part of the total of the payment",
             "default": "0",
-            "examples": [
-              1
-            ]
+            "examples": [1]
           },
           "status": {
             "anyOf": [
@@ -40836,6 +41792,21 @@
             "description": "Reference of the invoice linked to the payment",
             "examples": [
               "invoice-123"
+            ]
+          },
+          "order_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Order Id",
+            "description": "Unique identifier of the order",
+            "examples": [
+              "order-123"
             ]
           }
         },
@@ -40917,6 +41888,22 @@
             "title": "Prices",
             "description": "List of prices for the product"
           },
+          "modifier_groups_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Modifier Groups Ids",
+            "description": "List of ids of the modifier groups",
+            "default": []
+          },
           "accounting_category_ids": {
             "anyOf": [
               {
@@ -40980,9 +41967,7 @@
             ],
             "title": "Rate",
             "description": "Percentage of the tax rate",
-            "examples": [
-              21.0
-            ]
+            "examples": [21]
           },
           "tax_code": {
             "anyOf": [
@@ -41620,7 +42605,7 @@
             "title": "Extra",
             "description": "Original name of the payment method",
             "examples": [
-              "Esp\u00e8ces"
+              "Espèces"
             ]
           }
         },
@@ -41854,7 +42839,7 @@
             "title": "Street",
             "description": "Street name",
             "examples": [
-              "Avenue de la R\u00e9publique"
+              "Avenue de la République"
             ]
           },
           "number": {
@@ -42498,9 +43483,7 @@
             "type": "number",
             "title": "Unit Price",
             "description": "Unit price (without tax) of the product",
-            "examples": [
-              10
-            ]
+            "examples": [10]
           },
           "tax_rate": {
             "anyOf": [
@@ -42513,9 +43496,7 @@
             ],
             "title": "Tax Rate",
             "description": "Tax rate applied to the product",
-            "examples": [
-              10
-            ]
+            "examples": [10]
           }
         },
         "type": "object",
@@ -42759,6 +43740,420 @@
         ],
         "title": "ProductVariantItem"
       },
+      "PublicCubeMetaCube": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "type": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "cube",
+                  "view"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Type"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "connectedComponent": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Connectedcomponent"
+          },
+          "measures": {
+            "items": {
+              "$ref": "#/components/schemas/PublicCubeMetaMember"
+            },
+            "type": "array",
+            "title": "Measures"
+          },
+          "dimensions": {
+            "items": {
+              "$ref": "#/components/schemas/PublicCubeMetaMember"
+            },
+            "type": "array",
+            "title": "Dimensions"
+          },
+          "hierarchies": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Hierarchies"
+          },
+          "segments": {
+            "items": {
+              "$ref": "#/components/schemas/PublicCubeMetaMember"
+            },
+            "type": "array",
+            "title": "Segments"
+          },
+          "relationships": {
+            "items": {
+              "$ref": "#/components/schemas/PublicCubeRelationship"
+            },
+            "type": "array",
+            "title": "Relationships"
+          },
+          "domain": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Domain"
+          },
+          "queryGroup": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Querygroup"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "PublicCubeMetaCube",
+        "description": "Agent-facing Cube schema, close to Cube /v1/meta and stripped of SQL internals."
+      },
+      "PublicCubeMetaMember": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "shortTitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Shorttitle"
+          },
+          "aliasName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aliasname"
+          },
+          "type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Type"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "aggType": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aggtype"
+          },
+          "drillMembers": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Drillmembers"
+          },
+          "format": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Format"
+          },
+          "primaryKey": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Primarykey"
+          },
+          "suggestFilterValues": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Suggestfiltervalues"
+          },
+          "nullable": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nullable"
+          },
+          "values": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Values"
+          },
+          "allowedGranularities": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Allowedgranularities"
+          },
+          "jsonSchema": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Jsonschema"
+          },
+          "monetary": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Monetary"
+          },
+          "currencyDimension": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currencydimension"
+          },
+          "currencySensitive": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currencysensitive"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "PublicCubeMetaMember",
+        "description": "Agent-facing Cube member metadata.\n\nThe base fields mirror Cube /v1/meta. The remaining fields are selected, SQL-free\nBackbone metadata flattened so agents do not need to inspect arbitrary `meta`."
+      },
+      "PublicCubeRelationship": {
+        "properties": {
+          "target": {
+            "type": "string",
+            "title": "Target"
+          },
+          "relationship": {
+            "type": "string",
+            "enum": [
+              "one_to_one",
+              "one_to_many",
+              "many_to_one"
+            ],
+            "title": "Relationship"
+          }
+        },
+        "type": "object",
+        "required": [
+          "target",
+          "relationship"
+        ],
+        "title": "PublicCubeRelationship"
+      },
+      "QueryMeta": {
+        "properties": {
+          "currency": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency"
+          },
+          "monetary_measures": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Monetary Measures"
+          }
+        },
+        "type": "object",
+        "title": "QueryMeta"
+      },
+      "QueryResponse": {
+        "properties": {
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/ExecutionResult"
+            },
+            "type": "array",
+            "title": "Results"
+          },
+          "meta": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/QueryMeta"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "results"
+        ],
+        "title": "QueryResponse"
+      },
       "ReadFlowConsumerItem": {
         "properties": {
           "name": {
@@ -42953,12 +44348,20 @@
           "config": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/SyncConfig"
+                "additionalProperties": true,
+                "propertyNames": {
+                  "enum": [
+                    "datalayer",
+                    "presync"
+                  ]
+                },
+                "type": "object"
               },
               {
                 "type": "null"
               }
-            ]
+            ],
+            "title": "Config"
           },
           "connections": {
             "items": {
@@ -43289,12 +44692,35 @@
         ],
         "title": "RefundOrderLineItem"
       },
+      "ReleaseItem": {
+        "properties": {
+          "fileName": {
+            "type": "string",
+            "title": "Filename"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "downloadUrl": {
+            "type": "string",
+            "title": "Downloadurl"
+          }
+        },
+        "type": "object",
+        "required": [
+          "fileName",
+          "version",
+          "downloadUrl"
+        ],
+        "title": "ReleaseItem"
+      },
       "ReportCategory": {
         "type": "string",
         "enum": [
           "Supply of goods subject to value-added tax.",
           "Services subject to value-added tax.",
-          "Supply of goods and provision of services not subject to value-added tax in France, including intra-Community distance sales mentioned in 1\u00b0 of I of Article 258 A and in Article 259 B of the French General Tax Code.",
+          "Supply of goods and provision of services not subject to value-added tax in France, including intra-Community distance sales mentioned in 1° of I of Article 258 A and in Article 259 B of the French General Tax Code.",
           "Transactions subject to the regimes provided for in e) of 1 of Article 266 and in Articles 268 and 297 A of the French General Tax Code (VAT margin scheme)."
         ],
         "title": "ReportCategory"
@@ -43372,17 +44798,13 @@
             "type": "number",
             "title": "Total",
             "description": "Total amount including tax of the sales",
-            "examples": [
-              10
-            ]
+            "examples": [10]
           },
           "tax_amount": {
             "type": "number",
             "title": "Tax Amount",
             "description": "Total amount of the taxes",
-            "examples": [
-              1
-            ]
+            "examples": [1]
           },
           "tax_duedatetypecode": {
             "anyOf": [
@@ -43411,9 +44833,7 @@
             "type": "integer",
             "title": "Total Orders",
             "description": "Total number of orders for the period",
-            "examples": [
-              10
-            ]
+            "examples": [10]
           },
           "taxes": {
             "anyOf": [
@@ -43754,17 +45174,13 @@
             "type": "number",
             "title": "Total",
             "description": "Total amount including tax of the sales",
-            "examples": [
-              10
-            ]
+            "examples": [10]
           },
           "tax_amount": {
             "type": "number",
             "title": "Tax Amount",
             "description": "Total amount of the taxes",
-            "examples": [
-              1
-            ]
+            "examples": [1]
           },
           "taxes": {
             "anyOf": [
@@ -44710,32 +46126,6 @@
         "type": "object",
         "title": "SupplierItemUpdate"
       },
-      "SyncConfig": {
-        "properties": {
-          "datalayer": {
-            "type": "boolean",
-            "title": "Datalayer",
-            "default": false
-          },
-          "presync": {
-            "anyOf": [
-              {
-                "items": {
-                  "additionalProperties": true,
-                  "type": "object"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Presync"
-          }
-        },
-        "type": "object",
-        "title": "SyncConfig"
-      },
       "SyncConsumerItem": {
         "properties": {
           "syncid": {
@@ -45390,7 +46780,9 @@
             ],
             "title": "Data",
             "description": "Object containing the configuration of the flow for the consumer",
-            "default": {}
+            "default": {
+
+            }
           }
         },
         "type": "object",
