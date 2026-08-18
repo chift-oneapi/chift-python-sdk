@@ -195,6 +195,16 @@ class Invoice(
         self.extra_path = f"type/{invoice_type}"
         return super().iter_all(params=params, limit=limit, client=client)
 
+    # The instance is shared for the consumer's lifetime, so a previous all() would
+    # otherwise send these to /invoices/type/{invoice_type}, which is GET-only.
+    def create(self, *args, **kwargs):
+        self.extra_path = None
+        return super().create(*args, **kwargs)
+
+    def get(self, *args, **kwargs):
+        self.extra_path = None
+        return super().get(*args, **kwargs)
+
 
 class InvoiceMultiPlan(
     ReadMixin[InvoiceMultiPlanAccountingModel],
@@ -208,6 +218,14 @@ class InvoiceMultiPlan(
     def all(self, invoice_type, params=None, client=None, limit=None):
         self.extra_path = f"type/{invoice_type}"
         return super().all(params=params, limit=limit, client=client)
+
+    def create(self, *args, **kwargs):
+        self.extra_path = None
+        return super().create(*args, **kwargs)
+
+    def get(self, *args, **kwargs):
+        self.extra_path = None
+        return super().get(*args, **kwargs)
 
 
 # deprecated
