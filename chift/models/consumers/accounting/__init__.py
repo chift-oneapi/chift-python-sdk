@@ -325,6 +325,7 @@ class Attachment(CreateMixin[MatchingModel], PaginationMixin[AttachmentModel]):
             client=client,
             params=params,
             map_model=False,
+            chift_model="invoices",
             extra_path=f"pdf/{invoice_id}",
         )
 

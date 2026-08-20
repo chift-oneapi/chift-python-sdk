@@ -61,6 +61,20 @@ def test_invoice_all_does_not_leak_into_get(recorder, accounting_api):
     assert paths(calls, "GET")[1].endswith("/accounting/invoices/invoice-001")
 
 
+def test_invoice_multi_plan_all_does_not_leak_into_create(recorder, accounting_api):
+    """The analytic variant of the same route pair: POST-only vs GET-only."""
+    calls, responses = recorder
+    responses.append({"items": [], "total": 0})
+
+    accounting_api.InvoiceMultiPlan.all("customer_invoice")
+    accounting_api.InvoiceMultiPlan.create({"invoice_number": "INV-1"}, map_model=False)
+
+    assert paths(calls, "GET")[0].endswith(
+        "/accounting/invoices/multi-analytic-plans/type/customer_invoice"
+    )
+    assert paths(calls, "POST")[0].endswith("/accounting/invoices/multi-analytic-plans")
+
+
 def test_iter_all_keeps_extra_path_across_pages(recorder, accounting_api):
     calls, responses = recorder
     first, second = accounting.INVOICE_ALL["items"][:2]
@@ -120,7 +134,8 @@ def test_attachment_create_does_not_leak_into_the_next_call(recorder, accounting
     accounting_api.Attachment.all()
     accounting_api.Attachment.upload({"base64_string": "x"})
 
-    assert paths(calls, "POST")[0].endswith("/accounting/attachments/pdf/invoice-001")
+    # accounting_add_attachment lives on invoices/pdf/{invoice_id}; attachments is the GET list
+    assert paths(calls, "POST")[0].endswith("/accounting/invoices/pdf/invoice-001")
     assert paths(calls, "GET")[0].endswith("/accounting/attachments")
     assert paths(calls, "POST")[1].endswith("/accounting/attachments")
 
