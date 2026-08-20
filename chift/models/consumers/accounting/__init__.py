@@ -95,8 +95,12 @@ class AnalyticAccountMultiPlan(
         params=None,
         client_request_id=None,
     ):
-        self.extra_path = f"multi-analytic-plans/{analytic_plan}"
-        return super().create(data=data, client=client, params=params)
+        return super().create(
+            data=data,
+            client=client,
+            params=params,
+            extra_path=f"multi-analytic-plans/{analytic_plan}",
+        )
 
     def get(
         self,
@@ -105,11 +109,11 @@ class AnalyticAccountMultiPlan(
         client=None,
         params=None,
     ) -> AnalyticAccountMultiPlanModel:
-        self.extra_path = f"multi-analytic-plans/{analytic_plan}"
         return super().get(
             chift_id=chift_id,
             client=client,
             params=params,
+            extra_path=f"multi-analytic-plans/{analytic_plan}",
         )
 
     def update(
@@ -121,12 +125,17 @@ class AnalyticAccountMultiPlan(
         params=None,
         client_request_id=None,
     ):
-        self.extra_path = f"multi-analytic-plans/{analytic_plan}"
-        return super().update(chift_id=chift_id, data=data, client=client)
+        return super().update(
+            chift_id=chift_id,
+            data=data,
+            client=client,
+            extra_path=f"multi-analytic-plans/{analytic_plan}",
+        )
 
     def all(self, params=None, client=None, limit=None):
-        self.extra_path = "multi-analytic-plans"
-        return super().all(params=params, limit=limit, client=client)
+        return super().all(
+            params=params, limit=limit, client=client, extra_path="multi-analytic-plans"
+        )
 
 
 class Tax(PaginationMixin[TaxAccountingModel]):
@@ -188,12 +197,14 @@ class Invoice(
     model = InvoiceAccountingModel
 
     def all(self, invoice_type, params=None, client=None, limit=None):
-        self.extra_path = f"type/{invoice_type}"
-        return super().all(params=params, limit=limit, client=client)
+        return super().all(
+            params=params, limit=limit, client=client, extra_path=f"type/{invoice_type}"
+        )
 
     def iter_all(self, invoice_type, params=None, client=None, limit=None):
-        self.extra_path = f"type/{invoice_type}"
-        return super().iter_all(params=params, limit=limit, client=client)
+        return super().iter_all(
+            params=params, limit=limit, client=client, extra_path=f"type/{invoice_type}"
+        )
 
 
 class InvoiceMultiPlan(
@@ -206,8 +217,9 @@ class InvoiceMultiPlan(
     model = InvoiceMultiPlanAccountingModel
 
     def all(self, invoice_type, params=None, client=None, limit=None):
-        self.extra_path = f"type/{invoice_type}"
-        return super().all(params=params, limit=limit, client=client)
+        return super().all(
+            params=params, limit=limit, client=client, extra_path=f"type/{invoice_type}"
+        )
 
 
 # deprecated
@@ -231,12 +243,12 @@ class Entry(
     def iter_all(
         self, params=None, client=None, map_model: Literal[True] = True, limit=None
     ):
-        self.chift_model = "journal/entries/multi-analytic-plans"
         return super().iter_all(
             params=params,
             client=client,
             map_model=map_model,
             limit=limit,
+            chift_model="journal/entries/multi-analytic-plans",
         )
 
     def all(
@@ -247,13 +259,13 @@ class Entry(
         limit=None,
         raw_data: Literal[False] = False,
     ):
-        self.chift_model = "journal/entries/multi-analytic-plans"
         return super().all(
             params=params,
             client=client,
             map_model=map_model,
             limit=limit,
             raw_data=raw_data,
+            chift_model="journal/entries/multi-analytic-plans",
         )
 
 
@@ -308,16 +320,24 @@ class Attachment(CreateMixin[MatchingModel], PaginationMixin[AttachmentModel]):
     model = AttachmentModel
 
     def create(self, invoice_id, data, client=None, params=None):
-        self.chift_model = "invoices"
-        self.extra_path = f"pdf/{invoice_id}"
-        return super().create(data=data, client=client, params=params, map_model=False)
+        return super().create(
+            data=data,
+            client=client,
+            params=params,
+            map_model=False,
+            chift_model="invoices",
+            extra_path=f"pdf/{invoice_id}",
+        )
 
     def upload(self, data, client=None, params=None):
         """Upload a standalone attachment/document (POST accounting/attachments)."""
-        self.chift_model = "attachments"
-        self.chift_model_create = "attachments"
-        self.extra_path = None
-        return super().create(data=data, client=client, params=params, map_model=False)
+        return super().create(
+            data=data,
+            client=client,
+            params=params,
+            map_model=False,
+            chift_model="attachments",
+        )
 
 
 class BankAccount(CreateMixin[BankAccountModel], PaginationMixin[BankAccountModel]):
@@ -349,24 +369,45 @@ class Custom(ReadMixin, CreateMixin, UpdateMixin, PaginationMixin, DeleteMixin):
     chift_model: ClassVar = "custom"
 
     def all(self, custom_path, params=None, client=None, limit=None):
-        self.extra_path = custom_path
-        return super().all(params=params, map_model=False, client=client, limit=limit)
+        return super().all(
+            params=params,
+            map_model=False,
+            client=client,
+            limit=limit,
+            extra_path=custom_path,
+        )
 
     def create(self, custom_path, data, client=None, params=None):
-        self.extra_path = custom_path
-        return super().create(data, map_model=False, client=client, params=params)
+        return super().create(
+            data, map_model=False, client=client, params=params, extra_path=custom_path
+        )
 
     def update(self, custom_path, chift_id, data, client=None, params=None):
-        self.extra_path = f"{custom_path}/{chift_id}"
-        return super().update(None, data, map_model=False, client=client, params=params)
+        return super().update(
+            None,
+            data,
+            map_model=False,
+            client=client,
+            params=params,
+            extra_path=f"{custom_path}/{chift_id}",
+        )
 
     def get(self, custom_path, chift_id, params=None, client=None):
-        self.extra_path = f"{custom_path}/{chift_id}"
-        return super().get(chift_id=None, map_model=False, params=params, client=client)
+        return super().get(
+            chift_id=None,
+            map_model=False,
+            params=params,
+            client=client,
+            extra_path=f"{custom_path}/{chift_id}",
+        )
 
     def delete(self, custom_path, chift_id, client=None, params=None):
-        self.extra_path = f"{custom_path}/{chift_id}"
-        return super().delete(chift_id=None, client=client, params=params)
+        return super().delete(
+            chift_id=None,
+            client=client,
+            params=params,
+            extra_path=f"{custom_path}/{chift_id}",
+        )
 
 
 class Payment(ReadMixin[AccountingPayment]):
@@ -375,8 +416,9 @@ class Payment(ReadMixin[AccountingPayment]):
     model = AccountingPayment
 
     def get(self, invoice_id, params=None, client=None):
-        self.extra_path = "payments"
-        return super().get(invoice_id, client=client, params=params)
+        return super().get(
+            invoice_id, client=client, params=params, extra_path="payments"
+        )
 
 
 class Expense(
@@ -398,5 +440,6 @@ class Batch(CreateMixin):
     chift_model: ClassVar = "batch"
 
     def create(self, model, data, client=None, params=None):
-        self.extra_path = model
-        return super().create(data=data, client=client, params=params, map_model=False)
+        return super().create(
+            data=data, client=client, params=params, map_model=False, extra_path=model
+        )

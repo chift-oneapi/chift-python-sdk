@@ -20,21 +20,46 @@ class Custom(ReadMixin, CreateMixin, UpdateMixin, PaginationMixin, DeleteMixin):
     model = None
 
     def get(self, connector, entity, id, params=None, client=None):
-        self.extra_path = f"{connector}/{entity}/{id}"
-        return super().get(chift_id=None, map_model=False, params=params, client=client)
+        return super().get(
+            chift_id=None,
+            map_model=False,
+            params=params,
+            client=client,
+            extra_path=f"{connector}/{entity}/{id}",
+        )
 
     def all(self, connector, entity, params=None, client=None, limit=None):
-        self.extra_path = f"{connector}/{entity}"
-        return super().all(params=params, map_model=False, client=client, limit=limit)
+        return super().all(
+            params=params,
+            map_model=False,
+            client=client,
+            limit=limit,
+            extra_path=f"{connector}/{entity}",
+        )
 
     def create(self, connector, entity, data, client=None, params=None):
-        self.extra_path = f"{connector}/{entity}"
-        return super().create(data, map_model=False, client=client, params=params)
+        return super().create(
+            data,
+            map_model=False,
+            client=client,
+            params=params,
+            extra_path=f"{connector}/{entity}",
+        )
 
     def update(self, connector, entity, id, data, client=None, params=None):
-        self.extra_path = f"{connector}/{entity}/{id}"
-        return super().update(None, data, map_model=False, client=client, params=params)
+        return super().update(
+            None,
+            data,
+            map_model=False,
+            client=client,
+            params=params,
+            extra_path=f"{connector}/{entity}/{id}",
+        )
 
     def delete(self, connector, entity, id, client=None, params=None):
-        self.extra_path = f"{connector}/{entity}/{id}"
-        return super().delete(chift_id=None, client=client, params=params)
+        return super().delete(
+            chift_id=None,
+            client=client,
+            params=params,
+            extra_path=f"{connector}/{entity}/{id}",
+        )

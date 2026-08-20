@@ -34,20 +34,36 @@ class Flow(
 
     @classmethod
     def create(self, sync_id, data, client=None, params=None):
-        self.extra_path = f"{sync_id}/flows"
-        return super().create(Flow, data, client=client, params=params)
+        return super().create(
+            Flow, data, client=client, params=params, extra_path=f"{sync_id}/flows"
+        )
 
     @classmethod
     def delete(self, sync_id, flow_id, client=None, params=None):
-        self.extra_path = f"{sync_id}/flows/{flow_id}"
-        return super().delete(Flow, chift_id=None, client=client, params=params)
+        return super().delete(
+            Flow,
+            chift_id=None,
+            client=client,
+            params=params,
+            extra_path=f"{sync_id}/flows/{flow_id}",
+        )
 
     @classmethod
     def trigger(self, sync_id, flow_id, data, client=None):
-        self.extra_path = f"{sync_id}/flows/{flow_id}/event"
-        return super().create(Flow, data, client=client, map_model=False)
+        return super().create(
+            Flow,
+            data,
+            client=client,
+            map_model=False,
+            extra_path=f"{sync_id}/flows/{flow_id}/event",
+        )
 
     @classmethod
     def chainexecution(self, sync_id, flow_id, chainexecution_id, client=None):
-        self.extra_path = f"/flows/{flow_id}/executions/{chainexecution_id}"
-        return super().get(Flow, sync_id, client=client, map_model=False)
+        return super().get(
+            Flow,
+            sync_id,
+            client=client,
+            map_model=False,
+            extra_path=f"/flows/{flow_id}/executions/{chainexecution_id}",
+        )

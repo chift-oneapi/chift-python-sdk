@@ -88,6 +88,10 @@ class Custom(CreateMixin):
         self.chift_model = model
 
     def create(self, custom_path, data, client=None, params=None):
-        self.chift_model = custom_path
-        self.chift_model_create = custom_path
-        return super().create(data, map_model=False, client=client, params=params)
+        return super().create(
+            data,
+            map_model=False,
+            client=client,
+            params=params,
+            chift_model=custom_path,
+        )
