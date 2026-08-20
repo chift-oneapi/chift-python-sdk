@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.11 - 2026-08-20
+- fix: the pieces of a request path that change per call (`extra_path`, `chift_model`) are now passed as arguments instead.
+
 ## 0.6.10 - 2026-07-24
 - datalayer: add `fiscal_years_back`, `full_history`, and `entity_filter` options to `DatalayerEnableBody` for finer control over sync scope
 - accounting: add `active` field to `FolderItem` to indicate whether a folder is active in the target software (separate from `selected`)

@@ -30,6 +30,8 @@ class DeleteMixin(BaseMixin, Generic[T]):
         params=None,
         client_request_id=None,
         datalayer=False,
+        extra_path=None,
+        chift_model=None,
     ) -> T:
         if not client:
             client = ChiftClient()
@@ -41,9 +43,9 @@ class DeleteMixin(BaseMixin, Generic[T]):
 
         return client.delete_one(
             self.chift_vertical,
-            self.chift_model,
+            chift_model or self.chift_model,
             chift_id=chift_id,
-            extra_path=self.extra_path,
+            extra_path=extra_path or self.extra_path,
             params=params,
         )
 
@@ -101,6 +103,8 @@ class ReadMixin(BaseMixin, Generic[T]):
         map_model=True,
         raw_data=False,
         datalayer=False,
+        extra_path=None,
+        chift_model=None,
     ) -> T | dict | ObjectWithRawData[T]:
         if not client:
             client = ChiftClient()
@@ -112,9 +116,9 @@ class ReadMixin(BaseMixin, Generic[T]):
 
         json_data = client.get_one(
             self.chift_vertical,
-            self.chift_model,
+            chift_model or self.chift_model,
             chift_id=chift_id,
-            extra_path=self.extra_path,
+            extra_path=extra_path or self.extra_path,
             params=params,
         )
         if raw_data:
@@ -171,6 +175,8 @@ class CreateMixin(BaseMixin, Generic[T]):
         map_model=True,
         client_request_id=None,
         datalayer=False,
+        extra_path=None,
+        chift_model=None,
     ) -> T | dict | list[T]:
         if not client:
             client = ChiftClient()
@@ -184,14 +190,15 @@ class CreateMixin(BaseMixin, Generic[T]):
         # works when invoked through a classmethod manager (e.g. Consumer.create), where __init__
         # has not run and chift_model_create is therefore unset on the class.
         chift_model_create = (
-            getattr(self, "chift_model_create", None) or self.chift_model
+            chift_model or getattr(self, "chift_model_create", None) or self.chift_model
         )
+        request_extra_path = extra_path or self.extra_path
 
         json_data = client.post_one(
             self.chift_vertical,
             chift_model_create,
             data,
-            extra_path=self.extra_path,
+            extra_path=request_extra_path,
             params=params,
         )
 
@@ -226,7 +233,7 @@ class CreateMixin(BaseMixin, Generic[T]):
                         self.chift_vertical,
                         chift_model_create,
                         data,
-                        extra_path=self.extra_path,
+                        extra_path=request_extra_path,
                         params={"page": page, "size": size} | params,
                     )
                     all_items.extend(json_data.get("items", []))
@@ -273,6 +280,8 @@ class UpdateMixin(BaseMixin, Generic[T]):
         map_model=True,
         client_request_id=None,
         datalayer=False,
+        extra_path=None,
+        chift_model=None,
     ) -> T | dict:
         if not client:
             client = ChiftClient()
@@ -284,10 +293,10 @@ class UpdateMixin(BaseMixin, Generic[T]):
 
         json_data = client.update_one(
             self.chift_vertical,
-            self.chift_model,
+            chift_model or self.chift_model,
             chift_id,
             data,
-            extra_path=self.extra_path,
+            extra_path=extra_path or self.extra_path,
             params=params,
         )
 
@@ -302,6 +311,8 @@ class PaginationMixin(BaseMixin, Generic[T]):
         limit=None,
         raw_data=False,
         datalayer=False,
+        extra_path=None,
+        chift_model=None,
     ) -> Generator[dict, Any, None]:
         if not client:
             client = ChiftClient()
@@ -323,9 +334,9 @@ class PaginationMixin(BaseMixin, Generic[T]):
             client.client_request_id = None
             json_data = client.get_all(
                 self.chift_vertical,
-                self.chift_model,
+                chift_model or self.chift_model,
                 params={"page": page, "size": size} | params,
-                extra_path=self.extra_path,
+                extra_path=extra_path or self.extra_path,
             )
             yield json_data
             page += 1
@@ -377,6 +388,8 @@ class PaginationMixin(BaseMixin, Generic[T]):
         limit=None,
         raw_data=False,
         datalayer=False,
+        extra_path=None,
+        chift_model=None,
     ) -> list[T | dict] | dict:
         all_items = []
         for page in self.__iter_page(
@@ -385,6 +398,8 @@ class PaginationMixin(BaseMixin, Generic[T]):
             limit=limit,
             raw_data=raw_data,
             datalayer=datalayer,
+            extra_path=extra_path,
+            chift_model=chift_model,
         ):
             if raw_data:
                 return page.get("raw_data") or {}
@@ -421,6 +436,8 @@ class PaginationMixin(BaseMixin, Generic[T]):
         map_model=True,
         limit=None,
         datalayer=False,
+        extra_path=None,
+        chift_model=None,
     ) -> Generator[T | dict, Any, None]:
         for page in self.__iter_page(
             params=params,
@@ -428,6 +445,8 @@ class PaginationMixin(BaseMixin, Generic[T]):
             limit=limit,
             raw_data=False,
             datalayer=datalayer,
+            extra_path=extra_path,
+            chift_model=chift_model,
         ):
             for item in page.get("items", []):
                 if map_model:
@@ -437,7 +456,14 @@ class PaginationMixin(BaseMixin, Generic[T]):
 
 
 class ListMixin(BaseMixin, Generic[T]):
-    def all(self, params=None, client=None, datalayer=False) -> list[T]:
+    def all(
+        self,
+        params=None,
+        client=None,
+        datalayer=False,
+        extra_path=None,
+        chift_model=None,
+    ) -> list[T]:
         if not client:
             client = ChiftClient()
         client.consumer_id = self.consumer_id
@@ -448,9 +474,9 @@ class ListMixin(BaseMixin, Generic[T]):
 
         json_data = client.get_all(
             self.chift_vertical,
-            self.chift_model,
+            chift_model or self.chift_model,
             params=params,
-            extra_path=self.extra_path,
+            extra_path=extra_path or self.extra_path,
         )
 
         return [self.model(**item) for item in json_data]

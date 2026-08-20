@@ -123,17 +123,34 @@ class Custom(ReadMixin, CreateMixin, UpdateMixin, PaginationMixin):
     chift_model: ClassVar = "custom"
 
     def all(self, custom_path, params=None, client=None, limit=None):
-        self.extra_path = custom_path
-        return super().all(params=params, map_model=False, client=client, limit=limit)
+        return super().all(
+            params=params,
+            map_model=False,
+            client=client,
+            limit=limit,
+            extra_path=custom_path,
+        )
 
     def create(self, custom_path, data, client=None, params=None):
-        self.extra_path = custom_path
-        return super().create(data, map_model=False, client=client, params=params)
+        return super().create(
+            data, map_model=False, client=client, params=params, extra_path=custom_path
+        )
 
     def update(self, custom_path, chift_id, data, client=None, params=None):
-        self.extra_path = f"{custom_path}/{chift_id}"
-        return super().update(None, data, map_model=False, client=client, params=params)
+        return super().update(
+            None,
+            data,
+            map_model=False,
+            client=client,
+            params=params,
+            extra_path=f"{custom_path}/{chift_id}",
+        )
 
     def get(self, custom_path, chift_id, params=None, client=None):
-        self.extra_path = f"{custom_path}/{chift_id}"
-        return super().get(chift_id=None, map_model=False, params=params, client=client)
+        return super().get(
+            chift_id=None,
+            map_model=False,
+            params=params,
+            client=client,
+            extra_path=f"{custom_path}/{chift_id}",
+        )
