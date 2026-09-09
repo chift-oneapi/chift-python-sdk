@@ -28928,6 +28928,29 @@
         ],
         "title": "ClosureItem"
       },
+      "ClosureOperationItem": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "Type",
+            "description": "Type of the cash movement operation",
+            "examples": [
+              "withdrawal"
+            ]
+          },
+          "total": {
+            "type": "number",
+            "title": "Total",
+            "description": "Total amount of the cash movement operation"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "total"
+        ],
+        "title": "ClosureOperationItem"
+      },
       "ClosurePaymentItem": {
         "properties": {
           "payment_method_id": {
@@ -42563,6 +42586,22 @@
             ],
             "title": "Taxes",
             "description": "List of taxes related to current closure",
+            "default": []
+          },
+          "operations": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ClosureOperationItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Operations",
+            "description": "List of cash register movements related to current closure",
             "default": []
           }
         },
