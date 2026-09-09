@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.12 - 2026-09-09
+- pos/pms: add cash register movements on closures — new `ClosureOperationItem` model (`type`, `total`) and `POSClosureInformationItem.operations`. Until now the field was returned by the API but, being undeclared, was left as a raw `dict` by `extra="allow"`, so `operation.type` raised `AttributeError`.
+
 ## 0.6.11 - 2026-08-20
 - fix: the pieces of a request path that change per call (`extra_path`, `chift_model`) are now passed as arguments instead.
 

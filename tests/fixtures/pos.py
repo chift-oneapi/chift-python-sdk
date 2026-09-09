@@ -194,6 +194,7 @@ CLOSURE = {
                 },
             ],
             "taxes": [{"tax_rate": 20.0, "tax_amount": 39.0, "total": 234.0}],
+            "operations": [{"type": "withdrawal", "total": 50.0}],
         }
     ],
 }

@@ -113,6 +113,11 @@ def test_closure(pos_consumer: Consumer):
 
     assert closure.status
 
+    (operation,) = closure.closures[0].operations
+
+    assert operation.type == "withdrawal"
+    assert operation.total == 50.0
+
 
 @pytest.mark.mock_chift_response(
     pos.PRODUCT_ALL,
