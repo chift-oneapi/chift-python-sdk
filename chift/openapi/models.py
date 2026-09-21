@@ -7,6 +7,7 @@ from pydantic import BaseModel, ConfigDict
 from .openapi import AccountBalance as AccountBalanceModel
 from .openapi import (
     AccountingCategoryItem,
+    AccountingInvoicePaymentIn,
     AccountingVatCode,
     AccountItem,
     AnalyticAccountItemOutMultiAnalyticPlans,
@@ -453,6 +454,10 @@ class Expense(ExpenseItemOut):
 
 
 class Folder(FolderItem):
+    pass
+
+
+class AccountingInvoicePayment(AccountingInvoicePaymentIn):
     pass
 
 

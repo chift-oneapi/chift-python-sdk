@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.13 - 2026-09-21
+- accounting: add invoice_payment endpoint
+
 ## 0.6.12 - 2026-09-09
 - pos/pms: add cash register movements on closures — new `ClosureOperationItem` model (`type`, `total`) and `POSClosureInformationItem.operations`.
 

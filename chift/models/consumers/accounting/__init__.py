@@ -10,6 +10,7 @@ from chift.api.mixins import (
 )
 from chift.openapi.models import Account as AccountModel
 from chift.openapi.models import AccountBalance as AccountBalanceModel
+from chift.openapi.models import AccountingInvoicePayment as InvoicePaymentModel
 from chift.openapi.models import AccountingPayment
 from chift.openapi.models import (
     AnalyticAccountMultiPlan as AnalyticAccountMultiPlanModel,
@@ -65,6 +66,7 @@ class AccountingRouter:
         self.Custom = Custom(consumer_id, connection_id)
         self.Balance = Balance(consumer_id, connection_id)
         self.Payment = Payment(consumer_id, connection_id)
+        self.InvoicePayment = InvoicePayment(consumer_id, connection_id)
         self.BookYear = BookYear(consumer_id, connection_id)
         self.Expense = Expense(consumer_id, connection_id)
         self.Folder = Folder(consumer_id, connection_id)
@@ -419,6 +421,12 @@ class Payment(ReadMixin[AccountingPayment]):
         return super().get(
             invoice_id, client=client, params=params, extra_path="payments"
         )
+
+
+class InvoicePayment(CreateMixin[InvoicePaymentModel]):
+    chift_vertical: ClassVar = "accounting"
+    chift_model: ClassVar = "invoices/payments"
+    model = InvoicePaymentModel
 
 
 class Expense(
