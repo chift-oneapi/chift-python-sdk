@@ -1,5 +1,6 @@
 import pytest
 
+from chift.api.client import ChiftClient
 from chift.openapi.models import Consumer
 from tests.fixtures import pos
 
@@ -158,3 +159,21 @@ def test_tax_all(pos_consumer: Consumer):
     for tax in taxes:
         assert tax.id
         assert tax.rate is not None
+
+
+def test_tax_all_location_id(pos_consumer: Consumer, monkeypatch):
+    consumer = pos_consumer
+    calls = []
+
+    def fake_make_request(self, method, path, **kw):
+        calls.append((path, kw.get("params")))
+        return pos.TAX_ALL
+
+    monkeypatch.setattr(ChiftClient, "make_request", fake_make_request)
+
+    taxes = consumer.pos.Tax.all(params={"location_id": "loc-1"}, limit=2)
+
+    assert taxes
+    path, params = calls[0]
+    assert path.endswith("/pos/tax-rates")
+    assert params["location_id"] == "loc-1"

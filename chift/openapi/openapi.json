@@ -14810,6 +14810,23 @@
               "title": "Size"
             },
             "description": "Page size"
+          },
+          {
+            "name": "location_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Location Id"
+            },
+            "description": "Unique identifier of the location. If none passed, taxes from all locations will be returned unless the location was selected by the end-user"
           }
         ],
         "responses": {
