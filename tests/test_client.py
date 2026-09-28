@@ -26,6 +26,18 @@ def _capture_headers(monkeypatch):
     return captured
 
 
+def _capture_params(monkeypatch):
+    """Patch process_request to capture the params of the next request."""
+    captured = {}
+
+    def fake_process_request(self, request_type, url_path, params=None, **kw):
+        captured.update(params or {})
+        return _FakeResponse()
+
+    monkeypatch.setattr(ChiftClient, "process_request", fake_process_request)
+    return captured
+
+
 def _build_client(chift):
     return ChiftClient(
         client_id=chift.client_id,
@@ -84,6 +96,20 @@ def test_client_consumer_id(chift):
     assert consumer
 
     assert consumer.invoicing.Invoice.consumer_id == consumer.consumerid
+
+
+def test_bool_query_params_normalized_to_lowercase(chift, monkeypatch):
+    # Regression: requests.Session stringifies bool params as "True"/"False", while httpx
+    # (the test_client engine) lowercases them. The API only accepts lowercase, so make_request
+    # must normalize bools itself rather than relying on whichever engine handles the request.
+    captured = _capture_params(monkeypatch)
+    chift_client = _build_client(chift)
+
+    chift_client.get(
+        "/some/path", params={"unposted_allowed": False, "other": True, "kept": "x"}
+    )
+
+    assert captured == {"unposted_allowed": "false", "other": "true", "kept": "x"}
 
 
 def test_consumer_create_classmethod_resolves_create_path(chift, monkeypatch):

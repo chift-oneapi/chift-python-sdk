@@ -159,6 +159,11 @@ class ChiftClient:
         if not params:
             params = {}
 
+        params = {
+            key: ("true" if value is True else "false" if value is False else value)
+            for key, value in params.items()
+        }
+
         if isinstance(data, str):
             data = json.loads(data)
 
