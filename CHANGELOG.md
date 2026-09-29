@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.15 - 2026-09-29
+- client: add `max_staleness` on read methods (`get`, `all`, `iter_all`) to send the `x-chift-datalayer-max-staleness` header. Takes an ISO 8601 duration (`"PT15M"`) or a `timedelta`, and overrides the account's staleness budget for that request
+- accounting: `Invoice.all`/`iter_all`, `InvoiceMultiPlan.all`, `Entry.all`/`iter_all` and `Payment.get` now accept `datalayer` and `max_staleness`
+- openapi: regenerate models from the latest spec
+  - connections: add `datalayer` status to `ConnectionItem` (`ready`, `syncing`, `not_enabled`)
+  - consumers: add `created_on` and `account` to `ConsumerItem`
+  - accounting: add `tax_information` to `AccountItem`; add `spanish_specificities` to invoices and uploaded documents; `partner_id` is no longer required on invoice outputs
+  - commerce: add `channel` to `OrderItemOut` and `inventory_details` to `ProductVariantItem`
+  - syncs: add `enabled` to `SyncConsumerItem`; `ImportMode` gains `normal` and `force_reimport`
+
 ## 0.6.14 - 2026-09-28
 - client: normalize boolean params
 

@@ -54,6 +54,20 @@ product = consumer.invoicing.Product.get("PRD_3789488")
 print(product.name)
 ```
 
+### Datalayer
+
+Read methods accept `datalayer` to serve the request from the datalayer instead of the live connector:
+
+```python
+# True: read from the datalayer, error if it cannot serve the request
+# "if_available": read from the datalayer when it can, otherwise from the live connector
+orders = consumer.pos.Order.all(
+    params={"date_from": "2026-09-01", "date_to": "2026-09-28"},
+    datalayer="if_available",
+    max_staleness="PT1H",  # ISO 8601 duration or timedelta, overrides the account's budget
+)
+```
+
 ## Development
 
 Set up the development env:
