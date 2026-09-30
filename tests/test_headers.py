@@ -5,7 +5,7 @@ import pytest
 
 from chift.api.client import ChiftClient
 from chift.api.exceptions import ChiftException
-from chift.api.headers import DatalayerHeaders
+from chift.api.headers import CombinedDatalayerHeaders, DatalayerHeaders
 from chift.openapi.models import Consumer
 
 
@@ -106,7 +106,7 @@ def test_datalayer_across_pages_takes_the_worst_case(chift, consumer, serve):
         consumer.pos.Order.all(map_model=False, datalayer="if_available")
 
     assert len(captured) == 3
-    assert captured.datalayer == DatalayerHeaders(
+    assert captured.datalayer == CombinedDatalayerHeaders(
         source="mixed",
         synced_at=datetime.datetime(2026, 9, 29, 8, tzinfo=datetime.timezone.utc),
         covered_from=datetime.date(2025, 3, 1),

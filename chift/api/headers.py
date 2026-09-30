@@ -3,26 +3,45 @@ import datetime
 from collections.abc import Mapping
 from contextvars import ContextVar
 from dataclasses import dataclass
-from typing import Callable, Generator, Optional, TypeVar
+from functools import cached_property
+from typing import Callable, Generator, Literal, Optional, Protocol, TypeVar, cast
 
 from requests.structures import CaseInsensitiveDict
 
 T = TypeVar("T")
 
+DatalayerSource = Literal["datalayer", "classic"]
+
 
 @dataclass(frozen=True)
 class DatalayerHeaders:
-    # "datalayer" or "classic" for one response; "mixed" when captured responses disagree,
-    # e.g. an `if_available` pagination that fell back to the live connector mid-way.
-    source: str
+    source: DatalayerSource
     synced_at: Optional[datetime.datetime] = None
     covered_from: Optional[datetime.date] = None
+
+
+@dataclass(frozen=True)
+class CombinedDatalayerHeaders:
+    # "mixed" when the responses disagree: the backend picks the source per request, so an
+    # `if_available` pagination can fall back to the live connector part way through.
+    source: Literal["datalayer", "classic", "mixed"]
+    synced_at: Optional[datetime.datetime] = None
+    covered_from: Optional[datetime.date] = None
+
+
+class Response(Protocol):
+    """What is read off a `requests.Response`, or the `httpx.Response` of a test client."""
+
+    headers: Mapping[str, str]
+    status_code: int
 
 
 class ResponseHeaders(Mapping):
     """The headers of one response, looked up case-insensitively."""
 
-    def __init__(self, headers, method: str, path: str, status_code: int):
+    def __init__(
+        self, headers: Mapping[str, str], method: str, path: str, status_code: int
+    ):
         self._headers = CaseInsensitiveDict(headers)
         self.method = method
         self.path = path
@@ -40,14 +59,14 @@ class ResponseHeaders(Mapping):
     def __repr__(self) -> str:
         return f"<ResponseHeaders {self.method} {self.path} {self.status_code}>"
 
-    @property
+    @cached_property
     def datalayer(self) -> Optional[DatalayerHeaders]:
         """None when the request did not ask for the datalayer."""
         source = self.get("x-chift-datalayer-source")
         if not source:
             return None
         return DatalayerHeaders(
-            source=source,
+            source=cast(DatalayerSource, source),
             synced_at=_parse(
                 self.get("x-chift-datalayer-synced-at"),
                 datetime.datetime.fromisoformat,
@@ -67,11 +86,11 @@ class CapturedHeaders(list):
         return self[-1] if self else None
 
     @property
-    def datalayer(self) -> Optional[DatalayerHeaders]:
+    def datalayer(self) -> Optional[CombinedDatalayerHeaders]:
         """Freshness across every captured response, taking the worst case of each field so
         that it holds for all the data read: the oldest sync and the latest start of coverage.
         """
-        seen = [headers.datalayer for headers in self if headers.datalayer]
+        seen = [headers.datalayer for headers in self if headers.datalayer is not None]
         if not seen:
             return None
         sources = {freshness.source for freshness in seen}
@@ -79,7 +98,7 @@ class CapturedHeaders(list):
         covered = [
             freshness.covered_from for freshness in seen if freshness.covered_from
         ]
-        return DatalayerHeaders(
+        return CombinedDatalayerHeaders(
             source=sources.pop() if len(sources) == 1 else "mixed",
             synced_at=min(synced) if synced else None,
             covered_from=max(covered) if covered else None,
@@ -104,7 +123,7 @@ def capture_headers() -> Generator[CapturedHeaders, None, None]:
         _collectors.reset(token)
 
 
-def record_response(response, method: str, path: str) -> None:
+def record_response(response: Response, method: str, path: str) -> None:
     collectors = _collectors.get()
     if not collectors:
         return
