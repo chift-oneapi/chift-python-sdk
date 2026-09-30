@@ -1,7 +1,8 @@
 # Changelog
 
 ## 0.6.15 - 2026-09-29
-- client: add `max_staleness` on read methods (`get`, `all`, `iter_all`) to send the `x-chift-datalayer-max-staleness` header. Takes an ISO 8601 duration (`"PT15M"`) or a `timedelta`, and overrides the account's staleness budget for that request
+- client: add `max_staleness` on read methods (`get`, `all`, `iter_all`) to send the `x-chift-datalayer-max-staleness` header. Takes a `timedelta` or an ISO 8601 duration string (`"PT15M"`), and overrides the account's staleness budget for that request
+- connections: add `enable_datalayer`, `refresh_datalayer` and `disable_datalayer` on `consumer.Connection` to turn the datalayer sync on for a connection, run it now, or turn it off
 - accounting: `Invoice.all`/`iter_all`, `InvoiceMultiPlan.all`, `Entry.all`/`iter_all` and `Payment.get` now accept `datalayer` and `max_staleness`
 - openapi: regenerate models from the latest spec
   - connections: add `datalayer` status to `ConnectionItem` (`ready`, `syncing`, `not_enabled`)

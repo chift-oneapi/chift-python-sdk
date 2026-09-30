@@ -94,6 +94,7 @@ from .openapi import (
     SyncConsumerItem,
     TaxRateItem,
     TransactionItemOut,
+    TriggerResponse,
     VariantItem,
     WebhookInstanceGetItem,
     WebhookItem,
@@ -312,6 +313,10 @@ class Connection(ConnectionItem):
 
 
 class ConnectionLink(LinkItem):
+    pass
+
+
+class DatalayerRefresh(TriggerResponse):
     pass
 
 
