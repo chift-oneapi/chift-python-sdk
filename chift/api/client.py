@@ -1,8 +1,8 @@
 import base64
 import http.client as httplib
 import json
-from datetime import datetime
-from typing import Literal, Union
+from datetime import datetime, timedelta
+from typing import Literal, Optional, Union
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -15,6 +15,17 @@ from chift.api import exceptions
 #   True            -> "true"         (require the datalayer, error if it can't serve)
 #   "if_available"  -> "if_available" (use the datalayer when available, else fall back to classic)
 DatalayerMode = Union[bool, Literal["if_available"]]
+
+# How far behind its last sync the datalayer may be for a read, sent as
+# `x-chift-datalayer-max-staleness`. A string is sent as is (ISO 8601 duration, e.g. "PT15M");
+# a timedelta is converted to one.
+MaxStaleness = Optional[Union[str, timedelta]]
+
+
+def _format_max_staleness(value: Union[str, timedelta]) -> str:
+    if isinstance(value, timedelta):
+        return f"PT{int(value.total_seconds())}S"
+    return value
 
 
 class ChiftAuth(requests.auth.AuthBase):
@@ -76,6 +87,7 @@ class ChiftClient:
     connection_id = None
     raw_data = None
     datalayer = None
+    datalayer_max_staleness = None
     client_request_id = None
     related_chain_execution_id = None
     sync_id = None
@@ -185,6 +197,11 @@ class ChiftClient:
                 self.datalayer if isinstance(self.datalayer, str) else "true"
             )
 
+        if self.datalayer_max_staleness is not None:
+            headers["x-chift-datalayer-max-staleness"] = _format_max_staleness(
+                self.datalayer_max_staleness
+            )
+
         if self.client_request_id:
             headers["x-chift-client-requestid"] = self.client_request_id
 
@@ -219,6 +236,7 @@ class ChiftClient:
             self.client_request_id = None
             self.raw_data = None
             self.datalayer = None
+            self.datalayer_max_staleness = None
 
         if req.status_code == httplib.UNAUTHORIZED:
             try:

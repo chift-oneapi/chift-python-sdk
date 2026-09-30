@@ -1,5 +1,6 @@
 from typing import ClassVar, Literal
 
+from chift.api.client import DatalayerMode, MaxStaleness
 from chift.api.mixins import (
     CreateMixin,
     DeleteMixin,
@@ -196,14 +197,40 @@ class Invoice(
     chift_model: ClassVar = "invoices"
     model = InvoiceAccountingModel
 
-    def all(self, invoice_type, params=None, client=None, limit=None):
+    def all(
+        self,
+        invoice_type,
+        params=None,
+        client=None,
+        limit=None,
+        datalayer: DatalayerMode = False,
+        max_staleness: MaxStaleness = None,
+    ):
         return super().all(
-            params=params, limit=limit, client=client, extra_path=f"type/{invoice_type}"
+            params=params,
+            limit=limit,
+            client=client,
+            datalayer=datalayer,
+            max_staleness=max_staleness,
+            extra_path=f"type/{invoice_type}",
         )
 
-    def iter_all(self, invoice_type, params=None, client=None, limit=None):
+    def iter_all(
+        self,
+        invoice_type,
+        params=None,
+        client=None,
+        limit=None,
+        datalayer: DatalayerMode = False,
+        max_staleness: MaxStaleness = None,
+    ):
         return super().iter_all(
-            params=params, limit=limit, client=client, extra_path=f"type/{invoice_type}"
+            params=params,
+            limit=limit,
+            client=client,
+            datalayer=datalayer,
+            max_staleness=max_staleness,
+            extra_path=f"type/{invoice_type}",
         )
 
 
@@ -216,9 +243,22 @@ class InvoiceMultiPlan(
     chift_model: ClassVar = "invoices/multi-analytic-plans"
     model = InvoiceMultiPlanAccountingModel
 
-    def all(self, invoice_type, params=None, client=None, limit=None):
+    def all(
+        self,
+        invoice_type,
+        params=None,
+        client=None,
+        limit=None,
+        datalayer: DatalayerMode = False,
+        max_staleness: MaxStaleness = None,
+    ):
         return super().all(
-            params=params, limit=limit, client=client, extra_path=f"type/{invoice_type}"
+            params=params,
+            limit=limit,
+            client=client,
+            datalayer=datalayer,
+            max_staleness=max_staleness,
+            extra_path=f"type/{invoice_type}",
         )
 
 
@@ -241,13 +281,21 @@ class Entry(
     model = JournalEntryModel
 
     def iter_all(
-        self, params=None, client=None, map_model: Literal[True] = True, limit=None
+        self,
+        params=None,
+        client=None,
+        map_model: Literal[True] = True,
+        limit=None,
+        datalayer: DatalayerMode = False,
+        max_staleness: MaxStaleness = None,
     ):
         return super().iter_all(
             params=params,
             client=client,
             map_model=map_model,
             limit=limit,
+            datalayer=datalayer,
+            max_staleness=max_staleness,
             chift_model="journal/entries/multi-analytic-plans",
         )
 
@@ -258,6 +306,8 @@ class Entry(
         map_model: Literal[True] = True,
         limit=None,
         raw_data: Literal[False] = False,
+        datalayer: DatalayerMode = False,
+        max_staleness: MaxStaleness = None,
     ):
         return super().all(
             params=params,
@@ -265,6 +315,8 @@ class Entry(
             map_model=map_model,
             limit=limit,
             raw_data=raw_data,
+            datalayer=datalayer,
+            max_staleness=max_staleness,
             chift_model="journal/entries/multi-analytic-plans",
         )
 
@@ -415,9 +467,21 @@ class Payment(ReadMixin[AccountingPayment]):
     chift_model: ClassVar = "invoices/id"
     model = AccountingPayment
 
-    def get(self, invoice_id, params=None, client=None):
+    def get(
+        self,
+        invoice_id,
+        params=None,
+        client=None,
+        datalayer: DatalayerMode = False,
+        max_staleness: MaxStaleness = None,
+    ):
         return super().get(
-            invoice_id, client=client, params=params, extra_path="payments"
+            invoice_id,
+            client=client,
+            params=params,
+            datalayer=datalayer,
+            max_staleness=max_staleness,
+            extra_path="payments",
         )
 
 

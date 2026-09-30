@@ -1,6 +1,6 @@
 from typing import Any, Generator, Generic, Literal, TypeVar, overload
 
-from chift.api.client import ChiftClient, DatalayerMode
+from chift.api.client import ChiftClient, DatalayerMode, MaxStaleness
 from chift.openapi.models import ObjectWithRawData
 
 T = TypeVar("T")
@@ -60,6 +60,7 @@ class ReadMixin(BaseMixin, Generic[T]):
         map_model: Literal[True] = True,
         raw_data: Literal[False] = False,
         datalayer: DatalayerMode = False,
+        max_staleness: MaxStaleness = None,
     ) -> T: ...
 
     @overload
@@ -71,6 +72,7 @@ class ReadMixin(BaseMixin, Generic[T]):
         map_model: Literal[False] = False,
         raw_data: Literal[False] = False,
         datalayer: DatalayerMode = False,
+        max_staleness: MaxStaleness = None,
     ) -> dict: ...
 
     @overload
@@ -82,6 +84,7 @@ class ReadMixin(BaseMixin, Generic[T]):
         map_model: Literal[True] = True,
         raw_data: Literal[True] = True,
         datalayer: DatalayerMode = False,
+        max_staleness: MaxStaleness = None,
     ) -> ObjectWithRawData[T]: ...
 
     @overload
@@ -93,6 +96,7 @@ class ReadMixin(BaseMixin, Generic[T]):
         map_model: Literal[False] = False,
         raw_data: Literal[True] = True,
         datalayer: DatalayerMode = False,
+        max_staleness: MaxStaleness = None,
     ) -> dict: ...
 
     def get(
@@ -105,6 +109,7 @@ class ReadMixin(BaseMixin, Generic[T]):
         datalayer=False,
         extra_path=None,
         chift_model=None,
+        max_staleness=None,
     ) -> T | dict | ObjectWithRawData[T]:
         if not client:
             client = ChiftClient()
@@ -112,6 +117,7 @@ class ReadMixin(BaseMixin, Generic[T]):
         client.connection_id = self.connection_id
         client.raw_data = raw_data
         client.datalayer = datalayer
+        client.datalayer_max_staleness = max_staleness
         client.client_request_id = None
 
         json_data = client.get_one(
@@ -313,6 +319,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         datalayer=False,
         extra_path=None,
         chift_model=None,
+        max_staleness=None,
     ) -> Generator[dict, Any, None]:
         if not client:
             client = ChiftClient()
@@ -331,6 +338,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
             client.connection_id = self.connection_id
             client.raw_data = raw_data
             client.datalayer = datalayer
+            client.datalayer_max_staleness = max_staleness
             client.client_request_id = None
             json_data = client.get_all(
                 self.chift_vertical,
@@ -356,6 +364,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         limit=None,
         raw_data: Literal[False] = False,
         datalayer: DatalayerMode = False,
+        max_staleness: MaxStaleness = None,
     ) -> list[T]: ...
 
     @overload
@@ -367,6 +376,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         limit=None,
         raw_data: Literal[False] = False,
         datalayer: DatalayerMode = False,
+        max_staleness: MaxStaleness = None,
     ) -> list[dict]: ...
 
     @overload
@@ -378,6 +388,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         limit=False,
         raw_data: Literal[True] = True,
         datalayer: DatalayerMode = False,
+        max_staleness: MaxStaleness = None,
     ) -> dict: ...
 
     def all(
@@ -390,6 +401,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         datalayer=False,
         extra_path=None,
         chift_model=None,
+        max_staleness=None,
     ) -> list[T | dict] | dict:
         all_items = []
         for page in self.__iter_page(
@@ -400,6 +412,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
             datalayer=datalayer,
             extra_path=extra_path,
             chift_model=chift_model,
+            max_staleness=max_staleness,
         ):
             if raw_data:
                 return page.get("raw_data") or {}
@@ -417,6 +430,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         map_model: Literal[True] = True,
         limit=None,
         datalayer: DatalayerMode = False,
+        max_staleness: MaxStaleness = None,
     ) -> Generator[T, Any, None]: ...
 
     @overload
@@ -427,6 +441,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         map_model: Literal[False] = False,
         limit=None,
         datalayer: DatalayerMode = False,
+        max_staleness: MaxStaleness = None,
     ) -> Generator[dict, Any, None]: ...
 
     def iter_all(
@@ -438,6 +453,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         datalayer=False,
         extra_path=None,
         chift_model=None,
+        max_staleness=None,
     ) -> Generator[T | dict, Any, None]:
         for page in self.__iter_page(
             params=params,
@@ -447,6 +463,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
             datalayer=datalayer,
             extra_path=extra_path,
             chift_model=chift_model,
+            max_staleness=max_staleness,
         ):
             for item in page.get("items", []):
                 if map_model:
@@ -463,6 +480,7 @@ class ListMixin(BaseMixin, Generic[T]):
         datalayer=False,
         extra_path=None,
         chift_model=None,
+        max_staleness=None,
     ) -> list[T]:
         if not client:
             client = ChiftClient()
@@ -470,6 +488,7 @@ class ListMixin(BaseMixin, Generic[T]):
         client.connection_id = self.connection_id
         client.raw_data = False
         client.datalayer = datalayer
+        client.datalayer_max_staleness = max_staleness
         client.client_request_id = None
 
         json_data = client.get_all(
