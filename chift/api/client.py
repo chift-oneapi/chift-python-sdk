@@ -9,6 +9,7 @@ from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 
 from chift.api import exceptions
+from chift.api.headers import record_response
 
 # Accepted values for the `datalayer` parameter, mapping to the `x-chift-datalayer` header:
 #   False / None    -> header omitted (live connector, "classic" mode)
@@ -237,6 +238,8 @@ class ChiftClient:
             self.raw_data = None
             self.datalayer = None
             self.datalayer_max_staleness = None
+
+        record_response(req, request_type, url)
 
         if req.status_code == httplib.UNAUTHORIZED:
             try:

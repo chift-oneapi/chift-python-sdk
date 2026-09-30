@@ -1,3 +1,4 @@
+from chift.api.headers import capture_headers
 from chift.models import *
 
 # configuration

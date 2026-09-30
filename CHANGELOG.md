@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.16 - 2026-09-30
+- client: add `chift.capture_headers()`, a context manager that records the response headers of every request sent inside it. Each entry is a case-insensitive mapping with the request's `method`, `path` and `status_code`, and `.datalayer` parses the datalayer freshness headers (`source`, `synced_at`, `covered_from`). `captured.datalayer` combines them across pages and reports `"mixed"` when an `if_available` read was served partly live
+
 ## 0.6.15 - 2026-09-29
 - client: add `max_staleness` on read methods (`get`, `all`, `iter_all`) to send the `x-chift-datalayer-max-staleness` header. Takes a `timedelta` or an ISO 8601 duration string (`"PT15M"`), and overrides the account's staleness budget for that request
 - connections: add `enable_datalayer`, `refresh_datalayer` and `disable_datalayer` on `consumer.Connection` to turn the datalayer sync on for a connection, run it now, or turn it off

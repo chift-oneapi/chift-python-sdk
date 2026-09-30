@@ -80,6 +80,22 @@ orders = consumer.pos.Order.all(
 
 `max_staleness` also takes an ISO 8601 duration string (`"PT1H"`), sent as is.
 
+### Response headers
+
+`capture_headers()` records the response headers of every request sent inside the block, including failed ones:
+
+```python
+with chift.capture_headers() as captured:
+    orders = consumer.pos.Order.all(datalayer="if_available")
+
+captured.last["retry-after"]    # any header of the last response, case-insensitive
+captured.datalayer.source       # "datalayer", "classic", or "mixed" across pages
+captured.datalayer.synced_at    # oldest sync behind the data you read
+captured.datalayer.covered_from
+```
+
+A generator such as `iter_all` sends its requests as you consume it, so consume it inside the block.
+
 ## Development
 
 Set up the development env:
