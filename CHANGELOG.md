@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.15 - 2026-10-02
+- connections: add `datalayer` to `ConnectionItem` (new `DatalayerInfo` model: `status`, `last_sync_date`). `status` is one of `ready`, `stale`, `syncing`, `not_enabled`
+
 ## 0.6.14 - 2026-09-28
 - client: normalize boolean params
 
