@@ -29754,6 +29754,17 @@
               }
             ],
             "description": "For local agent only. Indicates whether the local agent is up and running"
+          },
+          "datalayer": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DatalayerInfo"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "State of the datalayer for this connection. Null when the datalayer does not apply: the connection is inactive, its API has no datalayer, or the datalayer is not set up for that API on your account."
           }
         },
         "type": "object",
@@ -31491,6 +31502,32 @@
         ],
         "title": "DataStoreItem"
       },
+      "DatalayerInfo": {
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/DatalayerStatus",
+            "description": "`ready` when reads can be served from the datalayer (`x-chift-datalayer` header). `stale` when its last sync is older than the max staleness set on your account, so reads are refused until the next sync unless they send a larger `x-chift-datalayer-max-staleness`. `syncing` when the datalayer is enabled but its first sync has not finished, so there is nothing to query yet. `not_enabled` when the datalayer is available for this API but not turned on for this consumer."
+          },
+          "last_sync_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Sync Date",
+            "description": "When the datalayer sync last completed a scope of this connection. Null until one completes."
+          }
+        },
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "DatalayerInfo"
+      },
       "DatalayerEnableBody": {
         "properties": {
           "from_date": {
@@ -31565,6 +31602,16 @@
         },
         "type": "object",
         "title": "DatalayerRefreshBody"
+      },
+      "DatalayerStatus": {
+        "type": "string",
+        "enum": [
+          "not_enabled",
+          "syncing",
+          "ready",
+          "stale"
+        ],
+        "title": "DatalayerStatus"
       },
       "DatastoreColumn": {
         "properties": {

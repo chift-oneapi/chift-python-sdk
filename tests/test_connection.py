@@ -1,7 +1,11 @@
+from datetime import datetime, timezone
+
 import pytest
 
 from chift.api.exceptions import ChiftException
 from chift.openapi.models import Consumer
+from chift.openapi.openapi import DatalayerStatus
+from tests.fixtures import connection as fixtures
 
 
 @pytest.mark.skip(reason="no evoliz connection in test environment")
@@ -45,3 +49,16 @@ def test_multi_connections(two_connections_consumer: Consumer):
         consumer.invoicing.Invoice.get(invoice.id)
 
     assert e.value.message == "The invoice doesn't exist."
+
+
+@pytest.mark.mock_chift_response([fixtures.CONNECTIONS_ALL])
+def test_connections_datalayer(test_consumer: Consumer):
+    ready, syncing, without = test_consumer.Connection.all()
+
+    assert ready.datalayer.status == DatalayerStatus.ready
+    assert ready.datalayer.last_sync_date == datetime(
+        2026, 10, 2, 8, 30, tzinfo=timezone.utc
+    )
+    assert syncing.datalayer.status == DatalayerStatus.syncing
+    assert syncing.datalayer.last_sync_date is None
+    assert without.datalayer is None
