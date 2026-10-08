@@ -122,12 +122,13 @@ class Custom(ReadMixin, CreateMixin, UpdateMixin, PaginationMixin):
     chift_vertical: ClassVar = "invoicing"
     chift_model: ClassVar = "custom"
 
-    def all(self, custom_path, params=None, client=None, limit=None):
+    def all(self, custom_path, params=None, client=None, limit=None, page_size=None):
         return super().all(
             params=params,
             map_model=False,
             client=client,
             limit=limit,
+            page_size=page_size,
             extra_path=custom_path,
         )
 

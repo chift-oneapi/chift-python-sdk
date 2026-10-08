@@ -132,9 +132,13 @@ class AnalyticAccountMultiPlan(
             extra_path=f"multi-analytic-plans/{analytic_plan}",
         )
 
-    def all(self, params=None, client=None, limit=None):
+    def all(self, params=None, client=None, limit=None, page_size=None):
         return super().all(
-            params=params, limit=limit, client=client, extra_path="multi-analytic-plans"
+            params=params,
+            limit=limit,
+            page_size=page_size,
+            client=client,
+            extra_path="multi-analytic-plans",
         )
 
 
@@ -196,14 +200,24 @@ class Invoice(
     chift_model: ClassVar = "invoices"
     model = InvoiceAccountingModel
 
-    def all(self, invoice_type, params=None, client=None, limit=None):
+    def all(self, invoice_type, params=None, client=None, limit=None, page_size=None):
         return super().all(
-            params=params, limit=limit, client=client, extra_path=f"type/{invoice_type}"
+            params=params,
+            limit=limit,
+            page_size=page_size,
+            client=client,
+            extra_path=f"type/{invoice_type}",
         )
 
-    def iter_all(self, invoice_type, params=None, client=None, limit=None):
+    def iter_all(
+        self, invoice_type, params=None, client=None, limit=None, page_size=None
+    ):
         return super().iter_all(
-            params=params, limit=limit, client=client, extra_path=f"type/{invoice_type}"
+            params=params,
+            limit=limit,
+            page_size=page_size,
+            client=client,
+            extra_path=f"type/{invoice_type}",
         )
 
 
@@ -216,9 +230,13 @@ class InvoiceMultiPlan(
     chift_model: ClassVar = "invoices/multi-analytic-plans"
     model = InvoiceMultiPlanAccountingModel
 
-    def all(self, invoice_type, params=None, client=None, limit=None):
+    def all(self, invoice_type, params=None, client=None, limit=None, page_size=None):
         return super().all(
-            params=params, limit=limit, client=client, extra_path=f"type/{invoice_type}"
+            params=params,
+            limit=limit,
+            page_size=page_size,
+            client=client,
+            extra_path=f"type/{invoice_type}",
         )
 
 
@@ -241,13 +259,19 @@ class Entry(
     model = JournalEntryModel
 
     def iter_all(
-        self, params=None, client=None, map_model: Literal[True] = True, limit=None
+        self,
+        params=None,
+        client=None,
+        map_model: Literal[True] = True,
+        limit=None,
+        page_size=None,
     ):
         return super().iter_all(
             params=params,
             client=client,
             map_model=map_model,
             limit=limit,
+            page_size=page_size,
             chift_model="journal/entries/multi-analytic-plans",
         )
 
@@ -258,12 +282,14 @@ class Entry(
         map_model: Literal[True] = True,
         limit=None,
         raw_data: Literal[False] = False,
+        page_size=None,
     ):
         return super().all(
             params=params,
             client=client,
             map_model=map_model,
             limit=limit,
+            page_size=page_size,
             raw_data=raw_data,
             chift_model="journal/entries/multi-analytic-plans",
         )
@@ -368,12 +394,13 @@ class Custom(ReadMixin, CreateMixin, UpdateMixin, PaginationMixin, DeleteMixin):
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "custom"
 
-    def all(self, custom_path, params=None, client=None, limit=None):
+    def all(self, custom_path, params=None, client=None, limit=None, page_size=None):
         return super().all(
             params=params,
             map_model=False,
             client=client,
             limit=limit,
+            page_size=page_size,
             extra_path=custom_path,
         )
 
