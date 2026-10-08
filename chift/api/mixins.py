@@ -5,6 +5,8 @@ from chift.openapi.models import ObjectWithRawData
 
 T = TypeVar("T")
 
+DEFAULT_PAGE_SIZE = 100
+
 
 class BaseMixin(object):
     def __init__(self, consumer_id, connection_id):
@@ -313,6 +315,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         datalayer=False,
         extra_path=None,
         chift_model=None,
+        page_size=None,
     ) -> Generator[dict, Any, None]:
         if not client:
             client = ChiftClient()
@@ -320,7 +323,8 @@ class PaginationMixin(BaseMixin, Generic[T]):
         if not params:
             params = {}
 
-        size = limit if limit and limit < 100 else 100
+        page_size = page_size or DEFAULT_PAGE_SIZE
+        size = limit if limit and limit < page_size else page_size
 
         page = 1
         count = 0
@@ -356,6 +360,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         limit=None,
         raw_data: Literal[False] = False,
         datalayer: DatalayerMode = False,
+        page_size=None,
     ) -> list[T]: ...
 
     @overload
@@ -367,6 +372,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         limit=None,
         raw_data: Literal[False] = False,
         datalayer: DatalayerMode = False,
+        page_size=None,
     ) -> list[dict]: ...
 
     @overload
@@ -378,6 +384,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         limit=False,
         raw_data: Literal[True] = True,
         datalayer: DatalayerMode = False,
+        page_size=None,
     ) -> dict: ...
 
     def all(
@@ -390,6 +397,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         datalayer=False,
         extra_path=None,
         chift_model=None,
+        page_size=None,
     ) -> list[T | dict] | dict:
         all_items = []
         for page in self.__iter_page(
@@ -400,6 +408,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
             datalayer=datalayer,
             extra_path=extra_path,
             chift_model=chift_model,
+            page_size=page_size,
         ):
             if raw_data:
                 return page.get("raw_data") or {}
@@ -417,6 +426,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         map_model: Literal[True] = True,
         limit=None,
         datalayer: DatalayerMode = False,
+        page_size=None,
     ) -> Generator[T, Any, None]: ...
 
     @overload
@@ -427,6 +437,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         map_model: Literal[False] = False,
         limit=None,
         datalayer: DatalayerMode = False,
+        page_size=None,
     ) -> Generator[dict, Any, None]: ...
 
     def iter_all(
@@ -438,6 +449,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
         datalayer=False,
         extra_path=None,
         chift_model=None,
+        page_size=None,
     ) -> Generator[T | dict, Any, None]:
         for page in self.__iter_page(
             params=params,
@@ -447,6 +459,7 @@ class PaginationMixin(BaseMixin, Generic[T]):
             datalayer=datalayer,
             extra_path=extra_path,
             chift_model=chift_model,
+            page_size=page_size,
         ):
             for item in page.get("items", []):
                 if map_model:

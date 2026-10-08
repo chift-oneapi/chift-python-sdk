@@ -28,12 +28,15 @@ class Custom(ReadMixin, CreateMixin, UpdateMixin, PaginationMixin, DeleteMixin):
             extra_path=f"{connector}/{entity}/{id}",
         )
 
-    def all(self, connector, entity, params=None, client=None, limit=None):
+    def all(
+        self, connector, entity, params=None, client=None, limit=None, page_size=None
+    ):
         return super().all(
             params=params,
             map_model=False,
             client=client,
             limit=limit,
+            page_size=page_size,
             extra_path=f"{connector}/{entity}",
         )
 

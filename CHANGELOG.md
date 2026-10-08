@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.16 - 2026-10-08
+- pagination: add `page_size` to `all()` and `iter_all()` to set how many items each request asks for (default stays 100). `limit` still wins when it is smaller
+
 ## 0.6.15 - 2026-10-02
 - connections: add `datalayer` to `ConnectionItem` (new `DatalayerInfo` model: `status`, `last_sync_date`). `status` is one of `ready`, `stale`, `syncing`, `not_enabled`
 
