@@ -352,3 +352,15 @@ def test_folder(accounting_consumer: Consumer):
 
     for folder in folders:
         assert folder.id
+
+
+@pytest.mark.mock_chift_response(True)
+def test_invoice_payment_create(accounting_consumer: Consumer):
+    payment = {
+        "date": "2026-09-20",
+        "payment_method_id": "PM_CARD",
+        "currency": "EUR",
+        "items": [{"invoice_id": "acc_inv_7", "amount": 121.0}],
+    }
+
+    assert accounting_consumer.accounting.InvoicePayment.create(payment) is True
