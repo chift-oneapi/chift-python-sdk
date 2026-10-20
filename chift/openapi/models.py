@@ -7,6 +7,7 @@ from pydantic import BaseModel, ConfigDict
 from .openapi import AccountBalance as AccountBalanceModel
 from .openapi import (
     AccountingCategoryItem,
+    AccountingInvoicePaymentIn,
     AccountingVatCode,
     AccountItem,
     AnalyticAccountItemOutMultiAnalyticPlans,
@@ -39,6 +40,7 @@ from .openapi import (
     EmployeeItem,
     ExpenseItemOut,
     FinancialEntryItemOut,
+    FinancialMovementItem,
     FolderItem,
     IntegrationItem,
     InvoiceItemOutMonoAnalyticPlan,
@@ -53,6 +55,7 @@ from .openapi import (
 from .openapi import Journal as JournalModel
 from .openapi import (
     JournalEntryMultiAnalyticPlan,
+    LegalEntityItem,
     LinkItem,
     MatchingOut,
     MiscellaneousOperationOut,
@@ -60,6 +63,7 @@ from .openapi import (
     OpportunityItem,
     OrderItemOut,
     OutstandingItem,
+    PayableItem,
 )
 from .openapi import Payment as PaymentModel
 from .openapi import PaymentItemOut, PaymentMethodItem
@@ -90,8 +94,10 @@ from .openapi import (
     ReadSyncItem,
     RefundItemOut,
     SalesItem,
+    SpendManagementSupplierItemOut,
     SupplierItemOut,
     SyncConsumerItem,
+    TaxCodeItem,
     TaxRateItem,
     TransactionItemOut,
     VariantItem,
@@ -228,6 +234,14 @@ class Consumer(ConsumerItem, extra="allow"):
         )  # avoid circular import
 
         return BankingRouter(self.consumerid, self.connectionid)
+
+    @property
+    def spend_management(self):
+        from chift.models.consumers.spend_management import (
+            SpendManagementRouter,
+        )  # avoid circular import
+
+        return SpendManagementRouter(self.consumerid, self.connectionid)
 
     @property
     def custom(self):
@@ -392,6 +406,26 @@ class Employee(EmployeeItem):
     pass
 
 
+class SpendLegalEntity(LegalEntityItem):
+    pass
+
+
+class SpendPayable(PayableItem):
+    pass
+
+
+class SpendFinancialMovement(FinancialMovementItem):
+    pass
+
+
+class SpendTaxCode(TaxCodeItem):
+    pass
+
+
+class SpendSupplier(SpendManagementSupplierItemOut):
+    pass
+
+
 class InvoiceAccounting(InvoiceItemOutMonoAnalyticPlan):
     pass
 
@@ -441,6 +475,10 @@ class BankStatement(BankStatementItemOut):
 
 
 class AccountBalance(AccountBalanceModel):
+    pass
+
+
+class AccountingInvoicePayment(AccountingInvoicePaymentIn):
     pass
 
 

@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.17 - 2026-10-19
+- verticals: add "spend" vertical with endpoints for spend management
+
 ## 0.6.16 - 2026-10-08
 - pagination: add `page_size` to `all()` and `iter_all()` to set how many items each request asks for (default stays 100). `limit` still wins when it is smaller
 
