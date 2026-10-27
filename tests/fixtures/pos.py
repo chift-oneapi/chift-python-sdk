@@ -156,6 +156,7 @@ ORDER_ALL = {
                     "description": "Tea Large",
                     "tax_rate": 20.0,
                     "product_id": "var-002",
+                    "prepayment_method_id": "giftVoucher",
                 }
             ],
             "payments": [

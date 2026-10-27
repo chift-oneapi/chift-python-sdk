@@ -9050,6 +9050,12 @@ class POSItem(BaseModel):
     modifiers: Optional[List[ModifierLine]] = Field(
         [], description="List of modifiers", title="Modifiers"
     )
+    prepayment_method_id: Optional[str] = Field(
+        None,
+        description="Set when the line is a prepayment movement (e.g. a gift card or a package sold or used) and not revenue. It references the payment method that settles the prepayment.",
+        examples=["giftVoucher"],
+        title="Prepayment Method Id",
+    )
 
 
 class POSPaymentItem(BaseModel):

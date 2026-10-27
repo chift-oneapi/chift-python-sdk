@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.18 - 2026-10-27
+- pos: add `prepayment_method_id` to order lines (`POSItem`). Set when the line is a prepayment movement (gift card or package sold or used) rather than revenue; it references the payment method that settles the prepayment
+
 ## 0.6.17 - 2026-10-19
 - verticals: add "spend" vertical with endpoints for spend management
 
