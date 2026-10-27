@@ -105,6 +105,11 @@ def test_order(pos_consumer: Consumer):
     for order in orders:  # probably no order in given timeframe
         assert order == consumer.pos.Order.get(order.id)
 
+    first, second = orders
+
+    assert first.items[0].prepayment_method_id is None
+    assert second.items[0].prepayment_method_id == "giftVoucher"
+
 
 @pytest.mark.mock_chift_response(pos.CLOSURE)
 def test_closure(pos_consumer: Consumer):

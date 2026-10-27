@@ -53430,6 +53430,21 @@
             "title": "Modifiers",
             "description": "List of modifiers",
             "default": []
+          },
+          "prepayment_method_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prepayment Method Id",
+            "description": "Set when the line is a prepayment movement (e.g. a gift card or a package sold or used) and not revenue. It references the payment method that settles the prepayment.",
+            "examples": [
+              "giftVoucher"
+            ]
           }
         },
         "type": "object",
