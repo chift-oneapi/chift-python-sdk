@@ -40107,12 +40107,12 @@
               "Office supplies"
             ]
           },
-          "account_number": {
+          "category_id": {
             "type": "string",
-            "title": "Account Number",
-            "description": "General ledger account number to book the expense.",
+            "title": "Category Id",
+            "description": "Identifier of the expense category used to book the line.",
             "examples": [
-              "<accounting-account-number>"
+              "<accounting-expense-category-id>"
             ]
           },
           "tax_rate": {
@@ -40130,6 +40130,22 @@
             "examples": [
               "<accounting-tax-code>"
             ]
+          },
+          "analytic_distribution": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/AnalyticDistribution"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analytic Distribution",
+            "description": "List of analytic distributions for the line. Each distribution specifies an analytic plan and the associated analytic accounts with their percentages.",
+            "default": []
           }
         },
         "type": "object",
@@ -40137,7 +40153,7 @@
           "total",
           "untaxed_amount",
           "tax_amount",
-          "account_number",
+          "category_id",
           "tax_rate",
           "tax_id"
         ],
