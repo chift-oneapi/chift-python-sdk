@@ -471,3 +471,44 @@ FOLDERS = [
         },
     ]
 ]
+
+EXPENSE_CREATE = {
+    "id": "exp-001",
+    "employee_id": "emp-001",
+    "total": 242.0,
+    "untaxed_amount": 200.0,
+    "tax_amount": 42.0,
+    "reference": "EXP-2026-0001",
+    "number": "EXP-2026-0001",
+    "currency": "EUR",
+    "currency_exchange_rate": 1,
+    "date": "2026-01-15",
+    "lines": [
+        {
+            "total": 242.0,
+            "untaxed_amount": 200.0,
+            "tax_amount": 42.0,
+            "description": "Office supplies",
+            "category_id": "cat-001",
+            "tax_rate": 21.0,
+            "tax_id": "tax-001",
+            "analytic_distribution": [
+                {
+                    "analytic_plan": "plan-001",
+                    "analytic_accounts": [
+                        {"analytic_account": "acc-001", "percentage": 60.0},
+                        {"analytic_account": "acc-002", "percentage": 40.0},
+                    ],
+                }
+            ],
+        },
+        {
+            "total": 12.1,
+            "untaxed_amount": 10.0,
+            "tax_amount": 2.1,
+            "category_id": "cat-002",
+            "tax_rate": 21.0,
+            "tax_id": "tax-001",
+        },
+    ],
+}
