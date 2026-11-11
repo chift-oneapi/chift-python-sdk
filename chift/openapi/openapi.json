@@ -15126,6 +15126,135 @@
         }
       }
     },
+    "/consumers/{consumer_id}/accounting/expense-categories": {
+      "get": {
+        "tags": [
+          "Accounting",
+          "Expense categories"
+        ],
+        "summary": "Get expense categories",
+        "description": "Returns the list of expense categories that can be used on the lines of an expense.",
+        "operationId": "accounting_get_expense_categories",
+        "security": [
+          {
+            "mcp_auth": [
+              "accounting",
+              "accounting.read",
+              "accounting.expense_categories",
+              "accounting.expense_categories.read",
+              "200",
+              "200.r",
+              "200.expense_categories",
+              "200.expense_categories.r"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "x-chift-support": {
+                "type": "supported"
+              },
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number",
+            "x-chift-support": {
+              "type": "supported",
+              "explanation": null
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "x-chift-support": {
+                "type": "supported"
+              },
+              "default": 50,
+              "title": "Size"
+            },
+            "description": "Page size",
+            "x-chift-support": {
+              "type": "supported",
+              "explanation": null
+            }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Folder Id"
+            },
+            "description": "Id of the accounting folder instance. A folder represents a legal entity within the system. Required when the multiple folders feature is enabled."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_ExpenseCategoryItem_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/accounting/outstandings": {
       "get": {
         "tags": [
@@ -32847,6 +32976,40 @@
         ],
         "title": "ChiftPage[EmployeeItem]"
       },
+      "ChiftPage_ExpenseCategoryItem_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ExpenseCategoryItem"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Page"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "title": "ChiftPage[ExpenseCategoryItem]"
+      },
       "ChiftPage_FinancialMovementItem_": {
         "properties": {
           "items": {
@@ -39770,6 +39933,75 @@
         ],
         "title": "ExecutionWarning",
         "description": "Something the caller should know before or after launching. A blocking one refuses the run."
+      },
+      "ExpenseCategoryItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique id of the expense category in the accounting system. Used as category_id on expense lines.",
+            "examples": [
+              "<accounting-expense-category-id>"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the expense category.",
+            "examples": [
+              "Travel"
+            ]
+          },
+          "code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Code",
+            "description": "Code of the expense category, when the accounting system gives it one.",
+            "examples": [
+              "285"
+            ]
+          },
+          "account_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Account Number",
+            "description": "Number of the ledger account on which an expense of this category is booked.",
+            "examples": [
+              "<accounting-account-number>"
+            ]
+          },
+          "active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Active",
+            "description": "Indicates if the expense category is active and can be used on new expenses.",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "ExpenseCategoryItem"
       },
       "ExpenseItemIn": {
         "properties": {
