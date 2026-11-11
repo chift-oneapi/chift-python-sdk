@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.20 - 2026-11-11
+- accounting: add `ExpenseCategory` (`GET /accounting/expense-categories`) to list the expense categories whose `id` goes into `category_id` on expense lines
+
 ## 0.6.19 - 2026-11-10
 - accounting: expense lines (`ExpenseLineItem`) use `category_id` instead of `account_number` and accept `analytic_distribution`. Breaking change for callers sending `account_number`: it is no longer accepted, send `category_id` instead
 

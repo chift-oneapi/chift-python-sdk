@@ -512,3 +512,19 @@ EXPENSE_CREATE = {
         },
     ],
 }
+
+EXPENSE_CATEGORY_ALL = {
+    "items": [
+        {
+            "id": "1",
+            "name": "Travel",
+            "code": "285",
+            "account_number": "6000",
+            "active": True,
+        },
+        {"id": "2", "name": "Mileage", "active": False},
+    ],
+    "total": 2,
+    "page": 1,
+    "size": 50,
+}

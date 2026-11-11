@@ -22,6 +22,7 @@ from chift.openapi.models import BookYear as BookYearModel
 from chift.openapi.models import Client as ClientModel
 from chift.openapi.models import Employee as EmployeeModel
 from chift.openapi.models import Expense as ExpenseModel
+from chift.openapi.models import ExpenseCategory as ExpenseCategoryModel
 from chift.openapi.models import FinancialEntry as FinancialEntryModel
 from chift.openapi.models import Folder as FolderModel
 from chift.openapi.models import InvoiceAccounting as InvoiceAccountingModel
@@ -68,6 +69,7 @@ class AccountingRouter:
         self.InvoicePayment = InvoicePayment(consumer_id, connection_id)
         self.BookYear = BookYear(consumer_id, connection_id)
         self.Expense = Expense(consumer_id, connection_id)
+        self.ExpenseCategory = ExpenseCategory(consumer_id, connection_id)
         self.Folder = Folder(consumer_id, connection_id)
         self.Batch = Batch(consumer_id, connection_id)
 
@@ -471,6 +473,12 @@ class Expense(
     chift_vertical: ClassVar = "accounting"
     chift_model: ClassVar = "expenses"
     model = ExpenseModel
+
+
+class ExpenseCategory(PaginationMixin[ExpenseCategoryModel]):
+    chift_vertical: ClassVar = "accounting"
+    chift_model: ClassVar = "expense-categories"
+    model = ExpenseCategoryModel
 
 
 class Folder(ListMixin[FolderModel]):
