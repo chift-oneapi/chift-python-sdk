@@ -38,6 +38,7 @@ from .openapi import (
     DataItemOut,
     DataStoreItem,
     EmployeeItem,
+    ExpenseCategoryItem,
     ExpenseItemOut,
     FinancialEntryItemOut,
     FinancialMovementItem,
@@ -487,6 +488,10 @@ class AccountingPayment(PaymentModel):
 
 
 class Expense(ExpenseItemOut):
+    pass
+
+
+class ExpenseCategory(ExpenseCategoryItem):
     pass
 
 
