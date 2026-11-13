@@ -10,6 +10,16 @@ LEDGER_ACCOUNTS_ALL = {
     "size": 50,
 }
 
+EXPENSE_CATEGORIES_ALL = {
+    "items": [
+        {"id": "cat_travel", "name": "Travel", "active": True},
+        {"id": "cat_old", "name": "Old trips", "active": False},
+    ],
+    "total": 2,
+    "page": 1,
+    "size": 50,
+}
+
 PAYABLES_ALL = {
     "items": [
         {
