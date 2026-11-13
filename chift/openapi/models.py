@@ -95,6 +95,7 @@ from .openapi import (
     ReadSyncItem,
     RefundItemOut,
     SalesItem,
+    SpendManagementExpenseCategoryItem,
     SpendManagementSupplierItemOut,
     SupplierItemOut,
     SyncConsumerItem,
@@ -420,6 +421,10 @@ class SpendFinancialMovement(FinancialMovementItem):
 
 
 class SpendTaxCode(TaxCodeItem):
+    pass
+
+
+class SpendExpenseCategory(SpendManagementExpenseCategoryItem):
     pass
 
 

@@ -11,6 +11,7 @@ from chift.openapi.models import Account as AccountModel
 from chift.openapi.models import AnalyticAccountMultiPlan as AnalyticAccountModel
 from chift.openapi.models import AnalyticPlan as AnalyticPlanModel
 from chift.openapi.models import Employee as EmployeeModel
+from chift.openapi.models import SpendExpenseCategory as ExpenseCategoryModel
 from chift.openapi.models import SpendFinancialMovement as FinancialMovementModel
 from chift.openapi.models import SpendLegalEntity as LegalEntityModel
 from chift.openapi.models import SpendPayable as PayableModel
@@ -23,6 +24,7 @@ class SpendManagementRouter:
         self.LegalEntity = LegalEntity(consumer_id, connection_id)
         self.LedgerAccount = LedgerAccount(consumer_id, connection_id)
         self.TaxCode = TaxCode(consumer_id, connection_id)
+        self.ExpenseCategory = ExpenseCategory(consumer_id, connection_id)
         self.AnalyticPlan = AnalyticPlan(consumer_id, connection_id)
         self.AnalyticAccount = AnalyticAccount(consumer_id, connection_id)
         self.Payable = Payable(consumer_id, connection_id)
@@ -51,6 +53,16 @@ class TaxCode(
     chift_vertical: ClassVar = "spend_management"
     chift_model: ClassVar = "tax-codes"
     model = TaxCodeModel
+
+
+class ExpenseCategory(
+    CreateMixin[ExpenseCategoryModel],
+    PaginationMixin[ExpenseCategoryModel],
+    UpdateMixin[ExpenseCategoryModel],
+):
+    chift_vertical: ClassVar = "spend_management"
+    chift_model: ClassVar = "expense-categories"
+    model = ExpenseCategoryModel
 
 
 class AnalyticPlan(

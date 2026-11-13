@@ -21,6 +21,16 @@ def test_ledger_accounts(test_consumer: Consumer):
     assert [account.number for account in accounts] == ["601000", "625100"]
 
 
+@pytest.mark.mock_chift_response(fixtures.EXPENSE_CATEGORIES_ALL)
+def test_expense_categories(test_consumer: Consumer):
+    categories = test_consumer.spend_management.ExpenseCategory.all()
+
+    assert [(category.name, category.active) for category in categories] == [
+        ("Travel", True),
+        ("Old trips", False),
+    ]
+
+
 @pytest.mark.mock_chift_response(fixtures.PAYABLES_ALL)
 def test_payables(test_consumer: Consumer):
     payables = test_consumer.spend_management.Payable.all(
