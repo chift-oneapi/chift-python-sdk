@@ -2193,6 +2193,18 @@
               ],
               "title": "Date From"
             }
+          },
+          {
+            "name": "include_previews",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Whether to list the previews too.",
+              "default": false,
+              "title": "Include Previews"
+            },
+            "description": "Whether to list the previews too."
           }
         ],
         "responses": {
@@ -2329,6 +2341,18 @@
               ],
               "title": "Date From"
             }
+          },
+          {
+            "name": "include_previews",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Whether to list the previews too.",
+              "default": false,
+              "title": "Include Previews"
+            },
+            "description": "Whether to list the previews too."
           }
         ],
         "responses": {
@@ -3076,7 +3100,7 @@
           "Syncs"
         ],
         "summary": "Choose which capabilities your consumers are offered",
-        "description": "Turns capabilities on or off for all your consumers and sets the mode preselected where a consumer can choose. A capability that is off is absent for your consumers and stops running for them; turned on again, it runs again for the consumers who had selected it. Selections, mapping values and answers are never deleted. `cron` sets when the sync runs for every consumer that enabled it; it can always be started by hand.",
+        "description": "Turns capabilities on or off for all your consumers and sets the mode preselected where a consumer can choose. A capability that is off is absent for your consumers and stops running for them; turned on again, it runs again for the consumers who had selected it. Selections, mapping values and answers are never deleted.",
         "operationId": "agentic_syncs_update_sync_capabilities",
         "parameters": [
           {
@@ -3264,13 +3288,137 @@
         }
       }
     },
+    "/syncs/{syncid}/triggers": {
+      "get": {
+        "tags": [
+          "Syncs"
+        ],
+        "summary": "When your consumers can run an agentic sync",
+        "description": "The crons your consumers choose from, the default first. A sync can always be started by hand.",
+        "operationId": "agentic_syncs_get_sync_triggers",
+        "parameters": [
+          {
+            "name": "syncid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Syncid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncTriggers"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The sync does not exist",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Syncs"
+        ],
+        "summary": "Choose when your consumers can run an agentic sync",
+        "description": "Replaces the crons your consumers choose from; the first is the default. A consumer whose cron is no longer offered runs on the default one, or by hand only when none is left.",
+        "operationId": "agentic_syncs_update_sync_triggers",
+        "parameters": [
+          {
+            "name": "syncid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Syncid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncTriggers"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncTriggers"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The sync does not exist",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/syncs/{syncid}/capabilities": {
       "get": {
         "tags": [
           "Syncs"
         ],
         "summary": "A consumer's setup of an agentic sync",
-        "description": "What the consumer can choose, what runs, which mapping tables and questions that needs, and what still stops the sync from being enabled. Capabilities your account does not offer are absent.",
+        "description": "What the consumer can choose, what runs, which mappings and questions that needs, and what still stops the sync from being enabled. Capabilities your account does not offer are absent.",
         "operationId": "agentic_syncs_get_consumer_capabilities",
         "parameters": [
           {
@@ -3364,7 +3512,7 @@
           "Syncs"
         ],
         "summary": "Choose a consumer's capabilities and modes",
-        "description": "Replaces the consumer's choice of main capabilities and modes. Whatever they need is turned on automatically. Answers with the resulting setup and what changed. Mapping values of tables no longer needed are kept.",
+        "description": "Replaces the consumer's choice of main capabilities and modes, and answers the questions given in `answers`. Whatever they need is turned on automatically. Answers with the resulting setup and what changed. The values of mappings no longer needed are kept. Send `preflight: true` to get that answer without saving anything.",
         "operationId": "agentic_syncs_update_consumer_capabilities",
         "parameters": [
           {
@@ -3484,6 +3632,18 @@
                       "message": "\u201c{capability}\u201d is needed by \u201c{required_by}\u201d.",
                       "status": "error"
                     }
+                  },
+                  "Unknown question": {
+                    "value": {
+                      "message": "The sync does not ask the question '{key}' of this consumer",
+                      "status": "error"
+                    }
+                  },
+                  "Invalid answer": {
+                    "value": {
+                      "message": "{key} expects a date, not 'tomorrow'",
+                      "status": "error"
+                    }
                   }
                 },
                 "schema": {
@@ -3492,6 +3652,280 @@
               }
             },
             "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/syncs/{syncid}/enable": {
+      "post": {
+        "tags": [
+          "Syncs"
+        ],
+        "summary": "Enable an agentic sync for a consumer",
+        "description": "Enables the sync once the consumer's setup is complete, as `POST \u2026/flows/{flowid}/enable` does, without the id of its one flow.",
+        "operationId": "agentic_syncs_enable_consumer_sync",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "syncid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Syncid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/EnableConsumerSync"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Sync not found": {
+                    "value": {
+                      "message": "The sync does not exist",
+                      "status": "error"
+                    }
+                  },
+                  "Not configured": {
+                    "value": {
+                      "message": "The consumer is not configured for this sync",
+                      "status": "error"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Impossible to enable the sync as it is not completely set up",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/syncs/{syncid}/disable": {
+      "post": {
+        "tags": [
+          "Syncs"
+        ],
+        "summary": "Disable an agentic sync for a consumer",
+        "description": "Stops the sync for the consumer until it is enabled again, keeping its setup and connections, as `POST \u2026/flows/{flowid}/disable` does, without the id of its one flow.",
+        "operationId": "agentic_syncs_disable_consumer_sync",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "syncid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Syncid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Sync not found": {
+                    "value": {
+                      "message": "The sync does not exist",
+                      "status": "error"
+                    }
+                  },
+                  "Not configured": {
+                    "value": {
+                      "message": "The consumer is not configured for this sync",
+                      "status": "error"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/syncs/{syncid}/journey": {
+      "get": {
+        "tags": [
+          "Syncs"
+        ],
+        "summary": "Where a consumer stands in setting up an agentic sync",
+        "description": "A status per step of the setup (connections, capabilities, configuration, preview, live) and the step to send the consumer to. A step after one not complete is locked.",
+        "operationId": "agentic_syncs_get_consumer_journey",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "syncid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Syncid"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "ISO 639-1 code of the language of the texts (en, fr, nl, de, es; any case), falling back to English. Without it, translation keys.",
+              "title": "Language"
+            },
+            "description": "ISO 639-1 code of the language of the texts (en, fr, nl, de, es; any case), falling back to English. Without it, translation keys."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Journey"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Sync not found": {
+                    "value": {
+                      "message": "The sync does not exist",
+                      "status": "error"
+                    }
+                  },
+                  "Not configured": {
+                    "value": {
+                      "message": "The consumer is not configured for this sync",
+                      "status": "error"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
           }
         }
       }
@@ -3591,7 +4025,7 @@
           }
         }
       },
-      "put": {
+      "patch": {
         "tags": [
           "Syncs"
         ],
@@ -3710,13 +4144,181 @@
         }
       }
     },
+    "/consumers/{consumer_id}/syncs/{syncid}/triggers": {
+      "get": {
+        "tags": [
+          "Syncs"
+        ],
+        "summary": "When a consumer's sync runs",
+        "description": "The crons the account offers, and the one the sync runs on for this consumer.",
+        "operationId": "agentic_syncs_get_consumer_triggers",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "syncid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Syncid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsumerTriggers"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Sync not found": {
+                    "value": {
+                      "message": "The sync does not exist",
+                      "status": "error"
+                    }
+                  },
+                  "Not configured": {
+                    "value": {
+                      "message": "The consumer is not configured for this sync",
+                      "status": "error"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Syncs"
+        ],
+        "summary": "Choose when a consumer's sync runs",
+        "description": "Sets the cron the sync runs on for this consumer, one of those the account offers.",
+        "operationId": "agentic_syncs_update_consumer_triggers",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "syncid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Syncid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateConsumerTriggers"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsumerTriggers"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Sync not found": {
+                    "value": {
+                      "message": "The sync does not exist",
+                      "status": "error"
+                    }
+                  },
+                  "Not configured": {
+                    "value": {
+                      "message": "The consumer is not configured for this sync",
+                      "status": "error"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The account does not offer the cron '0 3 * * 1' for this sync",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/syncs/{syncid}/mappings": {
       "get": {
         "tags": [
           "Syncs"
         ],
-        "summary": "The mapping tables a consumer's sync needs",
-        "description": "Every mapping table the capabilities and modes running for this consumer need, with whether it is complete and whether it can stay hidden. Reads no connection: open a table to see its rows.",
+        "summary": "The mappings a consumer's sync needs",
+        "description": "Every mapping the capabilities and modes running for this consumer need, with whether it is complete and whether it can stay hidden. Reads no connection: open a mapping to see its rows.",
         "operationId": "agentic_syncs_get_consumer_mappings",
         "parameters": [
           {
@@ -3764,7 +4366,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MappingTables"
+                  "$ref": "#/components/schemas/ConsumerMappings"
                 }
               }
             }
@@ -3806,14 +4408,14 @@
         }
       }
     },
-    "/consumers/{consumer_id}/syncs/{syncid}/mappings/{table_key}": {
+    "/consumers/{consumer_id}/syncs/{syncid}/mappings/{mapping_key}": {
       "get": {
         "tags": [
           "Syncs"
         ],
-        "summary": "One mapping table of a consumer: its rows, values and candidates",
-        "description": "The table's rows with their values, and one page of what a row may point at. Rows are what the source lists (or the fixed rows in use), then the keys an execution or a preview met without a value. Candidates are read from the consumer's connection: `refresh` reads them again, not from the connector's cache. The table's autofill rules run first, so a row they can fill has a value. Edit the values with `PATCH /consumers/{consumer_id}/syncs/{syncid}`.",
-        "operationId": "agentic_syncs_get_consumer_mapping_table",
+        "summary": "One mapping of a consumer: its rows, values and candidates",
+        "description": "The mapping's rows with their values, and one page of what a row may point at. Rows are what the source lists (or the fixed rows in use), then the keys an execution or a preview met without a value. Candidates are read from the consumer's connection: `refresh` reads them again, not from the connector's cache. The mapping's autofill rules run first, so a row they can fill has a value. Edit the values with `PATCH /consumers/{consumer_id}/syncs/{syncid}/mappings`.",
+        "operationId": "agentic_syncs_get_consumer_mapping",
         "parameters": [
           {
             "name": "consumer_id",
@@ -3836,12 +4438,12 @@
             }
           },
           {
-            "name": "table_key",
+            "name": "mapping_key",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Table Key"
+              "title": "Mapping Key"
             }
           },
           {
@@ -3876,7 +4478,7 @@
             "description": "Page of candidates."
           },
           {
-            "name": "page_size",
+            "name": "size",
             "in": "query",
             "required": false,
             "schema": {
@@ -3885,7 +4487,7 @@
               "minimum": 1,
               "description": "Candidates per page.",
               "default": 100,
-              "title": "Page Size"
+              "title": "Size"
             },
             "description": "Candidates per page."
           },
@@ -3914,10 +4516,10 @@
                   "type": "null"
                 }
               ],
-              "description": "The row (its `source_key`) to suggest candidates for: a table can suggest per row.",
+              "description": "The row (its `source_key`) to suggest candidates for: a mapping can suggest per row.",
               "title": "Row"
             },
-            "description": "The row (its `source_key`) to suggest candidates for: a table can suggest per row."
+            "description": "The row (its `source_key`) to suggest candidates for: a mapping can suggest per row."
           },
           {
             "name": "refresh",
@@ -3956,7 +4558,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MappingTableView"
+                  "$ref": "#/components/schemas/MappingView"
                 }
               }
             }
@@ -3977,127 +4579,9 @@
                       "status": "error"
                     }
                   },
-                  "Table not needed": {
+                  "Mapping not needed": {
                     "value": {
-                      "message": "The consumer's sync does not need the mapping table '{key}'",
-                      "status": "error"
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Not Found"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "No connection": {
-                    "value": {
-                      "message": "The consumer has no connection to accounting chosen for this sync",
-                      "status": "error"
-                    }
-                  },
-                  "Not supported": {
-                    "value": {
-                      "message": "The resource GET - 'accounting/journals' is not supported",
-                      "status": "error"
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ChiftError"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/consumers/{consumer_id}/syncs/{syncid}/ai-fill": {
-      "post": {
-        "tags": [
-          "Syncs"
-        ],
-        "summary": "Fill a consumer's mapping values",
-        "description": "Fills the empty mapping values of `tables` (every table the consumer's plan needs when null) with AI. A value is written with `origin: ai` and never replaces one a human or a rule set, unless `force_all`: then it replaces every value but the hidden rows'. Read them with `GET \u2026/mappings/{table_key}`.",
-        "operationId": "agentic_syncs_ai_fill",
-        "parameters": [
-          {
-            "name": "consumer_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Consumer Id"
-            }
-          },
-          {
-            "name": "syncid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Syncid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "anyOf": [
-                  {
-                    "$ref": "#/components/schemas/AiFillRequest"
-                  },
-                  {
-                    "type": "null"
-                  }
-                ],
-                "title": "Body"
-              }
-            }
-          }
-        },
-        "responses": {
-          "204": {
-            "description": "Successful Response"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Sync not found": {
-                    "value": {
-                      "message": "The sync does not exist",
-                      "status": "error"
-                    }
-                  },
-                  "Not configured": {
-                    "value": {
-                      "message": "The consumer is not configured for this sync",
-                      "status": "error"
-                    }
-                  },
-                  "Table not needed": {
-                    "value": {
-                      "message": "The consumer's sync does not need the mapping table '{key}'",
+                      "message": "The consumer's sync does not need the mapping '{key}'",
                       "status": "error"
                     }
                   }
@@ -4269,7 +4753,7 @@
           "Syncs"
         ],
         "summary": "A consumer's recent previews",
-        "description": "The consumer's last 20 previews, the latest first; with `latest`, that one only.",
+        "description": "One page of the consumer's previews, the latest first: `size=1` gives the latest.",
         "operationId": "agentic_syncs_get_previews",
         "parameters": [
           {
@@ -4293,16 +4777,27 @@
             }
           },
           {
-            "name": "latest",
+            "name": "page",
             "in": "query",
             "required": false,
             "schema": {
-              "type": "boolean",
-              "description": "Only the latest preview.",
-              "default": false,
-              "title": "Latest"
-            },
-            "description": "Only the latest preview."
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 20,
+              "title": "Size"
+            }
           },
           {
             "name": "language",
@@ -4329,7 +4824,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Previews"
+                  "$ref": "#/components/schemas/ChiftPage_Preview_"
                 }
               }
             }
@@ -4377,7 +4872,7 @@
           "Syncs"
         ],
         "summary": "One preview: where it stands, what it would create and what would fail",
-        "description": "What would fail is grouped by cause; a missing mapping, by table, with the rows to fill. `refill_suggested` says mappings are missing: fill them (`POST \u2026/ai-fill`), then preview again.",
+        "description": "What would fail is grouped by cause; a missing mapping, by mapping, with the rows to fill. `refill_suggested` says mappings are missing: fill them (`POST \u2026/ai-fill`), then preview again.",
         "operationId": "agentic_syncs_get_preview",
         "parameters": [
           {
@@ -4489,7 +4984,7 @@
           "Syncs"
         ],
         "summary": "The objects a preview would create",
-        "description": "One page of them, in the order they would be created, filtered by kind or capability.",
+        "description": "One page of them, in the order they would be created, filtered by kind, payload values, capability or source object.",
         "operationId": "agentic_syncs_get_preview_objects",
         "parameters": [
           {
@@ -4541,6 +5036,24 @@
             "description": "Only the objects of this kind, e.g. 'invoice'."
           },
           {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Only the objects whose payload has these values: a JSON object of texts, e.g. `{\"invoice_type\": \"supplier_refund\"}`.",
+              "title": "Filter"
+            },
+            "description": "Only the objects whose payload has these values: a JSON object of texts, e.g. `{\"invoice_type\": \"supplier_refund\"}`."
+          },
+          {
             "name": "capability",
             "in": "query",
             "required": false,
@@ -4557,6 +5070,27 @@
               "title": "Capability"
             },
             "description": "Only the objects of this capability (its key)."
+          },
+          {
+            "name": "source_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Only the objects of these source objects.",
+              "title": "Source Id"
+            },
+            "description": "Only the objects of these source objects."
           },
           {
             "name": "page",
@@ -8288,6 +8822,13 @@
                       "error_code": "ERROR_JOURNAL_NOT_GOOD_SCOPE"
                     }
                   },
+                  "ERROR_JOURNAL_NOT_GOOD_SCOPE_2": {
+                    "value": {
+                      "message": "The journal '${journal_id}' cannot be used for this scope.",
+                      "status": "error",
+                      "error_code": "ERROR_JOURNAL_NOT_GOOD_SCOPE"
+                    }
+                  },
                   "ERROR_ZERO_INVOICE": {
                     "value": {
                       "message": "You cannot create an invoice with an untaxed amount of 0.",
@@ -8678,6 +9219,13 @@
                   "ERROR_JOURNAL_NOT_GOOD_SCOPE": {
                     "value": {
                       "message": "The journal cannot be used for this scope.",
+                      "status": "error",
+                      "error_code": "ERROR_JOURNAL_NOT_GOOD_SCOPE"
+                    }
+                  },
+                  "ERROR_JOURNAL_NOT_GOOD_SCOPE_2": {
+                    "value": {
+                      "message": "The journal '${journal_id}' cannot be used for this scope.",
                       "status": "error",
                       "error_code": "ERROR_JOURNAL_NOT_GOOD_SCOPE"
                     }
@@ -12880,6 +13428,13 @@
                       "error_code": "ERROR_JOURNAL_NOT_GOOD_SCOPE"
                     }
                   },
+                  "ERROR_JOURNAL_NOT_GOOD_SCOPE_2": {
+                    "value": {
+                      "message": "The journal '${journal_id}' cannot be used for this scope.",
+                      "status": "error",
+                      "error_code": "ERROR_JOURNAL_NOT_GOOD_SCOPE"
+                    }
+                  },
                   "ERROR_ACCOUNT_NUMBER_NOT_GOOD_SCOPE": {
                     "value": {
                       "message": "A used account number cannot be used in this type of operation.",
@@ -14889,6 +15444,13 @@
                       "error_code": "ERROR_JOURNAL_NOT_GOOD_SCOPE"
                     }
                   },
+                  "ERROR_JOURNAL_NOT_GOOD_SCOPE_2": {
+                    "value": {
+                      "message": "The journal '${journal_id}' cannot be used for this scope.",
+                      "status": "error",
+                      "error_code": "ERROR_JOURNAL_NOT_GOOD_SCOPE"
+                    }
+                  },
                   "ERROR_ACCOUNT_NUMBER_NOT_GOOD_SCOPE": {
                     "value": {
                       "message": "A used account number cannot be used in this type of operation.",
@@ -15038,7 +15600,6 @@
         "summary": "Create an expense",
         "description": "Creates a new employee expense claim in the accounting system and returns the created record.",
         "operationId": "accounting_create_expense",
-        "deprecated": true,
         "security": [
           {
             "mcp_auth": [
@@ -26188,7 +26749,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ChiftPage_AccountItem_"
+                  "$ref": "#/components/schemas/ChiftPage_SpendManagementAccountItem_"
                 }
               }
             }
@@ -26265,7 +26826,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AccountItem"
+                  "$ref": "#/components/schemas/SpendManagementAccountItem"
                 }
               }
             }
@@ -26283,6 +26844,119 @@
               }
             },
             "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/spend_management/ledger-accounts/{ledger_account_id}": {
+      "patch": {
+        "tags": [
+          "Spend Management",
+          "LedgerAccounts"
+        ],
+        "summary": "Update ledger account",
+        "operationId": "spend_management_update_ledger_account",
+        "security": [
+          {
+            "mcp_auth": [
+              "spend_management",
+              "spend_management.ledger_accounts",
+              "900",
+              "900.ledger_accounts"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "ledger_account_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ledger Account Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LedgerAccountItemUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpendManagementAccountItem"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "ERROR_LEDGER_ACCOUNT_NOT_FOUND": {
+                    "value": {
+                      "message": "The ledger account doesn't exist.",
+                      "status": "error",
+                      "error_code": "ERROR_LEDGER_ACCOUNT_NOT_FOUND"
+                    }
+                  },
+                  "ERROR_LEDGER_ACCOUNT_NOT_FOUND_2": {
+                    "value": {
+                      "message": "The ledger account '${account_id}' doesn't exist.",
+                      "status": "error",
+                      "error_code": "ERROR_LEDGER_ACCOUNT_NOT_FOUND"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
           },
           "422": {
             "description": "Validation Error",
@@ -26485,13 +27159,126 @@
         }
       }
     },
+    "/consumers/{consumer_id}/spend_management/tax-codes/{tax_code_id}": {
+      "patch": {
+        "tags": [
+          "Spend Management",
+          "TaxCodes"
+        ],
+        "summary": "Update tax code",
+        "operationId": "spend_management_update_tax_code",
+        "security": [
+          {
+            "mcp_auth": [
+              "spend_management",
+              "spend_management.tax_codes",
+              "900",
+              "900.tax_codes"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "tax_code_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Tax Code Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaxCodeItemUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaxCodeItem"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "ERROR_TAX_CODE_NOT_FOUND": {
+                    "value": {
+                      "message": "The tax code doesn't exist.",
+                      "status": "error",
+                      "error_code": "ERROR_TAX_CODE_NOT_FOUND"
+                    }
+                  },
+                  "ERROR_TAX_CODE_NOT_FOUND_2": {
+                    "value": {
+                      "message": "The tax code '${tax_code_id}' doesn't exist.",
+                      "status": "error",
+                      "error_code": "ERROR_TAX_CODE_NOT_FOUND"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/spend_management/analytical-plans": {
       "get": {
         "tags": [
           "Spend Management",
           "AnalyticalPlans"
         ],
-        "summary": "Retrieve all analytical dimensions (cost centers, projects, ...)",
+        "summary": "Retrieve all analytical plans (cost centers, projects, ...)",
         "operationId": "spend_management_get_analytical_plans",
         "security": [
           {
@@ -26594,6 +27381,195 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "Spend Management",
+          "AnalyticalPlans"
+        ],
+        "summary": "Create an analytical plan",
+        "operationId": "spend_management_create_analytical_plan",
+        "security": [
+          {
+            "mcp_auth": [
+              "spend_management",
+              "spend_management.analytical_plans",
+              "900",
+              "900.analytical_plans"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalyticPlanItemIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyticPlanItem"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/spend_management/analytical-plans/{analytical_plan_id}": {
+      "patch": {
+        "tags": [
+          "Spend Management",
+          "AnalyticalPlans"
+        ],
+        "summary": "Update an analytical plan",
+        "operationId": "spend_management_update_analytical_plan",
+        "security": [
+          {
+            "mcp_auth": [
+              "spend_management",
+              "spend_management.analytical_plans",
+              "900",
+              "900.analytical_plans"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "analytical_plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Analytical Plan Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalyticPlanItemIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyticPlanItem"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "ERROR_ANALYTICAL_PLAN_NOT_FOUND": {
+                    "value": {
+                      "message": "The analytical plan doesn't exist.",
+                      "status": "error",
+                      "error_code": "ERROR_ANALYTICAL_PLAN_NOT_FOUND"
+                    }
+                  },
+                  "ERROR_ANALYTICAL_PLAN_NOT_FOUND_2": {
+                    "value": {
+                      "message": "The analytical plan '${analytical_plan_id}' doesn't exist.",
+                      "status": "error",
+                      "error_code": "ERROR_ANALYTICAL_PLAN_NOT_FOUND"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/consumers/{consumer_id}/spend_management/analytic-accounts": {
@@ -26602,7 +27578,7 @@
           "Spend Management",
           "AnalyticAccounts"
         ],
-        "summary": "Retrieve the values of the analytical dimensions",
+        "summary": "Retrieve the values of the analytical plans",
         "operationId": "spend_management_get_analytic_accounts",
         "security": [
           {
@@ -26675,7 +27651,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ChiftPage_AnalyticAccountItemOutMultiAnalyticPlans_"
+                  "$ref": "#/components/schemas/ChiftPage_SpendManagementAnalyticAccountItem_"
                 }
               }
             }
@@ -26765,7 +27741,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AnalyticAccountItemOutMultiAnalyticPlans"
+                  "$ref": "#/components/schemas/SpendManagementAnalyticAccountItem"
                 }
               }
             }
@@ -26899,7 +27875,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AnalyticAccountItemOutMultiAnalyticPlans"
+                  "$ref": "#/components/schemas/SpendManagementAnalyticAccountItem"
                 }
               }
             }
@@ -27026,7 +28002,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AnalyticAccountItemOutMultiAnalyticPlans"
+                  "$ref": "#/components/schemas/SpendManagementAnalyticAccountItem"
                 }
               }
             }
@@ -27058,14 +28034,366 @@
         }
       }
     },
+    "/consumers/{consumer_id}/spend_management/expense-categories": {
+      "get": {
+        "tags": [
+          "Spend Management",
+          "ExpenseCategories"
+        ],
+        "summary": "Retrieve all expense categories",
+        "operationId": "spend_management_get_expense_categories",
+        "security": [
+          {
+            "mcp_auth": [
+              "spend_management",
+              "spend_management.read",
+              "spend_management.expense_categories",
+              "spend_management.expense_categories.read",
+              "900",
+              "900.r",
+              "900.expense_categories",
+              "900.expense_categories.r"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "x-chift-support": {
+                "type": "supported"
+              },
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number",
+            "x-chift-support": {
+              "type": "supported",
+              "explanation": null
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "x-chift-support": {
+                "type": "supported"
+              },
+              "default": 50,
+              "title": "Size"
+            },
+            "description": "Page size",
+            "x-chift-support": {
+              "type": "supported",
+              "explanation": null
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftPage_SpendManagementExpenseCategoryItem_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Spend Management",
+          "ExpenseCategories"
+        ],
+        "summary": "Create expense category",
+        "operationId": "spend_management_create_expense_category",
+        "security": [
+          {
+            "mcp_auth": [
+              "spend_management",
+              "spend_management.expense_categories",
+              "900",
+              "900.expense_categories"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpenseCategoryItemIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpendManagementExpenseCategoryItem"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "ERROR_EXPENSE_CATEGORY_ALREADY_EXISTS": {
+                    "value": {
+                      "message": "An expense category with this name already exists.",
+                      "status": "error",
+                      "error_code": "ERROR_EXPENSE_CATEGORY_ALREADY_EXISTS"
+                    }
+                  },
+                  "ERROR_EXPENSE_CATEGORY_ALREADY_EXISTS_2": {
+                    "value": {
+                      "message": "An expense category named '${name}' already exists.",
+                      "status": "error",
+                      "error_code": "ERROR_EXPENSE_CATEGORY_ALREADY_EXISTS"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/spend_management/expense-categories/{expense_category_id}": {
+      "patch": {
+        "tags": [
+          "Spend Management",
+          "ExpenseCategories"
+        ],
+        "summary": "Update expense category",
+        "operationId": "spend_management_update_expense_category",
+        "security": [
+          {
+            "mcp_auth": [
+              "spend_management",
+              "spend_management.expense_categories",
+              "900",
+              "900.expense_categories"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "expense_category_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Expense Category Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpenseCategoryItemUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpendManagementExpenseCategoryItem"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error while trying to perform your request",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "ERROR_EXPENSE_CATEGORY_NOT_FOUND": {
+                    "value": {
+                      "message": "The expense category doesn't exist.",
+                      "status": "error",
+                      "error_code": "ERROR_EXPENSE_CATEGORY_NOT_FOUND"
+                    }
+                  },
+                  "ERROR_EXPENSE_CATEGORY_NOT_FOUND_2": {
+                    "value": {
+                      "message": "The expense category '${expense_category_id}' doesn't exist.",
+                      "status": "error",
+                      "error_code": "ERROR_EXPENSE_CATEGORY_NOT_FOUND"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "ERROR_EXPENSE_CATEGORY_ALREADY_EXISTS": {
+                    "value": {
+                      "message": "An expense category with this name already exists.",
+                      "status": "error",
+                      "error_code": "ERROR_EXPENSE_CATEGORY_ALREADY_EXISTS"
+                    }
+                  },
+                  "ERROR_EXPENSE_CATEGORY_ALREADY_EXISTS_2": {
+                    "value": {
+                      "message": "An expense category named '${name}' already exists.",
+                      "status": "error",
+                      "error_code": "ERROR_EXPENSE_CATEGORY_ALREADY_EXISTS"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/spend_management/payables": {
       "get": {
         "tags": [
           "Spend Management",
           "Payables"
         ],
-        "summary": "Retrieve payables (supplier invoices, supplier refunds, or card purchases)",
-        "description": "payable_type is mandatory and selects exactly one kind of payable per call: supplier_invoice, supplier_refund, or card_purchase.",
+        "summary": "Retrieve payables (supplier invoices, supplier refunds, card purchases, or employee expenses)",
+        "description": "payable_type is mandatory and selects exactly one kind of payable per call: supplier_invoice, supplier_refund, card_purchase, or employee_expense.",
         "operationId": "spend_management_get_payables",
         "security": [
           {
@@ -27490,6 +28818,25 @@
             },
             "description": "Not Found"
           },
+          "409": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "ERROR_WRONG_EXPORT_STATUS": {
+                    "value": {
+                      "message": "Only ${entity} with status 'to_export' can be marked as exported.",
+                      "status": "error",
+                      "error_code": "ERROR_WRONG_EXPORT_STATUS"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
           "422": {
             "description": "Validation Error",
             "content": {
@@ -27782,6 +29129,25 @@
             },
             "description": "Not Found"
           },
+          "409": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "ERROR_WRONG_EXPORT_STATUS": {
+                    "value": {
+                      "message": "Only ${entity} with status 'to_export' can be marked as exported.",
+                      "status": "error",
+                      "error_code": "ERROR_WRONG_EXPORT_STATUS"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
           "422": {
             "description": "Validation Error",
             "content": {
@@ -27985,6 +29351,32 @@
               }
             },
             "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "ERROR_LEDGER_ACCOUNT_NOT_FOUND": {
+                    "value": {
+                      "message": "The ledger account doesn't exist.",
+                      "status": "error",
+                      "error_code": "ERROR_LEDGER_ACCOUNT_NOT_FOUND"
+                    }
+                  },
+                  "ERROR_LEDGER_ACCOUNT_NOT_FOUND_2": {
+                    "value": {
+                      "message": "The ledger account '${account_id}' doesn't exist.",
+                      "status": "error",
+                      "error_code": "ERROR_LEDGER_ACCOUNT_NOT_FOUND"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
           },
           "422": {
             "description": "Validation Error",
@@ -28194,6 +29586,20 @@
                       "message": "The supplier '${supplier_id}' doesn't exist.",
                       "status": "error",
                       "error_code": "ERROR_SUPPLIER_NOT_FOUND"
+                    }
+                  },
+                  "ERROR_LEDGER_ACCOUNT_NOT_FOUND": {
+                    "value": {
+                      "message": "The ledger account doesn't exist.",
+                      "status": "error",
+                      "error_code": "ERROR_LEDGER_ACCOUNT_NOT_FOUND"
+                    }
+                  },
+                  "ERROR_LEDGER_ACCOUNT_NOT_FOUND_2": {
+                    "value": {
+                      "message": "The ledger account '${account_id}' doesn't exist.",
+                      "status": "error",
+                      "error_code": "ERROR_LEDGER_ACCOUNT_NOT_FOUND"
                     }
                   }
                 },
@@ -29682,38 +31088,6 @@
         ],
         "title": "AddressTypeInvoicing"
       },
-      "AiFillRequest": {
-        "properties": {
-          "tables": {
-            "anyOf": [
-              {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Tables",
-            "description": "Keys of the tables to fill. Null fills every table the consumer's plan needs.",
-            "examples": [
-              [
-                "spend_to_accounting.ExpenseAccounts"
-              ]
-            ]
-          },
-          "force_all": {
-            "type": "boolean",
-            "title": "Force All",
-            "description": "Replace every value the filler proposes, whoever set it (a human's included). Rows the consumer hid stay hidden.",
-            "default": false
-          }
-        },
-        "type": "object",
-        "title": "AiFillRequest"
-      },
       "AnalyticAccountItemIn": {
         "properties": {
           "active": {
@@ -30189,6 +31563,21 @@
           "name"
         ],
         "title": "AnalyticPlanItem"
+      },
+      "AnalyticPlanItemIn": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Name",
+            "description": "Name of the analytic plan as it will appear in the accounting system."
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "AnalyticPlanItemIn"
       },
       "Api": {
         "type": "string",
@@ -31900,29 +33289,29 @@
             "title": "Disabled",
             "description": "Keys of the capabilities that no longer run."
           },
-          "tables_added": {
+          "mappings_added": {
             "items": {
               "type": "string"
             },
             "type": "array",
-            "title": "Tables Added",
-            "description": "Keys of the tables that are now needed."
+            "title": "Mappings Added",
+            "description": "Keys of the mappings that are now needed."
           },
-          "tables_no_longer_needed": {
+          "mappings_no_longer_needed": {
             "items": {
               "type": "string"
             },
             "type": "array",
-            "title": "Tables No Longer Needed",
-            "description": "Keys of the tables no longer needed. Their values are kept, not deleted."
+            "title": "Mappings No Longer Needed",
+            "description": "Keys of the mappings no longer needed. Their values are kept, not deleted."
           }
         },
         "type": "object",
         "required": [
           "enabled",
           "disabled",
-          "tables_added",
-          "tables_no_longer_needed"
+          "mappings_added",
+          "mappings_no_longer_needed"
         ],
         "title": "CapabilityChanges"
       },
@@ -32010,6 +33399,10 @@
           "status": {
             "type": "string",
             "title": "Status"
+          },
+          "run_type": {
+            "$ref": "#/components/schemas/RunType",
+            "description": "'preview' for a preview, which writes nothing; 'live' otherwise."
           }
         },
         "type": "object",
@@ -32018,7 +33411,8 @@
           "parentexecutionid",
           "start",
           "end",
-          "status"
+          "status",
+          "run_type"
         ],
         "title": "ChainExecutionItem"
       },
@@ -33418,6 +34812,40 @@
         ],
         "title": "ChiftPage[Journal]"
       },
+      "ChiftPage_MappingCandidate_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/MappingCandidate"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Page"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "title": "ChiftPage[MappingCandidate]"
+      },
       "ChiftPage_MiscellaneousOperationOut_": {
         "properties": {
           "items": {
@@ -34438,6 +35866,40 @@
         ],
         "title": "ChiftPage[PreviewObjectItem]"
       },
+      "ChiftPage_Preview_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Preview"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Page"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "title": "ChiftPage[Preview]"
+      },
       "ChiftPage_ProductCategoryItem_": {
         "properties": {
           "items": {
@@ -34573,6 +36035,108 @@
           "size"
         ],
         "title": "ChiftPage[SchemeItem]"
+      },
+      "ChiftPage_SpendManagementAccountItem_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/SpendManagementAccountItem"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Page"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "title": "ChiftPage[SpendManagementAccountItem]"
+      },
+      "ChiftPage_SpendManagementAnalyticAccountItem_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/SpendManagementAnalyticAccountItem"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Page"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "title": "ChiftPage[SpendManagementAnalyticAccountItem]"
+      },
+      "ChiftPage_SpendManagementExpenseCategoryItem_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/SpendManagementExpenseCategoryItem"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Page"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "title": "ChiftPage[SpendManagementExpenseCategoryItem]"
       },
       "ChiftPage_SpendManagementSupplierItemOut_": {
         "properties": {
@@ -36852,13 +38416,13 @@
             "title": "Capabilities",
             "description": "The capabilities the account offers."
           },
-          "tables": {
+          "mappings": {
             "items": {
-              "$ref": "#/components/schemas/ConsumerTable"
+              "$ref": "#/components/schemas/ConsumerMapping"
             },
             "type": "array",
-            "title": "Tables",
-            "description": "The mapping tables the running capabilities need."
+            "title": "Mappings",
+            "description": "The mappings the running capabilities need."
           },
           "questions": {
             "items": {
@@ -36866,7 +38430,7 @@
             },
             "type": "array",
             "title": "Questions",
-            "description": "The questions the running capabilities ask."
+            "description": "The questions the running capabilities and their chosen modes ask, with their answers: a capability's card shows those whose `used_by` has its key or its mode's. A question several capabilities ask has one answer for all of them."
           },
           "completeness": {
             "$ref": "#/components/schemas/SetupCompleteness",
@@ -36899,7 +38463,7 @@
           "flowid",
           "enabled",
           "capabilities",
-          "tables",
+          "mappings",
           "questions",
           "completeness",
           "connections",
@@ -36929,13 +38493,13 @@
             "title": "Capabilities",
             "description": "The capabilities the account offers."
           },
-          "tables": {
+          "mappings": {
             "items": {
-              "$ref": "#/components/schemas/ConsumerTable"
+              "$ref": "#/components/schemas/ConsumerMapping"
             },
             "type": "array",
-            "title": "Tables",
-            "description": "The mapping tables the running capabilities need."
+            "title": "Mappings",
+            "description": "The mappings the running capabilities need."
           },
           "questions": {
             "items": {
@@ -36943,7 +38507,7 @@
             },
             "type": "array",
             "title": "Questions",
-            "description": "The questions the running capabilities ask."
+            "description": "The questions the running capabilities and their chosen modes ask, with their answers: a capability's card shows those whose `used_by` has its key or its mode's. A question several capabilities ask has one answer for all of them."
           },
           "completeness": {
             "$ref": "#/components/schemas/SetupCompleteness",
@@ -36980,7 +38544,7 @@
           "flowid",
           "enabled",
           "capabilities",
-          "tables",
+          "mappings",
           "questions",
           "completeness",
           "connections",
@@ -37024,6 +38588,22 @@
             "title": "Kind",
             "description": "'main': the consumer chooses it. 'supporting': shown as a tooltip, turned on by what needs it."
           },
+          "source": {
+            "type": "string",
+            "title": "Source",
+            "description": "The vertical it reads, as `connections` names them: the sync's source, or its target for a write-back.",
+            "examples": [
+              "spend_management"
+            ]
+          },
+          "target": {
+            "type": "string",
+            "title": "Target",
+            "description": "The vertical it writes: the sync's target, or its source for a write-back.",
+            "examples": [
+              "accounting"
+            ]
+          },
           "selected": {
             "type": "boolean",
             "title": "Selected",
@@ -37049,6 +38629,26 @@
             "type": "array",
             "title": "Requires",
             "description": "Keys of the capabilities it needs directly, whatever its mode; each mode lists what it adds. Choosing it turns them on."
+          },
+          "parent": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent",
+            "description": "Key of the main capability it is a subcapability of, which a screen shows it under; null for one of its own. A subcapability is chosen only while it is shown: one hidden is dropped from the selection, with its mode.",
+            "examples": [
+              "spend_to_accounting.CardPurchases"
+            ]
+          },
+          "shown": {
+            "type": "boolean",
+            "title": "Shown",
+            "description": "Whether the consumer's screen shows it: one with a parent only once the parent is on and its mode chosen, and that mode one it can run alongside (card payments only with card purchases booked as invoices). Never hidden and selected: a choice hiding a selected subcapability, saved or in `preflight`, comes back with the subcapability off and its mode cleared."
           },
           "available": {
             "type": "boolean",
@@ -37132,10 +38732,14 @@
           "title",
           "description",
           "kind",
+          "source",
+          "target",
           "selected",
           "effective",
           "auto_enabled_by",
           "requires",
+          "parent",
+          "shown",
           "available",
           "reason_key",
           "reason",
@@ -37308,99 +38912,14 @@
         ],
         "title": "ConsumerItem"
       },
-      "ConsumerQuestion": {
+      "ConsumerMapping": {
         "properties": {
           "key": {
             "type": "string",
             "title": "Key",
             "description": "Stable key, e.g. 'spend_to_accounting.SupplierInvoices'. Send it back as is.",
             "examples": [
-              "spend_to_accounting.InvoicesSince"
-            ]
-          },
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Id",
-            "description": "The stable uuid derived from the key, as the legacy sync routes identify the same item."
-          },
-          "title": {
-            "type": "string",
-            "title": "Title",
-            "description": "Name to show, in the requested language; its translation key without one."
-          },
-          "description": {
-            "type": "string",
-            "title": "Description",
-            "description": "What it does, the tooltip: in the requested language, its translation key without one."
-          },
-          "used_by": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "title": "Used By",
-            "description": "Keys of the capabilities or modes that ask it."
-          },
-          "required": {
-            "type": "boolean",
-            "title": "Required",
-            "description": "It has no default, so it must be answered before the sync is enabled."
-          },
-          "field": {
-            "$ref": "#/components/schemas/SettingField",
-            "description": "How to render it: the same shape as a setting."
-          }
-        },
-        "type": "object",
-        "required": [
-          "key",
-          "id",
-          "title",
-          "description",
-          "used_by",
-          "required",
-          "field"
-        ],
-        "title": "ConsumerQuestion"
-      },
-      "ConsumerQuestions": {
-        "properties": {
-          "fields": {
-            "items": {
-              "$ref": "#/components/schemas/SettingField"
-            },
-            "type": "array",
-            "title": "Fields",
-            "description": "The questions to ask, rendered as settings."
-          },
-          "answers": {
-            "additionalProperties": true,
-            "type": "object",
-            "title": "Answers",
-            "description": "Question key -> the answer, or its default while unanswered (null when there is none).",
-            "examples": [
-              {
-                "spend_to_accounting.InvoicesSince": "2026-01-01"
-              }
-            ]
-          }
-        },
-        "type": "object",
-        "required": [
-          "fields",
-          "answers"
-        ],
-        "title": "ConsumerQuestions"
-      },
-      "ConsumerTable": {
-        "properties": {
-          "key": {
-            "type": "string",
-            "title": "Key",
-            "description": "Stable key, e.g. 'spend_to_accounting.SupplierInvoices'. Send it back as is.",
-            "examples": [
-              "spend_to_accounting.ExpenseAccounts"
+              "spend_to_accounting.PurchaseVatCodes"
             ]
           },
           "id": {
@@ -37440,7 +38959,7 @@
               }
             ],
             "title": "Rows",
-            "description": "The rows in use when only some are. Null when the whole table is."
+            "description": "The rows in use when only some are. Null when the whole mapping is."
           }
         },
         "type": "object",
@@ -37452,7 +38971,155 @@
           "used_by",
           "rows"
         ],
-        "title": "ConsumerTable"
+        "title": "ConsumerMapping"
+      },
+      "ConsumerMappings": {
+        "properties": {
+          "mappings": {
+            "items": {
+              "$ref": "#/components/schemas/MappingItem"
+            },
+            "type": "array",
+            "title": "Mappings",
+            "description": "Every mapping the consumer's plan needs, in the plan's order."
+          }
+        },
+        "type": "object",
+        "required": [
+          "mappings"
+        ],
+        "title": "ConsumerMappings",
+        "description": "The mappings a consumer's running capabilities need."
+      },
+      "ConsumerQuestion": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key",
+            "description": "Stable key, e.g. 'spend_to_accounting.SupplierInvoices'. Send it back as is.",
+            "examples": [
+              "spend_to_accounting.ExpensesSince"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id",
+            "description": "The stable uuid derived from the key, as the legacy sync routes identify the same item."
+          },
+          "title": {
+            "type": "string",
+            "title": "Title",
+            "description": "Name to show, in the requested language; its translation key without one."
+          },
+          "description": {
+            "type": "string",
+            "title": "Description",
+            "description": "What it does, the tooltip: in the requested language, its translation key without one."
+          },
+          "used_by": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Used By",
+            "description": "Keys of the capabilities or modes that ask it."
+          },
+          "required": {
+            "type": "boolean",
+            "title": "Required",
+            "description": "It has no default, so it must be answered before the sync is enabled."
+          },
+          "field": {
+            "$ref": "#/components/schemas/SettingField",
+            "description": "How to render it: the same shape as a setting."
+          },
+          "answer": {
+            "title": "Answer",
+            "description": "The answer, or its default while unanswered (null when there is none)."
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "id",
+          "title",
+          "description",
+          "used_by",
+          "required",
+          "field",
+          "answer"
+        ],
+        "title": "ConsumerQuestion"
+      },
+      "ConsumerQuestions": {
+        "properties": {
+          "fields": {
+            "items": {
+              "$ref": "#/components/schemas/SettingField"
+            },
+            "type": "array",
+            "title": "Fields",
+            "description": "The questions to ask, rendered as settings."
+          },
+          "answers": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Answers",
+            "description": "Question key -> the answer, or its default while unanswered (null when there is none).",
+            "examples": [
+              {
+                "spend_to_accounting.ExpensesSince": "2026-01-01"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "fields",
+          "answers"
+        ],
+        "title": "ConsumerQuestions"
+      },
+      "ConsumerTriggers": {
+        "properties": {
+          "crons": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Crons",
+            "description": "The cron expressions the account offers, the default first. Empty: the sync runs only when started by hand.",
+            "examples": [
+              [
+                "0 3 * * *",
+                "0 3 * * 1",
+                "0 3 1 * *"
+              ]
+            ]
+          },
+          "cron": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cron",
+            "description": "The one of `crons` the sync runs on for this consumer. Null: only when started by hand.",
+            "examples": [
+              "0 3 * * *"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "crons",
+          "cron"
+        ],
+        "title": "ConsumerTriggers"
       },
       "ContactGender": {
         "type": "string",
@@ -39270,7 +40937,7 @@
               }
             ],
             "title": "From Date",
-            "description": "Date from which the data is synced. Defaults to one year ago when omitted."
+            "description": "Date from which the data is synced. When no start option is given, the datalayer config's start-date policy applies, which may let the consumer pick."
           },
           "fiscal_years_back": {
             "anyOf": [
@@ -39655,6 +41322,20 @@
         ],
         "title": "EmployeeItem"
       },
+      "EnableConsumerSync": {
+        "properties": {
+          "integrationids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Integrationids",
+            "description": "The integrations of the connections the sync uses, one per vertical, where the consumer has several (`to_choose` in its setup's `connections`)."
+          }
+        },
+        "type": "object",
+        "title": "EnableConsumerSync"
+      },
       "EnableFlowConsumer": {
         "properties": {
           "integrationids": {
@@ -40003,6 +41684,43 @@
         ],
         "title": "ExpenseCategoryItem"
       },
+      "ExpenseCategoryItemIn": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Name",
+            "description": "Name of the expense category.",
+            "examples": [
+              "Travel"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "ExpenseCategoryItemIn"
+      },
+      "ExpenseCategoryItemUpdate": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "Name of the expense category."
+          }
+        },
+        "type": "object",
+        "title": "ExpenseCategoryItemUpdate"
+      },
       "ExpenseItemIn": {
         "properties": {
           "employee_id": {
@@ -40126,7 +41844,7 @@
           },
           "lines": {
             "items": {
-              "$ref": "#/components/schemas/ExpenseLineItem"
+              "$ref": "#/components/schemas/ExpenseLineItem-Input"
             },
             "type": "array",
             "minItems": 1,
@@ -40269,7 +41987,7 @@
           },
           "lines": {
             "items": {
-              "$ref": "#/components/schemas/ExpenseLineItem"
+              "$ref": "#/components/schemas/ExpenseLineItem-Output"
             },
             "type": "array",
             "minItems": 1,
@@ -40298,7 +42016,100 @@
         ],
         "title": "ExpenseItemOut"
       },
-      "ExpenseLineItem": {
+      "ExpenseLineItem-Input": {
+        "properties": {
+          "total": {
+            "type": "number",
+            "title": "Total",
+            "description": "Total amount for the line including taxes.",
+            "examples": [
+              242.0
+            ]
+          },
+          "untaxed_amount": {
+            "type": "number",
+            "title": "Untaxed Amount",
+            "description": "Untaxed amount for the line.",
+            "examples": [
+              200.0
+            ]
+          },
+          "tax_amount": {
+            "type": "number",
+            "title": "Tax Amount",
+            "description": "Tax amount for the line.",
+            "examples": [
+              42.0
+            ]
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Line description",
+            "examples": [
+              "Office supplies"
+            ]
+          },
+          "category_id": {
+            "type": "string",
+            "title": "Category Id",
+            "description": "Identifier of the expense category used to book the line.",
+            "examples": [
+              "<accounting-expense-category-id>"
+            ]
+          },
+          "tax_rate": {
+            "type": "number",
+            "title": "Tax Rate",
+            "description": "Tax rate (e.g., 21.0 for 21%).",
+            "examples": [
+              21.0
+            ]
+          },
+          "tax_id": {
+            "type": "string",
+            "title": "Tax Id",
+            "description": "Tax identifier to validate against the provided tax_rate.",
+            "examples": [
+              "<accounting-tax-code>"
+            ]
+          },
+          "analytic_distribution": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/AnalyticDistribution"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analytic Distribution",
+            "description": "List of analytic distributions for the line. Each distribution specifies an analytic plan and the associated analytic accounts with their percentages.",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "total",
+          "untaxed_amount",
+          "tax_amount",
+          "category_id",
+          "tax_rate",
+          "tax_id"
+        ],
+        "title": "ExpenseLineItem"
+      },
+      "ExpenseLineItem-Output": {
         "properties": {
           "total": {
             "type": "number",
@@ -48044,6 +49855,170 @@
         ],
         "title": "JournalType"
       },
+      "Journey": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title",
+            "description": "The sync's name, from what it reads to what it writes: Name to show, in the requested language; its translation key without one. A vertical is named after the account's only active integration of it, if it has just one.",
+            "examples": [
+              "Spendesk to Accounting"
+            ]
+          },
+          "enabled": {
+            "type": "boolean",
+            "title": "Enabled",
+            "description": "Whether the sync is enabled for this consumer."
+          },
+          "resume": {
+            "$ref": "#/components/schemas/JourneyResume",
+            "description": "Where to send the consumer."
+          },
+          "steps": {
+            "$ref": "#/components/schemas/JourneySteps",
+            "description": "Each step, in order: a step after one not complete is locked."
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "enabled",
+          "resume",
+          "steps"
+        ],
+        "title": "Journey",
+        "description": "Where the consumer stands in setting up the sync: a status per step, and the step to send them to."
+      },
+      "JourneyResume": {
+        "properties": {
+          "step": {
+            "type": "string",
+            "enum": [
+              "connections",
+              "capabilities",
+              "mappings",
+              "preview",
+              "live"
+            ],
+            "title": "Step",
+            "description": "The first step not complete, or 'live' once every step is."
+          },
+          "sub_step": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sub Step",
+            "description": "Key of the step's first sub-step not complete. Null when none."
+          }
+        },
+        "type": "object",
+        "required": [
+          "step",
+          "sub_step"
+        ],
+        "title": "JourneyResume"
+      },
+      "JourneyStep": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "locked",
+              "todo",
+              "needs_attention",
+              "complete"
+            ],
+            "title": "Status",
+            "description": "`complete`: done. `needs_attention`: something the consumer had done broke, or failed. `todo`: not done yet. `locked`: an earlier step is not complete."
+          },
+          "sub_steps": {
+            "items": {
+              "$ref": "#/components/schemas/JourneySubStep"
+            },
+            "type": "array",
+            "title": "Sub Steps",
+            "description": "The connection of each vertical. Empty for the other steps."
+          }
+        },
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "JourneyStep"
+      },
+      "JourneySteps": {
+        "properties": {
+          "connections": {
+            "$ref": "#/components/schemas/JourneyStep",
+            "description": "A connection to each vertical of the sync."
+          },
+          "capabilities": {
+            "$ref": "#/components/schemas/JourneyStep",
+            "description": "At least one main capability runs, each chosen one with its mode, and every required question is answered."
+          },
+          "mappings": {
+            "$ref": "#/components/schemas/JourneyStep",
+            "description": "Every mapping row filled and the latest preview ready; needs attention when that preview failed."
+          },
+          "preview": {
+            "$ref": "#/components/schemas/JourneyStep",
+            "description": "Complete once the sync is enabled."
+          },
+          "live": {
+            "$ref": "#/components/schemas/JourneyStep",
+            "description": "Enabled; needs attention when a run failed since it was enabled."
+          }
+        },
+        "type": "object",
+        "required": [
+          "connections",
+          "capabilities",
+          "mappings",
+          "preview",
+          "live"
+        ],
+        "title": "JourneySteps"
+      },
+      "JourneySubStep": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key",
+            "description": "A vertical of the sync.",
+            "examples": [
+              "accounting"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "title": "Title",
+            "description": "The vertical's: Name to show, in the requested language; its translation key without one."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "locked",
+              "todo",
+              "needs_attention",
+              "complete"
+            ],
+            "title": "Status",
+            "description": "`complete`: done. `needs_attention`: something the consumer had done broke, or failed. `todo`: not done yet. `locked`: an earlier step is not complete."
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "title",
+          "status"
+        ],
+        "title": "JourneySubStep"
+      },
       "LedgerAccountItemIn": {
         "properties": {
           "name": {
@@ -48082,6 +50057,25 @@
           "number"
         ],
         "title": "LedgerAccountItemIn"
+      },
+      "LedgerAccountItemUpdate": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "Name or label of the ledger account."
+          }
+        },
+        "type": "object",
+        "title": "LedgerAccountItemUpdate"
       },
       "LegalEntityItem": {
         "properties": {
@@ -48287,7 +50281,7 @@
           "fixed": {
             "type": "boolean",
             "title": "Fixed",
-            "description": "A fixed option of the table (e.g. 'to_be_created'), not an item of the target."
+            "description": "A fixed option of the mapping (e.g. 'to_be_created'), not an item of the target."
           }
         },
         "type": "object",
@@ -48297,6 +50291,91 @@
           "fixed"
         ],
         "title": "MappingCandidate"
+      },
+      "MappingItem": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key",
+            "description": "Stable key, e.g. 'spend_to_accounting.SupplierInvoices'. Send it back as is.",
+            "examples": [
+              "spend_to_accounting.PurchaseVatCodes"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id",
+            "description": "The stable uuid derived from the key, as the legacy sync routes identify the same item."
+          },
+          "title": {
+            "type": "string",
+            "title": "Title",
+            "description": "Name to show, in the requested language; its translation key without one."
+          },
+          "description": {
+            "type": "string",
+            "title": "Description",
+            "description": "What it does, the tooltip: in the requested language, its translation key without one."
+          },
+          "used_by": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Used By",
+            "description": "Keys of the capabilities or modes that need it."
+          },
+          "rows": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rows",
+            "description": "The rows in use when only some are. Null when the whole mapping is."
+          },
+          "required": {
+            "type": "boolean",
+            "title": "Required",
+            "description": "A row without a value stops the objects that need it (an issue is raised)."
+          },
+          "allow_delete": {
+            "type": "boolean",
+            "title": "Allow Delete",
+            "description": "The consumer may hide rows."
+          },
+          "complete": {
+            "type": "boolean",
+            "title": "Complete",
+            "description": "No known row lacks a value. Rows the source lists are known once ai-fill or the consumer filled the mapping, rows met in the data once an execution or a preview met them."
+          },
+          "hidden": {
+            "type": "boolean",
+            "title": "Hidden",
+            "description": "Nothing to show by default: the mapping is complete. It can still be opened and edited."
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "id",
+          "title",
+          "description",
+          "used_by",
+          "rows",
+          "required",
+          "allow_delete",
+          "complete",
+          "hidden"
+        ],
+        "title": "MappingItem"
       },
       "MappingRowView": {
         "properties": {
@@ -48360,7 +50439,79 @@
           "missing": {
             "type": "boolean",
             "title": "Missing",
-            "description": "An execution or the latest preview needed this row and it still has no value: it holds those objects up, and the table is incomplete until it is filled. The row may not be one the source lists."
+            "description": "An execution or the latest preview needed this row and it still has no value: it holds those objects up, and the mapping is incomplete until it is filled. The row may not be one the source lists."
+          },
+          "decision": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "apply",
+                  "confirm",
+                  "ask"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decision",
+            "description": "What ai-fill decided for the row: 'apply' (it wrote the value), 'confirm' (a likely value awaits the consumer's confirmation) or 'ask' (the consumer must choose). Null when the row was not written by ai-fill."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "to_confirm",
+              "settled",
+              "hidden"
+            ],
+            "title": "Status",
+            "description": "'open' (no value yet), 'to_confirm' (ai-fill's value awaits the consumer), 'settled' (a value, or left empty by the consumer on a table that does without one) or 'hidden'."
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason",
+            "description": "Why ai-fill decided so, to show next to the row."
+          },
+          "question": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Question",
+            "description": "What the consumer is asked when the decision is 'confirm' or 'ask'."
+          },
+          "purpose": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Purpose",
+            "description": "For a fixed row, what its value is in accounting terms, as ai-fill is told it: a value that fits it follows the convention."
+          },
+          "suggestions": {
+            "items": {
+              "$ref": "#/components/schemas/MappingCandidate"
+            },
+            "type": "array",
+            "title": "Suggestions",
+            "description": "The candidates ai-fill suggests for the row, the most likely first."
           }
         },
         "type": "object",
@@ -48371,18 +50522,23 @@
           "value_label",
           "origin",
           "hidden",
-          "missing"
+          "missing",
+          "decision",
+          "status",
+          "reason",
+          "question",
+          "suggestions"
         ],
         "title": "MappingRowView"
       },
-      "MappingTableItem": {
+      "MappingView": {
         "properties": {
           "key": {
             "type": "string",
             "title": "Key",
             "description": "Stable key, e.g. 'spend_to_accounting.SupplierInvoices'. Send it back as is.",
             "examples": [
-              "spend_to_accounting.ExpenseAccounts"
+              "spend_to_accounting.PurchaseVatCodes"
             ]
           },
           "id": {
@@ -48401,100 +50557,47 @@
             "title": "Description",
             "description": "What it does, the tooltip: in the requested language, its translation key without one."
           },
-          "used_by": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "title": "Used By",
-            "description": "Keys of the capabilities or modes that need it."
+          "required": {
+            "type": "boolean",
+            "title": "Required",
+            "description": "A row without a value stops the objects that need it (an issue is raised)."
           },
-          "rows": {
+          "allow_delete": {
+            "type": "boolean",
+            "title": "Allow Delete",
+            "description": "The consumer may hide rows."
+          },
+          "target": {
             "anyOf": [
               {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
+                "type": "string",
+                "enum": [
+                  "account",
+                  "vat_code",
+                  "journal",
+                  "payment_account",
+                  "analytic_plan",
+                  "expense_category"
+                ]
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Rows",
-            "description": "The rows in use when only some are. Null when the whole table is."
+            "title": "Target",
+            "description": "What the rows point at; null for a table of fixed options. A value missing from an 'account' table can be created with `POST \u2026/mappings/{mapping_key}/accounts`."
           },
-          "required": {
-            "type": "boolean",
-            "title": "Required",
-            "description": "A row without a value stops the objects that need it (an issue is raised)."
-          },
-          "allow_delete": {
-            "type": "boolean",
-            "title": "Allow Delete",
-            "description": "The consumer may hide rows."
-          },
-          "complete": {
-            "type": "boolean",
-            "title": "Complete",
-            "description": "No known row lacks a value. Rows the source lists are known once ai-fill or the consumer filled the table, rows met in the data once an execution or a preview met them."
-          },
-          "hidden": {
-            "type": "boolean",
-            "title": "Hidden",
-            "description": "Nothing to show by default: the table is complete. It can still be opened and edited."
-          }
-        },
-        "type": "object",
-        "required": [
-          "key",
-          "id",
-          "title",
-          "description",
-          "used_by",
-          "rows",
-          "required",
-          "allow_delete",
-          "complete",
-          "hidden"
-        ],
-        "title": "MappingTableItem"
-      },
-      "MappingTableView": {
-        "properties": {
-          "key": {
-            "type": "string",
-            "title": "Key",
-            "description": "Stable key, e.g. 'spend_to_accounting.SupplierInvoices'. Send it back as is.",
-            "examples": [
-              "spend_to_accounting.ExpenseAccounts"
-            ]
-          },
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Id",
-            "description": "The stable uuid derived from the key, as the legacy sync routes identify the same item."
-          },
-          "title": {
-            "type": "string",
-            "title": "Title",
-            "description": "Name to show, in the requested language; its translation key without one."
-          },
-          "description": {
-            "type": "string",
-            "title": "Description",
-            "description": "What it does, the tooltip: in the requested language, its translation key without one."
-          },
-          "required": {
-            "type": "boolean",
-            "title": "Required",
-            "description": "A row without a value stops the objects that need it (an issue is raised)."
-          },
-          "allow_delete": {
-            "type": "boolean",
-            "title": "Allow Delete",
-            "description": "The consumer may hide rows."
+          "notice": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notice",
+            "description": "Why ai-fill left many rows to confirm, typically a source and a target that do not go together (country, chart of accounts, VAT regime). Null when nothing stands out."
           },
           "rows": {
             "items": {
@@ -48505,27 +50608,8 @@
             "description": "The source's rows, then the keys met in the data, then any other row holding a value."
           },
           "candidates": {
-            "items": {
-              "$ref": "#/components/schemas/MappingCandidate"
-            },
-            "type": "array",
-            "title": "Candidates",
-            "description": "One page of what a row may point at, matching `search`: the suggested items sorted by label, then the table's fixed options. With `show_all`, every item of the target."
-          },
-          "total_candidates": {
-            "type": "integer",
-            "title": "Total Candidates",
-            "description": "How many candidates match `search`, over every page."
-          },
-          "page": {
-            "type": "integer",
-            "title": "Page",
-            "description": "The page of candidates returned."
-          },
-          "page_size": {
-            "type": "integer",
-            "title": "Page Size",
-            "description": "The size of a page of candidates."
+            "$ref": "#/components/schemas/ChiftPage_MappingCandidate_",
+            "description": "One page of what a row may point at, matching `search`: the suggested items sorted by label, then the mapping's fixed options. With `show_all`, every item of the target."
           }
         },
         "type": "object",
@@ -48536,32 +50620,13 @@
           "description",
           "required",
           "allow_delete",
+          "target",
+          "notice",
           "rows",
-          "candidates",
-          "total_candidates",
-          "page",
-          "page_size"
+          "candidates"
         ],
-        "title": "MappingTableView",
-        "description": "One mapping table of a consumer: its rows with their values, and what they may point at."
-      },
-      "MappingTables": {
-        "properties": {
-          "tables": {
-            "items": {
-              "$ref": "#/components/schemas/MappingTableItem"
-            },
-            "type": "array",
-            "title": "Tables",
-            "description": "Every table the consumer's plan needs, in the plan's order."
-          }
-        },
-        "type": "object",
-        "required": [
-          "tables"
-        ],
-        "title": "MappingTables",
-        "description": "The mapping tables a consumer's running capabilities need."
+        "title": "MappingView",
+        "description": "One mapping of a consumer: its rows with their values, and what they may point at."
       },
       "MatchingIn": {
         "properties": {
@@ -54884,6 +56949,18 @@
       },
       "PayableAllocationItem": {
         "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id",
+            "description": "Id of the financial_movement or payable this allocation points to, per its type."
+          },
           "amount": {
             "type": "number",
             "title": "Amount",
@@ -54941,7 +57018,7 @@
               }
             ],
             "title": "Content",
-            "description": "Base64-encoded content of the attachment."
+            "description": "Base64-encoded content of the attachment (e.g. a PDF, PNG or JPEG)."
           },
           "attached_at": {
             "anyOf": [
@@ -54997,7 +57074,7 @@
           "reversed": {
             "type": "boolean",
             "title": "Reversed",
-            "description": "Whether this record is a reversal (a credit note against a previously issued invoice, or a refund against a previous card purchase) rather than the original document/purchase. When true, amounts are negative.",
+            "description": "Whether this record is a reversal (a credit note against a previously issued invoice, or a refund against a previous card purchase) rather than the original document/purchase. Its amounts stay positive, as an accounting refund's: this flag carries the direction.",
             "default": false
           },
           "invoice_number": {
@@ -55036,6 +57113,18 @@
             "title": "Supplier Id",
             "description": "Id of the supplier/merchant, when known. Filled in based on payable_type: always relevant for supplier_invoice/supplier_refund, and also present on a card_purchase when the merchant is a known supplier."
           },
+          "supplier_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Supplier Name",
+            "description": "Name of the supplier/merchant, when known: a tool with no supplier records (a card merchant known by its name only) gives it here."
+          },
           "employee_id": {
             "anyOf": [
               {
@@ -55051,6 +57140,18 @@
           "currency": {
             "type": "string",
             "title": "Currency"
+          },
+          "exchange_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Exchange Rate",
+            "description": "Exchange rate from the payable's currency to the company's currency, when they differ: amount in the company's currency = amount in the payable's currency * exchange_rate."
           },
           "untaxed_amount": {
             "type": "number",
@@ -55190,7 +57291,7 @@
           "payable_date"
         ],
         "title": "PayableItem",
-        "description": "A single entity covering supplier invoices, supplier refunds (credit notes) and card purchases\n(including card refunds) -- these all come from the same underlying provider concept on Spendesk\n(a payable) and most connectors of this vertical are expected to share that shape, so this unifies\nwhat used to be two separate entities (SupplierInvoiceItem, CardPurchaseItem)."
+        "description": "A single entity covering supplier invoices, supplier refunds (credit notes), card purchases\n(including card refunds) and employee expenses -- these all come from the same underlying provider\nconcept on Spendesk (a payable) and most connectors of this vertical are expected to share that shape, so this unifies\nwhat used to be two separate entities (SupplierInvoiceItem, CardPurchaseItem)."
       },
       "PayableLineItem": {
         "properties": {
@@ -55271,6 +57372,18 @@
             "title": "Tax Id",
             "description": "Id of the tax code applied to the line, when the connector exposes one."
           },
+          "expense_category_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expense Category Id",
+            "description": "Id of the expense category of the line (one returned by get_expense_categories), when the connector exposes one. Typically set on an employee_expense payable."
+          },
           "analytic_distribution": {
             "anyOf": [
               {
@@ -55304,7 +57417,8 @@
         "enum": [
           "supplier_invoice",
           "supplier_refund",
-          "card_purchase"
+          "card_purchase",
+          "employee_expense"
         ],
         "title": "PayableType",
         "description": "What kind of payable a record is. Distinct from `original_payable_type`, which is whatever\nlabel the connector's own provider uses (e.g. Spendesk's subType) -- this is the normalized,\ncross-connector classification."
@@ -56237,12 +58351,26 @@
             },
             "type": "array",
             "title": "Issues",
-            "description": "What would fail, one entry per cause; a missing mapping, one entry per table."
+            "description": "What would fail, one entry per cause; a missing mapping, one entry per mapping."
           },
           "refill_suggested": {
             "type": "boolean",
             "title": "Refill Suggested",
             "description": "Mappings are missing: `POST \u2026/ai-fill` may fill them, then preview again."
+          },
+          "missing_accounts": {
+            "items": {
+              "$ref": "#/components/schemas/PreviewMissingAccount"
+            },
+            "type": "array",
+            "title": "Missing Accounts",
+            "description": "The source accounts the accounting does not have, and what each is booked on instead."
+          },
+          "mappings_changed": {
+            "type": "boolean",
+            "title": "Mappings Changed",
+            "description": "A mapping value of the consumer changed after the preview started: preview again to see it.",
+            "default": false
           }
         },
         "type": "object",
@@ -56268,12 +58396,27 @@
               "invoice"
             ]
           },
+          "invoice_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Invoice Type",
+            "description": "An invoice's type: invoices are counted by type. Null for the other kinds.",
+            "examples": [
+              "supplier_invoice"
+            ]
+          },
           "title": {
             "type": "string",
             "title": "Title",
             "description": "Name to show, in the requested language; its translation key without one.",
             "examples": [
-              "Invoice"
+              "Purchase invoices"
             ]
           },
           "count": {
@@ -56327,19 +58470,15 @@
             "title": "Source Ids",
             "description": "The source objects it would hold up."
           },
-          "table_key": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Table Key",
-            "description": "For a missing mapping: the table to fill, `GET \u2026/mappings/{table_key}`."
+          "sources": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/PreviewSummary"
+            },
+            "type": "object",
+            "title": "Sources",
+            "description": "What a list shows of each source object it would hold up, by its id, for those the sync read."
           },
-          "table_title": {
+          "mapping_key": {
             "anyOf": [
               {
                 "type": "string"
@@ -56348,8 +58487,20 @@
                 "type": "null"
               }
             ],
-            "title": "Table Title",
-            "description": "For a missing mapping: the table's name."
+            "title": "Mapping Key",
+            "description": "For a missing mapping: the mapping to fill, `GET \u2026/mappings/{mapping_key}`."
+          },
+          "mapping_title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mapping Title",
+            "description": "For a missing mapping: the mapping's name."
           },
           "source_keys": {
             "anyOf": [
@@ -56412,6 +58563,52 @@
         ],
         "title": "PreviewLink"
       },
+      "PreviewMissingAccount": {
+        "properties": {
+          "number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Number",
+            "description": "The source's account, which the accounting does not have. Null when it gives none."
+          },
+          "account": {
+            "type": "string",
+            "title": "Account",
+            "description": "The accounting's account it is booked on instead."
+          },
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "created",
+              "default"
+            ],
+            "title": "Outcome",
+            "description": "`created`: the sync creates it; `default`: it goes to the table's default account."
+          },
+          "source_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Source Ids",
+            "description": "The source objects booked so."
+          }
+        },
+        "type": "object",
+        "required": [
+          "number",
+          "account",
+          "outcome",
+          "source_ids"
+        ],
+        "title": "PreviewMissingAccount"
+      },
       "PreviewObjectItem": {
         "properties": {
           "synthetic_id": {
@@ -56448,6 +58645,21 @@
             "title": "Capability Title",
             "description": "Name to show, in the requested language; its translation key without one."
           },
+          "written_to": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Written To",
+            "description": "The software it would be written to: the target's, the source's for a capability that writes back. Null for a capability the sync no longer declares.",
+            "examples": [
+              "Spendesk"
+            ]
+          },
           "source_id": {
             "anyOf": [
               {
@@ -56476,7 +58688,28 @@
             "additionalProperties": true,
             "type": "object",
             "title": "Payload",
-            "description": "What would be sent to the target, as its create route takes it."
+            "description": "What would be sent to the target, as its create route takes it, but each partner it books on by its name (an invoice's partner, an entry line's partner account)."
+          },
+          "labels": {
+            "additionalProperties": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "type": "object",
+            "title": "Labels",
+            "description": "The label of each accounting object the payload, or one of its lines, names by its id, by payload field then id: journals (journal_id), payment methods (payment_method_id), VAT codes (tax_code) and accounts (account_number, an entry's general line account). Empty where the accounting could not be read.",
+            "examples": [
+              {
+                "journal_id": {
+                  "2": "BNK Bank"
+                },
+                "tax_code": {
+                  "7": "V21 VAT 21%"
+                }
+              }
+            ]
           }
         },
         "type": "object",
@@ -56486,6 +58719,7 @@
           "kind_title",
           "capability",
           "capability_title",
+          "written_to",
           "source_id",
           "summary",
           "links",
@@ -56573,23 +58807,6 @@
         },
         "type": "object",
         "title": "PreviewSummary"
-      },
-      "Previews": {
-        "properties": {
-          "previews": {
-            "items": {
-              "$ref": "#/components/schemas/Preview"
-            },
-            "type": "array",
-            "title": "Previews",
-            "description": "The latest first."
-          }
-        },
-        "type": "object",
-        "required": [
-          "previews"
-        ],
-        "title": "Previews"
       },
       "ProductCategoryItem": {
         "properties": {
@@ -58879,6 +61096,14 @@
         "type": "object",
         "title": "RoutingCodeItem"
       },
+      "RunType": {
+        "type": "string",
+        "enum": [
+          "live",
+          "preview"
+        ],
+        "title": "RunType"
+      },
       "SalesItem": {
         "properties": {
           "total": {
@@ -59085,13 +61310,13 @@
             "title": "Missing Questions",
             "description": "Questions with no default and no answer."
           },
-          "missing_tables": {
+          "missing_mappings": {
             "items": {
               "$ref": "#/components/schemas/SetupMissingItem"
             },
             "type": "array",
-            "title": "Missing Tables",
-            "description": "Mapping tables with a row that has no value."
+            "title": "Missing Mappings",
+            "description": "Mappings with a row that has no value."
           },
           "missing_modes": {
             "items": {
@@ -59106,7 +61331,7 @@
         "required": [
           "missing_connections",
           "missing_questions",
-          "missing_tables",
+          "missing_mappings",
           "missing_modes"
         ],
         "title": "SetupCompleteness",
@@ -59215,6 +61440,149 @@
         },
         "type": "object",
         "title": "SpanishSpecificities"
+      },
+      "SpendManagementAccountItem": {
+        "properties": {
+          "number": {
+            "type": "string",
+            "title": "Number",
+            "description": "The account number in the chart of accounts. Must be unique within the accounting folder. In some countries (e.g., France, Belgium, Spain), the number structure is constrained by local accounting rules and must follow official charts of accounts (e.g., Plan Comptable G\u00e9n\u00e9ral).",
+            "examples": [
+              "<this-account-number>"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name or label of the account as it appears in the accounting system. This is typically used for internal referencing and identification of the account.",
+            "examples": [
+              "Consulting services"
+            ]
+          },
+          "active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Active",
+            "description": "Flag indicating whether the account is active. If True, the account is active and can be used in transactions. If False, the account is inactive and cannot be used for transactions.",
+            "default": true
+          },
+          "type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AccountItemType"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Represents the functional type of the ledger account, used to support common accounting operations such as payments, invoicing, tax handling, and reporting. The type here is more operational and aligned with how accounts are actually used in day-to-day processes (e.g., tracking receivables, recording VAT, handling bank transactions) "
+          },
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id",
+            "description": "The provider's own unique id for this account, when the connector's underlying provider identifies accounts by id rather than (or in addition to) number -- e.g. to pass as account_id when creating/updating a supplier."
+          }
+        },
+        "type": "object",
+        "required": [
+          "number",
+          "name"
+        ],
+        "title": "SpendManagementAccountItem"
+      },
+      "SpendManagementAnalyticAccountItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique id of the analytic account in the accounting system.",
+            "examples": [
+              "<this-analytic-account-id>"
+            ]
+          },
+          "active": {
+            "type": "boolean",
+            "title": "Active",
+            "description": "Flag indicating whether the analytic account is active."
+          },
+          "code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Code",
+            "description": "Short code for the analytic account. Often used for internal referencing. For some integrations, it may be required to be unique.",
+            "examples": [
+              "ANLY-01"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name or label of the analytic account as it appears in the accounting system.",
+            "examples": [
+              "Marketing"
+            ]
+          },
+          "analytic_plan": {
+            "type": "string",
+            "title": "Analytic Plan",
+            "examples": [
+              "<accounting-analytic-plan-id>"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "active",
+          "name",
+          "analytic_plan"
+        ],
+        "title": "SpendManagementAnalyticAccountItem"
+      },
+      "SpendManagementExpenseCategoryItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Id of the expense category."
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the expense category."
+          },
+          "active": {
+            "type": "boolean",
+            "title": "Active",
+            "description": "Flag indicating whether the expense category is active.",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "SpendManagementExpenseCategoryItem"
       },
       "SpendManagementSupplierItemIn": {
         "properties": {
@@ -59516,6 +61884,18 @@
               "<accounting-account-number>"
             ]
           },
+          "third_party_account": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Third Party Account",
+            "description": "The supplier's own account code under account_number, when its suppliers share that account and are told apart by a subledger code."
+          },
           "account_id": {
             "anyOf": [
               {
@@ -59526,7 +61906,7 @@
               }
             ],
             "title": "Account Id",
-            "description": "Id of the ledger account (accounts payable) to link this supplier to. Must be the id of an account returned by get_ledger_accounts."
+            "description": "Id of the ledger account (accounts payable) to link this supplier to. Must be the id of an account returned by get_ledger_accounts. Takes precedence over account_number."
           }
         },
         "type": "object",
@@ -61280,27 +63660,11 @@
             "type": "array",
             "title": "Capabilities",
             "description": "Every capability of the sync, offered or not."
-          },
-          "cron": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Cron",
-            "description": "When the sync runs for each consumer that enabled it, as a cron expression. Null: it runs only when started by hand.",
-            "examples": [
-              "0 * * * *"
-            ]
           }
         },
         "type": "object",
         "required": [
-          "capabilities",
-          "cron"
+          "capabilities"
         ],
         "title": "SyncCapabilities",
         "description": "What the account offers its consumers. Whether a capability is available depends on each consumer's connections."
@@ -61343,6 +63707,37 @@
             "title": "Kind",
             "description": "'main': the consumer chooses it. 'supporting': shown as a tooltip, turned on by what needs it."
           },
+          "source": {
+            "type": "string",
+            "title": "Source",
+            "description": "The vertical it reads, as `connections` names them: the sync's source, or its target for a write-back.",
+            "examples": [
+              "spend_management"
+            ]
+          },
+          "target": {
+            "type": "string",
+            "title": "Target",
+            "description": "The vertical it writes: the sync's target, or its source for a write-back.",
+            "examples": [
+              "accounting"
+            ]
+          },
+          "parent": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent",
+            "description": "Key of the main capability it is a subcapability of, which a screen shows it under; null for one of its own.",
+            "examples": [
+              null
+            ]
+          },
           "offered": {
             "type": "boolean",
             "title": "Offered",
@@ -61379,6 +63774,9 @@
           "title",
           "description",
           "kind",
+          "source",
+          "target",
+          "parent",
           "offered",
           "default_mode",
           "modes"
@@ -61451,6 +63849,21 @@
             ],
             "title": "Integration Id",
             "description": "The integration of the connection the sync uses, or the one chosen when `unavailable`. Null otherwise."
+          },
+          "integration_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Integration Name",
+            "description": "The name of the integration the sync uses, when `connected` (e.g. 'NetSuite'). Null otherwise.",
+            "examples": [
+              "NetSuite"
+            ]
           },
           "integration_ids": {
             "items": {
@@ -61650,6 +64063,10 @@
             "type": "string",
             "title": "Status"
           },
+          "run_type": {
+            "$ref": "#/components/schemas/RunType",
+            "description": "'preview' for a preview, which writes nothing; 'live' otherwise."
+          },
           "consumer_id": {
             "type": "string",
             "title": "Consumer Id"
@@ -61666,6 +64083,7 @@
           "start",
           "end",
           "status",
+          "run_type",
           "consumer_id",
           "flow_id"
         ],
@@ -61908,6 +64326,30 @@
         ],
         "title": "SyncSkipReason"
       },
+      "SyncTriggers": {
+        "properties": {
+          "crons": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Crons",
+            "description": "When the sync can run, as cron expressions each consumer chooses one of; the first is the default. Empty: it runs only when started by hand.",
+            "examples": [
+              [
+                "0 3 * * *",
+                "0 3 * * 1",
+                "0 3 1 * *"
+              ]
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "crons"
+        ],
+        "title": "SyncTriggers"
+      },
       "SyncVerticalIntegrations": {
         "properties": {
           "vertical": {
@@ -62083,6 +64525,30 @@
             "title": "Reversed",
             "description": "Whether this tax code represents a reverse-charge VAT mechanism, as opposed to a regular tax.",
             "default": false
+          },
+          "deductible_account_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deductible Account Number",
+            "description": "Number of the ledger account this tax code's deductible VAT should be booked to. When provided, it takes precedence over `code` for that purpose."
+          },
+          "payable_account_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payable Account Number",
+            "description": "Number of the ledger account this tax code's payable VAT should be booked to. Only used when reversed=true."
           }
         },
         "type": "object",
@@ -62091,6 +64557,37 @@
           "name"
         ],
         "title": "TaxCodeItemIn"
+      },
+      "TaxCodeItemUpdate": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "Name or label of the tax code."
+          },
+          "rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rate",
+            "description": "Tax rate applied by this code (e.g., 21.0 for 21%)."
+          }
+        },
+        "type": "object",
+        "title": "TaxCodeItemUpdate"
       },
       "TaxInfo": {
         "properties": {
@@ -62516,6 +65013,23 @@
                 "spend_to_accounting.SupplierInvoices": "spend_to_accounting.SupplierInvoices.AsJournalEntry"
               }
             ]
+          },
+          "answers": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Answers",
+            "description": "Question key -> answer, for the questions the capabilities chosen ask, as `PATCH \u2026/questions` takes them. Only the questions given change; the answers to questions of the sync the new choice does not ask are ignored, so a screen can send its whole state; a question the sync never asks is refused.",
+            "examples": [
+              {
+                "spend_to_accounting.SyncAnalytics": true
+              }
+            ]
+          },
+          "preflight": {
+            "type": "boolean",
+            "title": "Preflight",
+            "description": "Check the choice without saving it: the answer, or the refusal, is the one saving it would give, so a draft can be shown as it would run.",
+            "default": false
           }
         },
         "type": "object",
@@ -62590,7 +65104,7 @@
             "description": "Question key -> answer. Only the questions given change.",
             "examples": [
               {
-                "spend_to_accounting.InvoicesSince": "2026-01-01"
+                "spend_to_accounting.ExpensesSince": "2026-01-01"
               }
             ]
           }
@@ -62600,6 +65114,23 @@
           "answers"
         ],
         "title": "UpdateConsumerQuestions"
+      },
+      "UpdateConsumerTriggers": {
+        "properties": {
+          "cron": {
+            "type": "string",
+            "title": "Cron",
+            "description": "The one of the account's `crons` the sync runs on for this consumer.",
+            "examples": [
+              "0 3 1 * *"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "cron"
+        ],
+        "title": "UpdateConsumerTriggers"
       },
       "UpdateFlowConsumer": {
         "properties": {
@@ -62683,27 +65214,9 @@
             ],
             "title": "Default Modes",
             "description": "Capability key -> mode key. Replaces every default mode when given; leave it out to keep them."
-          },
-          "cron": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Cron",
-            "description": "When the sync runs for each consumer that enabled it, as a cron expression; it can always be started by hand. Null: only by hand.",
-            "examples": [
-              "0 * * * *"
-            ]
           }
         },
         "type": "object",
-        "required": [
-          "cron"
-        ],
         "title": "UpdateSyncCapabilities"
       },
       "UploadDocumentItemOut": {
