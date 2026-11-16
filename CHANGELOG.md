@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.19 - 2026-11-10
+- accounting: expense lines (`ExpenseLineItem`) use `category_id` instead of `account_number` and accept `analytic_distribution`. Breaking change for callers sending `account_number`: it is no longer accepted, send `category_id` instead
+
 ## 0.6.18 - 2026-10-27
 - pos: add `prepayment_method_id` to order lines (`POSItem`). Set when the line is a prepayment movement (gift card or package sold or used) rather than revenue; it references the payment method that settles the prepayment
 

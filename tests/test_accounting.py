@@ -364,3 +364,57 @@ def test_invoice_payment_create(accounting_consumer: Consumer):
     }
 
     assert accounting_consumer.accounting.InvoicePayment.create(payment) is True
+
+
+@pytest.mark.mock_chift_response(accounting.EXPENSE_CREATE)
+def test_expense_create(accounting_consumer: Consumer):
+    expense = accounting_consumer.accounting.Expense.create(
+        {
+            "employee_id": "emp-001",
+            "total": 254.1,
+            "untaxed_amount": 210.0,
+            "tax_amount": 44.1,
+            "currency": "EUR",
+            "date": "2026-01-15",
+            "lines": [
+                {
+                    "total": 242.0,
+                    "untaxed_amount": 200.0,
+                    "tax_amount": 42.0,
+                    "category_id": "cat-001",
+                    "tax_rate": 21.0,
+                    "tax_id": "tax-001",
+                    "analytic_distribution": [
+                        {
+                            "analytic_plan": "plan-001",
+                            "analytic_accounts": [
+                                {"analytic_account": "acc-001", "percentage": 60.0},
+                                {"analytic_account": "acc-002", "percentage": 40.0},
+                            ],
+                        }
+                    ],
+                },
+                {
+                    "total": 12.1,
+                    "untaxed_amount": 10.0,
+                    "tax_amount": 2.1,
+                    "category_id": "cat-002",
+                    "tax_rate": 21.0,
+                    "tax_id": "tax-001",
+                },
+            ],
+        }
+    )
+
+    assert expense.id == "exp-001"
+    assert [line.category_id for line in expense.lines] == ["cat-001", "cat-002"]
+    assert not hasattr(expense.lines[0], "account_number")
+
+    distribution = expense.lines[0].analytic_distribution
+    assert len(distribution) == 1
+    assert distribution[0].analytic_plan == "plan-001"
+    assert [
+        (account.analytic_account, account.percentage)
+        for account in distribution[0].analytic_accounts
+    ] == [("acc-001", 60.0), ("acc-002", 40.0)]
+    assert expense.lines[1].analytic_distribution == []
