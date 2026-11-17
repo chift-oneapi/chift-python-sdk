@@ -5342,6 +5342,8 @@ class TransactionAccountingCategory(Enum):
     fee_cancel = "fee_cancel"
     invoice = "invoice"
     internal_move = "internal_move"
+    internal_move_out = "internal_move_out"
+    internal_move_in = "internal_move_in"
 
 
 class TransactionFilterDateType(Enum):

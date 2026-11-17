@@ -3,6 +3,7 @@ import random
 import pytest
 
 from chift.openapi.models import Consumer
+from chift.openapi.openapi import TransactionItemOut
 from tests.fixtures import payment
 
 
@@ -63,3 +64,12 @@ def test_refunds(payment_consumer: Consumer):
         payment = consumer.payment.Payment.get(refund.payment_id)
         assert payment
         assert payment.id
+
+
+@pytest.mark.parametrize(
+    "category", ["internal_move", "internal_move_out", "internal_move_in"]
+)
+def test_a_transaction_accepts_every_internal_move_category(category: str):
+    item = {**payment.TRANSACTIONS_ALL["items"][0], "accounting_category": category}
+
+    assert TransactionItemOut.model_validate(item).accounting_category.value == category

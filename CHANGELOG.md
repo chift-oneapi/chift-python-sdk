@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.22 - 2026-11-17
+- payment: transaction `accounting_category` gains `internal_move_out` (money leaving the balance) and `internal_move_in` (money coming into it). The API returns these two instead of `internal_move`, which stays accepted for now and will be removed in a later release
+
 ## 0.6.21 - 2026-11-13
 - spend: add the `employee_expense` payable type and `expense_category_id` on payable lines
 - spend: add `ExpenseCategory` (`/spend_management/expense-categories`: list, create, update)

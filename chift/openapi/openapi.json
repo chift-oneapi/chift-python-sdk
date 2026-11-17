@@ -64802,7 +64802,9 @@
           "fee",
           "fee_cancel",
           "invoice",
-          "internal_move"
+          "internal_move",
+          "internal_move_out",
+          "internal_move_in"
         ],
         "title": "TransactionAccountingCategory"
       },
