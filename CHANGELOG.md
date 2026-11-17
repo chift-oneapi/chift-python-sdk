@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.22 - 2026-11-17
+- payment: add the `internal_move_out` and `internal_move_in` transaction accounting categories. `internal_move` is deprecated: the API no longer returns it, and filtering on it returns `internal_move_in`
+
 ## 0.6.21 - 2026-11-13
 - spend: add the `employee_expense` payable type and `expense_category_id` on payable lines
 - spend: add `ExpenseCategory` (`/spend_management/expense-categories`: list, create, update)
