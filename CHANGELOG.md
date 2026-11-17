@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.21 - 2026-11-13
+- spend: add the `employee_expense` payable type and `expense_category_id` on payable lines
+- spend: add `ExpenseCategory` (`/spend_management/expense-categories`: list, create, update)
+
 ## 0.6.20 - 2026-11-11
 - accounting: add `ExpenseCategory` (`GET /accounting/expense-categories`) to list the expense categories whose `id` goes into `category_id` on expense lines
 
