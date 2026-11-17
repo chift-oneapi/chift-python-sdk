@@ -24128,7 +24128,7 @@
               "default": "all",
               "title": "Accounting Category"
             },
-            "description": "Filter based on the type of the transaction."
+            "description": "Filter based on the type of the transaction. `internal_move` is deprecated, use `internal_move_out` or `internal_move_in` instead."
           },
           {
             "name": "starting_from",
@@ -57885,7 +57885,7 @@
               }
             ],
             "title": "Fee",
-            "description": "Total fee applied by the processor",
+            "description": "Total fee of the transactions the payout settles",
             "examples": [
               5.0
             ]
@@ -57900,7 +57900,7 @@
               }
             ],
             "title": "Extra Fee",
-            "description": "Extra fee, if exposed by the processor",
+            "description": "Fee charged on the payout itself, if exposed by the processor",
             "examples": [
               0.0
             ]
@@ -64802,9 +64802,12 @@
           "fee",
           "fee_cancel",
           "invoice",
+          "internal_move_out",
+          "internal_move_in",
           "internal_move"
         ],
-        "title": "TransactionAccountingCategory"
+        "title": "TransactionAccountingCategory",
+        "description": "internal_move is DEPRECATED: no longer returned, and filtering on it returns internal_move_in."
       },
       "TransactionFilterDateType": {
         "type": "string",
@@ -64879,7 +64882,7 @@
           },
           "accounting_category": {
             "$ref": "#/components/schemas/TransactionAccountingCategory",
-            "description": "Accounting category"
+            "description": "Accounting category. `internal_move` is deprecated and never returned, see `internal_move_out` and `internal_move_in`."
           },
           "refund_id": {
             "anyOf": [
