@@ -58688,7 +58688,7 @@
             "additionalProperties": true,
             "type": "object",
             "title": "Payload",
-            "description": "What would be sent to the target, as its create route takes it, but each partner it books on by its name (an invoice's partner, an entry line's partner account)."
+            "description": "What would be sent to the target, as its create route takes it, but each partner it books on by its name (an invoice's partner, an expense's employee, an entry line's partner account) and each expense line's category by its name."
           },
           "labels": {
             "additionalProperties": {
@@ -66362,7 +66362,9 @@
           "IN",
           "O",
           "O1",
-          "V1"
+          "V1",
+          "N",
+          "ZO"
         ],
         "title": "WithholdingTaxPaymentReason"
       },
