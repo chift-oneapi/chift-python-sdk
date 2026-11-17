@@ -418,3 +418,14 @@ def test_expense_create(accounting_consumer: Consumer):
         for account in distribution[0].analytic_accounts
     ] == [("acc-001", 60.0), ("acc-002", 40.0)]
     assert expense.lines[1].analytic_distribution == []
+
+
+@pytest.mark.mock_chift_response(accounting.EXPENSE_CATEGORY_ALL)
+def test_expense_category(accounting_consumer: Consumer):
+    categories = accounting_consumer.accounting.ExpenseCategory.all(limit=2)
+
+    assert [(category.id, category.account_number) for category in categories] == [
+        ("1", "6000"),
+        ("2", None),
+    ]
+    assert categories[1].active is False

@@ -38,6 +38,7 @@ from .openapi import (
     DataItemOut,
     DataStoreItem,
     EmployeeItem,
+    ExpenseCategoryItem,
     ExpenseItemOut,
     FinancialEntryItemOut,
     FinancialMovementItem,
@@ -94,6 +95,7 @@ from .openapi import (
     ReadSyncItem,
     RefundItemOut,
     SalesItem,
+    SpendManagementExpenseCategoryItem,
     SpendManagementSupplierItemOut,
     SupplierItemOut,
     SyncConsumerItem,
@@ -422,6 +424,10 @@ class SpendTaxCode(TaxCodeItem):
     pass
 
 
+class SpendExpenseCategory(SpendManagementExpenseCategoryItem):
+    pass
+
+
 class SpendSupplier(SpendManagementSupplierItemOut):
     pass
 
@@ -487,6 +493,10 @@ class AccountingPayment(PaymentModel):
 
 
 class Expense(ExpenseItemOut):
+    pass
+
+
+class ExpenseCategory(ExpenseCategoryItem):
     pass
 
 
