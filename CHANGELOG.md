@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.23 - 2026-11-20
+- pms: add `kind` (`invoice` / `credit_note`), `parent_id` (the invoice a credit note corrects), `pdf` (base64) and `currency` on invoices
+
 ## 0.6.22 - 2026-11-17
 - payment: add the `internal_move_out` and `internal_move_in` transaction accounting categories. `internal_move` is deprecated: the API no longer returns it, and filtering on it returns `internal_move_in`
 
