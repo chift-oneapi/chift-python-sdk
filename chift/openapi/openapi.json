@@ -44594,6 +44594,59 @@
             ],
             "title": "Partners",
             "description": "List of partners related to the invoice"
+          },
+          "kind": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/InvoiceKind"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Whether the document is an invoice or a credit note"
+          },
+          "parent_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Id",
+            "description": "Unique identifier of the invoice a credit note corrects",
+            "examples": [
+              "<invoice-id>"
+            ]
+          },
+          "pdf": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pdf",
+            "description": "The document as issued by the PMS, a base64-encoded PDF"
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency",
+            "description": "Currency of the invoice, ISO 4217",
+            "examples": [
+              "EUR"
+            ]
           }
         },
         "type": "object",
@@ -54287,6 +54340,59 @@
             ],
             "title": "Partners",
             "description": "List of partners related to the invoice"
+          },
+          "kind": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/InvoiceKind"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Whether the document is an invoice or a credit note"
+          },
+          "parent_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Id",
+            "description": "Unique identifier of the invoice a credit note corrects",
+            "examples": [
+              "<invoice-id>"
+            ]
+          },
+          "pdf": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pdf",
+            "description": "The document as issued by the PMS, a base64-encoded PDF"
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency",
+            "description": "Currency of the invoice, ISO 4217",
+            "examples": [
+              "EUR"
+            ]
           },
           "items": {
             "items": {
@@ -66392,6 +66498,14 @@
         ],
         "title": "WriteMode",
         "description": "What an execution may write.\n\nIts scope is writes and nothing else: it never changes which period runs, what gets skipped, or\nhow much is logged. ``PREVIEW`` is ``DEBUG`` plus a recorder."
+      },
+      "InvoiceKind": {
+        "type": "string",
+        "enum": [
+          "invoice",
+          "credit_note"
+        ],
+        "title": "InvoiceKind"
       }
     },
     "securitySchemes": {
