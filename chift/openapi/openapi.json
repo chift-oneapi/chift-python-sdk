@@ -463,6 +463,303 @@
         }
       }
     },
+    "/consumers/{consumer_id}/access-links": {
+      "post": {
+        "tags": [
+          "Consumers"
+        ],
+        "summary": "Create an access link for a consumer",
+        "description": "Creates a stable link to the consumer's page, meant to be stored or sent (emails, messages, ...). Unlike the link returned when adding a connection, it stays valid until it expires (7 days at most) and opens a fresh session on every visit. Pass a syncid to open a sync of the consumer, or an integrationid to open the connection page of one integration.",
+        "operationId": "consumers_create_access_link",
+        "security": [
+          {
+            "mcp_auth": [
+              "consumers"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/PostAccessLinkItem"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Item"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessLinkItem"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The specified integrationid is not active or does not exist.",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "consumer": {
+                    "value": {
+                      "message": "The consumer does not exist",
+                      "status": "error"
+                    }
+                  },
+                  "sync": {
+                    "value": {
+                      "message": "The sync does not exist for this consumer",
+                      "status": "error"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/access-links/{access_id}": {
+      "delete": {
+        "tags": [
+          "Consumers"
+        ],
+        "summary": "Revoke an access link of a consumer",
+        "description": "Expires the specified access link immediately, then returns HTTP 204 on success.",
+        "operationId": "consumers_delete_access_link",
+        "security": [
+          {
+            "mcp_auth": [
+              "consumers"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          },
+          {
+            "name": "access_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Access Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "consumer": {
+                    "value": {
+                      "message": "The consumer does not exist",
+                      "status": "error"
+                    }
+                  },
+                  "access link": {
+                    "value": {
+                      "message": "The access link does not exist",
+                      "status": "error"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/reminders": {
+      "post": {
+        "tags": [
+          "Consumers"
+        ],
+        "summary": "Send a reminder email to a consumer",
+        "description": "Sends the consumer the reminder email of your account, with a link valid for 3 days: to complete a sync when a syncid is passed, to activate its connection otherwise. Answers HTTP 422 when the consumer has nothing left to complete. The email goes to the email of the consumer, or to the one passed when the consumer has none. Returns HTTP 204 on success.",
+        "operationId": "consumers_send_reminder",
+        "security": [
+          {
+            "mcp_auth": [
+              "consumers"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Consumer Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/PostReminderItem"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Item"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "consumer": {
+                    "value": {
+                      "message": "The consumer does not exist",
+                      "status": "error"
+                    }
+                  },
+                  "sync": {
+                    "value": {
+                      "message": "The sync does not exist for this consumer",
+                      "status": "error"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "recipient": {
+                    "value": {
+                      "message": "The consumer has no email and none was specified",
+                      "status": "error"
+                    }
+                  },
+                  "nothing to complete": {
+                    "value": {
+                      "message": "The consumer has nothing left to complete",
+                      "status": "error"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The reminder email could not be sent",
+                  "status": "error"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ChiftError"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          }
+        }
+      }
+    },
     "/consumers/{consumer_id}/connections": {
       "get": {
         "tags": [
@@ -2576,6 +2873,18 @@
                       "message": "No integration supports country '{country_code}'",
                       "status": "error"
                     }
+                  },
+                  "The consumer has no redirect URL": {
+                    "value": {
+                      "message": "The consumer has no redirect URL",
+                      "status": "error"
+                    }
+                  },
+                  "This step is not available yet": {
+                    "value": {
+                      "message": "This step is not available yet",
+                      "status": "error"
+                    }
                   }
                 },
                 "schema": {
@@ -2586,14 +2895,28 @@
             "description": "Bad Request"
           },
           "422": {
-            "description": "Validation Error",
             "content": {
               "application/json": {
+                "examples": {
+                  "Agentic sync options": {
+                    "value": {
+                      "message": "step, redirect, stepper, and language are only available for agentic syncs",
+                      "status": "error"
+                    }
+                  },
+                  "Redirect or hidden stepper": {
+                    "value": {
+                      "message": "A redirect or a hidden stepper needs a step",
+                      "status": "error"
+                    }
+                  }
+                },
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "$ref": "#/components/schemas/ChiftError"
                 }
               }
-            }
+            },
+            "description": "Unprocessable Entity"
           }
         }
       }
@@ -3840,7 +4163,7 @@
           "Syncs"
         ],
         "summary": "Where a consumer stands in setting up an agentic sync",
-        "description": "A status per step of the setup (connections, capabilities, configuration, preview, live) and the step to send the consumer to. A step after one not complete is locked.",
+        "description": "A status per step of the setup (connections, capabilities, questions, mappings, preview, live) and the step to send the consumer to. A step after one not complete is locked.",
         "operationId": "agentic_syncs_get_consumer_journey",
         "parameters": [
           {
@@ -6621,6 +6944,20 @@
                 }
               ],
               "title": "Connector"
+            }
+          },
+          {
+            "name": "kind",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "setup",
+                "package"
+              ],
+              "type": "string",
+              "default": "setup",
+              "title": "Kind"
             }
           }
         ],
@@ -15600,6 +15937,7 @@
         "summary": "Create an expense",
         "description": "Creates a new employee expense claim in the accounting system and returns the created record.",
         "operationId": "accounting_create_expense",
+        "deprecated": true,
         "security": [
           {
             "mcp_auth": [
@@ -24128,7 +24466,7 @@
               "default": "all",
               "title": "Accounting Category"
             },
-            "description": "Filter based on the type of the transaction. `internal_move` is deprecated, use `internal_move_out` or `internal_move_in` instead."
+            "description": "Filter based on the type of the transaction."
           },
           {
             "name": "starting_from",
@@ -29737,6 +30075,34 @@
   },
   "components": {
     "schemas": {
+      "AccessLinkItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id",
+            "description": "Unique id of the access link, used to revoke it"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url",
+            "description": "Stable URL to share with the consumer. Each visit opens a fresh 30-minute session until the link expires."
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expires At",
+            "description": "Date and time after which the link stops working"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "url",
+          "expires_at"
+        ],
+        "title": "AccessLinkItem"
+      },
       "AccountBalance": {
         "properties": {
           "account_number": {
@@ -30284,6 +30650,21 @@
             "description": "Name of the payment method",
             "examples": [
               "Bank transfer"
+            ]
+          },
+          "ledger_account": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ledger Account",
+            "description": "Number of the ledger account the payment method books to. Same format as the number in the chart of accounts.",
+            "examples": [
+              "2455045"
             ]
           }
         },
@@ -38430,7 +38811,7 @@
             },
             "type": "array",
             "title": "Questions",
-            "description": "The questions the running capabilities and their chosen modes ask, with their answers: a capability's card shows those whose `used_by` has its key or its mode's. A question several capabilities ask has one answer for all of them."
+            "description": "The questions the running capabilities and their chosen modes ask, with their answers: a capability's card shows those whose `used_by` has its key or its mode's, except a `shared` one, which the questions step asks once. A question several capabilities ask has one answer for all of them."
           },
           "completeness": {
             "$ref": "#/components/schemas/SetupCompleteness",
@@ -38507,7 +38888,7 @@
             },
             "type": "array",
             "title": "Questions",
-            "description": "The questions the running capabilities and their chosen modes ask, with their answers: a capability's card shows those whose `used_by` has its key or its mode's. A question several capabilities ask has one answer for all of them."
+            "description": "The questions the running capabilities and their chosen modes ask, with their answers: a capability's card shows those whose `used_by` has its key or its mode's, except a `shared` one, which the questions step asks once. A question several capabilities ask has one answer for all of them."
           },
           "completeness": {
             "$ref": "#/components/schemas/SetupCompleteness",
@@ -39030,6 +39411,11 @@
             "title": "Required",
             "description": "It has no default, so it must be answered before the sync is enabled."
           },
+          "shared": {
+            "type": "boolean",
+            "title": "Shared",
+            "description": "More than one available capability the account offers can ask it, so it is answered once, on the questions step, rather than on each capability."
+          },
           "field": {
             "$ref": "#/components/schemas/SettingField",
             "description": "How to render it: the same shape as a setting."
@@ -39047,6 +39433,7 @@
           "description",
           "used_by",
           "required",
+          "shared",
           "field",
           "answer"
         ],
@@ -40017,6 +40404,50 @@
               }
             ],
             "title": "Link Metadata"
+          },
+          "step": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "connections",
+                  "capabilities",
+                  "questions",
+                  "mappings",
+                  "preview",
+                  "live"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Step",
+            "description": "Agentic syncs only. Step the link opens. Omitted, the link opens the journey."
+          },
+          "redirect": {
+            "type": "boolean",
+            "title": "Redirect",
+            "description": "Agentic syncs only. When true, the consumer leaves for the consumer's redirect URL, or otherwise the default redirect URL of the account, instead of the next step. Needs a step.",
+            "default": false
+          },
+          "language": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Language",
+            "description": "Agentic syncs only. ISO 639-1 code of the page language (en, fr, nl, de, es; any case). An unknown code is ignored."
+          },
+          "stepper": {
+            "type": "boolean",
+            "title": "Stepper",
+            "description": "Agentic syncs only. When false, the journey stepper is hidden. Needs a step.",
+            "default": true
           }
         },
         "type": "object",
@@ -40168,11 +40599,21 @@
             "anyOf": [
               {
                 "additionalProperties": {
-                  "additionalProperties": true,
-                  "type": "object"
+                  "anyOf": [
+                    {
+                      "additionalProperties": true,
+                      "type": "object"
+                    },
+                    {
+                      "type": "boolean"
+                    }
+                  ]
                 },
                 "propertyNames": {
-                  "const": "hideIf"
+                  "enum": [
+                    "hideIf",
+                    "keepIfFilled"
+                  ]
                 },
                 "type": "object"
               },
@@ -40234,11 +40675,21 @@
             "anyOf": [
               {
                 "additionalProperties": {
-                  "additionalProperties": true,
-                  "type": "object"
+                  "anyOf": [
+                    {
+                      "additionalProperties": true,
+                      "type": "object"
+                    },
+                    {
+                      "type": "boolean"
+                    }
+                  ]
                 },
                 "propertyNames": {
-                  "const": "hideIf"
+                  "enum": [
+                    "hideIf",
+                    "keepIfFilled"
+                  ]
                 },
                 "type": "object"
               },
@@ -40300,11 +40751,21 @@
             "anyOf": [
               {
                 "additionalProperties": {
-                  "additionalProperties": true,
-                  "type": "object"
+                  "anyOf": [
+                    {
+                      "additionalProperties": true,
+                      "type": "object"
+                    },
+                    {
+                      "type": "boolean"
+                    }
+                  ]
                 },
                 "propertyNames": {
-                  "const": "hideIf"
+                  "enum": [
+                    "hideIf",
+                    "keepIfFilled"
+                  ]
                 },
                 "type": "object"
               },
@@ -40388,11 +40849,21 @@
             "anyOf": [
               {
                 "additionalProperties": {
-                  "additionalProperties": true,
-                  "type": "object"
+                  "anyOf": [
+                    {
+                      "additionalProperties": true,
+                      "type": "object"
+                    },
+                    {
+                      "type": "boolean"
+                    }
+                  ]
                 },
                 "propertyNames": {
-                  "const": "hideIf"
+                  "enum": [
+                    "hideIf",
+                    "keepIfFilled"
+                  ]
                 },
                 "type": "object"
               },
@@ -49896,6 +50367,7 @@
             "enum": [
               "connections",
               "capabilities",
+              "questions",
               "mappings",
               "preview",
               "live"
@@ -49959,7 +50431,11 @@
           },
           "capabilities": {
             "$ref": "#/components/schemas/JourneyStep",
-            "description": "At least one main capability runs, each chosen one with its mode, and every required question is answered."
+            "description": "At least one main capability runs, each chosen one with its mode, and every required question that is not shared is answered."
+          },
+          "questions": {
+            "$ref": "#/components/schemas/JourneyStep",
+            "description": "The questions several capabilities ask, answered once."
           },
           "mappings": {
             "$ref": "#/components/schemas/JourneyStep",
@@ -49978,6 +50454,7 @@
         "required": [
           "connections",
           "capabilities",
+          "questions",
           "mappings",
           "preview",
           "live"
@@ -50576,8 +51053,7 @@
                   "vat_code",
                   "journal",
                   "payment_account",
-                  "analytic_plan",
-                  "expense_category"
+                  "analytic_plan"
                 ]
               },
               {
@@ -57885,7 +58361,7 @@
               }
             ],
             "title": "Fee",
-            "description": "Total fee of the transactions the payout settles",
+            "description": "Total fee applied by the processor",
             "examples": [
               5.0
             ]
@@ -57900,7 +58376,7 @@
               }
             ],
             "title": "Extra Fee",
-            "description": "Fee charged on the payout itself, if exposed by the processor",
+            "description": "Extra fee, if exposed by the processor",
             "examples": [
               0.0
             ]
@@ -57946,6 +58422,50 @@
           "other"
         ],
         "title": "PayoutType"
+      },
+      "PostAccessLinkItem": {
+        "properties": {
+          "syncid": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Syncid",
+            "description": "Sync the link opens. The consumer must be linked to it. Cannot be combined with integrationid."
+          },
+          "integrationid": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Integrationid",
+            "description": "Integration the link opens the connection page of. It must be active on your account. Cannot be combined with syncid."
+          },
+          "expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expires At",
+            "description": "Date and time after which the link stops working, at most 7 days from now. Defaults to 3 days from now. A value without timezone is read as UTC."
+          }
+        },
+        "type": "object",
+        "title": "PostAccessLinkItem"
       },
       "PostAddressItem": {
         "properties": {
@@ -58195,6 +58715,51 @@
         ],
         "title": "PostConsumerItem"
       },
+      "PostReminderItem": {
+        "properties": {
+          "syncid": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Syncid",
+            "description": "Sync to remind the consumer to complete. Without it, the consumer is reminded to activate its connection."
+          },
+          "language": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Language",
+            "description": "Language of the email. Defaults to the public page language of your account."
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 80,
+                "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email",
+            "description": "Recipient of the email, only used when the consumer has no email."
+          }
+        },
+        "type": "object",
+        "title": "PostReminderItem"
+      },
       "PostSyncFlowEvent": {
         "properties": {
           "consumers": {
@@ -58325,6 +58890,18 @@
             "title": "Finished At",
             "description": "When it ended. Null until it does."
           },
+          "from_date": {
+            "type": "string",
+            "format": "date",
+            "title": "From Date",
+            "description": "First day the preview covers."
+          },
+          "to_date": {
+            "type": "string",
+            "format": "date",
+            "title": "To Date",
+            "description": "Last day the preview covers."
+          },
           "error": {
             "anyOf": [
               {
@@ -58379,6 +58956,8 @@
           "status",
           "started_at",
           "finished_at",
+          "from_date",
+          "to_date",
           "error",
           "counts",
           "issues",
@@ -58688,7 +59267,7 @@
             "additionalProperties": true,
             "type": "object",
             "title": "Payload",
-            "description": "What would be sent to the target, as its create route takes it, but each partner it books on by its name (an invoice's partner, an expense's employee, an entry line's partner account) and each expense line's category by its name."
+            "description": "What would be sent to the target, as its create route takes it, but each partner it books on by its name (an invoice's partner, an entry line's partner account), its journal and payment method by their label (`Bank (BNK)`, `Card`) where the accounting can be read. What its route's URL names is in it too (an analytic account's `analytic_plan`), with the plan's name where it can be read (`analytic_plan_name`)."
           },
           "labels": {
             "additionalProperties": {
@@ -58703,7 +59282,7 @@
             "examples": [
               {
                 "journal_id": {
-                  "2": "BNK Bank"
+                  "2": "Bank (BNK)"
                 },
                 "tax_code": {
                   "7": "V21 VAT 21%"
@@ -60260,11 +60839,21 @@
             "anyOf": [
               {
                 "additionalProperties": {
-                  "additionalProperties": true,
-                  "type": "object"
+                  "anyOf": [
+                    {
+                      "additionalProperties": true,
+                      "type": "object"
+                    },
+                    {
+                      "type": "boolean"
+                    }
+                  ]
                 },
                 "propertyNames": {
-                  "const": "hideIf"
+                  "enum": [
+                    "hideIf",
+                    "keepIfFilled"
+                  ]
                 },
                 "type": "object"
               },
@@ -60571,6 +61160,17 @@
           "downloadUrl": {
             "type": "string",
             "title": "Downloadurl"
+          },
+          "sha256": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sha256"
           }
         },
         "type": "object",
@@ -64802,12 +65402,9 @@
           "fee",
           "fee_cancel",
           "invoice",
-          "internal_move_out",
-          "internal_move_in",
           "internal_move"
         ],
-        "title": "TransactionAccountingCategory",
-        "description": "internal_move is DEPRECATED: no longer returned, and filtering on it returns internal_move_in."
+        "title": "TransactionAccountingCategory"
       },
       "TransactionFilterDateType": {
         "type": "string",
@@ -64882,7 +65479,7 @@
           },
           "accounting_category": {
             "$ref": "#/components/schemas/TransactionAccountingCategory",
-            "description": "Accounting category. `internal_move` is deprecated and never returned, see `internal_move_out` and `internal_move_in`."
+            "description": "Accounting category"
           },
           "refund_id": {
             "anyOf": [
