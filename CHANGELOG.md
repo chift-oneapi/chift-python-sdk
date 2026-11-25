@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.23 - 2026-11-25
+- syncs: mapping and sub-mapping `conditions` accept boolean values, so syncs using `keepIfFilled` parse again (`Sync.get`, `Sync.all`)
+- openapi: models regenerated from the current API (consumer access links and reminders)
+
 ## 0.6.22 - 2026-11-17
 - payment: add the `internal_move_out` and `internal_move_in` transaction accounting categories. `internal_move` is deprecated: the API no longer returns it, and filtering on it returns `internal_move_in`
 
