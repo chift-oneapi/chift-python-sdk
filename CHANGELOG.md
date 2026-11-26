@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.23 - 2026-11-26
+- pagination: `all()` and `iter_all()` follow cursor pages on the endpoints that have them, so each page resumes where the last one stopped instead of making the API read every page before it again. An endpoint without cursor pages, or a cursor that expired between two pages, goes on by page number
+
 ## 0.6.22 - 2026-11-17
 - payment: add the `internal_move_out` and `internal_move_in` transaction accounting categories. `internal_move` is deprecated: the API no longer returns it, and filtering on it returns `internal_move_in`
 
