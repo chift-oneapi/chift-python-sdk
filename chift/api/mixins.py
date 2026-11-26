@@ -1,11 +1,13 @@
 from typing import Any, Generator, Generic, Literal, TypeVar, overload
 
 from chift.api.client import ChiftClient, DatalayerMode
+from chift.api.exceptions import ChiftException
 from chift.openapi.models import ObjectWithRawData
 
 T = TypeVar("T")
 
 DEFAULT_PAGE_SIZE = 100
+INVALID_CURSOR = "ERROR_INVALID_CURSOR"
 
 
 class BaseMixin(object):
@@ -328,6 +330,10 @@ class PaginationMixin(BaseMixin, Generic[T]):
 
         page = 1
         count = 0
+        # A cursor page resumes where the last page stopped, where a page number makes
+        # the API read every page before it again. An endpoint without cursor pages
+        # ignores the cursor and answers no next_cursor.
+        cursor = ""
 
         while True:
             # client state can switch between calls to get_all
@@ -336,19 +342,31 @@ class PaginationMixin(BaseMixin, Generic[T]):
             client.raw_data = raw_data
             client.datalayer = datalayer
             client.client_request_id = None
-            json_data = client.get_all(
-                self.chift_vertical,
-                chift_model or self.chift_model,
-                params={"page": page, "size": size} | params,
-                extra_path=extra_path or self.extra_path,
-            )
+            cursor_param = {} if cursor is None else {"cursor": cursor}
+            try:
+                json_data = client.get_all(
+                    self.chift_vertical,
+                    chift_model or self.chift_model,
+                    params={"page": page, "size": size} | cursor_param | params,
+                    extra_path=extra_path or self.extra_path,
+                )
+            except ChiftException as error:
+                if cursor is None or error.error_code != INVALID_CURSOR:
+                    raise
+                # Expired between two pages: the same page by number has the same items.
+                cursor = None
+                continue
             yield json_data
             page += 1
-            count += len(json_data.get("items", []))
-            total = json_data.get("total", 0)
-            if (count >= total or not json_data.get("items")) or (
-                limit and count >= limit
-            ):
+            items = json_data.get("items")
+            count += len(items or [])
+            if cursor is not None and "next_cursor" in json_data:
+                cursor = json_data["next_cursor"]
+                more = cursor is not None
+            else:
+                cursor = None
+                more = count < json_data.get("total", 0)
+            if not items or not more or (limit and count >= limit):
                 break
 
     @overload
